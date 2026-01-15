@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="shipit.png" width="240" alt="ShipIt logo">
+</p>
+
 # ShipIt 🚀
 
 > **Stop optimizing for humans. Start optimizing for AI.**
