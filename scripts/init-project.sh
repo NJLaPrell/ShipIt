@@ -575,7 +575,7 @@ fi
 cat > AGENTS.md << EOF || error_exit "Failed to create AGENTS.md"
 # AGENTS.md
 
-This project uses the AI-Centric SDLC framework.
+This project uses the ShipIt framework.
 
 For agent roles, conventions, and workflows, see the framework documentation.
 

@@ -1,6 +1,6 @@
 # /init-project
 
-Initialize a new project with AI-Centric SDLC framework.
+Initialize a new project with ShipIt framework.
 
 ## Usage
 
@@ -12,7 +12,7 @@ Example: `/init-project "My Awesome App"`
 
 ## What It Does
 
-This command initializes a new project with the AI-Centric SDLC framework:
+This command initializes a new project with the ShipIt framework:
 
 1. **Project Setup:**
    - Creates project structure
@@ -26,7 +26,7 @@ This command initializes a new project with the AI-Centric SDLC framework:
    - Sets up dependencies
 
 3. **Framework Integration:**
-   - Creates AI-Centric SDLC directory structure
+   - Creates ShipIt directory structure
    - Generates initial architecture canon
    - Sets up CI/CD pipeline
    - Creates initial README

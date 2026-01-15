@@ -1,6 +1,6 @@
 # /ship
 
-Orchestrated workflow for shipping features through the AI-Centric SDLC.
+Orchestrated workflow for shipping features through ShipIt.
 
 ## Usage
 
