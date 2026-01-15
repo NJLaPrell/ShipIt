@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Agent Status Schema",
+  "description": "Schema for agent-status.json agent tracking",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "default": "1.0"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "role", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Agent identifier (e.g., 'agent-1', 'pm-agent')"
+          },
+          "role": {
+            "type": "string",
+            "enum": ["steward", "pm", "architect", "implementer", "qa", "security", "docs"],
+            "description": "Agent role"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["idle", "working", "blocked", "waiting", "error"],
+            "description": "Current agent status"
+          },
+          "currentTask": {
+            "type": ["string", "null"],
+            "description": "Current task ID (null if idle)"
+          },
+          "worktree": {
+            "type": ["string", "null"],
+            "description": "Worktree path (null if not using worktree)"
+          },
+          "lastActivity": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "tasksCompleted": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0
+          },
+          "tasksFailed": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0
+          },
+          "communication": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["request", "response", "notification", "conflict"]
+                },
+                "from": {"type": "string"},
+                "to": {"type": "string"},
+                "message": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["version", "agents"]
+}

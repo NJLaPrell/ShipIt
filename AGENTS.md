@@ -1,0 +1,99 @@
+# AGENTS.md
+
+## Project: ShipIt
+
+This repository implements an AI-native Software Development Life Cycle optimized for AI agent teams rather than human limitations.
+
+> **Note:** For quick start and usage instructions, see [README.md](./README.md)
+
+## Definition of Done
+
+A feature/bugfix is "done" when ALL of these pass:
+
+- [ ] All tests pass (`pnpm test`)
+- [ ] Lint + typecheck pass (`pnpm lint && pnpm typecheck`)
+- [ ] New/changed behavior has corresponding tests
+- [ ] Public APIs are documented
+- [ ] Intent acceptance criteria all checked
+- [ ] No unresolved security findings
+- [ ] Rollback plan documented
+
+## Conventions
+
+### Code Style
+- TypeScript strict mode enabled
+- ESLint + Prettier enforced via pre-commit hooks
+- Prefer configuration over custom code
+
+### Development Process
+- **Tests before implementation** (Spec → Tests → Code)
+- All assumptions must be explicit
+- Check `/do-not-repeat/` before proposing designs
+- Small, reviewable diffs preferred
+
+### Forbidden Patterns
+- No `any` type (use `unknown` if needed)
+- No `eval()`
+- No `innerHTML` (use safe DOM methods)
+- No circular dependencies
+
+## Agent System
+
+This repo uses an AI-native SDLC. Key directories:
+
+| Directory | Purpose |
+|-----------|---------|
+| `/intent/` | Planned work (features, bugs, tech-debt) |
+| `/workflow-state/` | Current execution state |
+| `/architecture/CANON.md` | System boundaries and constraints |
+| `/architecture/invariants.yml` | Machine-verifiable constraints |
+| `/do-not-repeat/` | Failed approaches (don't rediscover) |
+| `/drift/` | Entropy monitoring |
+| `/roadmap/` | Planning views (now, next, later) |
+
+## Human Interrupts Required For
+
+Humans intervene **ONLY** at these gates:
+
+| Gate | When |
+|------|------|
+| **Plan Approval** | Before implementation starts |
+| **High-Risk Changes** | Auth, payments, permissions, infra, PII |
+| **Kill/Rollback** | Kill criteria triggered or major regression |
+| **Product Judgment** | Subjective UX/taste/value tradeoffs |
+
+**Response time expectation:** Minutes (real-time collaboration)
+
+## Slash Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/ship` | Run full SDLC workflow (Phases 1-6) |
+| `/new_intent` | Create a new intent file |
+| `/verify` | Run verification phase only |
+| `/kill` | Kill an intent with rationale |
+| `/drift_check` | Calculate drift metrics |
+
+## Truth Hierarchy
+
+When facts conflict, agents MUST know which source wins. This prevents 30–40% of "AI confusion" bugs.
+
+**Truth Stack (highest to lowest precedence):**
+
+1. **Runtime behavior** — What the system actually does
+2. **Tests** — Executable assertions
+3. **Invariants** — Hard constraints that must never be violated
+4. **Specs** — Formal requirements
+5. **Architecture canon** — CANON.md boundaries
+6. **Comments** — Human annotations in code
+7. **Human opinion** — Always last
+
+> **Rule:** If tests contradict comments, tests win. If runtime contradicts tests, that's a bug to fix—runtime is truth, tests are intent.
+
+## Risk Levels
+
+| Level | Domains | Review |
+|-------|---------|--------|
+| **High** | Auth, payments, permissions, infra, PII | Human required |
+| **Medium** | New dependencies, API changes, performance | AI review |
+| **Low** | Docs, refactors, tests, internal tooling | Automerge |

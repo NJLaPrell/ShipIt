@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Project Metadata Schema",
+  "description": "Schema for project.json metadata file",
+  "type": "object",
+  "required": ["name", "version", "techStack", "created"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Project name (alphanumeric, hyphens, underscores)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Project description"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version (e.g., 0.1.0)"
+    },
+    "techStack": {
+      "type": "string",
+      "enum": ["typescript-nodejs", "python", "other"],
+      "description": "Primary technology stack"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when project was created"
+    },
+    "highRiskDomains": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["auth", "payments", "permissions", "infrastructure", "pii"]
+      },
+      "description": "High-risk domains requiring human approval"
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "humanResponseTime": {
+          "type": "string",
+          "enum": ["minutes", "hours", "days"],
+          "default": "minutes",
+          "description": "Expected human response time for interrupts"
+        },
+        "confidenceThreshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.7,
+          "description": "Minimum confidence score to proceed without human interrupt"
+        },
+        "testCoverageMinimum": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 80,
+          "description": "Minimum test coverage percentage"
+        }
+      },
+      "required": ["humanResponseTime", "confidenceThreshold", "testCoverageMinimum"]
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "Project dependencies (runtime and dev)",
+      "properties": {
+        "runtime": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "dev": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "invariants": {
+      "type": "object",
+      "description": "Project-level invariants",
+      "properties": {
+        "performance": {
+          "type": "object",
+          "properties": {
+            "p95LatencyMs": {"type": "number"},
+            "p99LatencyMs": {"type": "number"},
+            "maxMemoryMb": {"type": "number"}
+          }
+        },
+        "security": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    }
+  }
+}

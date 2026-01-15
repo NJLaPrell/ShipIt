@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Agent Task Queue Schema",
+  "description": "Schema for agent-queue.json task queue system",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "default": "1.0"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "intentId", "type", "status", "priority"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique task ID (e.g., T-001)"
+          },
+          "intentId": {
+            "type": "string",
+            "description": "Related intent ID (e.g., F-042)"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["analysis", "planning", "test-writing", "implementation", "verification", "documentation"],
+            "description": "Task type (SDLC phase)"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "assigned", "in-progress", "blocked", "completed", "failed"],
+            "description": "Current task status"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"],
+            "description": "Task priority"
+          },
+          "assignedAgent": {
+            "type": ["string", "null"],
+            "description": "Agent ID assigned to this task (null if unassigned)"
+          },
+          "assignedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "startedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "completedAt": {
+            "type": ["string", "null"],
+            "format": "date-time"
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Task IDs that must complete before this task"
+          },
+          "conflicts": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Task IDs that conflict with this task"
+          },
+          "estimatedDuration": {
+            "type": ["string", "null"],
+            "description": "Estimated duration (e.g., '30m', '2h')"
+          },
+          "actualDuration": {
+            "type": ["string", "null"],
+            "description": "Actual duration"
+          },
+          "outputFiles": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "Files created/modified by this task"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Notes or issues"
+          }
+        }
+      }
+    }
+  },
+  "required": ["version", "tasks"]
+}

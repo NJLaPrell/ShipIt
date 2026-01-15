@@ -1,0 +1,5 @@
+# Golden Data
+
+This directory stores production-like test data for replay validation.
+
+See PLAN.md Research Q11 for details on replay-based validation.
