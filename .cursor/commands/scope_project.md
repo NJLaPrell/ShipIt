@@ -27,8 +27,21 @@ This command uses AI to scope a project:
    - Suggests technology choices
    - Identifies integration points
 
-3. **Intent Generation:**
-   - Creates initial intent files for each feature
+3. **Follow-Up Questions:**
+   - Asks targeted questions until enough detail exists
+   - Clarifies users, platforms, scope boundaries, data model, and constraints
+   - Captures open questions in `project-scope.md`
+
+4. **Feature Proposal:**
+   - Produces a candidate feature list with dependencies
+   - Tags risk level and complexity
+
+5. **Intent Selection:**
+   - Prompts you to select which features to turn into intents
+   - Supports selecting all, none, or a subset
+
+6. **Intent Generation:**
+   - Creates intent files only for selected features
    - Maps dependencies between intents
    - Sets initial priorities
    - Creates project roadmap
@@ -72,7 +85,7 @@ This command uses AI to scope a project:
    - Suggest mitigation strategies
 
 6. **Generate Intents:**
-   - Create intent file for each feature
+   - Create intent file for each selected feature
    - Set dependencies in intent files
    - Set initial priorities
    - Generate roadmap
@@ -85,8 +98,8 @@ This command uses AI to scope a project:
 ## Output
 
 Creates:
-- `project-scope.md` - Full scoping analysis
-- Intent files in `/intent/` for each feature
+- `project-scope.md` - Full scoping analysis and open questions
+- Intent files in `/intent/` for selected features only
 - Updated `roadmap/now.md`, `next.md`, `later.md`
 - Dependency graph (text or visual)
 

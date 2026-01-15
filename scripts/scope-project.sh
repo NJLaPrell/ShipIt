@@ -56,7 +56,15 @@ cat > "$SCOPE_FILE" << EOF || error_exit "Failed to create project-scope.md"
 
 > **Note:** This is a template. In Cursor, use the \`/scope-project\` command to get AI-assisted scoping.
 
-## Features Identified
+## Follow-Up Questions
+
+[AI will ask targeted questions until scope is clear]
+
+## Open Questions
+
+[Unresolved questions that need human input]
+
+## Feature Candidates
 
 [AI will break down the project into features here]
 
@@ -72,6 +80,10 @@ cat > "$SCOPE_FILE" << EOF || error_exit "Failed to create project-scope.md"
 
 [AI will identify risks here]
 
+## Intent Selection
+
+[Which features were selected to generate intents]
+
 ## Generated Intents
 
 [List of generated intent files]
@@ -85,7 +97,8 @@ echo -e "${GREEN}✓ Created $SCOPE_FILE${NC}"
 echo ""
 echo -e "${YELLOW}Next Steps:${NC}"
 echo "1. In Cursor, run: /scope-project \"$PROJECT_DESC\""
-echo "2. AI will analyze and populate $SCOPE_FILE"
-echo "3. AI will generate initial intent files"
-echo "4. Review and adjust as needed"
+echo "2. AI will ask follow-up questions and populate $SCOPE_FILE"
+echo "3. You will select which features to generate as intents"
+echo "4. AI will generate selected intent files"
+echo "5. Review and adjust as needed"
 echo ""
