@@ -45,3 +45,23 @@ If you want edits to the intent (UI, storage choice, or extra constraints), tell
 **Resolution:** `init-project` now copies framework `.cursor/commands` and `.cursor/rules` into new projects, ensuring the updated `/scope-project` requirements are present; core scripts (including `scope-project.sh` and `generate-release-plan.sh`) are also copied into new projects.
 
 **Status:** Pending retest.
+
+### /scope-project did not prompt for intent selection or capture answers
+
+**Observed behavior:** The assistant listed follow-up questions in `project-scope.md` but did not ask for answers and still created `intent/F-001-todo-app.md`.
+
+**Expected behavior:** Ask follow-up questions and capture answers before generating intents. Prompt the user to select which features become intents before creating any intent files.
+
+**Notes:** Observed in `./projects/shipit-test-3` during Test Plan step 3-1. `project-scope.md` exists with questions, but no answers and an intent was generated anyway.
+
+**Resolution:** Updated `/.cursor/commands/scope_project.md` to require waiting for answers and recording them in `project-scope.md`; updated `scripts/scope-project.sh` template to call out Q/A capture; updated `TEST_PLAN.md` to verify answers and intent selection are recorded.
+
+### /scope-project did not update roadmap files
+
+**Observed behavior:** `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md` remain unchanged after scoping, even though an intent was generated.
+
+**Expected behavior:** Roadmap files should reflect generated intents after `/scope-project`.
+
+**Notes:** Observed in `./projects/shipit-test-3` during Test Plan step 3-1.
+
+**Resolution:** Updated `/.cursor/commands/scope_project.md` to require running `pnpm generate-roadmap`; updated `scripts/scope-project.sh` to run `generate-roadmap.sh` when available.

@@ -56,11 +56,11 @@ cat > "$SCOPE_FILE" << EOF || error_exit "Failed to create project-scope.md"
 
 > **Note:** This is a template. In Cursor, use the \`/scope-project\` command to get AI-assisted scoping.
 
-## Follow-Up Questions
+## Follow-Up Questions (with answers)
 
-[AI will ask targeted questions until scope is clear]
+[Q/A pairs captured during scoping]
 
-## Open Questions
+## Open Questions (unanswered)
 
 [Unresolved questions that need human input]
 
@@ -122,6 +122,11 @@ fi
 # Best-effort release plan generation if available
 if [ -x "./scripts/generate-release-plan.sh" ]; then
     ./scripts/generate-release-plan.sh || echo "WARNING: release plan generation failed"
+fi
+
+# Best-effort roadmap generation if available
+if [ -x "./scripts/generate-roadmap.sh" ]; then
+    ./scripts/generate-roadmap.sh || echo "WARNING: roadmap generation failed"
 fi
 echo ""
 echo -e "${YELLOW}Next Steps:${NC}"

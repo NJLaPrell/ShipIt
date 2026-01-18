@@ -59,6 +59,8 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
    - `all`
 
 4. Verify:
+   - Follow-up answers are captured in `project-scope.md`
+   - Intent selection is recorded in `project-scope.md`
    - `project-scope.md` is created and filled in
    - `intent/` contains generated intent files
    - `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md` updated

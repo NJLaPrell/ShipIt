@@ -17,7 +17,7 @@ This command uses AI to scope a project:
 1. **Follow-Up Questions (Required):**
    - Ask targeted questions until enough detail exists
    - Clarify users, platforms, scope boundaries, data model, and constraints
-   - Capture open questions in `project-scope.md`
+   - **Wait for answers** and record them in `project-scope.md`
 
 2. **Feature Proposal:**
    - Produce a candidate feature list with dependencies
@@ -26,14 +26,14 @@ This command uses AI to scope a project:
 3. **Intent Selection (Required):**
    - Prompt the user to select which features to turn into intents
    - Support selecting all, none, or a subset
+   - Record the selection in `project-scope.md`
    - **Do NOT create intents before selection**
 
 4. **Intent Generation:**
    - Create intent files only for selected features
    - Map dependencies between intents
    - Set initial priorities
-   - Create project roadmap
-   - Generate release plan
+   - Generate roadmap and release plan
 
 5. **Documentation:**
    - Generate `project-scope.md` with full analysis
@@ -77,7 +77,7 @@ This command uses AI to scope a project:
    - Create intent file for each selected feature
    - Set dependencies in intent files
    - Set initial priorities
-   - Generate roadmap and release plan
+   - Run `pnpm generate-roadmap` and `pnpm generate-release-plan`
 
 7. **Save Results:**
    - Save to `project-scope.md`
@@ -95,10 +95,12 @@ Creates:
 
 ## Required Behavior (Hard Requirements)
 
-- Ask follow-up questions before any intents are created.
+- Ask follow-up questions before any intents are created, then wait for answers.
 - Prompt for intent selection before creating any intent files.
+- Capture follow-up answers and intent selection in `project-scope.md`.
 - Always create or update `project-scope.md`.
 - Always generate `release/plan.md` and update roadmap files.
+- Do NOT implement production code or edit `src/` or `README.md` during scoping.
 
 ## Next Steps
 
