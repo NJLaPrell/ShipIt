@@ -43,9 +43,20 @@ for intent_file in "$INTENT_DIR"/*.md; do
         continue
     fi
     
-    # Extract status and dependencies
-    STATUS=$(grep "^## Status" "$intent_file" | head -1 | awk '{print $3}' || echo "planned")
-    DEPENDENCIES=$(grep -A 10 "^## Dependencies" "$intent_file" | grep "^-" | sed 's/^- //' || echo "")
+    # Extract status (next non-empty line after header)
+    STATUS=$(awk '
+        $0 ~ /^## Status/ {found=1; next}
+        found && $0 ~ /^## / {exit}
+        found && $0 ~ /[^[:space:]]/ {gsub(/^[[:space:]]+|[[:space:]]+$/, "", $0); print tolower($0); exit}
+    ' "$intent_file")
+    [ -n "$STATUS" ] || STATUS="planned"
+
+    # Extract dependencies (lines between header and next header)
+    DEPENDENCIES=$(awk '
+        $0 ~ /^## Dependencies/ {found=1; next}
+        found && $0 ~ /^## / {exit}
+        found && $0 ~ /^- / {line=$0; sub(/^- /,"",line); gsub(/^[[:space:]]+|[[:space:]]+$/, "", line); if (line != "" && line != "(none)") print line}
+    ' "$intent_file")
     
     # Simple categorization (can be enhanced)
     if [ "$STATUS" = "active" ] || [ "$STATUS" = "planned" ]; then
@@ -118,7 +129,11 @@ for intent_file in "$INTENT_DIR"/*.md; do
     [ "$INTENT_ID" = "_TEMPLATE" ] && continue
     
     TITLE=$(grep "^# " "$intent_file" | head -1 | sed 's/^# //' || echo "$intent_id")
-    DEPENDENCIES=$(grep -A 10 "^## Dependencies" "$intent_file" | grep "^-" | sed 's/^- //' || echo "")
+    DEPENDENCIES=$(awk '
+        $0 ~ /^## Dependencies/ {found=1; next}
+        found && $0 ~ /^## / {exit}
+        found && $0 ~ /^- / {line=$0; sub(/^- /,"",line); gsub(/^[[:space:]]+|[[:space:]]+$/, "", line); if (line != "" && line != "(none)") print line}
+    ' "$intent_file")
     
     echo "### $INTENT_ID: $TITLE" >> "$DEPENDENCY_FILE"
     if [ -n "$DEPENDENCIES" ]; then

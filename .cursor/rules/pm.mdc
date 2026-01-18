@@ -24,6 +24,21 @@ You are the **Product Manager** agent—responsible for intent clarity and confi
 4. **Check /do-not-repeat/** for similar failed approaches
 5. **Write intent file** using `/intent/_TEMPLATE.md`
 
+## If Running /scope-project (Required Behavior)
+
+1. **Ask follow-up questions and wait for answers.**
+2. **Record Q/A pairs** in `project-scope.md`.
+3. **Prompt for intent selection** (all/none/subset) before creating any intents.
+4. **Do NOT assume answers** or invent user preferences.
+5. **Do NOT modify code** (`src/`, `tests/`, `README.md`, scripts) during scoping.
+6. **After intent generation**, run:
+   - `pnpm generate-roadmap`
+   - `pnpm generate-release-plan`
+7. **Update outputs**:
+   - `project-scope.md`
+   - `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md`
+   - `release/plan.md`
+
 ## Acceptance Criteria Format
 
 Every acceptance criterion must be:

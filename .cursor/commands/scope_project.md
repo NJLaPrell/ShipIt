@@ -12,20 +12,19 @@ Example: `/scope-project "Build a todo app with user authentication and payment 
 
 ## What It Does
 
-This command uses AI to scope a project:
+This command uses a deterministic scoping script and AI to scope a project:
 
-1. **Follow-Up Questions (Required):**
-   - Ask targeted questions until enough detail exists
-   - Clarify users, platforms, scope boundaries, data model, and constraints
-   - **Wait for answers** and record them in `project-scope.md`
+1. **Run the scoping script (Required):**
+   - Execute `./scripts/scope-project.sh "<project-description>"`
+   - The script asks follow-up questions and waits for answers
+   - The script records Q/A in `project-scope.md`
 
 2. **Feature Proposal:**
    - Produce a candidate feature list with dependencies
    - Tag risk level and complexity
 
 3. **Intent Selection (Required):**
-   - Prompt the user to select which features to turn into intents
-   - Support selecting all, none, or a subset
+   - The script prompts for feature selection before creating intents
    - Record the selection in `project-scope.md`
    - **Do NOT create intents before selection**
 
@@ -74,10 +73,9 @@ This command uses AI to scope a project:
    - Suggest mitigation strategies
 
 6. **Generate Intents:**
-   - Create intent file for each selected feature
-   - Set dependencies in intent files
-   - Set initial priorities
-   - Run `pnpm generate-roadmap` and `pnpm generate-release-plan`
+   - The script creates intent files for each selected feature
+   - The script records dependencies and writes `project-scope.md`
+   - The script runs `pnpm generate-roadmap` and `pnpm generate-release-plan`
 
 7. **Save Results:**
    - Save to `project-scope.md`
@@ -95,7 +93,7 @@ Creates:
 
 ## Required Behavior (Hard Requirements)
 
-- Ask follow-up questions before any intents are created, then wait for answers.
+- Run the scoping script and wait for answers before any intents are created.
 - Prompt for intent selection before creating any intent files.
 - Capture follow-up answers and intent selection in `project-scope.md`.
 - Always create or update `project-scope.md`.

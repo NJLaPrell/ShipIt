@@ -45,25 +45,31 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
 1. Run:
    - `/scope-project "Build a todo list app with CRUD, tagging, and persistence"`
 
-2. When the AI asks follow-up questions, enter these exact responses:
-   - **Primary users?** `Single user`
-   - **Platforms?** `Web`
-   - **Data storage?** `SQLite`
-   - **Authentication?** `None`
-   - **Must-have features?** `Create, read, update, delete, tagging, search`
-   - **Non-functional requirements?** `p95 < 200ms, tests required`
-   - **External integrations?** `None`
-   - **Out of scope?** `Collaboration, realtime, multi-user`
+2. When the scoping script prompts, enter these exact responses:
+   - **Is a UI required (API-only, CLI, Web)?** `API-only`
+   - **What persistence should be used (JSON file, SQLite, etc.)?** `JSON file`
+   - **Single-user or multi-user?** `Single-user`
+   - **Authentication required (none, API key, full auth)?** `API key`
+   - **Any non-functional requirements (performance, scaling, etc.)?** `p95 < 200ms, tests required`
+   - **Open Questions (optional):** `done`
+   - **Feature candidates (one per line):**
+     - `Todo data model + persistence layer`
+     - `CRUD HTTP API for todos`
+     - `Tagging + filtering`
+     - `done`
+   - **Select features to generate intents:** `all`
 
-3. When prompted to select features to generate as intents, enter:
-   - `all`
+3. When prompted for dependencies per intent, enter:
+   - `none` for the first intent
+   - `F-001` for the second intent
+   - `F-001, F-002` for the third intent
 
 4. Verify:
    - Follow-up answers are captured in `project-scope.md`
    - Intent selection is recorded in `project-scope.md`
    - `project-scope.md` is created and filled in
    - `intent/` contains generated intent files
-   - `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md` updated
+   - `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md` updated (F-001 in Now; F-002/F-003 in Next)
    - `release/plan.md` exists and contains an ordered list
 
 ---

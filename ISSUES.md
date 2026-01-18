@@ -56,6 +56,17 @@ If you want edits to the intent (UI, storage choice, or extra constraints), tell
 
 **Resolution:** Updated `/.cursor/commands/scope_project.md` to require waiting for answers and recording them in `project-scope.md`; updated `scripts/scope-project.sh` template to call out Q/A capture; updated `TEST_PLAN.md` to verify answers and intent selection are recorded.
 
+**Retest result (shipit-test-4):** Q/A were recorded but answers were assumed without user input. Intents were generated without explicit user selection prompt.
+
+**Updated solution:** Added explicit /scope-project enforcement in `/.cursor/rules/pm.mdc` (wait for answers, no assumptions, no code changes, run roadmap/release scripts) and added "stop and wait" requirement in `/.cursor/commands/scope_project.md`.
+
+**Final solution:** Replaced free-form scoping with a deterministic interactive flow in `scripts/scope-project.sh` that:
+- asks required follow-up questions and blocks without answers,
+- records Q/A into `project-scope.md`,
+- collects feature candidates and explicit intent selection,
+- generates intents deterministically,
+- runs roadmap and release plan scripts.
+
 ### /scope-project did not update roadmap files
 
 **Observed behavior:** `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md` remain unchanged after scoping, even though an intent was generated.
@@ -65,3 +76,9 @@ If you want edits to the intent (UI, storage choice, or extra constraints), tell
 **Notes:** Observed in `./projects/shipit-test-3` during Test Plan step 3-1.
 
 **Resolution:** Updated `/.cursor/commands/scope_project.md` to require running `pnpm generate-roadmap`; updated `scripts/scope-project.sh` to run `generate-roadmap.sh` when available.
+
+**Retest result (shipit-test-4):** Roadmap updated, but all intents fell into `roadmap/later.md` due to status parsing error.
+
+**Updated solution:** Fixed `scripts/generate-roadmap.sh` to read `## Status` from the next line and ignore `(none)` dependencies.
+
+**Final solution:** `scripts/scope-project.sh` now runs `scripts/generate-roadmap.sh` after intent generation, ensuring roadmap updates every time.
