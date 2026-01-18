@@ -15,7 +15,7 @@ Example: `/init-project "My Awesome App"`
 This command initializes a new project with the ShipIt framework:
 
 1. **Project Setup:**
-   - Creates project structure
+   - Creates project structure under `./projects/<project-name>`
    - Generates `project.json` metadata
    - Sets up directory structure
    - Initializes git repository (if needed)

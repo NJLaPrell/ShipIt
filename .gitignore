@@ -10,3 +10,5 @@ coverage/
 *.tsbuildinfo
 worktrees.json
 .agent-id
+projects/*
+!projects/.gitkeep

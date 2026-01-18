@@ -32,20 +32,26 @@ if ! [[ "$PROJECT_NAME" =~ ^[a-zA-Z0-9_-]+$ ]]; then
     error_exit "Project name must be alphanumeric with hyphens/underscores only" 1
 fi
 
+PROJECTS_DIR="projects"
+TARGET_DIR="$PROJECTS_DIR/$PROJECT_NAME"
+
 echo -e "${BLUE}Initializing project: $PROJECT_NAME${NC}"
 echo ""
 
+# Ensure projects directory exists
+mkdir -p "$PROJECTS_DIR" || error_exit "Failed to create projects directory"
+
 # Check if directory exists
-if [ -d "$PROJECT_NAME" ]; then
-    read -p "Directory $PROJECT_NAME already exists. Continue? (y/N): " confirm
+if [ -d "$TARGET_DIR" ]; then
+    read -p "Directory $TARGET_DIR already exists. Continue? (y/N): " confirm
     if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
         error_exit "Aborted" 1
     fi
 else
-    mkdir -p "$PROJECT_NAME" || error_exit "Failed to create project directory"
+    mkdir -p "$TARGET_DIR" || error_exit "Failed to create project directory"
 fi
 
-cd "$PROJECT_NAME" || error_exit "Failed to enter project directory"
+cd "$TARGET_DIR" || error_exit "Failed to enter project directory"
 
 # Tech stack selection
 echo -e "${YELLOW}Tech Stack Selection:${NC}"

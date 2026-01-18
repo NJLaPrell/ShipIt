@@ -34,6 +34,7 @@ A framework that optimizes for *epistemology*, not coordination:
 ```bash
 # 1. Initialize a project
 /init-project "My Awesome App"
+# → Creates ./projects/my-awesome-app
 
 # 2. Scope it (optional but smart)
 /scope-project "Build a todo app with auth"
