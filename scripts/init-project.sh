@@ -18,6 +18,8 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
 # Get project name
 PROJECT_NAME="${1:-}"
 if [ -z "$PROJECT_NAME" ]; then
@@ -85,6 +87,22 @@ echo -e "${BLUE}Creating project structure...${NC}"
 
 # Core directories
 mkdir -p intent workflow-state architecture do-not-repeat drift roadmap scripts golden-data src tests .cursor/rules .cursor/commands .github/workflows
+
+# Copy framework commands, rules, and core scripts into the new project
+if [ -d "$ROOT_DIR/.cursor/commands" ]; then
+    cp -R "$ROOT_DIR/.cursor/commands/." ".cursor/commands/"
+fi
+
+if [ -d "$ROOT_DIR/.cursor/rules" ]; then
+    cp -R "$ROOT_DIR/.cursor/rules/." ".cursor/rules/"
+fi
+
+for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh; do
+    if [ -f "$ROOT_DIR/scripts/$script" ]; then
+        cp "$ROOT_DIR/scripts/$script" "scripts/$script"
+        chmod +x "scripts/$script"
+    fi
+done
 
 # Create project.json
 cat > project.json << EOF || error_exit "Failed to create project.json"

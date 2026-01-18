@@ -28,3 +28,20 @@ If you want edits to the intent (UI, storage choice, or extra constraints), tell
 **Notes:** Verified in `./projects/shipit-test` during Test Plan step 3-4.
 
 **Resolution:** Updated `scripts/scope-project.sh` to create a `release/plan.md` stub and run `generate-release-plan.sh` when available; updated `/.cursor/commands/scope_project.md` to require these outputs.
+
+**Status:** Pending retest (requires new project with copied scripts/commands).
+
+### /scope-project response performed implementation work
+
+**Observed behavior:** The assistant described implementing a full CLI todo app, modifying `src/index.ts` and `README.md`, and skipped test execution. In `./projects/shipit-test-2`, the code changes and README usage section exist, but no scope artifacts were generated.
+
+**Expected behavior:** `/scope-project` should only ask follow-up questions, prompt for intent selection, and generate scoping outputs (`project-scope.md`, roadmap updates, `release/plan.md`). It must not implement production code or edit README.
+
+**Notes:** In `./projects/shipit-test-2`, `project-scope.md` is missing, `release/plan.md` is missing, `roadmap/*.md` are unchanged, and only `intent/_TEMPLATE.md` exists (no generated intents).
+
+**Evidence (assistant response):**
+"Scoped the project by creating a ShipIt intent file... Implement CRUD, tagging, and persistence... index.ts +346... Updating README usage... Built a full CLI todo app... Tests not run."
+
+**Resolution:** `init-project` now copies framework `.cursor/commands` and `.cursor/rules` into new projects, ensuring the updated `/scope-project` requirements are present; core scripts (including `scope-project.sh` and `generate-release-plan.sh`) are also copied into new projects.
+
+**Status:** Pending retest.

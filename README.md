@@ -35,6 +35,7 @@ A framework that optimizes for *epistemology*, not coordination:
 # 1. Initialize a project
 /init-project "My Awesome App"
 # → Creates ./projects/my-awesome-app
+# → Includes framework commands/rules and core scripts
 # Prompts:
 # 1) Tech stack [1=TS/Node, 2=Python, 3=Other]
 # 2) Project description (short)

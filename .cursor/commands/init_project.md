@@ -23,6 +23,7 @@ This command initializes a new project with the ShipIt framework:
    - Creates project structure under `./projects/<project-name>`
    - Generates `project.json` metadata
    - Sets up directory structure
+   - Copies framework commands, rules, and core scripts
    - Initializes git repository (if needed)
 
 2. **Tech Stack Selection:**
