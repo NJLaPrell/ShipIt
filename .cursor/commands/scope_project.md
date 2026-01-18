@@ -14,43 +14,31 @@ Example: `/scope-project "Build a todo app with user authentication and payment 
 
 This command uses AI to scope a project:
 
-1. **Project Breakdown:**
-   - AI analyzes project description
-   - Breaks down into discrete features
-   - Identifies dependencies between features
-   - Estimates complexity
-   - Identifies risks
+1. **Follow-Up Questions (Required):**
+   - Ask targeted questions until enough detail exists
+   - Clarify users, platforms, scope boundaries, data model, and constraints
+   - Capture open questions in `project-scope.md`
 
-2. **Architecture Suggestions:**
-   - AI suggests system architecture
-   - Identifies key components
-   - Suggests technology choices
-   - Identifies integration points
+2. **Feature Proposal:**
+   - Produce a candidate feature list with dependencies
+   - Tag risk level and complexity
 
-3. **Follow-Up Questions:**
-   - Asks targeted questions until enough detail exists
-   - Clarifies users, platforms, scope boundaries, data model, and constraints
-   - Captures open questions in `project-scope.md`
+3. **Intent Selection (Required):**
+   - Prompt the user to select which features to turn into intents
+   - Support selecting all, none, or a subset
+   - **Do NOT create intents before selection**
 
-4. **Feature Proposal:**
-   - Produces a candidate feature list with dependencies
-   - Tags risk level and complexity
+4. **Intent Generation:**
+   - Create intent files only for selected features
+   - Map dependencies between intents
+   - Set initial priorities
+   - Create project roadmap
+   - Generate release plan
 
-5. **Intent Selection:**
-   - Prompts you to select which features to turn into intents
-   - Supports selecting all, none, or a subset
-
-6. **Intent Generation:**
-   - Creates intent files only for selected features
-   - Maps dependencies between intents
-   - Sets initial priorities
-   - Creates project roadmap
-   - Generates release plan
-
-4. **Documentation:**
-   - Generates `project-scope.md` with full analysis
-   - Updates `roadmap/now.md`, `next.md`, `later.md`
-   - Creates dependency graph
+5. **Documentation:**
+   - Generate `project-scope.md` with full analysis
+   - Update `roadmap/now.md`, `next.md`, `later.md`
+   - Create dependency graph
 
 ## Process
 
@@ -89,7 +77,7 @@ This command uses AI to scope a project:
    - Create intent file for each selected feature
    - Set dependencies in intent files
    - Set initial priorities
-   - Generate roadmap
+   - Generate roadmap and release plan
 
 7. **Save Results:**
    - Save to `project-scope.md`
@@ -104,6 +92,13 @@ Creates:
 - `release/plan.md` - Ordered release plan
 - Updated `roadmap/now.md`, `next.md`, `later.md`
 - Dependency graph (text or visual)
+
+## Required Behavior (Hard Requirements)
+
+- Ask follow-up questions before any intents are created.
+- Prompt for intent selection before creating any intent files.
+- Always create or update `project-scope.md`.
+- Always generate `release/plan.md` and update roadmap files.
 
 ## Next Steps
 

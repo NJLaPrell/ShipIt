@@ -98,6 +98,31 @@ cat > "$SCOPE_FILE" << EOF || error_exit "Failed to create project-scope.md"
 EOF
 
 echo -e "${GREEN}✓ Created $SCOPE_FILE${NC}"
+
+# Create release plan stub if missing
+RELEASE_DIR="release"
+RELEASE_PLAN="$RELEASE_DIR/plan.md"
+if [ ! -f "$RELEASE_PLAN" ]; then
+    mkdir -p "$RELEASE_DIR" || error_exit "Failed to create release directory"
+    cat > "$RELEASE_PLAN" << EOF || error_exit "Failed to create release/plan.md"
+# Release Plan
+
+**Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+## Summary
+
+- Total intents: 0
+- Planned intents: 0
+- Releases: 0
+
+EOF
+    echo -e "${GREEN}✓ Created $RELEASE_PLAN${NC}"
+fi
+
+# Best-effort release plan generation if available
+if [ -x "./scripts/generate-release-plan.sh" ]; then
+    ./scripts/generate-release-plan.sh || echo "WARNING: release plan generation failed"
+fi
 echo ""
 echo -e "${YELLOW}Next Steps:${NC}"
 echo "1. In Cursor, run: /scope-project \"$PROJECT_DESC\""

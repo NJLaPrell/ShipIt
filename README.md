@@ -42,6 +42,7 @@ A framework that optimizes for *epistemology*, not coordination:
 
 # 2. Scope it (optional but smart)
 /scope-project "Build a todo app with auth"
+# → You will answer follow-up questions and select features to generate as intents
 
 # 3. Ship a feature
 /ship F-001
