@@ -35,6 +35,10 @@ A framework that optimizes for *epistemology*, not coordination:
 # 1. Initialize a project
 /init-project "My Awesome App"
 # → Creates ./projects/my-awesome-app
+# Prompts:
+# 1) Tech stack [1=TS/Node, 2=Python, 3=Other]
+# 2) Project description (short)
+# 3) High-risk domains (comma-separated or 'none')
 
 # 2. Scope it (optional but smart)
 /scope-project "Build a todo app with auth"

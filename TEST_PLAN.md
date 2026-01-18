@@ -15,10 +15,10 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
 1. In Cursor, open the Command Palette and run:
    - `/init-project "shipit-test"`
 
-2. When prompted, enter the following:
-   - **Tech stack selection:** `1`
+2. When prompted, enter the following in order:
+   - **Tech stack selection [1=TS/Node, 2=Python, 3=Other]:** `1`
    - **Project description:** `Test project for ShipIt end-to-end validation`
-   - **High-risk domains:** `none`
+   - **High-risk domains (comma-separated or 'none'):** `none`
 
 3. Verify:
    - New project created at `./projects/shipit-test`

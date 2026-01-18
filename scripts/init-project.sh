@@ -58,7 +58,7 @@ echo -e "${YELLOW}Tech Stack Selection:${NC}"
 echo "1) TypeScript/Node.js (recommended)"
 echo "2) Python"
 echo "3) Other (manual setup)"
-read -p "Select tech stack [1-3]: " stack_choice
+read -p "Select tech stack [1=TS/Node, 2=Python, 3=Other]: " stack_choice
 
 case $stack_choice in
     1) TECH_STACK="typescript-nodejs"; STACK_NAME="TypeScript/Node.js" ;;
@@ -71,7 +71,7 @@ echo -e "${GREEN}Selected: $STACK_NAME${NC}"
 echo ""
 
 # Get project description
-read -p "Project description: " PROJECT_DESC
+read -p "Project description (short): " PROJECT_DESC
 PROJECT_DESC="${PROJECT_DESC:-$PROJECT_NAME}"
 
 # High-risk domains

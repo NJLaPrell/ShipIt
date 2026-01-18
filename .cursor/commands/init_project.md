@@ -10,6 +10,11 @@ Initialize a new project with ShipIt framework.
 
 Example: `/init-project "My Awesome App"`
 
+Prompts you will answer (in order):
+1. Tech stack [1=TS/Node, 2=Python, 3=Other]
+2. Project description (short)
+3. High-risk domains (comma-separated or 'none')
+
 ## What It Does
 
 This command initializes a new project with the ShipIt framework:
