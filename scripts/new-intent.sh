@@ -87,6 +87,13 @@ $(echo -e "$MOTIVATION" | sed 's/^/  /')
     "$TEMPLATE_FILE" > "$INTENT_FILE" || error_exit "Failed to create intent file"
 
 echo -e "${GREEN}✓ Created intent: $INTENT_FILE${NC}"
+
+# Refresh roadmap after creating a new intent (best effort)
+if [ -x "./scripts/generate-roadmap.sh" ]; then
+    echo -e "${YELLOW}Updating roadmap...${NC}"
+    ./scripts/generate-roadmap.sh || echo "WARNING: roadmap generation failed"
+fi
+
 echo -e "${YELLOW}Next steps:${NC}"
 echo "1. Edit $INTENT_FILE to fill in acceptance criteria, invariants, etc."
 echo "2. Run: /ship $INTENT_ID"

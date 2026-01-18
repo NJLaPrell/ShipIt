@@ -13,6 +13,7 @@ This command will:
 2. Create a new intent file in `/intent/` directory
 3. Use the template from `/intent/_TEMPLATE.md`
 4. Generate a unique intent ID (F-###, B-###, or T-###)
+5. Regenerate the roadmap files
 
 ## Intent Types
 
