@@ -67,6 +67,12 @@ If you want edits to the intent (UI, storage choice, or extra constraints), tell
 - generates intents deterministically,
 - runs roadmap and release plan scripts.
 
+**Retest result (shipit-test-5):** The transcript shows the AI-driven flow was still used (not the deterministic script), and `project-scope.md` contains Q/A from the AI, not the scripted prompts. This means the deterministic flow is not being used by `/scope-project` in practice.
+
+**Next fix:** Wire `/scope-project` to execute `./scripts/scope-project.sh` by default (or update the command to instruct the user to run the script and stop otherwise). Consider adding a guard in `.cursor/commands/scope_project.md` that refuses to proceed unless the script has been run.
+
+**Resolution (implemented):** Updated `/.cursor/commands/scope_project.md` and `/.cursor/rules/pm.mdc` to require running `./scripts/scope-project.sh` and to forbid manual scoping in chat. `TEST_PLAN.md` now includes a fallback to run the script directly if the assistant fails to.
+
 ### /scope-project did not update roadmap files
 
 **Observed behavior:** `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md` remain unchanged after scoping, even though an intent was generated.
@@ -82,3 +88,15 @@ If you want edits to the intent (UI, storage choice, or extra constraints), tell
 **Updated solution:** Fixed `scripts/generate-roadmap.sh` to read `## Status` from the next line and ignore `(none)` dependencies.
 
 **Final solution:** `scripts/scope-project.sh` now runs `scripts/generate-roadmap.sh` after intent generation, ensuring roadmap updates every time.
+
+**Retest result (shipit-test-5):** Roadmap updated, but placement differs from the updated test plan (F-005 in Now, F-001–F-004 in Next). This indicates intent dependencies/status are not aligned with test expectations for bucket placement.
+
+**Next fix:** Update the deterministic script to allow explicit dependency input (already present) and set status/priority defaults to match the test plan, or update the test plan to reflect the intended categorization rules.
+
+### Test step 3-4 validation failures (shipit-test-5)
+
+**Observed behavior:** `project-scope.md` lacks intent selection details and does not follow the deterministic Q/A format. Roadmap buckets differ from the test plan expectation.
+
+**Expected behavior:** `project-scope.md` should include recorded intent selection and follow the scripted Q/A format. Roadmap buckets should match the test plan expectation.
+
+**Notes:** Verified in `./projects/shipit-test-5` during Test Plan step 3-4. Roadmap shows `F-005` in Now and `F-001`–`F-004` in Next; `project-scope.md` has no intent selection section.

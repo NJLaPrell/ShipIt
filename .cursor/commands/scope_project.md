@@ -12,12 +12,13 @@ Example: `/scope-project "Build a todo app with user authentication and payment 
 
 ## What It Does
 
-This command uses a deterministic scoping script and AI to scope a project:
+This command uses a deterministic scoping script only. The AI must not scope directly.
 
 1. **Run the scoping script (Required):**
    - Execute `./scripts/scope-project.sh "<project-description>"`
    - The script asks follow-up questions and waits for answers
    - The script records Q/A in `project-scope.md`
+   - If the script is missing, STOP and tell the user to re-run `/init-project`
 
 2. **Feature Proposal:**
    - Produce a candidate feature list with dependencies
@@ -94,6 +95,7 @@ Creates:
 ## Required Behavior (Hard Requirements)
 
 - Run the scoping script and wait for answers before any intents are created.
+- Do NOT generate scope content manually in the chat.
 - Prompt for intent selection before creating any intent files.
 - Capture follow-up answers and intent selection in `project-scope.md`.
 - Always create or update `project-scope.md`.

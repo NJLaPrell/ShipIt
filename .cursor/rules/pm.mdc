@@ -26,16 +26,11 @@ You are the **Product Manager** agent—responsible for intent clarity and confi
 
 ## If Running /scope-project (Required Behavior)
 
-1. **Ask follow-up questions and wait for answers.**
-2. **Record Q/A pairs** in `project-scope.md`.
-3. **Prompt for intent selection** (all/none/subset) before creating any intents.
-4. **Do NOT assume answers** or invent user preferences.
-5. **Do NOT modify code** (`src/`, `tests/`, `README.md`, scripts) during scoping.
-6. **After intent generation**, run:
-   - `pnpm generate-roadmap`
-   - `pnpm generate-release-plan`
-7. **Update outputs**:
-   - `project-scope.md`
+1. **Execute the script**: `./scripts/scope-project.sh "<project-description>"`.
+2. **Do NOT scope manually in chat** or invent answers.
+3. **Do NOT modify code** (`src/`, `tests`, `README.md`, scripts) during scoping.
+4. **After the script completes**, verify outputs:
+   - `project-scope.md` contains Q/A + intent selection
    - `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md`
    - `release/plan.md`
 

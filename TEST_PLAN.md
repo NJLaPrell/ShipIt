@@ -44,6 +44,8 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
 
 1. Run:
    - `/scope-project "Build a todo list app with CRUD, tagging, and persistence"`
+   - If the assistant does not run the script, manually run:
+     - `./scripts/scope-project.sh "Build a todo list app with CRUD, tagging, and persistence"`
 
 2. When the scoping script prompts, enter these exact responses:
    - **Is a UI required (API-only, CLI, Web)?** `API-only`
