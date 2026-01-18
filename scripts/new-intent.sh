@@ -79,6 +79,9 @@ INTENT_FILE="$INTENT_DIR/$INTENT_ID.md"
 sed -e "s/# F-###: Title/# $INTENT_ID: $TITLE/" \
     -e "s/feature | bug | tech-debt/$INTENT_TYPE/" \
     -e "s/planned | active | blocked | validating | shipped | killed/planned/" \
+    -e "s/p0 | p1 | p2 | p3/p2/" \
+    -e "s/s | m | l/m/" \
+    -e "s/R1 | R2 | R3 | R4/R2/" \
     -e "/## Motivation/,/^$/c\\
 ## Motivation\\
 $(echo -e "$MOTIVATION" | sed 's/^/  /')
@@ -92,6 +95,12 @@ echo -e "${GREEN}✓ Created intent: $INTENT_FILE${NC}"
 if [ -x "./scripts/generate-roadmap.sh" ]; then
     echo -e "${YELLOW}Updating roadmap...${NC}"
     ./scripts/generate-roadmap.sh || echo "WARNING: roadmap generation failed"
+fi
+
+# Refresh release plan after creating a new intent (best effort)
+if [ -x "./scripts/generate-release-plan.sh" ]; then
+    echo -e "${YELLOW}Updating release plan...${NC}"
+    ./scripts/generate-release-plan.sh || echo "WARNING: release plan generation failed"
 fi
 
 echo -e "${YELLOW}Next steps:${NC}"

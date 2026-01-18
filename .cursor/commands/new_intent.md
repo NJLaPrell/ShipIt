@@ -14,6 +14,7 @@ This command will:
 3. Use the template from `/intent/_TEMPLATE.md`
 4. Generate a unique intent ID (F-###, B-###, or T-###)
 5. Regenerate the roadmap files
+6. Regenerate the release plan
 
 ## Intent Types
 

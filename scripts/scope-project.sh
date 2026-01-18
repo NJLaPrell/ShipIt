@@ -84,6 +84,10 @@ cat > "$SCOPE_FILE" << EOF || error_exit "Failed to create project-scope.md"
 
 [Which features were selected to generate intents]
 
+## Release Plan
+
+[Ordered releases generated from selected intents]
+
 ## Generated Intents
 
 [List of generated intent files]
@@ -100,5 +104,6 @@ echo "1. In Cursor, run: /scope-project \"$PROJECT_DESC\""
 echo "2. AI will ask follow-up questions and populate $SCOPE_FILE"
 echo "3. You will select which features to generate as intents"
 echo "4. AI will generate selected intent files"
-echo "5. Review and adjust as needed"
+echo "5. AI will generate release plan"
+echo "6. Review and adjust as needed"
 echo ""

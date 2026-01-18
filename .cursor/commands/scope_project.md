@@ -45,6 +45,7 @@ This command uses AI to scope a project:
    - Maps dependencies between intents
    - Sets initial priorities
    - Creates project roadmap
+   - Generates release plan
 
 4. **Documentation:**
    - Generates `project-scope.md` with full analysis
@@ -100,6 +101,7 @@ This command uses AI to scope a project:
 Creates:
 - `project-scope.md` - Full scoping analysis and open questions
 - Intent files in `/intent/` for selected features only
+- `release/plan.md` - Ordered release plan
 - Updated `roadmap/now.md`, `next.md`, `later.md`
 - Dependency graph (text or visual)
 

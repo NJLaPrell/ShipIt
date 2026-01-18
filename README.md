@@ -85,6 +85,7 @@ Intent → Analysis → Planning → Tests → Code → Verify → Release
 | `/verify <id>` | Re-run verification phase |
 | `/kill <id>` | Kill an intent (with rationale) |
 | `/drift_check` | Check for entropy/decay |
+| `/generate-release-plan` | Build release plan from intents |
 | `/deploy [env]` | Deploy with readiness checks |
 
 ## Example: Ship a Feature

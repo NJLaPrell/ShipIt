@@ -16,6 +16,7 @@
     "init-project": "./scripts/init-project.sh",
     "scope-project": "./scripts/scope-project.sh",
     "generate-roadmap": "./scripts/generate-roadmap.sh",
+    "generate-release-plan": "./scripts/generate-release-plan.sh",
     "validate-project": "./scripts/validate-project.sh",
     "check-readiness": "./scripts/check-readiness.sh",
     "deploy": "./scripts/deploy.sh",

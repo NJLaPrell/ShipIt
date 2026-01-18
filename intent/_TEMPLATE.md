@@ -6,6 +6,15 @@ feature | bug | tech-debt
 ## Status
 planned | active | blocked | validating | shipped | killed
 
+## Priority
+p0 | p1 | p2 | p3
+
+## Effort
+s | m | l
+
+## Release Target
+R1 | R2 | R3 | R4
+
 ## Motivation
 (Why it exists, 1–3 bullets)
 
