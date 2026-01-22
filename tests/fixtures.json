@@ -1,0 +1,89 @@
+{
+  "projectName": "shipit-test",
+  "projectPath": "./projects/shipit-test",
+  
+  "inputs": {
+    "step_1-2": {
+      "techStack": "1",
+      "description": "Test project for ShipIt end-to-end validation",
+      "highRiskDomains": "none"
+    },
+    "step_3-1": {
+      "scopeDescription": "Build a todo list app with CRUD, tagging, and persistence"
+    },
+    "step_3-2": {
+      "followUps": {
+        "uiType": "REST API",
+        "storage": "JSON file",
+        "userModel": "single-user",
+        "authentication": "none"
+      },
+      "featureSelection": ["F-001", "F-002", "F-003", "F-004", "F-005", "F-006"]
+    },
+    "step_4-1": {
+      "intentTitle": "Add due dates to todos",
+      "intentType": "feature"
+    },
+    "step_7-2": {
+      "targetIntent": "F-001",
+      "priority": "p0",
+      "effort": "s",
+      "releaseTarget": "R1"
+    },
+    "step_8-1": {
+      "f001Dependencies": ["F-002"],
+      "f002Dependencies": []
+    },
+    "step_9-1": {
+      "targetIntent": "F-001",
+      "fakeDependency": "F-999"
+    },
+    "step_10-1": {
+      "intentTitle": "Awesome Banner",
+      "intentMotivation": "Display a graphical banner at the top of the project README"
+    }
+  },
+
+  "expectations": {
+    "step_2-1": {
+      "requiredFiles": [
+        "project.json",
+        "package.json",
+        "tsconfig.json",
+        "intent/_TEMPLATE.md",
+        "architecture/CANON.md",
+        "roadmap/now.md",
+        "roadmap/next.md",
+        "roadmap/later.md"
+      ]
+    },
+    "step_5-2": {
+      "releasePlanContains": ["## Summary", "## R1", "Total intents"]
+    },
+    "step_6-2": {
+      "roadmapReflectsDependencies": true
+    },
+    "step_7-4": {
+      "intentInR1": "F-001",
+      "orderRespectsDependencies": true
+    },
+    "step_8-3": {
+      "f002BeforeF001": true
+    },
+    "step_9-3": {
+      "missingDepsSection": true,
+      "containsF999": true
+    },
+    "step_10-2": {
+      "roadmapUpdated": true,
+      "releasePlanUpdated": true
+    }
+  },
+
+  "severityLevels": {
+    "blocking": "Prevents subsequent tests from running",
+    "high": "Core functionality broken",
+    "medium": "Feature works but incorrectly",
+    "low": "Minor issue, cosmetic or edge case"
+  }
+}

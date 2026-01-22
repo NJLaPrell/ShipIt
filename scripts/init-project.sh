@@ -97,6 +97,11 @@ if [ -d "$ROOT_DIR/.cursor/rules" ]; then
     cp -R "$ROOT_DIR/.cursor/rules/." ".cursor/rules/"
 fi
 
+# Copy ShipIt test fixtures and documentation into the new project
+if [ -d "$ROOT_DIR/tests" ]; then
+    cp -R "$ROOT_DIR/tests/." "tests/"
+fi
+
 for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh; do
     if [ -f "$ROOT_DIR/scripts/$script" ]; then
         cp "$ROOT_DIR/scripts/$script" "scripts/$script"
@@ -343,7 +348,7 @@ echo -e "${GREEN}✓ Created do-not-repeat ledger files${NC}"
 mkdir -p roadmap
 for file in now.md next.md later.md; do
     cat > "roadmap/$file" << EOF || error_exit "Failed to create roadmap/$file"
-# ${file%.md^}
+# ${file%.md}
 
 (No items yet. Add items as they're planned.)
 EOF

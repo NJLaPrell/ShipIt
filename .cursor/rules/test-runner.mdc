@@ -1,0 +1,136 @@
+# Test Runner Agent
+
+You are executing the ShipIt test plan. Follow these rules strictly.
+
+## Mode Detection
+
+Before doing ANYTHING, check your environment:
+
+```bash
+cat project.json 2>/dev/null | grep '"name"'
+```
+
+- If output contains `"shipit-test"` → **TEST PROJECT MODE** (start at step 2-2)
+- Otherwise → **ROOT PROJECT MODE** (run steps 1-1 through 1-4 only)
+
+## Execution Rules
+
+### 1. Use Hardcoded Inputs
+
+**Never ask the user for test inputs.** Use values from `tests/fixtures.json`:
+
+| Step | Field | Value |
+|------|-------|-------|
+| 1-2 | techStack | `1` |
+| 1-2 | description | `Test project for ShipIt end-to-end validation` |
+| 1-2 | highRiskDomains | `none` |
+| 3-1 | scopeDescription | `Build a todo list app with CRUD, tagging, and persistence` |
+| 7-2 | priority | `p0` |
+| 7-2 | effort | `s` |
+| 7-2 | releaseTarget | `R1` |
+
+### 2. Fail-Fast on Blocking Failures
+
+**STOP immediately** if any of these occur:
+- Project creation fails
+- Required files missing after initialization
+- Script execution fails with non-zero exit code
+- Generated output files are empty or missing
+
+Mark the failure as `blocking` severity and halt testing.
+
+### 3. Record Every Step
+
+After each step, record:
+- Step ID (e.g., `3-2`)
+- Step name (from TEST_PLAN.md)
+- Status: `PASS` or `FAIL`
+- If FAIL: severity, expected vs actual, error details
+
+### 4. Update ISSUES.md Properly
+
+**For new issues:**
+```markdown
+### ISSUE-XXX: [Short title]
+
+**Severity:** blocking | high | medium | low
+**Step:** [step ID]
+**Status:** open
+**First Seen:** [ISO date]
+**Last Seen:** [ISO date]
+
+**Expected:** [what should happen]
+**Actual:** [what happened]
+**Error:** [error message if any]
+
+**Notes:** [additional context]
+```
+
+**For existing issues that reoccur:**
+- Update `Last Seen` date
+- Add note about recurrence
+
+**For resolved issues:**
+- Change `Status` to `resolved`
+- Add `Resolved` date
+- Move to "Resolved Issues" section
+
+### 5. Summary Table Format
+
+```markdown
+## Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 1-1 | Init project | ✅ PASS | - | |
+| 1-2 | Provide inputs | ✅ PASS | - | |
+| 6-2 | Roadmap reflects deps | ❌ FAIL | blocking | F-002 in wrong bucket |
+```
+
+Use these status indicators:
+- `✅ PASS` — Step completed successfully
+- `❌ FAIL` — Step failed
+- `⏭️ SKIP` — Skipped due to blocking failure
+- `🔄 RETEST` — Needs manual retest
+
+### 6. Issue ID Assignment
+
+- Use format `ISSUE-XXX` where XXX is a sequential number
+- Check existing issues before creating new ones
+- If same root cause, update existing issue instead of creating duplicate
+
+### 7. Severity Definitions
+
+| Severity | Meaning | Action |
+|----------|---------|--------|
+| `blocking` | Prevents subsequent tests | STOP testing |
+| `high` | Core functionality broken | Continue, but flag |
+| `medium` | Works but incorrectly | Continue |
+| `low` | Minor/cosmetic | Continue |
+
+### 8. Final Output
+
+After completing (or stopping), output:
+
+```markdown
+## Test Run Complete
+
+**Date:** [ISO timestamp]
+**Mode:** [root-project | test-project]
+**Steps Executed:** X
+**Steps Passed:** Y
+**Steps Failed:** Z
+**Blocking Issues:** N
+
+**Result:** [PASS if no failures | FAIL if any failures]
+
+See tests/ISSUES.md for details.
+```
+
+## Forbidden Actions
+
+- ❌ Do NOT ask user for inputs that are in fixtures.json
+- ❌ Do NOT continue testing after a blocking failure
+- ❌ Do NOT modify production code during testing
+- ❌ Do NOT skip steps without marking them as skipped
+- ❌ Do NOT create duplicate issues for the same problem

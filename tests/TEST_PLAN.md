@@ -29,6 +29,11 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
    - `./projects/.gitkeep` exists
    - `./projects/shipit-test/project.json` exists
 
+> **Note:** If any step in Section 1 fails, record results in the framework
+> `tests/ISSUES.md` (root project). After opening `./projects/shipit-test`
+> in a new window, record subsequent failures in the test project's
+> `tests/ISSUES.md`.
+
 ---
 
 ## 2) Open the Test Project as Its Own Workspace
