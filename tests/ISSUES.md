@@ -1,19 +1,36 @@
 # ShipIt Test Results
 
-## Latest Run
+## Test Runs
 
-**Date:** 2026-01-22T14:43:00Z
-**Mode:** test-project
-**Steps Executed:** 10
-**Steps Passed:** 10
-**Steps Failed:** 0
-**Blocking Issues:** 0
+### Run Template (Copy/Paste)
 
-**Result:** ✅ PASS
+```
+### Run: YYYY-MM-DDTHH:MM:SSZ (root-project | test-project)
 
----
+**Steps Executed:** X  
+**Steps Passed:** Y  
+**Steps Failed:** Z  
+**Blocking Issues:** N  
+**Result:** ✅ PASS | ❌ FAIL
 
-## Summary
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 1-1 | Init project | ✅ PASS | - | |
+| 1-2 | Provide inputs | ✅ PASS | - | |
+| 2-2 | Validate project structure | ⏭️ SKIP | - | Blocked by step 1-4 |
+```
+
+### Run: 2026-01-22T22:15:23Z (root-project)
+
+**Steps Executed:** 4  
+**Steps Passed:** 4  
+**Steps Failed:** 0  
+**Blocking Issues:** 0  
+**Result:** ✅ PASS (root-mode stop after step 1-4)
+
+#### Summary
 
 | Step | Name | Status | Severity | Notes |
 |------|------|--------|----------|-------|
@@ -21,28 +38,28 @@
 | 1-2 | Provide inputs | ✅ PASS | - | |
 | 1-3 | Verify project created | ✅ PASS | - | |
 | 1-4 | Verify required files | ✅ PASS | - | |
-| 2-2 | Validate project structure | ✅ PASS | - | |
-| 3-1 | Run scope-project | ✅ PASS | - | |
-| 3-2 | Answer follow-ups | ✅ PASS | - | |
-| 3-3 | Verify intent files | ✅ PASS | - | |
-| 3-4 | Verify outputs | ✅ PASS | - | |
-| 4-1 | Create single intent | ✅ PASS | - | |
-| 5-1 | Run generate-release-plan | ✅ PASS | - | |
-| 5-2 | Verify release plan | ✅ PASS | - | |
-| 6-1 | Run generate-roadmap | ✅ PASS | - | |
-| 6-2 | Verify roadmap | ✅ PASS | - | Fixed "None" parsing |
-| 7-1 | Check template fields | ✅ PASS | - | Fixed header names |
-| 7-2 | Update intent fields | ✅ PASS | - | |
-| 7-3 | Regenerate release plan | ✅ PASS | - | |
-| 7-4 | Verify ordering | ✅ PASS | - | Fixed topo-sort |
-| 8-1 | Edit dependencies | ✅ PASS | - | |
-| 8-2 | Regenerate release plan | ✅ PASS | - | |
-| 8-3 | Verify F-002 before F-001 | ✅ PASS | - | |
-| 9-1 | Add fake dependency | ✅ PASS | - | |
-| 9-2 | Regenerate release plan | ✅ PASS | - | |
-| 9-3 | Verify missing deps section | ✅ PASS | - | |
-| 10-1 | Create new intent | ✅ PASS | - | |
-| 10-2 | Verify roadmap+release update | ✅ PASS | - | |
+| 2-2 | Validate project structure | ⏭️ SKIP | - | Root mode stop |
+| 3-1 | Run scope-project | ⏭️ SKIP | - | Root mode stop |
+| 3-2 | Answer follow-ups | ⏭️ SKIP | - | Root mode stop |
+| 3-3 | Verify intent files | ⏭️ SKIP | - | Root mode stop |
+| 3-4 | Verify outputs | ⏭️ SKIP | - | Root mode stop |
+| 4-1 | Create single intent | ⏭️ SKIP | - | Root mode stop |
+| 5-1 | Run generate-release-plan | ⏭️ SKIP | - | Root mode stop |
+| 5-2 | Verify release plan | ⏭️ SKIP | - | Root mode stop |
+| 6-1 | Run generate-roadmap | ⏭️ SKIP | - | Root mode stop |
+| 6-2 | Verify roadmap | ⏭️ SKIP | - | Root mode stop |
+| 7-1 | Check template fields | ⏭️ SKIP | - | Root mode stop |
+| 7-2 | Update intent fields | ⏭️ SKIP | - | Root mode stop |
+| 7-3 | Regenerate release plan | ⏭️ SKIP | - | Root mode stop |
+| 7-4 | Verify ordering | ⏭️ SKIP | - | Root mode stop |
+| 8-1 | Edit dependencies | ⏭️ SKIP | - | Root mode stop |
+| 8-2 | Regenerate release plan | ⏭️ SKIP | - | Root mode stop |
+| 8-3 | Verify F-002 before F-001 | ⏭️ SKIP | - | Root mode stop |
+| 9-1 | Add fake dependency | ⏭️ SKIP | - | Root mode stop |
+| 9-2 | Regenerate release plan | ⏭️ SKIP | - | Root mode stop |
+| 9-3 | Verify missing deps section | ⏭️ SKIP | - | Root mode stop |
+| 10-1 | Create new intent | ⏭️ SKIP | - | Root mode stop |
+| 10-2 | Verify roadmap+release update | ⏭️ SKIP | - | Root mode stop |
 
 ---
 

@@ -11,6 +11,7 @@ cat project.json 2>/dev/null | grep '"name"'
 ```
 
 - If output contains `"shipit-test"` → **TEST PROJECT MODE** (start at step 2-2)
+- If `project.json` exists but name is **not** `shipit-test` → **STOP** (blocking failure)
 - Otherwise → **ROOT PROJECT MODE** (run steps 1-1 through 1-4 only)
 
 ## Execution Rules
@@ -36,8 +37,11 @@ cat project.json 2>/dev/null | grep '"name"'
 - Required files missing after initialization
 - Script execution fails with non-zero exit code
 - Generated output files are empty or missing
+- `tests/fixtures.json` is missing
 
 Mark the failure as `blocking` severity and halt testing.
+
+When stopping early, mark all remaining steps as `⏭️ SKIP` with reason: `Blocked by step X-Y`.
 
 ### 3. Record Every Step
 
@@ -90,7 +94,7 @@ After each step, record:
 Use these status indicators:
 - `✅ PASS` — Step completed successfully
 - `❌ FAIL` — Step failed
-- `⏭️ SKIP` — Skipped due to blocking failure
+- `⏭️ SKIP` — Skipped due to blocking failure or root-mode stop
 - `🔄 RETEST` — Needs manual retest
 
 ### 6. Issue ID Assignment
@@ -126,6 +130,11 @@ After completing (or stopping), output:
 
 See tests/ISSUES.md for details.
 ```
+
+## Run History Rules
+
+- Do NOT overwrite previous runs.
+- Append a new Run block under `## Test Runs` with timestamp, mode, and summary.
 
 ## Forbidden Actions
 

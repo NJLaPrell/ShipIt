@@ -7,6 +7,7 @@ Run the ShipIt end-to-end test plan.
 **Check for `project.json` in current directory:**
 
 - **If `project.json` exists AND contains `"name": "shipit-test"`:** You are in the TEST PROJECT. Start at step 2-2.
+- **If `project.json` exists BUT name is NOT `shipit-test`:** STOP and report a blocking failure (wrong workspace).
 - **Otherwise:** You are in the ROOT PROJECT. Run steps 1-1 through 1-4, then STOP.
 
 ## Root Project Mode (Steps 1-1 → 1-4)
@@ -22,6 +23,13 @@ rm -rf ./projects/shipit-test
 
 Root mode results and failures must be written to the framework file:
 - `tests/ISSUES.md` (in the root ShipIt project)
+
+### Guardrails
+
+Before starting, verify the file exists:
+- `tests/fixtures.json`
+
+If missing, STOP and log a **blocking** failure.
 
 ### Execute Steps
 
@@ -98,6 +106,8 @@ If a step fails with `blocking` severity, STOP testing immediately. Do not conti
 - Scripts fail to execute
 - Core generation commands produce no output
 
+When stopping early, mark all remaining steps as `⏭️ SKIP` with reason: `Blocked by step X-Y`.
+
 ### On Completion
 
 Output summary:
@@ -118,8 +128,8 @@ Output summary:
 
 After each test run, update `tests/ISSUES.md`:
 
-1. **Update "Latest Run" section** with new timestamp and summary
-2. **Update "Summary" table** with all step results
+1. **Append a new Run block** under `## Test Runs` (do not overwrite prior runs)
+2. **Update the Run's Summary table** with all step results
 3. **Add new issues** to "Active Issues" section
 4. **Update existing issues** if they reoccur or are resolved
 5. **Move resolved issues** to "Resolved Issues" section
