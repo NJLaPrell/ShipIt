@@ -52,10 +52,16 @@ for intent_file in "$INTENT_DIR"/*.md; do
     [ -n "$STATUS" ] || STATUS="planned"
 
     # Extract dependencies (lines between header and next header)
+    # Skip "None", "(none)", placeholder text in brackets, and empty lines
     DEPENDENCIES=$(awk '
         $0 ~ /^## Dependencies/ {found=1; next}
         found && $0 ~ /^## / {exit}
-        found && $0 ~ /^- / {line=$0; sub(/^- /,"",line); gsub(/^[[:space:]]+|[[:space:]]+$/, "", line); if (line != "" && line != "(none)") print line}
+        found && $0 ~ /^- / {
+            line=$0; sub(/^- /,"",line); gsub(/^[[:space:]]+|[[:space:]]+$/, "", line)
+            # Skip empty, "(none)", lines starting with "None", or placeholder brackets
+            if (line == "" || line == "(none)" || tolower(line) ~ /^none/ || line ~ /^\[.*\]$/) next
+            print line
+        }
     ' "$intent_file")
     
     # Simple categorization (can be enhanced)
@@ -76,7 +82,11 @@ done
 generate_roadmap_file() {
     local file="$1"
     local title="$2"
-    local intents=("${@:3}")
+    shift 2
+    local intents=()
+    if [ $# -gt 0 ]; then
+        intents=("$@")
+    fi
     
     cat > "$file" << EOF || error_exit "Failed to create $file"
 # $title
@@ -105,9 +115,10 @@ EOF
     echo "(Dependencies will be shown here)" >> "$file"
 }
 
-generate_roadmap_file "$ROADMAP_DIR/now.md" "Now (Current Sprint)" "${NOW_INTENTS[@]}"
-generate_roadmap_file "$ROADMAP_DIR/next.md" "Next (Upcoming)" "${NEXT_INTENTS[@]}"
-generate_roadmap_file "$ROADMAP_DIR/later.md" "Later (Backlog)" "${LATER_INTENTS[@]}"
+# Handle empty arrays safely (macOS bash + set -u workaround)
+generate_roadmap_file "$ROADMAP_DIR/now.md" "Now (Current Sprint)" ${NOW_INTENTS[@]+"${NOW_INTENTS[@]}"}
+generate_roadmap_file "$ROADMAP_DIR/next.md" "Next (Upcoming)" ${NEXT_INTENTS[@]+"${NEXT_INTENTS[@]}"}
+generate_roadmap_file "$ROADMAP_DIR/later.md" "Later (Backlog)" ${LATER_INTENTS[@]+"${LATER_INTENTS[@]}"}
 
 echo -e "${GREEN}✓ Generated roadmap files${NC}"
 

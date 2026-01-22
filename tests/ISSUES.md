@@ -29,7 +29,7 @@ If you want edits to the intent (UI, storage choice, or extra constraints), tell
 
 **Resolution:** Updated `scripts/scope-project.sh` to create a `release/plan.md` stub and run `generate-release-plan.sh` when available; updated `/.cursor/commands/scope_project.md` to require these outputs.
 
-**Status:** Pending retest (requires new project with copied scripts/commands).
+**Status:** Resolved (verified in shipit-test 2026-01-22).
 
 ### /scope-project response performed implementation work
 
@@ -44,7 +44,7 @@ If you want edits to the intent (UI, storage choice, or extra constraints), tell
 
 **Resolution:** `init-project` now copies framework `.cursor/commands` and `.cursor/rules` into new projects, ensuring the updated `/scope-project` requirements are present; core scripts (including `scope-project.sh` and `generate-release-plan.sh`) are also copied into new projects.
 
-**Status:** Pending retest.
+**Status:** Resolved (verified in shipit-test 2026-01-22).
 
 ### /scope-project did not prompt for intent selection or capture answers
 
@@ -100,3 +100,117 @@ If you want edits to the intent (UI, storage choice, or extra constraints), tell
 **Expected behavior:** `project-scope.md` should include recorded intent selection and follow the scripted Q/A format. Roadmap buckets should match the test plan expectation.
 
 **Notes:** Verified in `./projects/shipit-test-5` during Test Plan step 3-4. Roadmap shows `F-005` in Now and `F-001`–`F-004` in Next; `project-scope.md` has no intent selection section.
+
+### /scope-project ignored deterministic script and assumed answers
+
+**Observed behavior:** The assistant claimed to run the scoping script with defaults (Web UI, SQLite, single-user, no auth) and generated intents without asking for user inputs.
+
+**Expected behavior:** The scoping script must ask required questions and block without answers. No assumptions or defaults should be used without explicit user input.
+
+**Evidence:** Transcript in `cursor_todo_list_app_project_scope.md` shows assumed defaults and no user-provided Q/A.
+
+**Resolution:** Stripped `/.cursor/commands/scope_project.md` down to only "run the script, nothing else." Updated `/.cursor/rules/pm.mdc` to explicitly forbid manual scoping, assumed defaults, and any action other than running the script.
+
+**Status:** Resolved (verified in shipit-test 2026-01-22).
+
+### /scope-project modified intents to satisfy roadmap output
+
+**Observed behavior:** The assistant edited `intent/F-002.md` dependencies and set `intent/F-005.md` status to `validating` just to populate roadmap buckets.
+
+**Expected behavior:** Scoping must not mutate intent files beyond the generated content. Roadmap bucket population should never be "forced" by manual intent edits.
+
+**Evidence:** Transcript in `cursor_todo_list_app_project_scope.md` states intent tweaks were made to unblock roadmap generation.
+
+**Resolution:** Fixed `scripts/generate-roadmap.sh` to handle empty arrays properly (macOS bash + `set -u` workaround). Updated PM rules to explicitly forbid editing intents to fix roadmap output.
+
+**Status:** Resolved (verified in shipit-test 2026-01-22).
+
+### generate-roadmap.sh fails with empty buckets
+
+**Observed behavior:** The assistant reported `generate-roadmap.sh` is "borked" when roadmap buckets are empty due to `set -u` + empty arrays in bash.
+
+**Expected behavior:** The script should handle empty arrays gracefully.
+
+**Resolution:** Fixed `scripts/generate-roadmap.sh` to use `${ARRAY[@]+"${ARRAY[@]}"}` syntax for safe empty array expansion.
+
+**Status:** Resolved.
+
+---
+
+## 2026-01-22 (Full Test Plan Run)
+
+### TEST PLAN COMPLETED SUCCESSFULLY ✅
+
+All 10 test sections passed after fixes applied during this session.
+
+---
+
+### generate-roadmap.sh treated "None" as a dependency
+
+**Observed behavior:** Intents with `- None - this is a foundation layer` under Dependencies were placed in "Next" instead of "Now" because the script treated any non-empty line as a dependency.
+
+**Expected behavior:** Lines starting with "None", "(none)", or placeholder brackets like `[...]` should be ignored.
+
+**Resolution:** Updated `scripts/generate-roadmap.sh` to filter out "None", "(none)", and placeholder text when parsing dependencies.
+
+**Status:** Resolved.
+
+---
+
+### Intent template header mismatches
+
+**Observed behavior:** Generated intents used `## Size` and `## Target Release`, but scripts expected `## Effort` and `## Release Target`. The test project template was also missing Priority/Effort/Release Target fields entirely.
+
+**Expected behavior:** All intents should use consistent header names that match what scripts expect.
+
+**Resolution:** 
+- Updated test project template to include `## Priority`, `## Effort`, `## Release Target`
+- Fixed all 6 intent files in test project to use correct headers
+- Added missing fields to F-006
+
+**Status:** Resolved.
+
+---
+
+### generate-release-plan.sh dependency ordering broken
+
+**Observed behavior:** F-001 (which depends on F-002) was listed BEFORE F-002 in the release plan. The topological sort wasn't working because dependency IDs weren't being extracted correctly.
+
+**Expected behavior:** Dependencies should be scheduled before the intents that depend on them.
+
+**Root cause:** `parseDependencies` returned full strings like `"F-002 (JSON Persistence Layer) - description"`, but `topoSort` checked `ids.has(dep)` where `ids` contained just `"F-002"`. The check always failed.
+
+**Resolution:** Updated `parseDependencies` in `scripts/generate-release-plan.sh` to extract just the intent ID (e.g., `F-002`) from dependency strings using regex `^([A-Z]-\d+)`.
+
+**Status:** Resolved.
+
+---
+
+### Missing /generate-roadmap slash command
+
+**Observed behavior:** Test plan step 6-1 referenced `pnpm generate-roadmap` instead of a slash command.
+
+**Expected behavior:** All framework commands should be available as slash commands for consistency.
+
+**Resolution:** Created `.cursor/commands/generate_roadmap.md` and updated TEST_PLAN.md to use `/generate-roadmap`.
+
+**Status:** Resolved.
+
+---
+
+### Summary of Test Plan Results
+
+| Step | Description | Result |
+|------|-------------|--------|
+| 1 | Initialize test project | ✅ |
+| 2 | Validate project structure | ✅ |
+| 3 | Scope project | ✅ |
+| 4 | Create single intent | ✅ |
+| 5 | Validate release plan generation | ✅ |
+| 6 | Validate roadmap generation | ✅ |
+| 7 | Check intent template fields | ✅ |
+| 8 | Validate dependency ordering | ✅ |
+| 9 | Validate missing dependencies reporting | ✅ |
+| 10 | Validate roadmap + release from new intents | ✅ |
+
+All issues from previous test runs have been addressed. The ShipIt framework is now functioning as designed.

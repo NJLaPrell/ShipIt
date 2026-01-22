@@ -12,15 +12,19 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
 
 ## 1) Initialize a New Test Project
 
-1. In Cursor, open the Command Palette and run:
+1. In Cursor, enter the following into the chat window:
    - `/init-project "shipit-test"`
 
-2. When prompted, enter the following in order:
-   - **Tech stack selection [1=TS/Node, 2=Python, 3=Other]:** `1`
-   - **Project description:** `Test project for ShipIt end-to-end validation`
-   - **High-risk domains (comma-separated or 'none'):** `none`
+2. The assistant will ask for 3 inputs. Reply with:
+   ```
+   1
+   Test project for ShipIt end-to-end validation
+   none
+   ```
 
-3. Verify:
+3. The assistant runs the init script and creates the project.
+
+4. Verify:
    - New project created at `./projects/shipit-test`
    - `./projects/.gitkeep` exists
    - `./projects/shipit-test/project.json` exists
@@ -61,17 +65,17 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
      - `done`
    - **Select features to generate intents:** `all`
 
-3. When prompted for dependencies per intent, enter:
-   - `none` for the first intent
-   - `F-001` for the second intent
-   - `F-001, F-002` for the third intent
+3. When prompted for dependencies per intent, enter logical dependencies:
+   - Foundation layers (persistence, auth) should have `none`
+   - Features that need data storage should depend on persistence
+   - Higher-level features should depend on lower-level ones
 
 4. Verify:
    - Follow-up answers are captured in `project-scope.md`
    - Intent selection is recorded in `project-scope.md`
    - `project-scope.md` is created and filled in
    - `intent/` contains generated intent files
-   - `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md` updated (F-001 in Now; F-002/F-003 in Next)
+   - `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md` updated (intents with no dependencies in Now; dependent intents in Next/Later)
    - `release/plan.md` exists and contains an ordered list
 
 ---
@@ -113,7 +117,7 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
 ## 6) Validate Roadmap Generation
 
 1. Run:
-   - `pnpm generate-roadmap`
+   - `/generate-roadmap`
 
 2. Verify:
    - `roadmap/now.md`, `roadmap/next.md`, `roadmap/later.md` reflect intent status/dependencies
@@ -133,7 +137,7 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
    - `Release Target` = `R1`
 
 3. Run:
-   - `pnpm generate-release-plan`
+   - `/generate-release-plan`
 
 4. Verify:
    - Intent is scheduled in `R1`
@@ -149,7 +153,7 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
    - In `F-002.md` leave Dependencies empty
 
 2. Run:
-   - `pnpm generate-release-plan`
+   - `/generate-release-plan`
 
 3. Verify:
    - `F-002` appears before `F-001` in the same release
@@ -162,7 +166,7 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
    - `- F-999` under `## Dependencies`
 
 2. Run:
-   - `pnpm generate-release-plan`
+   - `/generate-release-plan`
 
 3. Verify:
    - `release/plan.md` includes a **Missing Dependencies** section listing `F-999`

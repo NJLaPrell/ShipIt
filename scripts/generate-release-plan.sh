@@ -67,7 +67,17 @@ const parseDependencies = (lines) => {
     if (!line) continue;
     if (line.startsWith('## ')) break;
     if (line.startsWith('- ')) {
-      deps.push(line.replace(/^- /, '').trim());
+      const depLine = line.replace(/^- /, '').trim();
+      // Extract just the intent ID (e.g., "F-002" from "F-002 (description)")
+      // Skip lines starting with "None", placeholders like "[...]", or "(none)"
+      if (!depLine || depLine.toLowerCase().startsWith('none') || depLine.startsWith('[') || depLine === '(none)') {
+        continue;
+      }
+      // Extract ID: first word that looks like F-XXX, B-XXX, T-XXX, etc.
+      const idMatch = depLine.match(/^([A-Z]-\d+)/i);
+      if (idMatch) {
+        deps.push(idMatch[1].toUpperCase());
+      }
     }
   }
   return deps.filter(Boolean);

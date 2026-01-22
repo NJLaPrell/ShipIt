@@ -8,87 +8,56 @@ Initialize a new project with ShipIt framework.
 /init-project [project-name]
 ```
 
-Example: `/init-project "My Awesome App"`
+Example: `/init-project "my-app"`
 
-Prompts you will answer (in order):
-1. Tech stack [1=TS/Node, 2=Python, 3=Other]
-2. Project description (short)
-3. High-risk domains (comma-separated or 'none')
+## What To Do (AI Instructions)
 
-## What It Does
+**Step 1: Ask these questions in chat (all at once):**
 
-This command initializes a new project with the ShipIt framework:
+```
+To initialize your project, I need:
 
-1. **Project Setup:**
-   - Creates project structure under `./projects/<project-name>`
-   - Generates `project.json` metadata
-   - Sets up directory structure
-   - Copies framework commands, rules, and core scripts
-   - Initializes git repository (if needed)
+1. **Tech stack** — Enter 1, 2, or 3:
+   - 1 = TypeScript/Node.js (recommended)
+   - 2 = Python
+   - 3 = Other (manual setup)
 
-2. **Tech Stack Selection:**
-   - Interactive prompts for tech stack
-   - Generates appropriate config files
-   - Sets up dependencies
+2. **Project description** — A short description of your project
 
-3. **Framework Integration:**
-   - Creates ShipIt directory structure
-   - Generates initial architecture canon
-   - Sets up CI/CD pipeline
-   - Creates initial README
+3. **High-risk domains** — Comma-separated list, or "none"
+   - Examples: auth, payments, permissions, infrastructure, pii
+```
 
-4. **Configuration:**
-   - Project metadata in `project.json`
-   - Initial invariants
-   - Project settings
+**Step 2: Wait for user response.**
 
-## Process
+Do NOT proceed until the user provides all 3 answers.
 
-**Switch to Architect role** (read `.cursor/rules/architect.mdc`):
+**Step 3: Run the script with the answers:**
 
-1. **Gather Project Information:**
-   - Project name
-   - Description
-   - Tech stack (TypeScript/Node.js, Python, etc.)
-   - High-risk domains
-   - Initial requirements
+```bash
+printf "<tech-stack>\n<description>\n<high-risk>\n" | ./scripts/init-project.sh <project-name>
+```
 
-2. **Generate Project Structure:**
-   - Create all required directories
-   - Generate config files
-   - Set up framework structure
-
-3. **Create Initial Files:**
-   - `project.json` - Project metadata
-   - `README.md` - Project overview
-   - `architecture/CANON.md` - Architecture boundaries
-   - `architecture/invariants.yml` - Initial constraints
-   - CI/CD configuration
-
-4. **Initialize Git:**
-   - Create `.gitignore`
-   - Initialize repository if needed
-   - Create initial commit
+Replace:
+- `<tech-stack>` with 1, 2, or 3
+- `<description>` with the user's description
+- `<high-risk>` with the user's high-risk domains (or "none")
+- `<project-name>` with the project name from the command
 
 ## Output
 
-Creates:
-- Complete project structure
-- `project.json` with metadata
-- Initial configuration files
-- Framework integration
-- Git repository (if needed)
+Creates project at `./projects/<project-name>` with:
+- `project.json` — Project metadata
+- `intent/` — Intent directory with template
+- `roadmap/` — Roadmap files
+- `architecture/` — CANON.md and invariants.yml
+- `.cursor/` — Commands and rules (copied from framework)
+- `scripts/` — Core scripts (copied from framework)
+- Git repository initialized
 
 ## Next Steps
 
 After initialization:
-1. Run `/scope-project` to break down into features
-2. Review generated `project.json`
-3. Customize `architecture/CANON.md` as needed
-4. Start creating intents with `/new_intent`
-
-## See Also
-
-- `scripts/init-project.sh` - The underlying script
-- `project.json` - Project metadata schema
-- `/scope-project` - Next step after initialization
+1. Open `./projects/<project-name>` as its own Cursor workspace
+2. Run `/scope-project` to break down features
+3. Start shipping with `/ship`
