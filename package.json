@@ -23,6 +23,7 @@
     "generate-docs": "./scripts/generate-docs.sh",
     "agent-coordinator": "./scripts/agent-coordinator.sh",
     "workflow-orchestrator": "./scripts/workflow-orchestrator.sh",
+    "kill-intent": "./scripts/kill-intent.sh",
     "generate-context": "./scripts/generate-project-context.sh",
     "generate-dashboard": "./scripts/generate-dashboard.sh",
     "validate-cursor": "./scripts/validate-cursor.sh",

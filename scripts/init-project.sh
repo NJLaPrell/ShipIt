@@ -107,7 +107,7 @@ if [ -f "$ROOT_DIR/stryker.conf.json" ]; then
     cp "$ROOT_DIR/stryker.conf.json" "stryker.conf.json"
 fi
 
-for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh deploy.sh check-readiness.sh; do
+for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh; do
     if [ -f "$ROOT_DIR/scripts/$script" ]; then
         cp "$ROOT_DIR/scripts/$script" "scripts/$script"
         chmod +x "scripts/$script"
@@ -448,7 +448,16 @@ if [ "$TECH_STACK" = "typescript-nodejs" ]; then
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "new-intent": "./scripts/new-intent.sh",
+    "scope-project": "./scripts/scope-project.sh",
+    "generate-roadmap": "./scripts/generate-roadmap.sh",
+    "generate-release-plan": "./scripts/generate-release-plan.sh",
+    "drift-check": "./scripts/drift-check.sh",
+    "deploy": "./scripts/deploy.sh",
+    "check-readiness": "./scripts/check-readiness.sh",
+    "workflow-orchestrator": "./scripts/workflow-orchestrator.sh",
+    "kill-intent": "./scripts/kill-intent.sh"
   },
   "keywords": [],
   "author": "",
@@ -505,7 +514,9 @@ EOF
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2022,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": ["./tsconfig.eslint.json"],
+    "tsconfigRootDir": "."
   },
   "extends": [
     "eslint:recommended",
@@ -519,7 +530,34 @@ EOF
     "no-eval": "error",
     "no-console": ["error", { "allow": ["warn", "error"] }]
   },
+  "overrides": [
+    {
+      "files": ["scripts/**/*.ts", "tests/**/*.ts", "**/*.config.ts"],
+      "rules": {
+        "no-console": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-unsafe-argument": "off"
+      }
+    }
+  ],
   "ignorePatterns": ["dist", "node_modules", "*.config.js"]
+}
+EOF
+
+    # Create tsconfig.eslint.json
+    cat > tsconfig.eslint.json << EOF || error_exit "Failed to create tsconfig.eslint.json"
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "scripts/**/*.ts",
+    "*.config.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
 }
 EOF
 
@@ -554,7 +592,8 @@ EOF
 // $PROJECT_NAME
 // $PROJECT_DESC
 
-console.log('Hello from $PROJECT_NAME!');
+export const projectName = '$PROJECT_NAME';
+export const projectDescription = '$PROJECT_DESC';
 EOF
 
     echo -e "${GREEN}✓ Created TypeScript/Node.js configuration${NC}"

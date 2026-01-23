@@ -39,8 +39,18 @@ case $type_choice in
     *) error_exit "Invalid choice" 1 ;;
 esac
 
-# Get next intent number
-LAST_INTENT=$(ls -1 "$INTENT_DIR"/*.md 2>/dev/null | grep -E "^-?[FBT]-[0-9]+\.md$" | sed 's/.*\([FBT]-\([0-9]*\)\)\.md/\2/' | sort -n | tail -1 || echo "0")
+# Get next intent number without overwriting existing files
+LAST_INTENT=0
+for file in "$INTENT_DIR"/[FBT]-*.md; do
+    [ -e "$file" ] || continue
+    base="$(basename "$file")"
+    if [[ "$base" =~ ^[FBT]-([0-9]+)\.md$ ]]; then
+        num="${BASH_REMATCH[1]}"
+        if ((10#$num > LAST_INTENT)); then
+            LAST_INTENT=$((10#$num))
+        fi
+    fi
+done
 NEXT_NUM=$((LAST_INTENT + 1))
 INTENT_ID="${PREFIX}-$(printf "%03d" $NEXT_NUM)"
 
@@ -74,20 +84,35 @@ esac
 
 # Create intent file
 INTENT_FILE="$INTENT_DIR/$INTENT_ID.md"
+if [ -e "$INTENT_FILE" ]; then
+    error_exit "Intent file already exists: $INTENT_FILE" 1
+fi
 
-# Read template and replace placeholders
+# Read template and replace placeholders (portable across BSD/GNU sed)
+TEMP_FILE="$(mktemp)"
+MOTIVATION_FILE="$(mktemp)"
+
 sed -e "s/# F-###: Title/# $INTENT_ID: $TITLE/" \
     -e "s/feature | bug | tech-debt/$INTENT_TYPE/" \
     -e "s/planned | active | blocked | validating | shipped | killed/planned/" \
     -e "s/p0 | p1 | p2 | p3/p2/" \
     -e "s/s | m | l/m/" \
     -e "s/R1 | R2 | R3 | R4/R2/" \
-    -e "/## Motivation/,/^$/c\\
-## Motivation\\
-$(echo -e "$MOTIVATION" | sed 's/^/  /')
-" \
     -e "s/low | medium | high/$RISK_LEVEL/" \
-    "$TEMPLATE_FILE" > "$INTENT_FILE" || error_exit "Failed to create intent file"
+    "$TEMPLATE_FILE" > "$TEMP_FILE" || error_exit "Failed to create intent template"
+
+printf "%b" "$MOTIVATION" | sed 's/^/  /' > "$MOTIVATION_FILE"
+
+awk -v motivation_file="$MOTIVATION_FILE" '
+    $0 == "(Why it exists, 1–3 bullets)" {
+        while ((getline line < motivation_file) > 0) print line;
+        close(motivation_file);
+        next;
+    }
+    { print }
+' "$TEMP_FILE" > "$INTENT_FILE" || error_exit "Failed to create intent file"
+
+rm -f "$TEMP_FILE" "$MOTIVATION_FILE"
 
 echo -e "${GREEN}✓ Created intent: $INTENT_FILE${NC}"
 

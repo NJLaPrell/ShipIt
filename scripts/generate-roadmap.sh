@@ -56,8 +56,8 @@ for intent_file in "$INTENT_DIR"/*.md; do
     DEPENDENCIES=$(awk '
         $0 ~ /^## Dependencies/ {found=1; next}
         found && $0 ~ /^## / {exit}
-        found && $0 ~ /^- / {
-            line=$0; sub(/^- /,"",line); gsub(/^[[:space:]]+|[[:space:]]+$/, "", line)
+        found && $0 ~ /^[[:space:]]*- / {
+            line=$0; sub(/^[[:space:]]*-[[:space:]]*/,"",line); gsub(/^[[:space:]]+|[[:space:]]+$/, "", line)
             # Skip empty, "(none)", lines starting with "None", or placeholder brackets
             if (line == "" || line == "(none)" || tolower(line) ~ /^none/ || line ~ /^\[.*\]$/) next
             print line
@@ -143,7 +143,7 @@ for intent_file in "$INTENT_DIR"/*.md; do
     DEPENDENCIES=$(awk '
         $0 ~ /^## Dependencies/ {found=1; next}
         found && $0 ~ /^## / {exit}
-        found && $0 ~ /^- / {line=$0; sub(/^- /,"",line); gsub(/^[[:space:]]+|[[:space:]]+$/, "", line); if (line != "" && line != "(none)") print line}
+        found && $0 ~ /^[[:space:]]*- / {line=$0; sub(/^[[:space:]]*-[[:space:]]*/,"",line); gsub(/^[[:space:]]+|[[:space:]]+$/, "", line); if (line != "" && line != "(none)") print line}
     ' "$intent_file")
     
     echo "### $INTENT_ID: $TITLE" >> "$DEPENDENCY_FILE"

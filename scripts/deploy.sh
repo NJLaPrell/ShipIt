@@ -1,31 +1,6 @@
 #!/bin/bash
 
 # Deployment Script
-# Runs readiness checks and prepares deployment steps
-
-set -euo pipefail
-
-error_exit() {
-    echo "ERROR: $1" >&2
-    exit "${2:-1}"
-}
-
-ENVIRONMENT="${1:-}"
-if [ -z "$ENVIRONMENT" ]; then
-    error_exit "Usage: ./scripts/deploy.sh <environment>" 1
-fi
-
-if [ ! -x "./scripts/check-readiness.sh" ]; then
-    error_exit "Missing readiness script: scripts/check-readiness.sh" 1
-fi
-
-echo "Running readiness checks for environment: $ENVIRONMENT"
-./scripts/check-readiness.sh "$ENVIRONMENT"
-
-echo "Readiness checks complete. Deployment is not executed by this script."
-#!/bin/bash
-
-# Deployment Script
 # Handles deployment to various platforms
 
 set -euo pipefail
@@ -56,7 +31,7 @@ fi
 # Run readiness checks
 echo -e "${YELLOW}Running readiness checks...${NC}"
 if [ -f "scripts/check-readiness.sh" ]; then
-    if ! ./scripts/check-readiness.sh; then
+    if ! ./scripts/check-readiness.sh "$ENVIRONMENT"; then
         error_exit "Readiness checks failed. Fix issues before deploying." 1
     fi
 else

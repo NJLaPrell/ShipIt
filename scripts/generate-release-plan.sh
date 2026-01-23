@@ -57,6 +57,28 @@ const parseSectionValue = (lines, header) => {
   return '';
 };
 
+const normalizeReleaseTarget = (value) => {
+  const match = String(value).match(/R\d+/i);
+  return match ? match[0].toUpperCase() : '';
+};
+
+const parseReleaseTarget = (lines) => {
+  const headerLine = '## Release Target';
+  const idx = lines.findIndex((line) => line.trim() === headerLine);
+  if (idx === -1) return '';
+  for (let i = idx + 1; i < lines.length; i++) {
+    const raw = lines[i].trim();
+    if (!raw) continue;
+    if (raw.startsWith('## ')) break;
+    const line = raw.replace(/^[-*]\s*/, '');
+    // Skip template option lines like "R1 | R2 | R3 | R4"
+    if (/\bR1\b\s*\|\s*\bR2\b/i.test(line)) continue;
+    const normalized = normalizeReleaseTarget(line);
+    if (normalized) return normalized;
+  }
+  return '';
+};
+
 const parseDependencies = (lines) => {
   const headerLine = '## Dependencies';
   const idx = lines.findIndex((line) => line.trim() === headerLine);
@@ -94,7 +116,9 @@ const intents = intentFiles.map((file) => {
   const status = (parseSectionValue(lines, 'Status') || 'planned').toLowerCase();
   const priority = (parseSectionValue(lines, 'Priority') || 'p2').toLowerCase();
   const effort = (parseSectionValue(lines, 'Effort') || 'm').toLowerCase();
-  const releaseTarget = parseSectionValue(lines, 'Release Target') || '';
+  const releaseTarget =
+    parseReleaseTarget(lines) ||
+    normalizeReleaseTarget(lines.find((line) => /release target:/i.test(line)) || '');
   const dependencies = parseDependencies(lines);
 
   return {
@@ -223,7 +247,8 @@ const topoSort = (items) => {
   return { ordered, remaining };
 };
 
-const releaseOrder = Array.from(releaseBuckets.keys())
+const baseReleases = ['R1', 'R2', 'R3', 'R4'];
+const releaseOrder = Array.from(new Set([...baseReleases, ...releaseBuckets.keys()]))
   .sort((a, b) => releaseIndex(a) - releaseIndex(b));
 
 const now = new Date().toISOString();

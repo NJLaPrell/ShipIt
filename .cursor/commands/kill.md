@@ -30,6 +30,13 @@ Example: `/kill F-042 "Cannot satisfy latency invariant"`
    - Marks `workflow-state/active.md` as killed
    - Archives state files
 
+## Script
+
+Run:
+```bash
+./scripts/kill-intent.sh <intent-id> [reason]
+```
+
 ## Kill Criteria
 
 An intent is killed when ANY of these trigger:

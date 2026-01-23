@@ -78,19 +78,19 @@ Use the `/ship` command and follow each phase:
 4. **Phase 4: Implementation (Implementer Role)**
    - Implement exactly as planned
    - Make tests pass
-   - Fill in `workflow-state/04_implementation.md`
+   - Fill in `workflow-state/03_implementation.md`
 
 5. **Phase 5: Verification (QA + Security Roles)**
    - Run all tests
    - Run mutation tests
    - Security review
-   - Fill in `workflow-state/05_verification.md`
+   - Fill in `workflow-state/04_verification.md`
 
 6. **Phase 6: Release (Docs + Steward Roles)**
    - Update documentation
    - Write release notes
    - Final approval
-   - Fill in `workflow-state/06_release.md`
+   - Fill in `workflow-state/05_release_notes.md`
 
 ### Step 3: Document Issues
 

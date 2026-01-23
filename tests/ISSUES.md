@@ -34,6 +34,1083 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 | 2-2 | Validate project structure | ⏭️ SKIP | - | Blocked by step 1-4 |
 ```
 
+### Run: 2026-01-23T20:43:51Z (test-project)
+
+**Steps Executed:** 10  
+**Steps Passed:** 8  
+**Steps Failed:** 2  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 14-1 | Run /deploy staging | ✅ PASS | - | Manual deploy mode, readiness checks pass |
+| 14-2 | Switch to Steward role | ✅ PASS | - | |
+| 14-3 | Execute readiness checks | ✅ PASS | - | |
+| 14-4 | No real deployment | ✅ PASS | - | |
+| 14-5 | Record missing scripts | ✅ PASS | - | |
+| 15-1 | Create disposable intent | ✅ PASS | - | Created `F-006` |
+| 15-2 | Run /kill F-XXX | ❌ FAIL | medium | Script logs sed error while killing intent |
+| 15-3 | Verify status = killed | ✅ PASS | - | |
+| 15-4 | Verify kill rationale recorded | ✅ PASS | - | |
+| 15-5 | Verify active.md updated | ❌ FAIL | blocking | `workflow-state/active.md` still shows F-001 active |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 15-5 |
+
+#### Issues Found This Run
+
+- **ISSUE-025:** kill-intent script logs sed error (medium)
+- **ISSUE-026:** kill flow does not update active.md (blocking)
+
+### Run: 2026-01-23T20:34:55Z (test-project)
+
+**Steps Executed:** 7  
+**Steps Passed:** 5  
+**Steps Failed:** 2  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 14-1 | Run /deploy staging | ✅ PASS | - | Manual deploy mode, readiness checks pass |
+| 14-2 | Switch to Steward role | ✅ PASS | - | |
+| 14-3 | Execute readiness checks | ✅ PASS | - | |
+| 14-4 | No real deployment | ✅ PASS | - | |
+| 14-5 | Record missing scripts | ✅ PASS | - | |
+| 15-1 | Create disposable intent | ✅ PASS | - | Created `F-006` |
+| 15-2 | Run /kill F-XXX | ❌ FAIL | blocking | `scripts/kill-intent.sh` missing |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 15-2 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 15-2 |
+
+#### Issues Found This Run
+
+- **ISSUE-024:** kill-intent script missing (blocking)
+
+### Run: 2026-01-23T20:05:36Z (test-project)
+
+**Steps Executed:** 1  
+**Steps Passed:** 0  
+**Steps Failed:** 1  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 14-1 | Run /deploy staging | ❌ FAIL | blocking | deploy.sh calls check-readiness without env |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 14-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-023:** deploy.sh calls check-readiness without env (blocking)
+
+### Run: 2026-01-23T20:02:12Z (test-project)
+
+**Steps Executed:** 1  
+**Steps Passed:** 0  
+**Steps Failed:** 1  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 14-1 | Run /deploy staging | ❌ FAIL | blocking | ESLint no-console in src/index.ts |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 14-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-022:** check-readiness lint fails without parserOptions.project (blocking)
+
+### Run: 2026-01-23T19:58:24Z (test-project)
+
+**Steps Executed:** 1  
+**Steps Passed:** 0  
+**Steps Failed:** 1  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 14-1 | Run /deploy staging | ❌ FAIL | blocking | ESLint no-console + unsafe-any errors |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 14-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-022:** check-readiness lint fails without parserOptions.project (blocking)
+
+### Run: 2026-01-23T19:54:19Z (test-project)
+
+**Steps Executed:** 1  
+**Steps Passed:** 0  
+**Steps Failed:** 1  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 14-1 | Run /deploy staging | ❌ FAIL | blocking | ESLint errors (no-console + tsconfig includes) |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 14-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-022:** check-readiness lint fails without parserOptions.project (blocking)
+
+### Run: 2026-01-23T19:42:48Z (test-project)
+
+**Steps Executed:** 12  
+**Steps Passed:** 6  
+**Steps Failed:** 6  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 12-1 | Run /verify F-001 | ❌ FAIL | medium | Mutation tests failed: vitest runner missing |
+| 12-2 | Switch to QA role | ✅ PASS | - | |
+| 12-3 | Switch to Security role | ❌ FAIL | low | pnpm audit reports 1 moderate + 1 low |
+| 12-4 | Verify 04_verification.md created | ❌ FAIL | medium | workflow-state/04_verification.md missing |
+| 12-5 | Record missing tooling | ✅ PASS | - | Logged mutation tooling issue |
+| 13-1 | Run /drift_check | ✅ PASS | - | |
+| 13-2 | Verify drift/metrics.md created | ✅ PASS | - | |
+| 13-3 | Record missing tooling | ✅ PASS | - | |
+| 14-1 | Run /deploy staging | ❌ FAIL | blocking | check-readiness lint error (parserOptions.project missing) |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 14-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 14-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-019:** Stryker Vitest runner plugin missing (medium)
+- **ISSUE-020:** workflow-state/04_verification.md not created (medium)
+- **ISSUE-021:** pnpm audit reports vulnerabilities (low)
+- **ISSUE-022:** check-readiness lint fails without parserOptions.project (blocking)
+
+### Run: 2026-01-23T19:39:56Z (test-project)
+
+**Steps Executed:** 5  
+**Steps Passed:** 4  
+**Steps Failed:** 1  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 11-1 | Run /ship F-001 | ✅ PASS | - | workflow-orchestrator created state files |
+| 11-2 | Verify 01_analysis.md created | ✅ PASS | - | |
+| 11-3 | Verify 02_plan.md created | ✅ PASS | - | |
+| 11-4 | Verify plan gate stops for approval | ✅ PASS | - | Approval checklist present |
+| 12-1 | Run /verify F-001 | ❌ FAIL | blocking | `vitest` not found (node_modules missing) |
+| 12-2 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 12-3 | Switch to Security role | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 12-4 | Verify 04_verification.md created | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 12-5 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 13-1 | Run /drift_check | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 13-2 | Verify drift/metrics.md created | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 13-3 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 14-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 12-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 12-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-018:** vitest not installed / node_modules missing (blocking)
+
+### Run: 2026-01-23T19:34:48Z (test-project)
+
+**Steps Executed:** 1  
+**Steps Passed:** 0  
+**Steps Failed:** 1  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 11-1 | Run /ship F-001 | ❌ FAIL | blocking | `scripts/workflow-orchestrator.sh` missing |
+| 11-2 | Verify 01_analysis.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 11-3 | Verify 02_plan.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 11-4 | Verify plan gate stops for approval | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-1 | Run /verify F-001 | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-2 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-3 | Switch to Security role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-4 | Verify 04_verification.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-5 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-1 | Run /drift_check | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-2 | Verify drift/metrics.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-3 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 11-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-016:** workflow-orchestrator command missing (blocking)
+
+### Run: 2026-01-23T19:24:25Z (test-project)
+
+**Steps Executed:** 1  
+**Steps Passed:** 0  
+**Steps Failed:** 1  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 11-1 | Run /ship F-001 | ❌ FAIL | blocking | `scripts/workflow-orchestrator.sh` missing |
+| 11-2 | Verify 01_analysis.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 11-3 | Verify 02_plan.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 11-4 | Verify plan gate stops for approval | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-1 | Run /verify F-001 | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-2 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-3 | Switch to Security role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-4 | Verify 04_verification.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-5 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-1 | Run /drift_check | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-2 | Verify drift/metrics.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-3 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 11-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-016:** workflow-orchestrator command missing (blocking)
+
+### Run: 2026-01-23T19:18:14Z (test-project)
+
+**Steps Executed:** 18  
+**Steps Passed:** 16  
+**Steps Failed:** 2  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 2-2 | Validate project structure | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 3-1 | Run scope-project | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 3-2 | Answer follow-ups | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 3-3 | Verify intent files | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 3-4 | Verify outputs | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 4-1 | Create single intent | ✅ PASS | - | Created `F-004` |
+| 5-1 | Run generate-release-plan | ✅ PASS | - | |
+| 5-2 | Verify release plan | ✅ PASS | - | |
+| 6-1 | Run generate-roadmap | ✅ PASS | - | |
+| 6-2 | Verify roadmap | ✅ PASS | - | |
+| 7-1 | Check template fields | ✅ PASS | - | |
+| 7-2 | Update intent fields | ✅ PASS | - | |
+| 7-3 | Regenerate release plan | ✅ PASS | - | |
+| 7-4 | Verify ordering | ❌ FAIL | high | F-001 release target ignored (still in R2) |
+| 8-1 | Edit dependencies | ✅ PASS | - | |
+| 8-2 | Regenerate release plan | ✅ PASS | - | |
+| 8-3 | Verify F-002 before F-001 | ✅ PASS | - | |
+| 9-1 | Add fake dependency | ✅ PASS | - | |
+| 9-2 | Regenerate release plan | ✅ PASS | - | |
+| 9-3 | Verify missing deps section | ✅ PASS | - | |
+| 10-1 | Create new intent | ✅ PASS | - | Created `F-005` |
+| 10-2 | Verify roadmap+release update | ✅ PASS | - | |
+| 11-1 | Run /ship F-001 | ❌ FAIL | blocking | `workflow-orchestrator` command missing |
+| 11-2 | Verify 01_analysis.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 11-3 | Verify 02_plan.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 11-4 | Verify plan gate stops for approval | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-1 | Run /verify F-001 | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-2 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-3 | Switch to Security role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-4 | Verify 04_verification.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-5 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-1 | Run /drift_check | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-2 | Verify drift/metrics.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-3 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 11-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-016:** workflow-orchestrator command missing (blocking)
+- **ISSUE-017:** Release target ignored in release plan (high)
+
+### Run: 2026-01-23T19:01:31Z (test-project)
+
+**Steps Executed:** 18  
+**Steps Passed:** 13  
+**Steps Failed:** 5  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 2-2 | Validate project structure | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 3-1 | Run scope-project | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 3-2 | Answer follow-ups | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 3-3 | Verify intent files | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 3-4 | Verify outputs | ⏭️ SKIP | - | Resumed at step 4-1 |
+| 4-1 | Create single intent | ❌ FAIL | high | new-intent overwrote existing F-001 instead of creating new ID |
+| 5-1 | Run generate-release-plan | ✅ PASS | - | |
+| 5-2 | Verify release plan | ❌ FAIL | medium | Missing expected R1 section in release plan |
+| 6-1 | Run generate-roadmap | ✅ PASS | - | |
+| 6-2 | Verify roadmap | ✅ PASS | - | |
+| 7-1 | Check template fields | ✅ PASS | - | |
+| 7-2 | Update intent fields | ✅ PASS | - | |
+| 7-3 | Regenerate release plan | ✅ PASS | - | |
+| 7-4 | Verify ordering | ✅ PASS | - | |
+| 8-1 | Edit dependencies | ✅ PASS | - | |
+| 8-2 | Regenerate release plan | ✅ PASS | - | |
+| 8-3 | Verify F-002 before F-001 | ✅ PASS | - | |
+| 9-1 | Add fake dependency | ✅ PASS | - | |
+| 9-2 | Regenerate release plan | ✅ PASS | - | |
+| 9-3 | Verify missing deps section | ✅ PASS | - | |
+| 10-1 | Create new intent | ❌ FAIL | high | new-intent overwrote existing F-001 instead of creating new ID |
+| 10-2 | Verify roadmap+release update | ❌ FAIL | high | Roadmap/release not updated with new intent count |
+| 11-1 | Run /ship F-001 | ❌ FAIL | blocking | `workflow-orchestrator` command missing |
+| 11-2 | Verify 01_analysis.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 11-3 | Verify 02_plan.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 11-4 | Verify plan gate stops for approval | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-1 | Run /verify F-001 | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-2 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-3 | Switch to Security role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-4 | Verify 04_verification.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 12-5 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-1 | Run /drift_check | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-2 | Verify drift/metrics.md created | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 13-3 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 11-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 11-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-014:** new-intent overwrites existing intent IDs (high)
+- **ISSUE-015:** Release plan missing R1 section after initial generation (medium)
+- **ISSUE-016:** workflow-orchestrator command missing (blocking)
+
+### Run: 2026-01-23T17:52:00Z (test-project)
+
+**Steps Executed:** 6  
+**Steps Passed:** 4  
+**Steps Failed:** 2  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 2-2 | Validate project structure | ❌ FAIL | high | Missing `.cursor/commands` directory |
+| 3-1 | Run scope-project | ✅ PASS | - | |
+| 3-2 | Answer follow-ups | ✅ PASS | - | |
+| 3-3 | Verify intent files | ✅ PASS | - | |
+| 3-4 | Verify outputs | ✅ PASS | - | |
+| 4-1 | Create single intent | ❌ FAIL | blocking | `scripts/new-intent.sh` failed with sed error |
+| 5-1 | Run generate-release-plan | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 5-2 | Verify release plan | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 6-1 | Run generate-roadmap | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 6-2 | Verify roadmap | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 7-1 | Check template fields | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 7-2 | Update intent fields | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 7-3 | Regenerate release plan | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 7-4 | Verify ordering | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 8-1 | Edit dependencies | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 8-2 | Regenerate release plan | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 8-3 | Verify F-002 before F-001 | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 9-1 | Add fake dependency | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 9-2 | Regenerate release plan | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 9-3 | Verify missing deps section | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 10-1 | Create new intent | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 10-2 | Verify roadmap+release update | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 11-1 | Run /ship F-001 | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 11-2 | Verify 01_analysis.md created | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 11-3 | Verify 02_plan.md created | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 11-4 | Verify plan gate stops for approval | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 12-1 | Run /verify F-001 | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 12-2 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 12-3 | Switch to Security role | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 12-4 | Verify 04_verification.md created | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 12-5 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 13-1 | Run /drift_check | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 13-2 | Verify drift/metrics.md created | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 13-3 | Record missing tooling | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 14-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 14-2 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 14-3 | Execute readiness checks | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 14-4 | No real deployment | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 14-5 | Record missing scripts | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 15-1 | Create disposable intent | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 15-2 | Run /kill F-XXX | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 15-3 | Verify status = killed | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 15-4 | Verify kill rationale recorded | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 15-5 | Verify active.md updated | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 4-1 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 4-1 |
+
+#### Issues Found This Run
+
+- **ISSUE-012:** Missing .cursor/commands directory (high)
+- **ISSUE-013:** new-intent.sh fails with sed error (blocking)
+
 ### Run: 2026-01-23T00:12:00Z (test-project)
 
 **Steps Executed:** 84  
@@ -229,6 +1306,102 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ## Active Issues
 
+### ISSUE-017: Release target ignored in release plan
+
+**Severity:** high
+**Step:** 7-4
+**Status:** active
+**First Seen:** 2026-01-23
+**Last Seen:** 2026-01-23
+
+**Expected:** Intents should appear under their `## Release Target` (e.g., `R1`)
+**Actual:** `F-001` has `Release Target: R1` but appears under `## R2` in `release/plan.md`
+**Error:** Release plan buckets do not respect intent release targets
+
+**Notes:** Breaks release ordering expectations in step 7-4
+
+---
+
+### ISSUE-019: Stryker Vitest runner plugin missing
+
+**Severity:** blocking
+**Step:** 12-1
+**Status:** active
+**First Seen:** 2026-01-23
+**Last Seen:** 2026-01-23
+
+**Expected:** `pnpm test:mutate` should run using the Vitest runner
+**Actual:** Stryker fails with `Cannot find TestRunner plugin "vitest"`
+**Error:** `Could not inject ... no TestRunner plugins were loaded`
+
+**Notes:** Mutation testing cannot run
+
+---
+
+### ISSUE-020: workflow-state/04_verification.md not created
+
+**Severity:** medium
+**Step:** 12-4
+**Status:** active
+**First Seen:** 2026-01-23
+**Last Seen:** 2026-01-23
+
+**Expected:** `workflow-state/04_verification.md` should be created or updated during /verify
+**Actual:** File is missing; only `workflow-state/05_verification.md` exists
+**Error:** Missing expected verification artifact
+
+**Notes:** Verification phase outputs not aligned with test plan
+
+---
+
+### ISSUE-021: pnpm audit reports vulnerabilities
+
+**Severity:** low
+**Step:** 12-3
+**Status:** active
+**First Seen:** 2026-01-23
+**Last Seen:** 2026-01-23
+
+**Expected:** `pnpm audit` should have no moderate/high findings
+**Actual:** Audit reports 1 moderate (esbuild) and 1 low (tmp) vulnerability
+**Error:** `pnpm audit` exits non-zero
+
+**Notes:** Likely dev-only deps but still reported by audit
+
+---
+
+### ISSUE-025: kill-intent script logs sed error
+
+**Severity:** medium
+**Step:** 15-2
+**Status:** active
+**First Seen:** 2026-01-23
+**Last Seen:** 2026-01-23
+
+**Expected:** `/kill` should complete without script errors
+**Actual:** Script prints sed error while updating intent metadata
+**Error:** `sed: ... RE error: repetition-operator operand invalid`
+
+**Notes:** Kill succeeds but script error indicates faulty sed pattern
+
+---
+
+### ISSUE-026: kill flow does not update active.md
+
+**Severity:** blocking
+**Step:** 15-5
+**Status:** active
+**First Seen:** 2026-01-23
+**Last Seen:** 2026-01-23
+
+**Expected:** `workflow-state/active.md` should reflect killed intent
+**Actual:** `workflow-state/active.md` still shows `F-001` active
+**Error:** Kill flow does not update active intent status
+
+**Notes:** Active workflow state is stale after kill
+
+---
+
 ### ISSUE-005: scope-project.sh generates Dependencies with leading whitespace
 
 **Severity:** medium
@@ -336,6 +1509,150 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ## Resolved Issues
 
+### ISSUE-024: kill-intent script missing
+
+**Severity:** blocking
+**Step:** 15-2
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `/kill` should execute a script to mark intent as killed
+**Actual:** `./scripts/kill-intent.sh` did not exist
+**Error:** `no such file or directory: ./scripts/kill-intent.sh`
+
+**Resolution:** Added `scripts/kill-intent.sh`
+
+---
+
+### ISSUE-023: deploy.sh calls check-readiness without env
+
+**Severity:** blocking
+**Step:** 14-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `deploy.sh <env>` should pass the environment to `check-readiness.sh`
+**Actual:** deploy called `./scripts/check-readiness.sh` without arguments and failed
+**Error:** `Usage: ./scripts/check-readiness.sh <environment>`
+
+**Resolution:** deploy script now passes the environment argument
+
+---
+
+### ISSUE-022: check-readiness lint fails without parserOptions.project
+
+**Severity:** blocking
+**Step:** 14-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `pnpm lint` should run in readiness checks without config errors
+**Actual:** ESLint failed with `no-console` and TS config rule errors
+**Error:** `Unexpected console statement` and unsafe-any rule failures
+
+**Resolution:** Lint configuration updated so readiness checks pass
+
+---
+
+### ISSUE-018: vitest not installed / node_modules missing
+
+**Severity:** blocking
+**Step:** 12-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `pnpm test` should run the test suite successfully
+**Actual:** `vitest` command not found when running `pnpm test`
+**Error:** `sh: vitest: command not found` with warning about missing `node_modules`
+
+**Resolution:** Installed dependencies with `pnpm install`
+
+---
+
+### ISSUE-016: workflow-orchestrator command missing
+
+**Severity:** blocking
+**Step:** 11-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `pnpm workflow-orchestrator <intent-id>` should run and create workflow state files
+**Actual:** `pnpm` failed to execute `./scripts/workflow-orchestrator.sh`
+**Error:** `sh: ./scripts/workflow-orchestrator.sh: No such file or directory`
+
+**Resolution:** Added `scripts/workflow-orchestrator.sh` so the command runs
+
+---
+
+### ISSUE-014: new-intent overwrites existing intent IDs
+
+**Severity:** high
+**Step:** 4-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `scripts/new-intent.sh` should create the next available intent ID (e.g., `F-004`)
+**Actual:** Script overwrote `intent/F-001.md` even though `F-001`–`F-003` already existed
+**Error:** New intent creation replaced an existing intent file
+
+**Resolution:** Next intent ID detection fixed; new intents now create `F-004`/`F-005` without overwriting
+
+---
+
+### ISSUE-015: Release plan missing R1 section after initial generation
+
+**Severity:** medium
+**Step:** 5-2
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `release/plan.md` should include `## R1` after generation
+**Actual:** Initial release plan only contained `## R2`
+**Error:** No `## R1` section after running `generate-release-plan.sh`
+
+**Resolution:** Release plan generation now includes the `## R1` section
+
+---
+
+### ISSUE-012: Missing .cursor/commands directory
+
+**Severity:** high
+**Step:** 2-2
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `.cursor/commands/` should exist so slash commands are available
+**Actual:** `.cursor/commands/` directory was missing from the project
+**Error:** `glob: .cursor/commands/**` returned no files
+
+**Resolution:** `.cursor/commands/` restored in project workspace
+
+---
+
+### ISSUE-013: new-intent.sh fails with sed error
+
+**Severity:** blocking
+**Step:** 4-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `scripts/new-intent.sh` creates a new intent file successfully
+**Actual:** Script exited non-zero and failed to create intent file
+**Error:** `sed: 4: "/## Motivation/,/^$/c\\": invalid command code -`
+
+**Resolution:** Sed invocation fixed so the script runs without errors
+
+---
+
 ### ISSUE-001: generate-roadmap.sh treated "None" as dependency
 
 **Severity:** high
@@ -431,8 +1748,8 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 | Severity | Total | Active | Resolved |
 |----------|-------|--------|----------|
-| Blocking | 1 | 0 | 1 |
-| High | 3 | 1 | 2 |
-| Medium | 1 | 1 | 0 |
-| Low | 6 | 5 | 1 |
-| **Total** | **11** | **7** | **4** |
+| Blocking | 8 | 1 | 7 |
+| High | 6 | 2 | 4 |
+| Medium | 5 | 4 | 1 |
+| Low | 7 | 6 | 1 |
+| **Total** | **26** | **13** | **13** |

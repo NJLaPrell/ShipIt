@@ -3,7 +3,9 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2022,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": ["./tsconfig.eslint.json"],
+    "tsconfigRootDir": "."
   },
   "extends": [
     "eslint:recommended",
@@ -17,5 +19,18 @@
     "no-eval": "error",
     "no-console": ["error", { "allow": ["warn", "error"] }]
   },
+  "overrides": [
+    {
+      "files": ["scripts/**/*.ts", "tests/**/*.ts", "**/*.config.ts"],
+      "rules": {
+        "no-console": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-unsafe-argument": "off"
+      }
+    }
+  ],
   "ignorePatterns": ["dist", "node_modules", "*.config.js"]
 }

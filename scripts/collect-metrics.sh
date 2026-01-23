@@ -53,7 +53,7 @@ fi
 # Collect phase completion times (if workflow state files have timestamps)
 collect_phase_times() {
     local intent_id="$1"
-    local phases=("01_analysis" "02_plan" "03_tests" "04_implementation" "05_verification" "06_release")
+    local phases=("01_analysis" "02_plan" "03_implementation" "04_verification" "05_release_notes")
     
     for phase in "${phases[@]}"; do
         local file="workflow-state/${phase}.md"

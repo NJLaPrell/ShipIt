@@ -201,32 +201,50 @@ if [ ${#SELECTED_FEATURES[@]} -gt 0 ]; then
 
         read -p "Dependencies for $INTENT_ID (comma-separated or 'none'): " deps_input
         deps_input="${deps_input:-none}"
-        DEP_LINES=""
+        DEP_LINES=()
         if [ "$deps_input" != "none" ]; then
             IFS=',' read -r -a dep_items <<< "$deps_input"
             for dep in "${dep_items[@]}"; do
                 dep_trim="$(echo "$dep" | tr -d '[:space:]')"
                 [ -z "$dep_trim" ] && continue
-                DEP_LINES="${DEP_LINES}- ${dep_trim}\n"
+                DEP_LINES+=("- ${dep_trim}")
             done
+        fi
+        if [ ${#DEP_LINES[@]} -eq 0 ]; then
+            DEP_LINES+=("- (none)")
         fi
 
         INTENT_FILE="$INTENT_DIR/$INTENT_ID.md"
+        TEMP_FILE="$(mktemp)"
+        MOTIVATION_FILE="$(mktemp)"
+        DEP_FILE="$(mktemp)"
+
         sed -e "s/# F-###: Title/# $INTENT_ID: $feature/" \
             -e "s/feature | bug | tech-debt/feature/" \
             -e "s/planned | active | blocked | validating | shipped | killed/planned/" \
             -e "s/p0 | p1 | p2 | p3/p2/" \
             -e "s/s | m | l/m/" \
             -e "s/R1 | R2 | R3 | R4/R2/" \
-            -e "/## Motivation/,/^$/c\\
-## Motivation\\
-- ${feature}
-" \
-            -e "/## Dependencies/,/^$/c\\
-## Dependencies\\
-$(echo -e "${DEP_LINES}")
-" \
-            "$TEMPLATE_FILE" > "$INTENT_FILE" || error_exit "Failed to create intent file"
+            "$TEMPLATE_FILE" > "$TEMP_FILE" || error_exit "Failed to create intent template"
+
+        printf "%s\n" "- ${feature}" > "$MOTIVATION_FILE"
+        printf "%s\n" "${DEP_LINES[@]}" > "$DEP_FILE"
+
+        awk -v motivation_file="$MOTIVATION_FILE" -v deps_file="$DEP_FILE" '
+            $0 == "(Why it exists, 1–3 bullets)" {
+                while ((getline line < motivation_file) > 0) print line;
+                close(motivation_file);
+                next;
+            }
+            $0 == "- [Other intent IDs or external systems]" {
+                while ((getline line < deps_file) > 0) print line;
+                close(deps_file);
+                next;
+            }
+            { print }
+        ' "$TEMP_FILE" > "$INTENT_FILE" || error_exit "Failed to create intent file"
+
+        rm -f "$TEMP_FILE" "$MOTIVATION_FILE" "$DEP_FILE"
 
         GENERATED_INTENTS+=("$INTENT_ID")
     done

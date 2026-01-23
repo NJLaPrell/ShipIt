@@ -108,47 +108,11 @@ EOF
     echo -e "${GREEN}✓ Created $WORKFLOW_DIR/02_plan.md${NC}"
 }
 
-# Phase 3: Test Writing
-create_test_phase() {
-    echo -e "${YELLOW}[Phase 3] Creating test phase state...${NC}"
-    
-    cat > "$WORKFLOW_DIR/03_tests.md" << EOF || error_exit "Failed to create test phase state"
-# Test Writing: $INTENT_ID
-
-**Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-**Intent:** $INTENT_ID
-
-## Test Cases
-
-[To be filled by QA agent]
-
-## Edge Cases
-
-[Edge case tests]
-
-## Property-Based Tests
-
-[Property tests using fast-check]
-
-## Test Status
-
-- [ ] Tests written
-- [ ] Tests fail (as expected - nothing to pass yet)
-- [ ] Ready for implementation
-
-## Next Steps
-
-Proceed to Implementation phase.
-EOF
-
-    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/03_tests.md${NC}"
-}
-
-# Phase 4: Implementation
+# Phase 3: Implementation
 create_implementation() {
-    echo -e "${YELLOW}[Phase 4] Creating implementation state...${NC}"
+    echo -e "${YELLOW}[Phase 3] Creating implementation state...${NC}"
     
-    cat > "$WORKFLOW_DIR/04_implementation.md" << EOF || error_exit "Failed to create implementation state"
+    cat > "$WORKFLOW_DIR/03_implementation.md" << EOF || error_exit "Failed to create implementation state"
 # Implementation: $INTENT_ID
 
 **Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -176,14 +140,14 @@ create_implementation() {
 Proceed to Verification phase.
 EOF
 
-    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/04_implementation.md${NC}"
+    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/03_implementation.md${NC}"
 }
 
-# Phase 5: Verification
+# Phase 4: Verification
 create_verification() {
-    echo -e "${YELLOW}[Phase 5] Creating verification state...${NC}"
+    echo -e "${YELLOW}[Phase 4] Creating verification state...${NC}"
     
-    cat > "$WORKFLOW_DIR/05_verification.md" << EOF || error_exit "Failed to create verification state"
+    cat > "$WORKFLOW_DIR/04_verification.md" << EOF || error_exit "Failed to create verification state"
 # Verification: $INTENT_ID
 
 **Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -215,15 +179,25 @@ create_verification() {
 Proceed to Release phase.
 EOF
 
-    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/05_verification.md${NC}"
+    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/04_verification.md${NC}"
+
+    # Backward compatibility: some docs/tests still look for 05_verification.md
+    cat > "$WORKFLOW_DIR/05_verification.md" << EOF || error_exit "Failed to create legacy verification state"
+# Verification (Legacy): $INTENT_ID
+
+**Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+**Intent:** $INTENT_ID
+
+This file is deprecated. Use `workflow-state/04_verification.md`.
+EOF
 }
 
-# Phase 6: Release
+# Phase 5: Release Notes
 create_release() {
-    echo -e "${YELLOW}[Phase 6] Creating release state...${NC}"
+    echo -e "${YELLOW}[Phase 5] Creating release notes state...${NC}"
     
-    cat > "$WORKFLOW_DIR/06_release.md" << EOF || error_exit "Failed to create release state"
-# Release: $INTENT_ID
+    cat > "$WORKFLOW_DIR/05_release_notes.md" << EOF || error_exit "Failed to create release notes state"
+# Release Notes: $INTENT_ID
 
 **Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
 **Intent:** $INTENT_ID
@@ -236,18 +210,12 @@ create_release() {
 
 [Release notes]
 
-## Steward Approval
+## Approval Summary
 
-- [ ] APPROVE
-- [ ] BLOCK
-- [ ] KILL
-
-## Final Status
-
-[Final status]
+[Steward decision and rationale]
 EOF
 
-    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/06_release.md${NC}"
+    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/05_release_notes.md${NC}"
 }
 
 # Update active.md
@@ -264,10 +232,9 @@ update_active() {
 
 - [ ] Phase 1: Analysis
 - [ ] Phase 2: Planning
-- [ ] Phase 3: Test Writing
-- [ ] Phase 4: Implementation
-- [ ] Phase 5: Verification
-- [ ] Phase 6: Release
+- [ ] Phase 3: Implementation
+- [ ] Phase 4: Verification
+- [ ] Phase 5: Release Notes
 
 ## Assigned Agents
 
@@ -304,7 +271,6 @@ main() {
     # Initialize all state files
     create_analysis
     create_plan
-    create_test_phase
     create_implementation
     create_verification
     create_release
@@ -318,10 +284,9 @@ main() {
     echo -e "${YELLOW}Next steps:${NC}"
     echo "1. Fill in $WORKFLOW_DIR/01_analysis.md (PM role)"
     echo "2. Fill in $WORKFLOW_DIR/02_plan.md (Architect role)"
-    echo "3. Fill in $WORKFLOW_DIR/03_tests.md (QA role)"
-    echo "4. Fill in $WORKFLOW_DIR/04_implementation.md (Implementer role)"
-    echo "5. Fill in $WORKFLOW_DIR/05_verification.md (QA + Security roles)"
-    echo "6. Fill in $WORKFLOW_DIR/06_release.md (Docs + Steward roles)"
+    echo "3. Fill in $WORKFLOW_DIR/03_implementation.md (Implementer role)"
+    echo "4. Fill in $WORKFLOW_DIR/04_verification.md (QA + Security roles)"
+    echo "5. Fill in $WORKFLOW_DIR/05_release_notes.md (Docs + Steward roles)"
     echo ""
 }
 

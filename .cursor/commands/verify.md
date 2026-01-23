@@ -22,7 +22,7 @@ Runs the verification phase without going through the full /ship workflow:
 
 2. **Security Verification:**
    - Review for auth/input/secrets/PII issues
-   - Run `npm audit` for dependency vulnerabilities
+   - Run `pnpm audit --audit-level=high` for dependency vulnerabilities
    - Check high-risk domains
 
 3. **Save Results:**
