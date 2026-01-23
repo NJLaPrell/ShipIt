@@ -1,6 +1,16 @@
 # Test Plan: ShipIt End-to-End
 
-This plan validates initialization, scoping, intent creation, roadmap/release planning, and workflow commands in a clean test project.
+This plan validates the complete ShipIt workflow from project initialization through feature shipping.
+
+## Test Coverage
+
+| Phase | Steps | Description |
+|-------|-------|-------------|
+| **Setup** | 1-6 | Project init, scoping, intent creation, roadmap/release |
+| **Planning** | 7-10 | Template fields, dependencies, ordering |
+| **Commands** | 11-15 | /ship, /verify, /drift_check, /deploy, /kill |
+| **Full Cycle** | 16-21 | Complete /ship workflow (approve → tests → implement → verify → ship) |
+| **Validation** | 22-24 | Deployment readiness, final state, test report |
 
 ## Prerequisites
 
@@ -187,8 +197,216 @@ This plan validates initialization, scoping, intent creation, roadmap/release pl
 
 ---
 
-## 11) Cleanup (Optional)
+## 11) Validate /ship Workflow (Stops at Plan Gate)
 
-If you want to remove the test project:
-- Delete `./projects/shipit-test`
+1. Run:
+   - `/ship F-001`
+2. Verify:
+   - `workflow-state/01_analysis.md` is created
+   - `workflow-state/02_plan.md` is created
+   - The assistant **stops and requests plan approval** before any code edits
+
+---
+
+## 12) Validate /verify (Verification-Only)
+
+1. Run:
+   - `/verify F-001`
+2. Verify:
+   - The assistant switches to QA then Security roles
+   - `workflow-state/04_verification.md` is created or updated
+   - If mutation testing or audit tooling is missing, the failure is recorded in `tests/ISSUES.md`
+
+---
+
+## 13) Validate /drift_check
+
+1. Run:
+   - `/drift_check`
+2. Verify:
+   - `drift/metrics.md` is created or updated
+   - If `scripts/drift-check.sh` or related tooling is missing, the failure is recorded in `tests/ISSUES.md`
+
+---
+
+## 14) Validate /deploy (Readiness Checks Only)
+
+1. Run:
+   - `/deploy staging`
+2. Verify:
+   - The assistant switches to Steward role
+   - Readiness checks are listed and executed up to any blocking failure
+   - No real deployment is performed for the test project
+   - Any missing scripts or configuration are recorded in `tests/ISSUES.md`
+
+---
+
+## 15) Validate /kill
+
+1. Create a disposable intent with `/new_intent`:
+   - **Select type [1-3]:** `1`
+   - **Title:** `Temporary kill intent`
+   - **Motivation (each line, then 'done'):** `done`
+   - **Select risk [1-3]:** `1`
+2. Run:
+   - `/kill F-XXX "Test kill flow"`
+3. Verify:
+   - The intent status is set to `killed`
+   - Kill rationale and date are recorded in the intent file
+   - `workflow-state/active.md` is updated
+
+---
+
+## 16) Complete /ship Workflow - Approve Plan
+
+Continue the /ship workflow for a foundation intent.
+
+1. **Review the plan:**
+   - Read `workflow-state/02_plan.md`
+   - Verify technical approach is sound
+
+2. **Approve:**
+   - Respond with `APPROVE` to proceed past the plan gate
+
+3. **Verify:**
+   - Workflow proceeds to test writing phase
+
+---
+
+## 17) Complete /ship Workflow - Write Tests (TDD)
+
+1. **Switch to QA role:**
+   - Read acceptance criteria from `workflow-state/01_analysis.md`
+
+2. **Write tests FIRST:**
+   - Create test file for the feature
+   - Write unit tests for all acceptance criteria
+   - Write edge case tests (empty inputs, errors, boundaries)
+
+3. **Verify tests fail:**
+   - Run `pnpm test`
+   - Confirm new tests fail (nothing implemented yet)
+
+---
+
+## 18) Complete /ship Workflow - Implement
+
+1. **Switch to Implementer role:**
+   - Read approved plan from `workflow-state/02_plan.md`
+
+2. **Implement the feature:**
+   - Create files listed in the plan
+   - Follow the technical approach exactly
+   - No deviations from approved plan
+
+3. **Make tests pass:**
+   - Run `pnpm test` iteratively
+   - All tests should pass when complete
+
+4. **Document progress:**
+   - Create `workflow-state/03_implementation.md`
+
+---
+
+## 19) Complete /ship Workflow - Verify
+
+1. **Switch to QA role:**
+   - Run full test suite: `pnpm test`
+   - Check coverage: `pnpm test:coverage`
+   - Attempt adversarial testing
+
+2. **Switch to Security role:**
+   - Review code for vulnerabilities
+   - Run `pnpm audit`
+   - Check for secrets/PII issues
+
+3. **Document results:**
+   - Update `workflow-state/04_verification.md`
+
+---
+
+## 20) Complete /ship Workflow - Documentation
+
+1. **Switch to Docs role:**
+   - Update `README.md` if APIs changed
+   - Create/update `CHANGELOG.md`
+   - Write release notes
+
+2. **Create release notes:**
+   - Create `workflow-state/05_release_notes.md`
+
+---
+
+## 21) Complete /ship Workflow - Ship
+
+1. **Switch to Steward role:**
+   - Review all acceptance criteria are met
+   - Verify no drift violations
+   - Check confidence scores are acceptable
+
+2. **Make final decision:**
+   - APPROVE: Mark intent as `shipped`
+   - BLOCK: Document required fixes
+   - KILL: If criteria cannot be met
+
+3. **Update status:**
+   - Update intent file: `status: shipped`
+   - Update `workflow-state/active.md`
+
+4. **Verify:**
+   - Run `/generate-release-plan` - shipped intent reflected
+   - Run `/generate-roadmap` - intent moved appropriately
+
+---
+
+## 22) Validate Deployment Readiness
+
+1. Run:
+   - `/deploy staging`
+
+2. Verify:
+   - Readiness checks execute
+   - Results are logged
+   - Steward makes appropriate decision based on checks
+
+---
+
+## 23) Validate Final Project State
+
+1. **Verify intent lifecycle:**
+   - At least one intent: `shipped`
+   - At least one intent: `killed`
+   - Remaining intents: `planned`
+
+2. **Verify all workflow artifacts:**
+   - `workflow-state/01_analysis.md` exists
+   - `workflow-state/02_plan.md` exists
+   - `workflow-state/03_implementation.md` exists
+   - `workflow-state/04_verification.md` exists
+   - `workflow-state/05_release_notes.md` exists
+   - `workflow-state/active.md` is current
+
+3. **Verify project health:**
+   - `pnpm test` passes
+   - `pnpm typecheck` passes
+   - No critical security vulnerabilities
+
+4. **Verify documentation:**
+   - `README.md` is current
+   - `CHANGELOG.md` has entries
+   - `release/plan.md` is accurate
+
+---
+
+## 24) Generate Final Test Report
+
+1. **Summarize test run:**
+   - Total steps executed
+   - Steps passed / failed
+   - Issues discovered
+
+2. **Update `tests/ISSUES.md`:**
+   - Record final run summary
+   - Mark overall result: PASS or FAIL
+
 

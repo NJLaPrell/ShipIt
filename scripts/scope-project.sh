@@ -224,7 +224,7 @@ if [ ${#SELECTED_FEATURES[@]} -gt 0 ]; then
 " \
             -e "/## Dependencies/,/^$/c\\
 ## Dependencies\\
-$(echo -e "${DEP_LINES}" | sed 's/^/  /')
+$(echo -e "${DEP_LINES}")
 " \
             "$TEMPLATE_FILE" > "$INTENT_FILE" || error_exit "Failed to create intent file"
 

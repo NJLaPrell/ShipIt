@@ -102,7 +102,12 @@ if [ -d "$ROOT_DIR/tests" ]; then
     cp -R "$ROOT_DIR/tests/." "tests/"
 fi
 
-for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh; do
+# Copy mutation testing config if present
+if [ -f "$ROOT_DIR/stryker.conf.json" ]; then
+    cp "$ROOT_DIR/stryker.conf.json" "stryker.conf.json"
+fi
+
+for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh deploy.sh check-readiness.sh; do
     if [ -f "$ROOT_DIR/scripts/$script" ]; then
         cp "$ROOT_DIR/scripts/$script" "scripts/$script"
         chmod +x "scripts/$script"
@@ -272,6 +277,15 @@ feature | bug | tech-debt
 ## Status
 planned | active | blocked | validating | shipped | killed
 
+## Priority
+p0 | p1 | p2 | p3
+
+## Effort
+s | m | l
+
+## Release Target
+R1 | R2 | R3 | R4
+
 ## Motivation
 (Why it exists, 1–3 bullets)
 
@@ -430,6 +444,7 @@ if [ "$TECH_STACK" = "typescript-nodejs" ]; then
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:mutate": "stryker run",
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc --noEmit",
     "build": "tsc",
@@ -442,6 +457,8 @@ if [ "$TECH_STACK" = "typescript-nodejs" ]; then
     "@types/node": "^20.10.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
+    "@stryker-mutator/core": "^8.0.0",
+    "@stryker-mutator/vitest-runner": "^8.0.0",
     "@vitest/coverage-v8": "^1.0.4",
     "eslint": "^8.56.0",
     "prettier": "^3.1.1",

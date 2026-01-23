@@ -1,5 +1,74 @@
 #!/bin/bash
 
+# Readiness Checks Script
+# Validates test, lint, typecheck, audit, and drift checks before deploy
+
+set -euo pipefail
+
+error_exit() {
+    echo "ERROR: $1" >&2
+    exit "${2:-1}"
+}
+
+ENVIRONMENT="${1:-}"
+if [ -z "$ENVIRONMENT" ]; then
+    error_exit "Usage: ./scripts/check-readiness.sh <environment>" 1
+fi
+
+echo "Readiness checks for environment: $ENVIRONMENT"
+
+if [ ! -f "package.json" ]; then
+    error_exit "package.json not found in current directory" 1
+fi
+
+if command -v pnpm >/dev/null 2>&1; then
+    echo "Running tests..."
+    pnpm test
+
+    echo "Running lint..."
+    pnpm lint
+
+    echo "Running typecheck..."
+    pnpm typecheck
+
+    if pnpm -s run test:coverage >/dev/null 2>&1; then
+        echo "Running test coverage..."
+        pnpm test:coverage
+    else
+        echo "Skipping coverage: test:coverage not defined"
+    fi
+
+    if pnpm -s run test:mutate >/dev/null 2>&1; then
+        echo "Running mutation tests..."
+        pnpm test:mutate
+    else
+        echo "Skipping mutation tests: test:mutate not defined"
+    fi
+
+    if pnpm -s run audit >/dev/null 2>&1; then
+        echo "Running pnpm audit..."
+        pnpm audit
+    else
+        echo "Skipping audit: pnpm audit not available"
+    fi
+else
+    error_exit "pnpm is required for readiness checks" 1
+fi
+
+if [ -x "./scripts/drift-check.sh" ]; then
+    echo "Running drift check..."
+    ./scripts/drift-check.sh
+else
+    echo "Skipping drift check: scripts/drift-check.sh not found"
+fi
+
+if [ ! -f "architecture/invariants.yml" ]; then
+    echo "Warning: architecture/invariants.yml not found"
+fi
+
+echo "Readiness checks complete."
+#!/bin/bash
+
 # Production Readiness Check Script
 # Validates project is ready for deployment
 
