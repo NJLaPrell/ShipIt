@@ -28,6 +28,13 @@ Runs the verification phase without going through the full /ship workflow:
 3. **Save Results:**
    - Output to `workflow-state/04_verification.md`
 
+## Script
+
+Run:
+```bash
+./scripts/verify.sh <intent-id>
+```
+
 ## When to Use
 
 - Re-running verification after fixes

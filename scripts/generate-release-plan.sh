@@ -64,8 +64,13 @@ const normalizeReleaseTarget = (value) => {
 
 const parseReleaseTarget = (lines) => {
   const headerLine = '## Release Target';
-  const idx = lines.findIndex((line) => line.trim() === headerLine);
+  const idx = lines.findIndex((line) => line.trim().startsWith(headerLine));
   if (idx === -1) return '';
+
+  // Handle inline "## Release Target: R1"
+  const inline = normalizeReleaseTarget(lines[idx]);
+  if (inline) return inline;
+
   for (let i = idx + 1; i < lines.length; i++) {
     const raw = lines[i].trim();
     if (!raw) continue;
@@ -151,14 +156,24 @@ const intentMap = new Map(plannedIntents.map((i) => [i.id, i]));
 const missingDeps = new Map();
 
 const releases = new Map();
+const explicitReleaseTargets = new Set();
 plannedIntents.forEach((intent) => {
-  releases.set(intent.id, defaultRelease(intent));
+  const explicit = intent.releaseTarget ? intent.releaseTarget.toUpperCase() : '';
+  if (explicit) {
+    releases.set(intent.id, explicit);
+    explicitReleaseTargets.add(intent.id);
+  } else {
+    releases.set(intent.id, defaultRelease(intent));
+  }
 });
 
 let changed = true;
 while (changed) {
   changed = false;
   for (const intent of plannedIntents) {
+    if (explicitReleaseTargets.has(intent.id)) {
+      continue;
+    }
     let current = releaseIndex(releases.get(intent.id));
     for (const dep of intent.dependencies) {
       if (!intentMap.has(dep)) {
@@ -176,6 +191,20 @@ while (changed) {
     if (releases.get(intent.id) !== updated) {
       releases.set(intent.id, updated);
       changed = true;
+    }
+  }
+}
+
+// If an intent has an explicit release target, pull non-explicit dependencies earlier if needed.
+for (const intent of plannedIntents) {
+  if (!explicitReleaseTargets.has(intent.id)) continue;
+  const targetRelease = releaseIndex(releases.get(intent.id));
+  for (const dep of intent.dependencies) {
+    if (!intentMap.has(dep)) continue;
+    if (explicitReleaseTargets.has(dep)) continue;
+    const depRelease = releaseIndex(releases.get(dep));
+    if (depRelease > targetRelease) {
+      releases.set(dep, `R${Math.max(1, targetRelease)}`);
     }
   }
 }

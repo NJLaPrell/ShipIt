@@ -236,9 +236,23 @@ if [ ${#SELECTED_FEATURES[@]} -gt 0 ]; then
                 close(motivation_file);
                 next;
             }
-            $0 == "- [Other intent IDs or external systems]" {
-                while ((getline line < deps_file) > 0) print line;
+            /^- \(Other intent IDs that must ship first\)$/ {
+                # Replace placeholder dependency lines with actual deps
+                while ((getline line < deps_file) > 0) {
+                    print line;
+                }
                 close(deps_file);
+                # Skip remaining placeholder dependency lines
+                while (getline > 0) {
+                    if (/^## / || /^$/) {
+                        print;
+                        break;
+                    }
+                    # Skip placeholder lines (lines starting with "- (")
+                    if (!/^- \(/) {
+                        print;
+                    }
+                }
                 next;
             }
             { print }

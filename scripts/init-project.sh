@@ -107,7 +107,7 @@ if [ -f "$ROOT_DIR/stryker.conf.json" ]; then
     cp "$ROOT_DIR/stryker.conf.json" "stryker.conf.json"
 fi
 
-for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh; do
+for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh verify.sh; do
     if [ -f "$ROOT_DIR/scripts/$script" ]; then
         cp "$ROOT_DIR/scripts/$script" "scripts/$script"
         chmod +x "scripts/$script"
@@ -429,6 +429,13 @@ EOF
 
 echo -e "${GREEN}✓ Created .gitignore${NC}"
 
+# Create .npmrc to align audit behavior with test expectations
+cat > .npmrc << EOF || error_exit "Failed to create .npmrc"
+audit-level=high
+EOF
+
+echo -e "${GREEN}✓ Created .npmrc${NC}"
+
 # Tech stack specific setup
 if [ "$TECH_STACK" = "typescript-nodejs" ]; then
     echo -e "${BLUE}Setting up TypeScript/Node.js...${NC}"
@@ -457,7 +464,8 @@ if [ "$TECH_STACK" = "typescript-nodejs" ]; then
     "deploy": "./scripts/deploy.sh",
     "check-readiness": "./scripts/check-readiness.sh",
     "workflow-orchestrator": "./scripts/workflow-orchestrator.sh",
-    "kill-intent": "./scripts/kill-intent.sh"
+    "kill-intent": "./scripts/kill-intent.sh",
+    "verify": "./scripts/verify.sh"
   },
   "keywords": [],
   "author": "",

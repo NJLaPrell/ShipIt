@@ -58,7 +58,7 @@ awk -v status_value="killed" '
 
 mv "$TEMP_FILE" "$INTENT_FILE"
 
-if ! grep -q "^## Kill Rationale" "$INTENT_FILE"; then
+if ! grep -qi "^## Kill Rationale" "$INTENT_FILE"; then
     {
         echo ""
         echo "## Kill Rationale"
@@ -67,18 +67,24 @@ if ! grep -q "^## Kill Rationale" "$INTENT_FILE"; then
         echo "- Date: $DATE_UTC"
     } >> "$INTENT_FILE"
 else
-    {
-        echo ""
-        echo "- Reason: $REASON"
-        echo "- Date: $DATE_UTC"
-    } >> "$INTENT_FILE"
+    if ! grep -qF "- Reason: $REASON" "$INTENT_FILE" || ! grep -qF "- Date: $DATE_UTC" "$INTENT_FILE"; then
+        {
+            echo ""
+            echo "- Reason: $REASON"
+            echo "- Date: $DATE_UTC"
+        } >> "$INTENT_FILE"
+    fi
 fi
 
 ACTIVE_FILE="workflow-state/active.md"
 if [ -f "$ACTIVE_FILE" ]; then
-    sed -i '' -e 's/^**Status:**.*/**Status:** killed/' \
-        -e 's/^**Current Phase:**.*/**Current Phase:** killed/' \
-        "$ACTIVE_FILE" || true
+    ACTIVE_TEMP="$(mktemp)"
+    awk -v intent="$INTENT_ID" '
+        /^\*\*Intent ID:\*\*/ { print "**Intent ID:** " intent; next }
+        /^\*\*Status:\*\*/ { print "**Status:** killed"; next }
+        /^\*\*Current Phase:\*\*/ { print "**Current Phase:** killed"; next }
+        { print }
+    ' "$ACTIVE_FILE" > "$ACTIVE_TEMP" && mv "$ACTIVE_TEMP" "$ACTIVE_FILE"
 fi
 
 echo "✓ Marked $INTENT_ID as killed"

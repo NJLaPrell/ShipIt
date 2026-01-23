@@ -34,6 +34,146 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 | 2-2 | Validate project structure | ⏭️ SKIP | - | Blocked by step 1-4 |
 ```
 
+### Run: 2026-01-23T23:33:10Z (test-project)
+
+**Steps Executed:** 39  
+**Steps Passed:** 39  
+**Steps Failed:** 0  
+**Blocking Issues:** 0  
+**Result:** ✅ PASS
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 16-1 | Review plan | ✅ PASS | - | Plan reviewed and updated |
+| 16-2 | Approve plan | ✅ PASS | - | Approval recorded in 02_plan.md |
+| 16-3 | Workflow proceeds | ✅ PASS | - | Proceeded to test writing |
+| 17-1 | Switch to QA role | ✅ PASS | - | |
+| 17-2 | Write tests FIRST | ✅ PASS | - | Added banner tests |
+| 17-3 | Verify tests fail | ✅ PASS | - | Tests fail before implementation |
+| 18-1 | Switch to Implementer role | ✅ PASS | - | |
+| 18-2 | Create files per plan | ✅ PASS | - | README + assets + tests |
+| 18-3 | Make tests pass | ✅ PASS | - | pnpm test green |
+| 18-4 | Document progress | ✅ PASS | - | 03_implementation.md created |
+| 19-1 | Run test suite | ✅ PASS | - | pnpm test green |
+| 19-2 | Check coverage | ✅ PASS | - | pnpm test:coverage ran |
+| 19-3 | Security audit | ✅ PASS | low | 1 moderate + 1 low vulnerability |
+| 19-4 | Code review | ✅ PASS | - | No issues found |
+| 19-5 | Update verification | ✅ PASS | - | 04_verification.md created |
+| 20-1 | Switch to Docs role | ✅ PASS | - | |
+| 20-2 | Update README.md | ✅ PASS | - | Banner added |
+| 20-3 | Create CHANGELOG.md | ✅ PASS | - | Added Unreleased entry |
+| 20-4 | Create release notes | ✅ PASS | - | 05_release_notes.md created |
+| 20-5 | Update active.md | ✅ PASS | - | Updated during ship decision |
+| 21-1 | Switch to Steward role | ✅ PASS | - | |
+| 21-2 | Review all phases | ✅ PASS | - | All phases reviewed |
+| 21-3 | Run final tests | ✅ PASS | - | pnpm test green |
+| 21-4 | Clean up F-001 deps | ✅ PASS | - | Removed F-999 |
+| 21-5 | Update F-001 status | ✅ PASS | - | Status → shipped |
+| 21-6 | Create 06_shipped.md | ✅ PASS | - | Sign-off doc created |
+| 21-7 | Update active.md | ✅ PASS | - | Status → shipped |
+| 22-1 | Run /deploy staging | ✅ PASS | - | Readiness checks pass |
+| 22-2 | Verify tests | ✅ PASS | - | Tests pass in readiness |
+| 22-3 | Verify typecheck | ✅ PASS | - | Typecheck pass |
+| 22-4 | Verify lint | ✅ PASS | - | Lint pass |
+| 22-5 | Verify security | ✅ PASS | low | 1 moderate + 1 low vulnerability |
+| 22-6 | Steward decision | ✅ PASS | - | Staging APPROVED |
+| 23-1 | Verify intent lifecycle | ✅ PASS | - | 1 shipped, 1 killed, 4 planned |
+| 23-2 | Verify workflow artifacts | ✅ PASS | - | All required files exist |
+| 23-3 | Verify tests pass | ✅ PASS | - | pnpm test green |
+| 23-4 | Verify typecheck | ✅ PASS | - | pnpm typecheck green |
+| 23-5 | Verify security | ✅ PASS | low | 1 moderate + 1 low vulnerability |
+| 23-6 | Verify README | ✅ PASS | - | Banner present |
+| 23-7 | Verify CHANGELOG | ✅ PASS | - | Entry present |
+| 23-8 | Verify release/plan.md | ✅ PASS | - | Regenerated |
+| 24-1 | Generate final report | ✅ PASS | - | Summary recorded |
+| 24-2 | Update ISSUES.md | ✅ PASS | - | Run recorded |
+| 24-3 | Mark overall result | ✅ PASS | - | Marked PASS |
+
+### Run: 2026-01-23T23:26:31Z (test-project)
+
+**Steps Executed:** 4  
+**Steps Passed:** 4  
+**Steps Failed:** 0  
+**Blocking Issues:** 0  
+**Result:** ✅ PASS
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 15-2 | Run /kill F-XXX | ✅ PASS | - | |
+| 15-3 | Verify status = killed | ✅ PASS | - | |
+| 15-4 | Verify kill rationale recorded | ✅ PASS | - | |
+| 15-5 | Verify active.md updated | ✅ PASS | - | |
+
+### Run: 2026-01-23T20:50:06Z (test-project)
+
+**Steps Executed:** 4  
+**Steps Passed:** 2  
+**Steps Failed:** 2  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 15-2 | Run /kill F-XXX | ❌ FAIL | medium | Script logs sed error while killing intent |
+| 15-3 | Verify status = killed | ✅ PASS | - | |
+| 15-4 | Verify kill rationale recorded | ✅ PASS | - | |
+| 15-5 | Verify active.md updated | ❌ FAIL | blocking | `workflow-state/active.md` still shows F-001 active |
+| 16-1 | Review plan | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 16-2 | Approve plan | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 16-3 | Workflow proceeds | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 17-1 | Switch to QA role | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 17-2 | Write tests FIRST | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 17-3 | Verify tests fail | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 18-1 | Switch to Implementer role | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 18-2 | Create files per plan | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 18-3 | Make tests pass | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 18-4 | Document progress | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-1 | Run test suite | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-2 | Check coverage | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-3 | Security audit | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-4 | Code review | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 19-5 | Update verification | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-1 | Switch to Docs role | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-2 | Update README.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-3 | Create CHANGELOG.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-4 | Create release notes | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 20-5 | Update active.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-1 | Switch to Steward role | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-2 | Review all phases | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-3 | Run final tests | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-4 | Clean up F-001 deps | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-5 | Update F-001 status | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-6 | Create 06_shipped.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 21-7 | Update active.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-1 | Run /deploy staging | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-2 | Verify tests | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-3 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-4 | Verify lint | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-5 | Verify security | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 22-6 | Steward decision | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-1 | Verify intent lifecycle | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-2 | Verify workflow artifacts | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-3 | Verify tests pass | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-4 | Verify typecheck | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-5 | Verify security | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-6 | Verify README | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-7 | Verify CHANGELOG | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 23-8 | Verify release/plan.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 24-1 | Generate final report | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 24-2 | Update ISSUES.md | ⏭️ SKIP | - | Blocked by step 15-5 |
+| 24-3 | Mark overall result | ⏭️ SKIP | - | Blocked by step 15-5 |
+
+#### Issues Found This Run
+
+- **ISSUE-025:** kill-intent script logs sed error (medium)
+- **ISSUE-026:** kill flow does not update active.md (blocking)
+
 ### Run: 2026-01-23T20:43:51Z (test-project)
 
 **Steps Executed:** 10  
@@ -1322,38 +1462,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ---
 
-### ISSUE-019: Stryker Vitest runner plugin missing
-
-**Severity:** blocking
-**Step:** 12-1
-**Status:** active
-**First Seen:** 2026-01-23
-**Last Seen:** 2026-01-23
-
-**Expected:** `pnpm test:mutate` should run using the Vitest runner
-**Actual:** Stryker fails with `Cannot find TestRunner plugin "vitest"`
-**Error:** `Could not inject ... no TestRunner plugins were loaded`
-
-**Notes:** Mutation testing cannot run
-
----
-
-### ISSUE-020: workflow-state/04_verification.md not created
-
-**Severity:** medium
-**Step:** 12-4
-**Status:** active
-**First Seen:** 2026-01-23
-**Last Seen:** 2026-01-23
-
-**Expected:** `workflow-state/04_verification.md` should be created or updated during /verify
-**Actual:** File is missing; only `workflow-state/05_verification.md` exists
-**Error:** Missing expected verification artifact
-
-**Notes:** Verification phase outputs not aligned with test plan
-
----
-
 ### ISSUE-021: pnpm audit reports vulnerabilities
 
 **Severity:** low
@@ -1370,35 +1478,19 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ---
 
-### ISSUE-025: kill-intent script logs sed error
+### ISSUE-027: kill-intent adds duplicate kill rationale entries
 
-**Severity:** medium
-**Step:** 15-2
+**Severity:** low
+**Step:** 15-4
 **Status:** active
 **First Seen:** 2026-01-23
 **Last Seen:** 2026-01-23
 
-**Expected:** `/kill` should complete without script errors
-**Actual:** Script prints sed error while updating intent metadata
-**Error:** `sed: ... RE error: repetition-operator operand invalid`
+**Expected:** Kill rationale should be recorded once
+**Actual:** `## Kill Rationale` contains duplicate entries after repeated /kill
+**Error:** Kill rationale section duplicated
 
-**Notes:** Kill succeeds but script error indicates faulty sed pattern
-
----
-
-### ISSUE-026: kill flow does not update active.md
-
-**Severity:** blocking
-**Step:** 15-5
-**Status:** active
-**First Seen:** 2026-01-23
-**Last Seen:** 2026-01-23
-
-**Expected:** `workflow-state/active.md` should reflect killed intent
-**Actual:** `workflow-state/active.md` still shows `F-001` active
-**Error:** Kill flow does not update active intent status
-
-**Notes:** Active workflow state is stale after kill
+**Notes:** Cosmetic but confusing for audit trail
 
 ---
 
@@ -1508,6 +1600,70 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 ---
 
 ## Resolved Issues
+
+### ISSUE-019: Stryker Vitest runner plugin missing
+
+**Severity:** blocking
+**Step:** 12-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `pnpm test:mutate` should run using the Vitest runner
+**Actual:** Stryker failed with `Cannot find TestRunner plugin "vitest"`
+**Error:** `Could not inject ... no TestRunner plugins were loaded`
+
+**Resolution:** Stryker ran successfully with Vitest runner
+
+---
+
+### ISSUE-020: workflow-state/04_verification.md not created
+
+**Severity:** medium
+**Step:** 12-4
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `workflow-state/04_verification.md` should be created or updated during /verify
+**Actual:** File was missing; only `workflow-state/05_verification.md` existed
+**Error:** Missing expected verification artifact
+
+**Resolution:** Created `workflow-state/04_verification.md`
+
+---
+
+### ISSUE-025: kill-intent script logs sed error
+
+**Severity:** medium
+**Step:** 15-2
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `/kill` should complete without script errors
+**Actual:** Script printed sed error while updating intent metadata
+**Error:** `sed: ... RE error: repetition-operator operand invalid`
+
+**Resolution:** Sed command fixed in kill-intent script
+
+---
+
+### ISSUE-026: kill flow does not update active.md
+
+**Severity:** blocking
+**Step:** 15-5
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-23
+
+**Expected:** `workflow-state/active.md` should reflect killed intent
+**Actual:** `workflow-state/active.md` still showed `F-001` active
+**Error:** Kill flow did not update active intent status
+
+**Resolution:** Kill flow now updates `workflow-state/active.md`
+
+---
 
 ### ISSUE-024: kill-intent script missing
 
@@ -1748,8 +1904,8 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 | Severity | Total | Active | Resolved |
 |----------|-------|--------|----------|
-| Blocking | 8 | 1 | 7 |
+| Blocking | 8 | 0 | 8 |
 | High | 6 | 2 | 4 |
-| Medium | 5 | 4 | 1 |
-| Low | 7 | 6 | 1 |
-| **Total** | **26** | **13** | **13** |
+| Medium | 4 | 1 | 3 |
+| Low | 8 | 7 | 1 |
+| **Total** | **26** | **10** | **16** |
