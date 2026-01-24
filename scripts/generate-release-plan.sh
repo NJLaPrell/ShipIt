@@ -155,6 +155,17 @@ const defaultRelease = (intent) => {
 const intentMap = new Map(plannedIntents.map((i) => [i.id, i]));
 const missingDeps = new Map();
 
+// First pass: Track missing dependencies for ALL intents (before release assignment)
+for (const intent of plannedIntents) {
+  for (const dep of intent.dependencies) {
+    if (!intentMap.has(dep)) {
+      const list = missingDeps.get(intent.id) || [];
+      list.push(dep);
+      missingDeps.set(intent.id, Array.from(new Set(list)));
+    }
+  }
+}
+
 const releases = new Map();
 const explicitReleaseTargets = new Set();
 plannedIntents.forEach((intent) => {
@@ -167,6 +178,7 @@ plannedIntents.forEach((intent) => {
   }
 });
 
+// Second pass: Adjust releases based on dependencies (for non-explicit targets)
 let changed = true;
 while (changed) {
   changed = false;
@@ -177,10 +189,7 @@ while (changed) {
     let current = releaseIndex(releases.get(intent.id));
     for (const dep of intent.dependencies) {
       if (!intentMap.has(dep)) {
-        const list = missingDeps.get(intent.id) || [];
-        list.push(dep);
-        missingDeps.set(intent.id, Array.from(new Set(list)));
-        continue;
+        continue; // Already tracked in missingDeps
       }
       const depRelease = releaseIndex(releases.get(dep));
       if (depRelease > current) {
@@ -195,16 +204,51 @@ while (changed) {
   }
 }
 
-// If an intent has an explicit release target, pull non-explicit dependencies earlier if needed.
+// Third pass: If an intent has an explicit release target, ensure dependencies are in same or earlier release
+// When both have explicit targets, dependencies must come before dependents
 for (const intent of plannedIntents) {
   if (!explicitReleaseTargets.has(intent.id)) continue;
   const targetRelease = releaseIndex(releases.get(intent.id));
   for (const dep of intent.dependencies) {
-    if (!intentMap.has(dep)) continue;
-    if (explicitReleaseTargets.has(dep)) continue;
+    if (!intentMap.has(dep)) continue; // Already tracked in missingDeps
     const depRelease = releaseIndex(releases.get(dep));
-    if (depRelease > targetRelease) {
-      releases.set(dep, `R${Math.max(1, targetRelease)}`);
+    if (explicitReleaseTargets.has(dep)) {
+      // Both have explicit targets: dependency must be in same or earlier release
+      if (depRelease > targetRelease) {
+        // Dependency is later - move dependent to match dependency's release
+        releases.set(intent.id, releases.get(dep));
+        changed = true;
+      }
+    } else {
+      // Dependency has no explicit target - move it to same or earlier release
+      if (depRelease > targetRelease) {
+        releases.set(dep, `R${Math.max(1, targetRelease)}`);
+        changed = true;
+      }
+    }
+  }
+}
+
+// Final pass: Re-adjust non-explicit targets if we moved explicit ones
+if (changed) {
+  changed = true;
+  while (changed) {
+    changed = false;
+    for (const intent of plannedIntents) {
+      if (explicitReleaseTargets.has(intent.id)) continue;
+      let current = releaseIndex(releases.get(intent.id));
+      for (const dep of intent.dependencies) {
+        if (!intentMap.has(dep)) continue;
+        const depRelease = releaseIndex(releases.get(dep));
+        if (depRelease > current) {
+          current = depRelease;
+        }
+      }
+      const updated = `R${Math.max(1, current)}`;
+      if (releases.get(intent.id) !== updated) {
+        releases.set(intent.id, updated);
+        changed = true;
+      }
     }
   }
 }

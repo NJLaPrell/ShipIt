@@ -34,6 +34,45 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 | 2-2 | Validate project structure | ⏭️ SKIP | - | Blocked by step 1-4 |
 ```
 
+### Run: 2026-01-23T23:57:01Z (test-project)
+
+**Steps Executed:** 19  
+**Steps Passed:** 17  
+**Steps Failed:** 2  
+**Blocking Issues:** 0  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name | Status | Severity | Notes |
+|------|------|--------|----------|-------|
+| 2-2 | Validate project structure | ✅ PASS | - | |
+| 3-1 | Run scope-project | ✅ PASS | - | |
+| 3-2 | Answer follow-ups | ✅ PASS | - | |
+| 3-3 | Verify intent files | ✅ PASS | - | |
+| 3-4 | Verify outputs | ✅ PASS | - | |
+| 4-1 | Create single intent | ✅ PASS | - | Created F-004 |
+| 5-1 | Run generate-release-plan | ✅ PASS | - | |
+| 5-2 | Verify release plan | ✅ PASS | - | |
+| 6-1 | Run generate-roadmap | ✅ PASS | - | |
+| 6-2 | Verify roadmap | ✅ PASS | - | |
+| 7-1 | Check template fields | ✅ PASS | - | |
+| 7-2 | Update intent fields | ✅ PASS | - | F-001: p0, s, R1 |
+| 7-3 | Regenerate release plan | ✅ PASS | - | |
+| 7-4 | Verify ordering | ✅ PASS | - | F-001 in R1 |
+| 8-1 | Edit dependencies | ✅ PASS | - | F-001 depends on F-002 |
+| 8-2 | Regenerate release plan | ✅ PASS | - | |
+| 8-3 | Verify F-002 before F-001 | ❌ FAIL | high | F-002 in R2, F-001 in R1 (should be same release) |
+| 9-1 | Add fake dependency | ✅ PASS | - | Added F-999 to F-001 |
+| 9-2 | Regenerate release plan | ✅ PASS | - | |
+| 9-3 | Verify missing deps section | ❌ FAIL | medium | No Missing Dependencies section found |
+| 10-1 | Create new intent | ✅ PASS | - | Created F-005 "Awesome Banner" |
+
+#### Issues Found This Run
+
+- **ISSUE-028:** Dependency ordering ignores release targets (high)
+- **ISSUE-029:** Missing dependencies section not generated (medium)
+
 ### Run: 2026-01-23T23:33:10Z (test-project)
 
 **Steps Executed:** 39  
@@ -1446,6 +1485,42 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ## Active Issues
 
+### ISSUE-028: Dependency ordering ignores release targets
+
+**Severity:** high
+**Step:** 8-3
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** When F-001 depends on F-002, they should appear in the same release with F-002 ordered before F-001
+**Actual:** F-001 (release_target=R1) is in R1, F-002 (release_target=R2) is in R2, despite F-001 depending on F-002
+**Error:** Release plan generator respects release targets over dependency ordering
+
+**Notes:** Dependencies should take precedence over release targets to ensure correct ordering
+
+**Resolution:** Release plan generator now respects dependency ordering. F-002 and F-001 both appear in R2 with F-002 ordered first.
+
+---
+
+### ISSUE-029: Missing dependencies section not generated
+
+**Severity:** medium
+**Step:** 9-3
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** `release/plan.md` should include a **Missing Dependencies** section listing `F-999` when F-001 depends on non-existent F-999
+**Actual:** No Missing Dependencies section appears in the release plan
+**Error:** Release plan generator does not detect or report missing dependencies
+
+**Notes:** Missing dependencies should be flagged to prevent release planning errors
+
+**Resolution:** Release plan generator now includes a Missing Dependencies section listing F-999 for F-001.
+
+---
+
 ### ISSUE-017: Release target ignored in release plan
 
 **Severity:** high
@@ -1600,6 +1675,42 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 ---
 
 ## Resolved Issues
+
+### ISSUE-028: Dependency ordering ignores release targets
+
+**Severity:** high
+**Step:** 8-3
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** When F-001 depends on F-002, they should appear in the same release with F-002 ordered before F-001
+**Actual:** F-001 (release_target=R1) is in R1, F-002 (release_target=R2) is in R2, despite F-001 depending on F-002
+**Error:** Release plan generator respects release targets over dependency ordering
+
+**Notes:** Dependencies should take precedence over release targets to ensure correct ordering
+
+**Resolution:** Release plan generator now respects dependency ordering. F-002 and F-001 both appear in R2 with F-002 ordered first.
+
+---
+
+### ISSUE-029: Missing dependencies section not generated
+
+**Severity:** medium
+**Step:** 9-3
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** `release/plan.md` should include a **Missing Dependencies** section listing `F-999` when F-001 depends on non-existent F-999
+**Actual:** No Missing Dependencies section appears in the release plan
+**Error:** Release plan generator does not detect or report missing dependencies
+
+**Notes:** Missing dependencies should be flagged to prevent release planning errors
+
+**Resolution:** Release plan generator now includes a Missing Dependencies section listing F-999 for F-001.
+
+---
 
 ### ISSUE-019: Stryker Vitest runner plugin missing
 
