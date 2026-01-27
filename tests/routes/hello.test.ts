@@ -3,7 +3,7 @@ import { createHelloHandler } from '../../src/routes/hello';
 import { IncomingMessage, ServerResponse } from 'http';
 
 describe('Hello Endpoint', () => {
-  it('should return JSON with message "Hello, World!"', async () => {
+  it('should return JSON with message "Hello, World!"', () => {
     const handler = createHelloHandler();
     const mockRequest = {} as IncomingMessage;
     let responseBody = '';
@@ -21,7 +21,7 @@ describe('Hello Endpoint', () => {
       },
     } as unknown as ServerResponse;
 
-    await handler(mockRequest, mockResponse);
+    handler(mockRequest, mockResponse);
 
     expect(mockResponse.statusCode).toBe(200);
     expect(mockResponse.headers['Content-Type']).toBe('application/json');
@@ -29,7 +29,7 @@ describe('Hello Endpoint', () => {
     expect(parsed).toEqual({ message: 'Hello, World!' });
   });
 
-  it('should respond in less than 200ms', async () => {
+  it('should respond in less than 200ms', () => {
     const handler = createHelloHandler();
     const mockRequest = {} as IncomingMessage;
     const mockResponse = {
@@ -46,7 +46,7 @@ describe('Hello Endpoint', () => {
     } as unknown as ServerResponse;
 
     const start = Date.now();
-    await handler(mockRequest, mockResponse);
+    handler(mockRequest, mockResponse);
     const duration = Date.now() - start;
 
     expect(duration).toBeLessThan(200);

@@ -4,7 +4,7 @@
 
 # ShipIt 🚀
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v0.1.0)
+[![Version](https://img.shields.io/badge/version-0.2.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v0.2.0)
 [![Test Status](https://img.shields.io/badge/tests-97.6%25%20passing-green.svg)](./tests/ISSUES.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -404,20 +404,34 @@ A: Run `/test_shipit` to execute the full end-to-end test suite.
 
 ## Version History
 
+- **v0.2.0** (2026-01-27) - UX Enhancements Release
+  - **New Features:**
+    - Intent validation and auto-fix (`/fix` command)
+    - Output verification system with automatic generator chaining
+    - Unified status dashboard (`/status` command)
+    - Progress indicators for long-running operations
+    - Batched interactive prompts (faster scoping workflow)
+    - Context-aware next-step suggestions
+  - **Improvements:**
+    - Enhanced `/scope-project` with batched prompts
+    - Enhanced `/generate-release-plan` with validation warnings
+    - Enhanced `/generate-roadmap` with verification summaries
+    - Enhanced `/ship` workflow with progress indicators
+    - Improved error handling and edge case coverage
+  - **Fixes:**
+    - Fixed numeric validation in dependency ordering checks
+    - Fixed temp file cleanup in fix-intents.sh
+    - Fixed false positive grep matches in suggest-next.sh
+    - Fixed fragile test parsing in status.sh
+    - Removed extraneous documentation files
+    - Updated outdated references
+
 - **v0.1.0** (2026-01-23) - Initial release
   - Complete AI-native SDLC framework
   - Project initialization and scoping
   - Intent management and workflow orchestration
   - Release planning and roadmap generation
   - Comprehensive test suite with 97.6% pass rate
-  - **UX Enhancements:**
-    - Proactive validation and auto-fix (`/fix` command)
-    - Auto-verification of script outputs
-    - Automatic chaining of dependent generators
-    - Unified status dashboard (`/status`)
-    - Progress indicators for long-running operations
-    - Batched interactive prompts (faster scoping)
-    - Context-aware next-step suggestions
 
 See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.
 
