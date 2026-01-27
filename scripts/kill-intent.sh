@@ -58,23 +58,43 @@ awk -v status_value="killed" '
 
 mv "$TEMP_FILE" "$INTENT_FILE"
 
-if ! grep -qi "^## Kill Rationale" "$INTENT_FILE"; then
-    {
-        echo ""
-        echo "## Kill Rationale"
-        echo "- Kill criterion: (unspecified)"
-        echo "- Reason: $REASON"
-        echo "- Date: $DATE_UTC"
-    } >> "$INTENT_FILE"
-else
-    if ! grep -qF "- Reason: $REASON" "$INTENT_FILE" || ! grep -qF "- Date: $DATE_UTC" "$INTENT_FILE"; then
-        {
-            echo ""
-            echo "- Reason: $REASON"
-            echo "- Date: $DATE_UTC"
-        } >> "$INTENT_FILE"
-    fi
-fi
+# Handle Kill Rationale section - replace entire section if it exists, create if it doesn't
+TEMP_FILE2="$(mktemp)"
+awk -v reason="$REASON" -v date="$DATE_UTC" '
+    BEGIN { in_section=0; section_written=0 }
+    /^## Kill Rationale/ {
+        in_section=1;
+        section_written=1;
+        print "";
+        print "## Kill Rationale";
+        print "- Kill criterion: (unspecified)";
+        print "- Reason: " reason;
+        print "- Date: " date;
+        next;
+    }
+    in_section && /^## / {
+        # Hit next section, stop skipping
+        in_section=0;
+        print;
+        next;
+    }
+    in_section {
+        # Skip all lines in the Kill Rationale section (we already wrote the replacement)
+        next;
+    }
+    { print }
+    END {
+        if (!section_written) {
+            print "";
+            print "## Kill Rationale";
+            print "- Kill criterion: (unspecified)";
+            print "- Reason: " reason;
+            print "- Date: " date;
+        }
+    }
+' "$INTENT_FILE" > "$TEMP_FILE2"
+
+mv "$TEMP_FILE2" "$INTENT_FILE"
 
 ACTIVE_FILE="workflow-state/active.md"
 if [ -f "$ACTIVE_FILE" ]; then

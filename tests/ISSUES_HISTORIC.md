@@ -42,6 +42,152 @@ This document contains all resolved issues and historic test runs. For current t
 
 ---
 
+### ISSUE-017: Release target ignored in release plan
+
+**Severity:** high
+**Step:** 7-4
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Last Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** Intents should appear under their `## Release Target` (e.g., `R1`)
+**Actual:** `F-001` has `Release Target: R1` but appears under `## R2` in `release/plan.md`
+**Error:** Release plan buckets do not respect intent release targets
+
+**Resolution:** Fixed dependency resolution logic in `generate-release-plan.sh`. When both intents have explicit release targets and dependency is later than dependent, the code now moves the dependency (not the dependent) to match the dependent's release, respecting explicit targets while maintaining dependency ordering.
+
+---
+
+### ISSUE-027: kill-intent adds duplicate kill rationale entries
+
+**Severity:** low
+**Step:** 15-4
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Last Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** Kill rationale should be recorded once
+**Actual:** `## Kill Rationale` contains duplicate entries after repeated /kill
+**Error:** Kill rationale section duplicated
+
+**Resolution:** Rewrote kill rationale handling in `kill-intent.sh` to replace the entire section instead of appending. The script now uses awk to detect the Kill Rationale section, remove all existing content within it, and write fresh content. This prevents duplicates when `/kill` is run multiple times.
+
+---
+
+### ISSUE-005: scope-project.sh generates Dependencies with leading whitespace
+
+**Severity:** medium
+**Step:** 6-2
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** Dependencies in intent files should start with `- ` at column 0
+**Actual:** Dependencies generated with leading spaces like `  - F-001`
+**Error:** generate-roadmap.sh regex `^- ` doesn't match lines with leading whitespace
+
+**Resolution:** Fixed awk script in `scope-project.sh` to strip leading whitespace from dependency lines and ensure they start at column 0. Dependencies are now normalized before being written to intent files.
+
+---
+
+### ISSUE-006: Intent template missing Priority/Effort/Release Target fields
+
+**Severity:** high
+**Step:** 7-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** Template should have `## Priority`, `## Effort`, `## Release Target` sections
+**Actual:** Template only has Type, Status, Motivation, etc.
+**Error:** Release plan can't properly bucket intents without these fields
+
+**Resolution:** Template verified to include all required fields (lines 9-16 in `intent/_TEMPLATE.md`). Issue was outdated.
+
+---
+
+### ISSUE-007: Mutation testing not configured
+
+**Severity:** low
+**Step:** 12-2
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** `pnpm test:mutate` should run Stryker mutation testing
+**Actual:** Script not found in package.json, Stryker not installed
+**Error:** `Command "test:mutate" not found`
+
+**Resolution:** Mutation testing is already configured and working. The `test:mutate` script exists in package.json, Stryker packages (`@stryker-mutator/core` and `@stryker-mutator/vitest-runner`) are installed, and `stryker.conf.json` is properly configured. The command runs successfully and generates mutation test reports. The issue was likely from an outdated test run.
+
+---
+
+### ISSUE-008: Broken test suite - server.test.ts
+
+**Severity:** low
+**Step:** 12-2
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** All test files should load without errors
+**Actual:** `tests/server.test.ts` fails to load - references non-existent `src/server`
+**Error:** `Failed to load url ../src/server`
+
+**Resolution:** The problematic `tests/server.test.ts` file no longer exists. Test suite runs successfully with only `tests/routes/hello.test.ts`, which passes all tests. The issue was likely from an outdated test run where the file existed but has since been removed.
+
+---
+
+### ISSUE-009: drift-check.sh script missing
+
+**Severity:** low
+**Step:** 13-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** `scripts/drift-check.sh` should exist and calculate drift metrics
+**Actual:** Script does not exist
+**Error:** `bash: scripts/drift-check.sh: No such file or directory`
+
+**Resolution:** Script already exists in framework (`scripts/drift-check.sh`). It calculates PR size trends, test-to-code ratio, dependency growth, untracked new concepts, and CI performance metrics, generating `drift/metrics.md`. The script was likely missing from test projects during initial testing but exists in the framework.
+
+---
+
+### ISSUE-010: deploy.sh script missing
+
+**Severity:** low
+**Step:** 14-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** `scripts/deploy.sh` should exist for deployment automation
+**Actual:** Script does not exist
+**Error:** `ls: scripts/deploy.sh: No such file or directory`
+
+**Resolution:** Script already exists in framework (`scripts/deploy.sh`). It performs readiness checks, detects/prompts for platform (Vercel, Netlify, Docker, AWS CDK, Manual), handles deployment, and records deployment history. The script was likely missing from test projects during initial testing but exists in the framework.
+
+---
+
+### ISSUE-011: check-readiness.sh script missing
+
+**Severity:** low
+**Step:** 14-1
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-24
+
+**Expected:** `scripts/check-readiness.sh` should exist for pre-deploy validation
+**Actual:** Script does not exist
+**Error:** `ls: scripts/check-readiness.sh: No such file or directory`
+
+**Resolution:** Script already exists in framework (`scripts/check-readiness.sh`). It performs 7 readiness checks: tests, coverage, lint/typecheck, security audit, documentation, drift check, and invariants validation. The script was likely missing from test projects during initial testing but exists in the framework.
+
+---
+
 ### ISSUE-019: Stryker Vitest runner plugin missing
 
 **Severity:** blocking

@@ -238,7 +238,13 @@ if [ ${#SELECTED_FEATURES[@]} -gt 0 ]; then
             }
             /^- \(Other intent IDs that must ship first\)$/ {
                 # Replace placeholder dependency lines with actual deps
+                # Ensure dependencies are written at column 0 (no leading whitespace)
                 while ((getline line < deps_file) > 0) {
+                    # Remove any leading whitespace and ensure line starts with "- "
+                    sub(/^[[:space:]]+/, "", line);
+                    if (line !~ /^- /) {
+                        line = "- " line;
+                    }
                     print line;
                 }
                 close(deps_file);

@@ -10,6 +10,10 @@ error_exit() {
     exit "${2:-1}"
 }
 
+warning() {
+    echo "WARNING: $1" >&2
+}
+
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'

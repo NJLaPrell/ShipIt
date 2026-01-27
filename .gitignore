@@ -12,3 +12,4 @@ worktrees.json
 .agent-id
 projects/*
 !projects/.gitkeep
+.stryker-tmp

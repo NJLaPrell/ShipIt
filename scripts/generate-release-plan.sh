@@ -206,6 +206,7 @@ while (changed) {
 
 // Third pass: If an intent has an explicit release target, ensure dependencies are in same or earlier release
 // When both have explicit targets, dependencies must come before dependents
+// FIX: Respect explicit targets - if dependency is later, move dependency (not dependent) to match
 for (const intent of plannedIntents) {
   if (!explicitReleaseTargets.has(intent.id)) continue;
   const targetRelease = releaseIndex(releases.get(intent.id));
@@ -215,8 +216,9 @@ for (const intent of plannedIntents) {
     if (explicitReleaseTargets.has(dep)) {
       // Both have explicit targets: dependency must be in same or earlier release
       if (depRelease > targetRelease) {
-        // Dependency is later - move dependent to match dependency's release
-        releases.set(intent.id, releases.get(dep));
+        // Dependency is later than dependent - move dependency to match dependent's release
+        // (Dependencies must ship before dependents, so dependency moves earlier)
+        releases.set(dep, releases.get(intent.id));
         changed = true;
       }
     } else {
