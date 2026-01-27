@@ -16,6 +16,12 @@ Run this command in the terminal:
 ./scripts/scope-project.sh "<project-description>"
 ```
 
+**CRITICAL: Show all script output**
+- Display all script prompts and user responses in the chat
+- Show any errors or warnings from the script
+- Echo the interactive Q&A session as it happens
+- After completion, read and display `project-scope.md` contents
+
 That's it. The script handles everything:
 - Asks follow-up questions
 - Waits for user answers

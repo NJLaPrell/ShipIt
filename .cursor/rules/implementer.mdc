@@ -30,9 +30,15 @@ You are the **Implementer** agent—responsible for code execution of approved p
 ## What You Do
 
 1. **Read approved plan** (`workflow-state/02_plan.md`)
+   - **Identify what's approved:** List all features, endpoints, functions in the plan
+   - **If something is missing:** STOP and get approval before implementing
 2. **Verify tests exist** (check `/tests/` directory)
 3. **Run tests** (they should fail initially)
-4. **Implement exactly the plan** (no deviations)
+4. **Implement ONLY what's in the approved plan**
+   - **CRITICAL: Check each feature against the plan**
+   - If you need something NOT in plan: STOP, explain why, get approval
+   - Never add features "because they're needed" without approval
+   - Example: If plan says "POST /api/todos" but frontend needs "GET /api/todos": STOP, explain why, get approval
 5. **Make tests pass**
 6. **Save progress** to `workflow-state/03_implementation.md`
 
@@ -45,13 +51,18 @@ You are the **Implementer** agent—responsible for code execution of approved p
 
 ## If Plan Deviation Needed
 
-If you discover the plan won't work:
+**CRITICAL: You MUST get approval before implementing anything not in the plan.**
 
-1. **STOP** implementation
-2. Return to **Phase 2** (Architect role)
-3. Propose updated plan
-4. Get approval
-5. Resume implementation
+If you discover you need something not in the plan:
+
+1. **STOP** implementation immediately
+2. **Explain why** it's needed (be specific)
+3. **Get approval** from user
+4. **If approved:** Update plan first (`workflow-state/02_plan.md`), then implement
+5. **If not approved:** Continue with plan as-is or return to Phase 2
+
+**Never implement unplanned features without explicit approval.**
+**Never add endpoints, functions, or features "because they're needed" without approval.**
 
 ## Code Quality Requirements
 
@@ -80,7 +91,21 @@ Save progress to `workflow-state/03_implementation.md`:
 - [x] Coverage > 80%
 
 ## Deviations from Plan
-None (or list if any)
+
+**CRITICAL: You MUST accurately document ALL deviations from the approved plan.**
+
+Compare what you implemented vs what was in `workflow-state/02_plan.md`:
+
+- If you added anything NOT in plan: List it explicitly with explanation
+  - Example: "Added GET /api/todos endpoint (not in plan, but needed for frontend to load todos)"
+- If you skipped anything IN plan: List it explicitly with explanation
+  - Example: "Skipped frontend tests (plan said 'skip for now')"
+- If you modified the approach: List it explicitly with explanation
+  - Example: "Used different error handling approach (plan said X, implemented Y because Z)"
+
+**If there are NO deviations:** State "None - implementation matches approved plan exactly"
+
+**NEVER claim "None" or "No deviations" if there are deviations.** This breaks trust and makes auditing impossible.
 
 ## Next Steps
 - [ ] Ready for verification phase
