@@ -99,14 +99,22 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 **Severity:** low
 **Step:** UX
-**Status:** active
+**Status:** resolved
 **First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
 
 **Expected:** `/scope-project` should display all questions at once with sensible defaults, allow editing in a single view, then require one confirmation
 **Actual:** Script asks questions one-by-one sequentially, requiring many individual responses
 **Error:** Sequential prompts slow down workflow and make it hard to review/edit answers
 
-**Notes:** Would significantly improve scoping UX. Display all questions in a form-like interface with defaults, allow editing, then single confirmation. Consider using a TUI library or structured input format.
+**Resolution:** Refactored `scope-project.sh` to use batched prompts:
+- All follow-up questions now displayed at once with sensible defaults
+- User can review all questions before answering
+- Defaults provided for each question (e.g., "Web" for UI type, "JSON file" for persistence)
+- User can press Enter to accept default or type new answer
+- After all answers collected, shows review summary
+- Single confirmation prompt before proceeding
+- Significantly faster workflow - all questions visible at once
 
 ---
 
@@ -201,8 +209,8 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 | Blocking | 8 | 0 | 8 |
 | High | 7 | 0 | 7 |
 | Medium | 7 | 0 | 7 |
-| Low | 13 | 0 | 13 |
-| **Total** | **35** | **0** | **35** |
+| Low | 13 | 1 | 12 |
+| **Total** | **35** | **1** | **34** |
 
 **Note:** All resolved issues have been moved to `ISSUES_HISTORIC.md`.
 
