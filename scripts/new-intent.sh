@@ -68,12 +68,78 @@ while IFS= read -r line; do
     MOTIVATION="${MOTIVATION}- ${line}\n"
 done
 
+# Get priority
+echo -e "${YELLOW}Priority:${NC}"
+echo "1) p0 (Critical)"
+echo "2) p1 (High)"
+echo "3) p2 (Medium)"
+echo "4) p3 (Low)"
+read -p "Select priority [1-4, default=2]: " priority_choice
+
+case $priority_choice in
+    1) PRIORITY="p0" ;;
+    2) PRIORITY="p1" ;;
+    3) PRIORITY="p2" ;;
+    4) PRIORITY="p3" ;;
+    *) PRIORITY="p2" ;;
+esac
+
+# Get effort
+echo -e "${YELLOW}Effort:${NC}"
+echo "1) Small (s)"
+echo "2) Medium (m)"
+echo "3) Large (l)"
+read -p "Select effort [1-3, default=2]: " effort_choice
+
+case $effort_choice in
+    1) EFFORT="s" ;;
+    2) EFFORT="m" ;;
+    3) EFFORT="l" ;;
+    *) EFFORT="m" ;;
+esac
+
+# Get release target
+echo -e "${YELLOW}Release Target:${NC}"
+echo "1) R1 (Next release)"
+echo "2) R2 (Following release)"
+echo "3) R3 (Future)"
+echo "4) R4 (Backlog)"
+read -p "Select release target [1-4, default=2]: " release_choice
+
+case $release_choice in
+    1) RELEASE_TARGET="R1" ;;
+    2) RELEASE_TARGET="R2" ;;
+    3) RELEASE_TARGET="R3" ;;
+    4) RELEASE_TARGET="R4" ;;
+    *) RELEASE_TARGET="R2" ;;
+esac
+
+# Get dependencies
+echo -e "${YELLOW}Dependencies:${NC}"
+echo "Enter intent IDs (e.g., F-001, F-002) or 'none' for no dependencies"
+echo "Press Enter after each ID, type 'done' when finished:"
+DEPENDENCIES=()
+while IFS= read -r dep_line; do
+    [ "$dep_line" = "done" ] && break
+    [ -z "$dep_line" ] && continue
+    if [ "$dep_line" = "none" ]; then
+        DEPENDENCIES=()
+        break
+    fi
+    # Validate format (F-###, B-###, T-###)
+    if [[ "$dep_line" =~ ^[FBT]-[0-9]+$ ]]; then
+        DEPENDENCIES+=("$dep_line")
+    else
+        echo -e "${RED}Invalid format. Use F-###, B-###, or T-###${NC}"
+    fi
+done
+
 # Get risk level
 echo -e "${YELLOW}Risk Level:${NC}"
 echo "1) Low"
 echo "2) Medium"
 echo "3) High"
-read -p "Select risk [1-3]: " risk_choice
+read -p "Select risk [1-3, default=1]: " risk_choice
 
 case $risk_choice in
     1) RISK_LEVEL="low" ;;
@@ -95,24 +161,50 @@ MOTIVATION_FILE="$(mktemp)"
 sed -e "s/# F-###: Title/# $INTENT_ID: $TITLE/" \
     -e "s/feature | bug | tech-debt/$INTENT_TYPE/" \
     -e "s/planned | active | blocked | validating | shipped | killed/planned/" \
-    -e "s/p0 | p1 | p2 | p3/p2/" \
-    -e "s/s | m | l/m/" \
-    -e "s/R1 | R2 | R3 | R4/R2/" \
+    -e "s/p0 | p1 | p2 | p3/$PRIORITY/" \
+    -e "s/s | m | l/$EFFORT/" \
+    -e "s/R1 | R2 | R3 | R4/$RELEASE_TARGET/" \
     -e "s/low | medium | high/$RISK_LEVEL/" \
     "$TEMPLATE_FILE" > "$TEMP_FILE" || error_exit "Failed to create intent template"
 
 printf "%b" "$MOTIVATION" | sed 's/^/  /' > "$MOTIVATION_FILE"
 
-awk -v motivation_file="$MOTIVATION_FILE" '
+# Create dependencies file
+DEP_FILE="$(mktemp)"
+if [ ${#DEPENDENCIES[@]} -eq 0 ]; then
+    echo "- (none)" > "$DEP_FILE"
+else
+    for dep in "${DEPENDENCIES[@]}"; do
+        echo "- $dep" >> "$DEP_FILE"
+    done
+fi
+
+awk -v motivation_file="$MOTIVATION_FILE" -v deps_file="$DEP_FILE" '
     $0 == "(Why it exists, 1–3 bullets)" {
         while ((getline line < motivation_file) > 0) print line;
         close(motivation_file);
         next;
     }
+    /^- \(Other intent IDs that must ship first\)$/ {
+        while ((getline line < deps_file) > 0) print line;
+        close(deps_file);
+        # Skip remaining placeholder dependency lines
+        while (getline > 0) {
+            if (/^## / || /^$/) {
+                print;
+                break;
+            }
+            # Skip placeholder lines (lines starting with "- (")
+            if (!/^- \(/) {
+                print;
+            }
+        }
+        next;
+    }
     { print }
 ' "$TEMP_FILE" > "$INTENT_FILE" || error_exit "Failed to create intent file"
 
-rm -f "$TEMP_FILE" "$MOTIVATION_FILE"
+rm -f "$TEMP_FILE" "$MOTIVATION_FILE" "$DEP_FILE"
 
 echo -e "${GREEN}✓ Created intent: $INTENT_FILE${NC}"
 
@@ -128,6 +220,26 @@ if [ -x "./scripts/generate-release-plan.sh" ]; then
     ./scripts/generate-release-plan.sh || echo "WARNING: release plan generation failed"
 fi
 
+echo ""
+echo -e "${GREEN}════════════════════════════════════════${NC}"
+echo -e "${GREEN}✓ Intent created successfully!${NC}"
+echo -e "${GREEN}════════════════════════════════════════${NC}"
+echo ""
+echo -e "${YELLOW}Intent Details:${NC}"
+echo "  ID: $INTENT_ID"
+echo "  Title: $TITLE"
+echo "  Type: $INTENT_TYPE"
+echo "  Priority: $PRIORITY"
+echo "  Effort: $EFFORT"
+echo "  Release Target: $RELEASE_TARGET"
+echo "  Risk Level: $RISK_LEVEL"
+if [ ${#DEPENDENCIES[@]} -gt 0 ]; then
+    echo "  Dependencies: ${DEPENDENCIES[*]}"
+else
+    echo "  Dependencies: (none)"
+fi
+echo ""
 echo -e "${YELLOW}Next steps:${NC}"
-echo "1. Edit $INTENT_FILE to fill in acceptance criteria, invariants, etc."
-echo "2. Run: /ship $INTENT_ID"
+echo "1. Review $INTENT_FILE"
+echo "2. Fill in acceptance criteria, invariants, and other details"
+echo "3. Run: /ship $INTENT_ID"

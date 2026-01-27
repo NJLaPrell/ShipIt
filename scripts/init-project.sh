@@ -107,7 +107,7 @@ if [ -f "$ROOT_DIR/stryker.conf.json" ]; then
     cp "$ROOT_DIR/stryker.conf.json" "stryker.conf.json"
 fi
 
-for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh verify.sh; do
+for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh verify.sh help.sh status.sh suggest.sh; do
     if [ -f "$ROOT_DIR/scripts/$script" ]; then
         cp "$ROOT_DIR/scripts/$script" "scripts/$script"
         chmod +x "scripts/$script"
