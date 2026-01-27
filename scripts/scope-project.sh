@@ -14,6 +14,7 @@ error_exit() {
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+CYAN='\033[0;36m'
 NC='\033[0m'
 
 # Check if project.json exists
@@ -44,7 +45,15 @@ echo "  Tech Stack: $TECH_STACK"
 echo "  High-Risk Domains: $HIGH_RISK"
 echo ""
 
-# Interactive follow-up questions
+# Interactive follow-up questions with defaults
+declare -A FOLLOW_UP_DEFAULTS=(
+    ["Is a UI required (API-only, CLI, Web)?"]="Web"
+    ["What persistence should be used (JSON file, SQLite, etc.)?"]="JSON file"
+    ["Single-user or multi-user?"]="Single-user"
+    ["Authentication required (none, API key, full auth)?"]="none"
+    ["Any non-functional requirements (performance, scaling, etc.)?"]="Fast for typical use cases"
+)
+
 FOLLOW_UP_QUESTIONS=(
     "Is a UI required (API-only, CLI, Web)?"
     "What persistence should be used (JSON file, SQLite, etc.)?"
@@ -54,14 +63,43 @@ FOLLOW_UP_QUESTIONS=(
 )
 
 FOLLOW_UP_ANSWERS=()
+
+# Batch prompt: show all questions with defaults
 echo -e "${YELLOW}Follow-Up Questions (required):${NC}"
-for question in "${FOLLOW_UP_QUESTIONS[@]}"; do
-    read -p "$question " answer
+echo ""
+echo "Review and edit answers below. Press Enter to accept default, or type new answer."
+echo ""
+
+for i in "${!FOLLOW_UP_QUESTIONS[@]}"; do
+    question="${FOLLOW_UP_QUESTIONS[$i]}"
+    default="${FOLLOW_UP_DEFAULTS[$question]}"
+    
+    # Show question with default
+    echo -e "${CYAN}Q$((i + 1)):${NC} $question"
+    echo -e "  ${YELLOW}Default:${NC} $default"
+    read -p "  Your answer [$default]: " answer
+    
+    # Use default if empty, otherwise use provided answer
     if [ -z "$answer" ]; then
-        error_exit "Answer required. Re-run /scope-project and provide all follow-up answers." 1
+        answer="$default"
     fi
+    
     FOLLOW_UP_ANSWERS+=("$answer")
+    echo ""
 done
+
+echo -e "${YELLOW}Review your answers:${NC}"
+for i in "${!FOLLOW_UP_QUESTIONS[@]}"; do
+    echo "  Q$((i + 1)): ${FOLLOW_UP_QUESTIONS[$i]}"
+    echo "     A: ${FOLLOW_UP_ANSWERS[$i]}"
+done
+echo ""
+read -p "Confirm answers? (y/n) [y]: " confirm
+confirm="${confirm:-y}"
+
+if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+    error_exit "Scoping cancelled. Re-run /scope-project to start over." 1
+fi
 echo ""
 
 # Open questions (optional)
@@ -284,10 +322,9 @@ fi
 if [ -x "./scripts/generate-roadmap.sh" ]; then
     ./scripts/generate-roadmap.sh || echo "WARNING: roadmap generation failed"
 fi
-echo ""
-echo -e "${YELLOW}Next Steps:${NC}"
-echo "1. In Cursor, run: /scope-project \"$PROJECT_DESC\""
-echo "2. Answer follow-up questions and select features for intent generation"
-echo "3. Review $SCOPE_FILE and generated intents"
-echo "4. Review release plan and roadmap outputs"
-echo ""
+# Show next-step suggestions
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/lib/suggest-next.sh" ]; then
+    source "$SCRIPT_DIR/lib/suggest-next.sh"
+    display_suggestions "scoping"
+fi

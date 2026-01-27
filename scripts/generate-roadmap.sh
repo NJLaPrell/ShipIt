@@ -120,7 +120,29 @@ generate_roadmap_file "$ROADMAP_DIR/now.md" "Now (Current Sprint)" ${NOW_INTENTS
 generate_roadmap_file "$ROADMAP_DIR/next.md" "Next (Upcoming)" ${NEXT_INTENTS[@]+"${NEXT_INTENTS[@]}"}
 generate_roadmap_file "$ROADMAP_DIR/later.md" "Later (Backlog)" ${LATER_INTENTS[@]+"${LATER_INTENTS[@]}"}
 
-echo -e "${GREEN}✓ Generated roadmap files${NC}"
+# Verify outputs and show summary
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/lib/verify-outputs.sh" ]; then
+    source "$SCRIPT_DIR/lib/verify-outputs.sh"
+    echo ""
+    verify_file_exists "$ROADMAP_DIR/now.md" "Updated roadmap/now.md"
+    verify_file_exists "$ROADMAP_DIR/next.md" "Updated roadmap/next.md"
+    verify_file_exists "$ROADMAP_DIR/later.md" "Updated roadmap/later.md"
+    
+    # Count intents in each roadmap
+    now_count=$(grep -c "^\*\*" "$ROADMAP_DIR/now.md" 2>/dev/null || echo "0")
+    next_count=$(grep -c "^\*\*" "$ROADMAP_DIR/next.md" 2>/dev/null || echo "0")
+    later_count=$(grep -c "^\*\*" "$ROADMAP_DIR/later.md" 2>/dev/null || echo "0")
+    echo -e "${GREEN}✓${NC} Roadmap: $now_count in Now, $next_count in Next, $later_count in Later"
+    
+    # Show next-step suggestions
+    if [ -f "$SCRIPT_DIR/lib/suggest-next.sh" ]; then
+        source "$SCRIPT_DIR/lib/suggest-next.sh"
+        display_suggestions "roadmap"
+    fi
+else
+    echo -e "${GREEN}✓ Generated roadmap files${NC}"
+fi
 
 # Generate dependency graph
 DEPENDENCY_FILE="dependencies.md"

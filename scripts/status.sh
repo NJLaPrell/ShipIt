@@ -133,19 +133,53 @@ if [ -f "$WORKFLOW_DIR/02_plan.md" ]; then
     fi
 fi
 
+# Test results summary
+if command -v pnpm >/dev/null 2>&1 && [ -f "package.json" ]; then
+    echo -e "${CYAN}Test Status:${NC}"
+    if [ -f "package.json" ] && grep -q '"test"' package.json; then
+        # Try to get test results (non-blocking, timeout to avoid hanging)
+        test_output=$(timeout 10 pnpm test 2>&1 | tail -5 || echo "")
+        if [ -n "$test_output" ] && echo "$test_output" | grep -q "PASS\|pass\|✓\|Test Files.*passed"; then
+            test_count=$(echo "$test_output" | grep -oE "[0-9]+ passing\|[0-9]+ passed\|Test Files.*[0-9]+" | head -1 || echo "")
+            echo -e "  ${GREEN}✓${NC} Tests passing${test_count:+ ($test_count)}"
+        elif [ -n "$test_output" ] && echo "$test_output" | grep -q "FAIL\|fail\|✗\|failed"; then
+            echo -e "  ${RED}✗${NC} Tests failing (run 'pnpm test' for details)"
+        else
+            echo "  ${YELLOW}○${NC} Run 'pnpm test' to check test status"
+        fi
+    else
+        echo "  ${YELLOW}○${NC} No test script configured"
+    fi
+    echo ""
+fi
+
+# Recent changes (git)
+if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; then
+    echo -e "${CYAN}Recent Changes:${NC}"
+    recent_commits=$(git log --oneline -5 2>/dev/null | head -5 || true)
+    if [ -n "$recent_commits" ]; then
+        echo "$recent_commits" | while IFS= read -r line; do
+            [ -n "$line" ] && echo "  $line"
+        done
+    else
+        echo "  (No commits yet)"
+    fi
+    echo ""
+fi
+
 # Suggestions
-echo -e "${CYAN}Quick Actions:${NC}"
+echo -e "${CYAN}Next Steps:${NC}"
 if [ "$TOTAL" -eq 0 ]; then
-    echo "  → Run /scope-project to break down your project"
-    echo "  → Run /new_intent to create your first intent"
+    echo "  💡 Run /scope-project to break down your project"
+    echo "  💡 Run /new_intent to create your first intent"
 elif [ "$ACTIVE" -eq 0 ] && [ "$PLANNED" -gt 0 ]; then
-    echo "  → Run /ship <id> to start working on a planned intent"
-    echo "  → Run /new_intent to create another intent"
+    echo "  💡 Run /ship <id> to start working on a planned intent"
+    echo "  💡 Run /new_intent to create another intent"
 elif [ "$ACTIVE" -gt 0 ]; then
-    echo "  → Continue workflow for active intent"
-    echo "  → Run /status to see current phase"
+    echo "  💡 Continue workflow for active intent"
+    echo "  💡 Run /status to see current phase"
 else
-    echo "  → Run /generate-release-plan to update release plan"
-    echo "  → Run /generate-roadmap to update roadmap"
+    echo "  💡 Run /generate-release-plan to update release plan"
+    echo "  💡 Run /generate-roadmap to update roadmap"
 fi
 echo ""

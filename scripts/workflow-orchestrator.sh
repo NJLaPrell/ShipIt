@@ -30,12 +30,22 @@ fi
 WORKFLOW_DIR="workflow-state"
 mkdir -p "$WORKFLOW_DIR"
 
+# Source progress library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/lib/progress.sh" ]; then
+    source "$SCRIPT_DIR/lib/progress.sh"
+fi
+
 echo -e "${BLUE}Orchestrating workflow for $INTENT_ID...${NC}"
 echo ""
 
 # Phase 1: Analysis
 create_analysis() {
-    echo -e "${YELLOW}[Phase 1] Creating analysis state...${NC}"
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 1 5 "Analysis" "running"
+    else
+        echo -e "${YELLOW}[Phase 1/5] Analysis... ⏳${NC}"
+    fi
     
     cat > "$WORKFLOW_DIR/01_analysis.md" << EOF || error_exit "Failed to create analysis state"
 # Analysis: $INTENT_ID
@@ -65,12 +75,20 @@ create_analysis() {
 Proceed to Planning phase.
 EOF
 
-    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/01_analysis.md${NC}"
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 1 5 "Analysis" "complete"
+    else
+        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/01_analysis.md${NC}"
+    fi
 }
 
 # Phase 2: Planning
 create_plan() {
-    echo -e "${YELLOW}[Phase 2] Creating plan state...${NC}"
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 2 5 "Planning" "running"
+    else
+        echo -e "${YELLOW}[Phase 2/5] Planning... ⏳${NC}"
+    fi
     
     cat > "$WORKFLOW_DIR/02_plan.md" << EOF || error_exit "Failed to create plan state"
 # Plan: $INTENT_ID
@@ -105,12 +123,20 @@ create_plan() {
 Proceed to Test Writing phase.
 EOF
 
-    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/02_plan.md${NC}"
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 2 5 "Planning" "complete"
+    else
+        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/02_plan.md${NC}"
+    fi
 }
 
 # Phase 3: Implementation
 create_implementation() {
-    echo -e "${YELLOW}[Phase 3] Creating implementation state...${NC}"
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 3 5 "Implementation" "running"
+    else
+        echo -e "${YELLOW}[Phase 3/5] Implementation... ⏳${NC}"
+    fi
     
     cat > "$WORKFLOW_DIR/03_implementation.md" << EOF || error_exit "Failed to create implementation state"
 # Implementation: $INTENT_ID
@@ -140,12 +166,20 @@ create_implementation() {
 Proceed to Verification phase.
 EOF
 
-    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/03_implementation.md${NC}"
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 3 5 "Implementation" "complete"
+    else
+        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/03_implementation.md${NC}"
+    fi
 }
 
 # Phase 4: Verification
 create_verification() {
-    echo -e "${YELLOW}[Phase 4] Creating verification state...${NC}"
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 4 5 "Verification" "running"
+    else
+        echo -e "${YELLOW}[Phase 4/5] Verification... ⏳${NC}"
+    fi
     
     cat > "$WORKFLOW_DIR/04_verification.md" << EOF || error_exit "Failed to create verification state"
 # Verification: $INTENT_ID
@@ -179,8 +213,6 @@ create_verification() {
 Proceed to Release phase.
 EOF
 
-    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/04_verification.md${NC}"
-
     # Backward compatibility: some docs/tests still look for 05_verification.md
     cat > "$WORKFLOW_DIR/05_verification.md" << EOF || error_exit "Failed to create legacy verification state"
 # Verification (Legacy): $INTENT_ID
@@ -190,11 +222,21 @@ EOF
 
 This file is deprecated. Use `workflow-state/04_verification.md`.
 EOF
+
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 4 5 "Verification" "complete"
+    else
+        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/04_verification.md${NC}"
+    fi
 }
 
 # Phase 5: Release Notes
 create_release() {
-    echo -e "${YELLOW}[Phase 5] Creating release notes state...${NC}"
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 5 5 "Release" "running"
+    else
+        echo -e "${YELLOW}[Phase 5/5] Release... ⏳${NC}"
+    fi
     
     cat > "$WORKFLOW_DIR/05_release_notes.md" << EOF || error_exit "Failed to create release notes state"
 # Release Notes: $INTENT_ID
@@ -215,7 +257,11 @@ create_release() {
 [Steward decision and rationale]
 EOF
 
-    echo -e "${GREEN}✓ Created $WORKFLOW_DIR/05_release_notes.md${NC}"
+    if command -v show_phase_progress >/dev/null 2>&1; then
+        show_phase_progress 5 5 "Release" "complete"
+    else
+        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/05_release_notes.md${NC}"
+    fi
 }
 
 # Update active.md

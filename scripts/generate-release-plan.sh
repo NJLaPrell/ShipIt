@@ -24,6 +24,32 @@ fi
 
 mkdir -p "$RELEASE_DIR"
 
+# Run validation and show warnings
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/lib/validate-intents.sh" ]; then
+    source "$SCRIPT_DIR/lib/validate-intents.sh" || true
+    echo "Validating intents..."
+    validation_output=$(validate_all_intents 2>&1 || true)
+    validation_exit=$?
+    if [ $validation_exit -ne 0 ] || [ -n "$validation_output" ]; then
+        echo ""
+        echo "⚠️  Validation warnings:"
+        echo "$validation_output" | while IFS= read -r issue; do
+            [ -z "$issue" ] && continue
+            issue_type=$(echo "$issue" | cut -d'|' -f1)
+            intent_id=$(echo "$issue" | cut -d'|' -f2)
+            message=$(echo "$issue" | cut -d'|' -f3)
+            echo "  • $intent_id: $message"
+        done
+        echo ""
+        echo "💡 Run './scripts/fix-intents.sh' to auto-fix some issues"
+        echo ""
+    else
+        echo "✓ No validation issues found"
+        echo ""
+    fi
+fi
+
 INTENT_DIR="$INTENT_DIR" PLAN_FILE="$PLAN_FILE" node <<'NODE'
 const fs = require('fs');
 const path = require('path');
@@ -375,3 +401,24 @@ if (excludedIntents.length) {
 fs.writeFileSync(planFile, output, 'utf8');
 console.log(`✓ Generated release plan: ${planFile}`);
 NODE
+
+# Verify output and show summary
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [ -f "$SCRIPT_DIR/lib/verify-outputs.sh" ]; then
+    source "$SCRIPT_DIR/lib/verify-outputs.sh"
+    echo ""
+    verify_file_exists "$PLAN_FILE" "Generated release/plan.md"
+    
+    # Count intents in plan
+    if [ -f "$PLAN_FILE" ]; then
+        intent_count=$(grep -c "^[0-9]\+\. \*\*" "$PLAN_FILE" 2>/dev/null || echo "0")
+        release_count=$(grep -c "^## R[0-9]" "$PLAN_FILE" 2>/dev/null || echo "0")
+        echo -e "${GREEN}✓${NC} Release plan contains $intent_count intent(s) across $release_count release(s)"
+    fi
+    
+    # Show next-step suggestions
+    if [ -f "$SCRIPT_DIR/lib/suggest-next.sh" ]; then
+        source "$SCRIPT_DIR/lib/suggest-next.sh"
+        display_suggestions "release-plan"
+    fi
+fi
