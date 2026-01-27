@@ -14,6 +14,31 @@ An AI-native Software Development Life Cycle that replaces meetings, docs, and h
 
 **Status:** ✅ **Production Ready** - Fully validated with 97.6% test pass rate (82/84 tests passing)
 
+## Table of Contents
+
+- [The Problem](#the-problem)
+- [The Solution](#the-solution)
+- [Quick Start](#quick-start-30-seconds)
+- [Workflow Diagram](#workflow-diagram)
+- [How It Works](#how-it-works)
+  - [The Workflow](#the-workflow)
+  - [The Agents](#the-agents)
+- [Commands](#commands)
+- [Example: Ship a Feature](#example-ship-a-feature)
+- [Project Structure](#project-structure)
+- [Key Concepts](#key-concepts)
+  - [Intent Ledger](#intent-ledger)
+  - [Truth Hierarchy](#truth-hierarchy)
+  - [Tests First](#tests-first-critical)
+  - [High-Risk Gates](#high-risk-gates)
+- [Installation](#installation)
+- [Prerequisites](#prerequisites)
+- [Documentation](#documentation)
+- [Validation & Testing](#validation--testing)
+- [FAQ](#faq)
+- [Version History](#version-history)
+- [License](#license)
+
 ## The Problem
 
 Traditional SDLC assumes humans are the bottleneck. But AI agents don't need:
@@ -34,6 +59,10 @@ A framework that optimizes for *epistemology*, not coordination:
 - 📋 **Intent Ledger** - Planned work in `/intent/` (not tickets)
 - 🚪 **Automated Gates** - CI/CD enforces quality
 - 📊 **Drift Detection** - Entropy monitoring prevents decay
+- ✅ **Auto-Validation** - Proactive validation and auto-fix for common issues
+- 🔄 **Smart Chaining** - Scripts automatically run dependent generators
+- 📈 **Progress Tracking** - Clear indicators during long-running operations
+- 💡 **Context-Aware** - Intelligent next-step suggestions based on project state
 
 ## Quick Start (30 seconds)
 
@@ -49,13 +78,107 @@ A framework that optimizes for *epistemology*, not coordination:
 
 # 2. Scope it (optional but smart)
 /scope-project "Build a todo app with auth"
-# → You will answer follow-up questions and select features to generate as intents
+# → Shows all questions at once with defaults (batched prompts)
+# → Review answers, confirm, and select features to generate as intents
+# → Auto-runs: /generate-release-plan and /generate-roadmap
+# → Shows verification summary and next-step suggestions
 
 # 3. Ship a feature
 /ship F-001
 ```
 
-That's it. The framework handles the rest through 6 automated phases.
+That's it. The framework handles the rest through 5 automated phases with progress indicators.
+
+## Workflow Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         ShipIt Workflow                                  │
+└─────────────────────────────────────────────────────────────────────────┘
+
+SETUP PHASE
+    │
+    ├─ /init-project "Project Name"
+    │   └─ Creates project structure, copies framework files
+    │
+    ├─ /scope-project "Description"
+    │   └─ AI-assisted feature breakdown → generates intents
+    │   └─ Auto-runs: /generate-release-plan, /generate-roadmap
+    │   └─ Shows verification summary and next-step suggestions
+    │
+    └─ /status
+        └─ Unified dashboard: intents, workflow phase, test results
+
+PLANNING PHASE
+    │
+    ├─ /new_intent
+    │   └─ Creates intent file (F-001.md, B-002.md, etc.)
+    │
+    ├─ /generate-release-plan
+    │   └─ Orders intents by dependencies, priorities, release targets
+    │   └─ Validates dependencies, shows warnings
+    │   └─ Suggests next steps
+    │
+    ├─ /generate-roadmap
+    │   └─ Categorizes intents: now/next/later
+    │   └─ Suggests next steps
+    │
+    └─ /fix
+        └─ Auto-fixes: dependency ordering, whitespace issues
+        └─ Shows preview before applying fixes
+
+EXECUTION PHASE
+    │
+    ├─ /ship <intent-id>
+    │   │
+    │   ├─ [Phase 1/5] Analysis... ⏳
+    │   │   └─ PM agent: Requirements clarity, confidence scoring
+    │   │
+    │   ├─ [Phase 2/5] Planning... ⏳
+    │   │   └─ Architect: System design, CANON compliance
+    │   │   └─ ⚠️ Human approval gate for high-risk domains
+    │   │
+    │   ├─ [Phase 3/5] Implementation... ⏳
+    │   │   └─ QA: Writes tests first (they fail initially)
+    │   │   └─ Implementer: Writes code (tests pass)
+    │   │
+    │   ├─ [Phase 4/5] Verification... ⏳
+    │   │   └─ QA: Adversarial testing
+    │   │   └─ Security: Threat modeling, audit
+    │   │
+    │   └─ [Phase 5/5] Release... ⏳
+    │       └─ Docs: Updates README/CHANGELOG
+    │       └─ Steward: Final approval
+    │
+    ├─ /verify <intent-id>
+    │   └─ Re-run verification phase only
+    │
+    └─ /status
+        └─ Check current phase, test results, recent changes
+
+MAINTENANCE PHASE
+    │
+    ├─ /drift_check
+    │   └─ Calculates: PR size, test-to-code ratio, dependency growth
+    │
+    ├─ /deploy [environment]
+    │   └─ Runs readiness checks (tests, lint, typecheck, audit, docs)
+    │   └─ Deploys to platform (Vercel, Netlify, Docker, AWS CDK, Manual)
+    │
+    └─ /kill <intent-id>
+        └─ Permanently stops work with rationale
+
+UTILITY COMMANDS
+    │
+    ├─ /help
+    │   └─ Lists all commands with descriptions
+    │
+    ├─ /suggest
+    │   └─ Suggests next intent to work on
+    │
+    └─ /test_shipit
+        └─ Runs end-to-end test suite
+```
 
 ## How It Works
 
@@ -73,6 +196,8 @@ Intent → Analysis → Planning → Tests → Code → Verify → Release
 6. **QA + Security verify** (adversarial validation)
 7. **Docs + Steward approve** (documentation + final check)
 
+**Progress Tracking:** Each phase shows `[Phase X/5] PhaseName... ⏳` while running and `✓` when complete, so you always know what's happening.
+
 ### The Agents
 
 7 specialized AI agents, each with a clear role:
@@ -89,19 +214,42 @@ Intent → Analysis → Planning → Tests → Code → Verify → Release
 
 ## Commands
 
-| Command | What It Does |
-|---------|--------------|
-| `/init-project [name]` | Create a new project with full structure |
-| `/scope-project [desc]` | AI-assisted feature breakdown |
-| `/new_intent` | Create a feature/bug/tech-debt intent |
-| `/ship <id>` | Run full SDLC workflow (6 phases) |
-| `/verify <id>` | Re-run verification phase |
-| `/kill <id>` | Kill an intent (with rationale) |
-| `/drift_check` | Check for entropy/decay |
-| `/generate-release-plan` | Build release plan from intents |
-| `/generate-roadmap` | Generate roadmap (now/next/later) |
-| `/deploy [env]` | Deploy with readiness checks |
-| `/test_shipit` | Run end-to-end test suite |
+### Setup & Planning
+
+| Command | What It Does | When to Use |
+|---------|--------------|-------------|
+| `/init-project [name]` | Create a new project with full structure | Start of new project |
+| `/scope-project [desc]` | AI-assisted feature breakdown with batched prompts | After init, to break down features |
+| `/new_intent` | Create a feature/bug/tech-debt intent | When planning new work |
+| `/generate-release-plan` | Build release plan from intents (auto-validates) | After creating/updating intents |
+| `/generate-roadmap` | Generate roadmap (now/next/later) | After creating/updating intents |
+| `/fix` | Auto-fix intent issues (dependency ordering, whitespace) | When validation shows issues |
+| `/status` | Unified dashboard: intents, workflow, tests, recent changes | Anytime to check project state |
+
+### Execution
+
+| Command | What It Does | When to Use |
+|---------|--------------|-------------|
+| `/ship <id>` | Run full SDLC workflow (5 phases with progress indicators) | To implement an intent |
+| `/verify <id>` | Re-run verification phase only | After code changes |
+| `/kill <id>` | Kill an intent (with rationale) | When work should stop permanently |
+
+### Maintenance
+
+| Command | What It Does | When to Use |
+|---------|--------------|-------------|
+| `/drift_check` | Check for entropy/decay (PR size, test ratio, deps) | Periodically to monitor health |
+| `/deploy [env]` | Deploy with readiness checks | When ready to release |
+| `/test_shipit` | Run end-to-end test suite | To validate framework itself |
+
+### Utilities
+
+| Command | What It Does | When to Use |
+|---------|--------------|-------------|
+| `/help` | Lists all commands with descriptions | When you need a reminder |
+| `/suggest` | Suggests next intent to work on | When unsure what to do next |
+
+**Note:** All commands show context-aware next-step suggestions after completion. Scripts auto-verify outputs and run dependent generators (e.g., `/scope-project` automatically runs `/generate-release-plan` and `/generate-roadmap`).
 
 All commands are available as Cursor slash commands. See [`.cursor/commands/`](./.cursor/commands/) for full documentation.
 
@@ -118,14 +266,21 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 /ship F-001
 
 # Watch the magic happen:
+# [Phase 1/5] Analysis... ⏳
 # ✅ PM analyzes requirements
+# [Phase 2/5] Planning... ⏳
 # ✅ Architect proposes plan (needs your approval)
+# [Phase 3/5] Implementation... ⏳
 # ✅ QA writes tests (they fail - perfect!)
 # ✅ Implementer writes code (tests pass!)
+# [Phase 4/5] Verification... ⏳
 # ✅ QA + Security verify
+# [Phase 5/5] Release... ⏳
 # ✅ Docs update README/CHANGELOG
 # ✅ Steward approves
 # ✅ Done!
+# 
+# 💡 Next steps: Review release notes, deploy, or start next intent
 ```
 
 ## Project Structure
@@ -149,6 +304,8 @@ All work lives in `/intent/` as markdown files. Each intent has:
 - Invariants (hard constraints, dual form: human + executable)
 - Kill criteria (explicit stop conditions)
 - Rollback plan (required before implementation)
+
+**Validation & Auto-Fix:** The framework proactively validates intents for common issues (dependency ordering conflicts, whitespace formatting, missing dependencies, circular dependencies). Use `/fix` to auto-fix issues with a preview before applying changes.
 
 ### Truth Hierarchy
 When facts conflict, this is the order of precedence:
@@ -216,7 +373,7 @@ The framework has been fully validated end-to-end:
 
 - ✅ **97.6% test pass rate** (82/84 tests passing)
 - ✅ **9/9 features validated** (100%)
-- ✅ **6/6 workflow phases** validated (100%)
+- ✅ **5/5 workflow phases** validated (100%)
 - ✅ **Comprehensive test suite** covering all core functionality
 - ✅ **End-to-end validation** complete
 
@@ -253,6 +410,14 @@ A: Run `/test_shipit` to execute the full end-to-end test suite.
   - Intent management and workflow orchestration
   - Release planning and roadmap generation
   - Comprehensive test suite with 97.6% pass rate
+  - **UX Enhancements:**
+    - Proactive validation and auto-fix (`/fix` command)
+    - Auto-verification of script outputs
+    - Automatic chaining of dependent generators
+    - Unified status dashboard (`/status`)
+    - Progress indicators for long-running operations
+    - Batched interactive prompts (faster scoping)
+    - Context-aware next-step suggestions
 
 See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.
 

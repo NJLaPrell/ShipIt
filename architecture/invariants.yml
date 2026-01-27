@@ -1,6 +1,6 @@
 # Invariants Configuration
 # These constraints are enforced via ESLint, TypeScript, and CI checks
-# See PLAN.md Research F1 for enforcement mapping
+# See README.md and AGENTS.md for more details on the invariants system
 
 version: 1
 
