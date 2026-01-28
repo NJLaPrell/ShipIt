@@ -6,6 +6,23 @@ This document contains all resolved issues and historic test runs. For current t
 
 ## Resolved Issues
 
+### ISSUE-045: Missing golden-data/.gitkeep
+
+**Severity:** low
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-28
+
+**Expected:** `golden-data/.gitkeep` keeps replay data directory tracked
+**Actual:** Directory exists but empty
+**Error:** Replay validation storage not initialized
+
+**Resolution:** Added `golden-data/.gitkeep` to keep directory tracked in Git. Created `golden-data/README.md` describing replay validation format and usage patterns. Updated `scripts/init-project.sh` to create the directory with `.gitkeep` and README when initializing new projects.
+**Validation:** Verified files created correctly, script syntax valid, and init script includes golden-data setup.
+
+---
+
 ### ISSUE-039: Missing do-not-repeat ledgers
 
 **Severity:** low
