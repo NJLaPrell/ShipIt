@@ -195,6 +195,34 @@ Security checks use `scripts/audit-check.sh` with a default threshold of moderat
 If you need to temporarily accept a known advisory, add it to `security/audit-allowlist.json`
 with a reason and an expiry date.
 
+### Confidence Calibration
+
+The `confidence-calibration.json` file tracks confidence scores vs actual outcomes to improve calibration over time.
+
+**Schema:**
+
+```json
+{
+  "decisions": [
+    {
+      "id": "D-001",
+      "stated_confidence": 0.85,
+      "actual_outcome": "success",
+      "notes": "Shipped without issues"
+    }
+  ]
+}
+```
+
+**Fields:**
+
+- `id`: Unique decision identifier (e.g., "D-001")
+- `stated_confidence`: Confidence score (0.0-1.0) stated during analysis
+- `actual_outcome`: "success" or "failure"
+- `notes`: Optional notes about the outcome
+
+Entries are automatically appended during `/verify` when outcomes are determined.
+
 1. **You define what** (intent file)
 2. **PM clarifies requirements** (executable acceptance criteria)
 3. **Architect designs approach** (plan with approval gate)
