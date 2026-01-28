@@ -6,6 +6,23 @@ This document contains all resolved issues and historic test runs. For current t
 
 ## Resolved Issues
 
+### ISSUE-039: Missing do-not-repeat ledgers
+
+**Severity:** low
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-28
+
+**Expected:** `/do-not-repeat/` includes `bad-patterns.md` and `rejected-libraries.md`
+**Actual:** Only `abandoned-designs.md` and `failed-experiments.md` exist
+**Error:** Missing ledgers for negative knowledge tracking
+
+**Resolution:** Added `do-not-repeat/bad-patterns.md` and `do-not-repeat/rejected-libraries.md` with format guidance and usage instructions. Updated `scripts/init-project.sh` to create all four ledger files (abandoned-designs, failed-experiments, bad-patterns, rejected-libraries) when initializing new projects.
+**Validation:** Verified files created correctly, script syntax valid, and init script includes new files.
+
+---
+
 ### ISSUE-046: Intent subfolders missing
 
 **Severity:** low
