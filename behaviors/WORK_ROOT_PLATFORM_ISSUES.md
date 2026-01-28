@@ -2,16 +2,18 @@
 
 **Purpose:** Define a consistent, high-quality workflow for resolving root platform issues.
 
-**When to use:** Any time you are working a platform issue from `./tests/ISSUES.md`.
+**When to use:** Any time you are working a platform issue from GitHub Issues.
 
 ## Scope and Safety
 
 - This behavior applies to the root platform repo (not downstream project repos).
-- Read issues from `./tests/ISSUES.md` only.
-- After resolving an issue, update it in `./tests/ISSUES.md` and then move it to `./tests/ISSUES_HISTORIC.md`.
+- **All issues are tracked on GitHub** (not in local files).
+- Read issues from GitHub using MCP tools or GitHub API.
+- After resolving an issue, add a resolution comment and close it on GitHub.
 - If the issue cannot be resolved without changing scope or requirements, stop and report.
-- If `./tests/ISSUES.md` or `./tests/ISSUES_HISTORIC.md` is missing, stop and report.
 - Update `README.md` if the fix adds or changes user-facing behavior, commands, or workflows.
+
+**Note:** As of 2026-01-28, all issues are tracked on GitHub. The previous file-based tracking in `tests/ISSUES.md` is deprecated. See `behaviors/WORK_TEST_PLAN_ISSUES.md` for issue creation rules.
 
 ---
 
@@ -25,13 +27,13 @@
 
 1. Ensure the current workspace is clean before starting work.
 2. Switch to main branch and ensure it's up to date: `git checkout main && git pull origin main`
-3. Create a new branch for the issue from main: `git checkout -b issue-XXX-description`
+3. Create a new branch for the issue from main: `git checkout -b issue-XXX-description` (where XXX is the GitHub issue number)
 4. Push the branch: `git push -u origin issue-XXX-description`
-5. Read the issue entry in `./tests/ISSUES.md`.
+5. Read the GitHub issue using MCP tools (e.g., `mcp_github-mcp_get_issue`) or GitHub API.
 6. Verify the described behavior is still reproducible or still missing.
 7. If the issue description is outdated or incorrect:
-   - Update the issue with corrected findings before proceeding.
-   - If the issue is no longer valid, mark it resolved and move it to `./tests/ISSUES_HISTORIC.md`.
+   - Add a comment to the GitHub issue with corrected findings before proceeding.
+   - If the issue is no longer valid, add a resolution comment explaining why and close the issue.
 
 **Stop gate:** If the issue is invalid or not reproducible, do not implement changes.
 
@@ -68,18 +70,17 @@
 
 ### Step 4: Update Issue Records
 
-**Objective:** Record resolution and archive the issue.
+**Objective:** Record resolution and close the GitHub issue.
 
 **Actions:**
 
-1. Update the issue in `./tests/ISSUES.md` with:
-   - Resolution summary
-   - Validation performed
-   - Date resolved
-2. Move the issue entry to `./tests/ISSUES_HISTORIC.md`.
-3. Ensure the active issues list remains accurate.
-4. Update `README.md` if the change affects user-facing docs.
-5. Commit the final changes when the work is finished.
+1. Add a resolution comment to the GitHub issue using `tests/ISSUE_RESOLUTION_COMMENT_TEMPLATE.md`:
+   - **Resolution:** How the issue was resolved, what was changed
+   - **Validation:** How the fix was validated, tests run, verification steps
+   - **Date Resolved:** YYYY-MM-DD
+2. Close the GitHub issue using MCP tools (e.g., `mcp_github-mcp_update_issue` with `state: "closed"`).
+3. Update `README.md` if the change affects user-facing docs.
+4. Commit the final changes when the work is finished.
 
 ---
 
@@ -91,7 +92,7 @@
 
 1. Summarize changes and validation performed.
 2. Report the final status (resolved/blocked/invalid).
-3. Point to the updated issue history entry.
+3. Reference the GitHub issue number in the PR description (e.g., "Resolves #123").
 4. Submit a PR after everything is finished and committed.
 5. **Review the PR** and add comments with findings:
    - Check for bloat, rabbit holes, or unnecessary complexity

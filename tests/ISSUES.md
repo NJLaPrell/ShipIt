@@ -48,30 +48,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 | 9-3  | Verify missing deps section | ❌ FAIL | medium   | No Missing Dependencies section found             |
 | 10-1 | Create new intent           | ✅ PASS | -        | Created F-005 "Awesome Banner"                    |
 
-#### Issues Found This Run
-
-- **ISSUE-028:** Dependency ordering ignores release targets (high) - **RESOLVED**
-- **ISSUE-029:** Missing dependencies section not generated (medium) - **RESOLVED**
-
----
-
-## Active Issues
-
-## Implementation Research Notes (for future work)
-
-### ISSUE-021: pnpm audit reports vulnerabilities
-
-**Best approach:**
-
-- Upgrade/override vulnerable packages first; only allowlist when upgrades are blocked.
-- If allowlisting, require advisory IDs, rationale, and expiry.
-
-**Integration points:**
-
-- `package.json` overrides (or direct dependency bumps) for `esbuild`/`tmp`.
-- CI workflow: fail `pnpm audit` unless advisories are allowlisted.
-- New tracked file: `security/audit-allowlist.json` for scoped exceptions.
-
 ---
 
 **Note:** For historic test runs and resolved issues, see `ISSUES_HISTORIC.md`.

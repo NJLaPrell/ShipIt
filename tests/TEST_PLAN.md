@@ -2,15 +2,17 @@
 
 This plan validates the complete ShipIt workflow from project initialization through feature shipping.
 
+> **Important:** For rules on creating, tracking, and archiving issues discovered during test execution, see [`behaviors/WORK_TEST_PLAN_ISSUES.md`](../behaviors/WORK_TEST_PLAN_ISSUES.md). All issue management follows the format and rules defined there.
+
 ## Test Coverage
 
-| Phase | Steps | Description |
-|-------|-------|-------------|
-| **Setup** | 1-6 | Project init, scoping, intent creation, roadmap/release |
-| **Planning** | 7-10 | Template fields, dependencies, ordering |
-| **Commands** | 11-15 | /ship, /verify, /drift_check, /deploy, /kill |
+| Phase          | Steps | Description                                                           |
+| -------------- | ----- | --------------------------------------------------------------------- |
+| **Setup**      | 1-6   | Project init, scoping, intent creation, roadmap/release               |
+| **Planning**   | 7-10  | Template fields, dependencies, ordering                               |
+| **Commands**   | 11-15 | /ship, /verify, /drift_check, /deploy, /kill                          |
 | **Full Cycle** | 16-21 | Complete /ship workflow (approve → tests → implement → verify → ship) |
-| **Validation** | 22-24 | Deployment readiness, final state, test report |
+| **Validation** | 22-24 | Deployment readiness, final state, test report                        |
 
 ## Prerequisites
 
@@ -26,6 +28,7 @@ This plan validates the complete ShipIt workflow from project initialization thr
    - `/init-project "shipit-test"`
 
 2. The assistant will ask for 3 inputs. Reply with:
+
    ```
    1
    Test project for ShipIt end-to-end validation
@@ -39,10 +42,9 @@ This plan validates the complete ShipIt workflow from project initialization thr
    - `./projects/.gitkeep` exists
    - `./projects/shipit-test/project.json` exists
 
-> **Note:** If any step in Section 1 fails, record results in the framework
-> `tests/ISSUES.md` (root project). After opening `./projects/shipit-test`
-> in a new window, record subsequent failures in the test project's
-> `tests/ISSUES.md`.
+> **Note:** For rules on creating and managing issues during test execution, see `behaviors/WORK_TEST_PLAN_ISSUES.md`.
+>
+> **Issue recording:** All issues are created on GitHub. Test run summaries are recorded in `tests/ISSUES.md` (root project) or test project's `tests/ISSUES.md`, but issues themselves are tracked on GitHub.
 
 ---
 
@@ -215,7 +217,7 @@ This plan validates the complete ShipIt workflow from project initialization thr
 2. Verify:
    - The assistant switches to QA then Security roles
    - `workflow-state/04_verification.md` is created or updated
-   - If mutation testing or audit tooling is missing, the failure is recorded in `tests/ISSUES.md`
+   - If mutation testing or audit tooling is missing, create a GitHub issue (see `behaviors/WORK_TEST_PLAN_ISSUES.md` for issue format)
 
 ---
 
@@ -225,7 +227,7 @@ This plan validates the complete ShipIt workflow from project initialization thr
    - `/drift_check`
 2. Verify:
    - `drift/metrics.md` is created or updated
-   - If `scripts/drift-check.sh` or related tooling is missing, the failure is recorded in `tests/ISSUES.md`
+   - If `scripts/drift-check.sh` or related tooling is missing, create a GitHub issue (see `behaviors/WORK_TEST_PLAN_ISSUES.md` for issue format)
 
 ---
 
@@ -237,7 +239,7 @@ This plan validates the complete ShipIt workflow from project initialization thr
    - The assistant switches to Steward role
    - Readiness checks are listed and executed up to any blocking failure
    - No real deployment is performed for the test project
-   - Any missing scripts or configuration are recorded in `tests/ISSUES.md`
+   - Any missing scripts or configuration should result in a GitHub issue (see `behaviors/WORK_TEST_PLAN_ISSUES.md` for issue format)
 
 ---
 
@@ -406,7 +408,7 @@ Continue the /ship workflow for a foundation intent.
    - Issues discovered
 
 2. **Update `tests/ISSUES.md`:**
-   - Record final run summary
+   - Record final run summary (see `behaviors/WORK_TEST_PLAN_ISSUES.md` for format)
    - Mark overall result: PASS or FAIL
-
-
+   - Reference GitHub issues by number in "Issues Found This Run" section
+   - Follow issue creation and archiving rules defined in `behaviors/WORK_TEST_PLAN_ISSUES.md` (all issues are created on GitHub)
