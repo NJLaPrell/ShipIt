@@ -6,6 +6,23 @@ This document contains all resolved issues and historic test runs. For current t
 
 ## Resolved Issues
 
+### ISSUE-040: Missing assumption-extractor rule
+
+**Severity:** low
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-28
+
+**Expected:** `.cursor/rules/assumption-extractor.mdc` exists per plan
+**Actual:** Rule file is missing
+**Error:** No explicit mechanism to surface hidden assumptions
+
+**Resolution:** Created `.cursor/rules/assumption-extractor.mdc` with prompts to surface implicit assumptions. Created `workflow-state/assumptions.md` as the target log file for tracking assumptions. Updated `scripts/init-project.sh` to create the assumptions log when initializing new projects.
+**Validation:** Verified rule file format matches other agent rules, assumptions log created with proper format, and init script includes assumptions.md creation.
+
+---
+
 ### ISSUE-045: Missing golden-data/.gitkeep
 
 **Severity:** low
