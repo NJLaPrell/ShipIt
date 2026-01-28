@@ -152,26 +152,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ---
 
-### ISSUE-046: Intent subfolders missing
-
-**Severity:** low
-**Step:** UX
-**Status:** active
-**First Seen:** 2026-01-27
-**Last Seen:** 2026-01-27
-
-**Expected:** Intent ledger uses `intent/features`, `intent/bugs`, `intent/tech-debt` per plan
-**Actual:** Flat `intent/` with only `_TEMPLATE.md`
-**Error:** Intent organization deviates from plan
-
-**Implementation:**
-
-- Create `intent/features`, `intent/bugs`, `intent/tech-debt`.
-- Update `scripts/new-intent.sh` and `scripts/scope-project.sh` to write into category subfolders.
-- Update `scripts/generate-release-plan.sh` and `scripts/generate-roadmap.sh` to search recursively under `intent/`.
-
----
-
 ## Implementation Research Notes (for future work)
 
 ### ISSUE-021: pnpm audit reports vulnerabilities
@@ -250,19 +230,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 - `golden-data/.gitkeep`
 - Optional: add a short README in `golden-data/`.
-
----
-
-### ISSUE-046: Intent subfolders missing
-
-**Best approach:**
-
-- Create `intent/features`, `intent/bugs`, `intent/tech-debt` and adjust generators to target them.
-
-**Integration points:**
-
-- `scripts/new-intent.sh` and `scripts/scope-project.sh` output paths.
-- `scripts/generate-release-plan.sh` and `scripts/generate-roadmap.sh` intent discovery logic.
 
 ---
 

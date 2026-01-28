@@ -39,9 +39,19 @@ EOF
 fi
 
 # Collect intent metrics
-INTENT_TOTAL=$(find intent -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null | wc -l | tr -d ' ')
-INTENT_SHIPPED=$(grep -l "Status.*shipped" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
-INTENT_FAILED=$(grep -l "Status.*killed" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
+intent_files=()
+while IFS= read -r file; do
+    intent_files+=("$file")
+done < <(find intent -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
+
+INTENT_TOTAL=${#intent_files[@]}
+if [ "$INTENT_TOTAL" -gt 0 ]; then
+    INTENT_SHIPPED=$(grep -l "Status.*shipped" "${intent_files[@]}" 2>/dev/null | wc -l | tr -d ' ')
+    INTENT_FAILED=$(grep -l "Status.*killed" "${intent_files[@]}" 2>/dev/null | wc -l | tr -d ' ')
+else
+    INTENT_SHIPPED=0
+    INTENT_FAILED=0
+fi
 
 # Calculate success rate
 if [ "$INTENT_TOTAL" -gt 0 ]; then

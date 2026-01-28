@@ -221,15 +221,27 @@ EOF
 fi
 
 # Best-effort release plan generation if available
-INTENT_DIR="intent"
-TEMPLATE_FILE="$INTENT_DIR/_TEMPLATE.md"
+INTENT_BASE_DIR="intent"
+INTENT_DIR="$INTENT_BASE_DIR/features"
+TEMPLATE_FILE="$INTENT_BASE_DIR/_TEMPLATE.md"
 
 if [ ${#SELECTED_FEATURES[@]} -gt 0 ]; then
     if [ ! -f "$TEMPLATE_FILE" ]; then
         error_exit "Template file not found: $TEMPLATE_FILE" 1
     fi
+    mkdir -p "$INTENT_DIR" || error_exit "Failed to create intent directory: $INTENT_DIR"
 
-    LAST_INTENT=$(ls -1 "$INTENT_DIR"/*.md 2>/dev/null | grep -E "^-?F-[0-9]+\.md$" | sed 's/.*F-\([0-9]*\)\.md/\1/' | sort -n | tail -1 || echo "0")
+    LAST_INTENT=0
+    while IFS= read -r file; do
+        [ -e "$file" ] || continue
+        base="$(basename "$file")"
+        if [[ "$base" =~ ^F-([0-9]+)\.md$ ]]; then
+            num="${BASH_REMATCH[1]}"
+            if ((10#$num > LAST_INTENT)); then
+                LAST_INTENT=$((10#$num))
+            fi
+        fi
+    done < <(find "$INTENT_BASE_DIR" -type f -name 'F-*.md' 2>/dev/null)
     NEXT_NUM=$((LAST_INTENT + 1))
 
     GENERATED_INTENTS=()
@@ -310,7 +322,7 @@ if [ ${#SELECTED_FEATURES[@]} -gt 0 ]; then
     {
         echo ""
         for id in "${GENERATED_INTENTS[@]}"; do
-            echo "- \`intent/${id}.md\`"
+            echo "- \`intent/features/${id}.md\`"
         done
     } >> "$SCOPE_FILE"
 fi

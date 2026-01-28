@@ -1,11 +1,11 @@
 # Later (Backlog)
 
-Future work that's not yet prioritized.
+**Generated:** 2026-01-28T03:09:23Z
 
-## Backlog
+## Intents
 
-(No backlog items yet. Add items as ideas emerge.)
+(No intents yet. Add intents as they're planned.)
 
-## Ideas
+## Dependencies
 
-(No ideas yet. Capture ideas here before they become intents.)
+(Dependencies will be shown here)

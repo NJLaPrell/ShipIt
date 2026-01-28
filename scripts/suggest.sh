@@ -33,16 +33,20 @@ KILLED=0
 TOTAL=0
 
 if [ -d "$INTENT_DIR" ]; then
-    for file in "$INTENT_DIR"/*.md; do
+    intent_files=()
+    while IFS= read -r file; do
+        intent_files+=("$file")
+    done < <(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
+
+    for file in "${intent_files[@]}"; do
         [ -f "$file" ] || continue
-        [ "$(basename "$file")" = "_TEMPLATE.md" ] && continue
-        
+
         STATUS=$(awk '
             $0 ~ /^## Status/ {found=1; next}
             found && $0 ~ /^## / {exit}
             found && $0 ~ /[^[:space:]]/ {gsub(/^[[:space:]]+|[[:space:]]+$/, "", $0); print tolower($0); exit}
         ' "$file" 2>/dev/null || echo "planned")
-        
+
         case "$STATUS" in
             planned) PLANNED=$((PLANNED + 1)) ;;
             active) ACTIVE=$((ACTIVE + 1)) ;;
@@ -75,9 +79,8 @@ fi
 if [ "$PLANNED" -gt 0 ] && [ -z "$ACTIVE_ID" ]; then
     # Find first planned intent (actually check status)
     FIRST_PLANNED=""
-    for file in "$INTENT_DIR"/*.md; do
+    for file in "${intent_files[@]}"; do
         [ -f "$file" ] || continue
-        [ "$(basename "$file")" = "_TEMPLATE.md" ] && continue
         STATUS=$(awk '
             $0 ~ /^## Status/ {found=1; next}
             found && $0 ~ /^## / {exit}
@@ -123,14 +126,14 @@ fi
 
 # Release plan needs update
 if [ "$PLANNED" -gt 0 ] || [ "$ACTIVE" -gt 0 ]; then
-    if [ ! -f "release/plan.md" ] || [ "release/plan.md" -ot "$INTENT_DIR" ]; then
+    if [ ! -f "release/plan.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "release/plan.md" -print -quit 2>/dev/null)" ]; then
         SUGGESTIONS+=("${CYAN}Update release plan:${NC} /generate-release-plan")
     fi
 fi
 
 # Roadmap needs update
 if [ "$PLANNED" -gt 0 ] || [ "$ACTIVE" -gt 0 ]; then
-    if [ ! -f "roadmap/now.md" ] || [ "roadmap/now.md" -ot "$INTENT_DIR" ]; then
+    if [ ! -f "roadmap/now.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "roadmap/now.md" -print -quit 2>/dev/null)" ]; then
         SUGGESTIONS+=("${CYAN}Update roadmap:${NC} /generate-roadmap")
     fi
 fi
