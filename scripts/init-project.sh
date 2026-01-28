@@ -869,6 +869,15 @@ EOF
 
 echo -e "${GREEN}✓ Created AGENTS.md${NC}"
 
+# Create confidence-calibration.json
+cat > confidence-calibration.json << EOF || error_exit "Failed to create confidence-calibration.json"
+{
+  "decisions": []
+}
+EOF
+
+echo -e "${GREEN}✓ Created confidence-calibration.json${NC}"
+
 echo ""
 echo -e "${GREEN}════════════════════════════════════════${NC}"
 echo -e "${GREEN}✓ Project '$PROJECT_NAME' initialized!${NC}"

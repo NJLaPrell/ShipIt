@@ -6,6 +6,23 @@ This document contains all resolved issues and historic test runs. For current t
 
 ## Resolved Issues
 
+### ISSUE-043: Missing confidence-calibration.json
+
+**Severity:** low
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-28
+
+**Expected:** `confidence-calibration.json` tracks confidence vs outcomes
+**Actual:** File does not exist
+**Error:** No calibration feedback loop
+
+**Resolution:** Created `confidence-calibration.json` with initial empty decisions array. Added schema documentation to README.md describing the format and fields. Updated `scripts/verify.sh` to automatically append entries when verification completes, including decision ID, stated confidence (if available from analysis phase), outcome (success/failure), and notes. Updated `scripts/init-project.sh` to create the file for new projects.
+**Validation:** Verified file creation, JSON schema validity, jq integration works correctly, and init script includes confidence-calibration.json creation.
+
+---
+
 ### ISSUE-040: Missing assumption-extractor rule
 
 **Severity:** low

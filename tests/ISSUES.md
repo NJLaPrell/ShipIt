@@ -57,25 +57,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ## Active Issues
 
-### ISSUE-043: Missing confidence-calibration.json
-
-**Severity:** low
-**Step:** UX
-**Status:** active
-**First Seen:** 2026-01-27
-**Last Seen:** 2026-01-27
-
-**Expected:** `confidence-calibration.json` tracks confidence vs outcomes
-**Actual:** File does not exist
-**Error:** No calibration feedback loop
-
-**Implementation:**
-
-- Add `confidence-calibration.json` with `{ "decisions": [] }`.
-- Define a minimal schema in docs and update `/ship` or `/verify` to append entries.
-
----
-
 ### ISSUE-044: Missing .agent-id coordination file
 
 **Severity:** low
@@ -109,18 +90,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 - `package.json` overrides (or direct dependency bumps) for `esbuild`/`tmp`.
 - CI workflow: fail `pnpm audit` unless advisories are allowlisted.
 - New tracked file: `security/audit-allowlist.json` for scoped exceptions.
-
----
-
-### ISSUE-043: Missing confidence-calibration.json
-
-**Best approach:**
-
-- Add a tracked JSON schema with an initial empty `decisions` array.
-
-**Integration points:**
-
-- `confidence-calibration.json` at repo root.
 
 ---
 

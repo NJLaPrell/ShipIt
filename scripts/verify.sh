@@ -86,4 +86,66 @@ $(if [ "$FAILED" -eq 0 ]; then echo "- [x] All checks pass"; else echo "- [ ] Al
 - [ ] Ready for release
 EOF
 
+# Append to confidence-calibration.json if it exists
+CALIBRATION_FILE="confidence-calibration.json"
+if [ -f "$CALIBRATION_FILE" ] && command -v jq >/dev/null 2>&1; then
+    # Determine outcome
+    if [ "$FAILED" -eq 0 ]; then
+        OUTCOME="success"
+    else
+        OUTCOME="failure"
+    fi
+    
+    # Generate next decision ID
+    LAST_ID=$(jq -r '.decisions[-1].id // "D-000"' "$CALIBRATION_FILE" 2>/dev/null || echo "D-000")
+    LAST_NUM=$(echo "$LAST_ID" | sed 's/D-//' | awk '{print int($1)}')
+    NEXT_NUM=$((LAST_NUM + 1))
+    NEXT_ID=$(printf "D-%03d" "$NEXT_NUM")
+    
+    # Try to read stated_confidence from analysis file if available
+    STATED_CONFIDENCE="null"
+    ANALYSIS_FILE="$WORKFLOW_DIR/01_analysis.md"
+    if [ -f "$ANALYSIS_FILE" ]; then
+        # Try to extract confidence from analysis file (look for "Requirements clarity: X.XX" pattern)
+        CONF_LINE=$(grep -i "requirements clarity:" "$ANALYSIS_FILE" 2>/dev/null | head -1)
+        if [ -n "$CONF_LINE" ]; then
+            EXTRACTED_CONF=$(echo "$CONF_LINE" | grep -oE '[0-9]+\.[0-9]+' | head -1)
+            if [ -n "$EXTRACTED_CONF" ]; then
+                STATED_CONFIDENCE="$EXTRACTED_CONF"
+            fi
+        fi
+    fi
+    
+    # Build notes
+    NOTES="Intent: $INTENT_ID. Tests: $TEST_STATUS, Mutation: $MUTATE_STATUS, Audit: $AUDIT_STATUS"
+    
+    # Append new decision
+    if [ "$STATED_CONFIDENCE" != "null" ]; then
+        # Use --argjson when we have a numeric value
+        jq --arg id "$NEXT_ID" \
+           --argjson confidence "$STATED_CONFIDENCE" \
+           --arg outcome "$OUTCOME" \
+           --arg notes "$NOTES" \
+           '.decisions += [{
+             "id": $id,
+             "stated_confidence": $confidence,
+             "actual_outcome": $outcome,
+             "notes": $notes
+           }]' "$CALIBRATION_FILE" > "${CALIBRATION_FILE}.tmp" && \
+        mv "${CALIBRATION_FILE}.tmp" "$CALIBRATION_FILE" || true
+    else
+        # Use null explicitly when confidence is not available
+        jq --arg id "$NEXT_ID" \
+           --arg outcome "$OUTCOME" \
+           --arg notes "$NOTES" \
+           '.decisions += [{
+             "id": $id,
+             "stated_confidence": null,
+             "actual_outcome": $outcome,
+             "notes": $notes
+           }]' "$CALIBRATION_FILE" > "${CALIBRATION_FILE}.tmp" && \
+        mv "${CALIBRATION_FILE}.tmp" "$CALIBRATION_FILE" || true
+    fi
+fi
+
 exit "$FAILED"
