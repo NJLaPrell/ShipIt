@@ -25,9 +25,13 @@ analyze_state() {
     local shipped=0
     
     if [ -d "$INTENT_DIR" ]; then
-        for file in "$INTENT_DIR"/*.md; do
+        intent_files=()
+        while IFS= read -r file; do
+            intent_files+=("$file")
+        done < <(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
+
+        for file in "${intent_files[@]+"${intent_files[@]}"}"; do
             [ -f "$file" ] || continue
-            [ "$(basename "$file")" = "_TEMPLATE.md" ] && continue
             
             local status=$(awk '
                 $0 ~ /^## Status/ {found=1; next}

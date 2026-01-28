@@ -84,8 +84,8 @@ check_dependency_ordering() {
     while IFS= read -r dep; do
         [ -z "$dep" ] && continue
         
-        local dep_file="$INTENT_DIR/$dep.md"
-        if [ ! -f "$dep_file" ]; then
+        local dep_file=$(find "$INTENT_DIR" -type f -name "${dep}.md" -print -quit 2>/dev/null)
+        if [ -z "$dep_file" ] || [ ! -f "$dep_file" ]; then
             continue  # Missing deps handled separately
         fi
         
@@ -144,7 +144,8 @@ check_missing_dependencies() {
     while IFS= read -r dep; do
         [ -z "$dep" ] && continue
         
-        if [ ! -f "$INTENT_DIR/$dep.md" ]; then
+        local dep_file=$(find "$INTENT_DIR" -type f -name "${dep}.md" -print -quit 2>/dev/null)
+        if [ -z "$dep_file" ] || [ ! -f "$dep_file" ]; then
             missing+=("$dep")
         fi
     done <<< "$deps"
@@ -168,8 +169,8 @@ check_circular_dependencies() {
     while IFS= read -r dep; do
         [ -z "$dep" ] && continue
         
-        local dep_file="$INTENT_DIR/$dep.md"
-        if [ ! -f "$dep_file" ]; then
+        local dep_file=$(find "$INTENT_DIR" -type f -name "${dep}.md" -print -quit 2>/dev/null)
+        if [ -z "$dep_file" ] || [ ! -f "$dep_file" ]; then
             continue
         fi
         
@@ -217,12 +218,11 @@ validate_all_intents() {
     local total_issues=0
     local intent_files=()
     
-    # Find all intent files
-    for file in "$INTENT_DIR"/*.md; do
-        [ -f "$file" ] || continue
-        [ "$(basename "$file")" = "_TEMPLATE.md" ] && continue
+    # Find all intent files recursively
+    intent_files=()
+    while IFS= read -r file; do
         intent_files+=("$file")
-    done
+    done < <(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
     
     if [ ${#intent_files[@]} -eq 0 ]; then
         return 0
