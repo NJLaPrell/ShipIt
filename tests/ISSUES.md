@@ -57,25 +57,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ## Active Issues
 
-### ISSUE-040: Missing assumption-extractor rule
-
-**Severity:** low
-**Step:** UX
-**Status:** active
-**First Seen:** 2026-01-27
-**Last Seen:** 2026-01-27
-
-**Expected:** `.cursor/rules/assumption-extractor.mdc` exists per plan
-**Actual:** Rule file is missing
-**Error:** No explicit mechanism to surface hidden assumptions
-
-**Implementation:**
-
-- Create `.cursor/rules/assumption-extractor.mdc` with prompts that log assumptions.
-- Add a target log file (e.g., `workflow-state/assumptions.md`) and seed it in `workflow-state/`.
-
----
-
 ### ISSUE-043: Missing confidence-calibration.json
 
 **Severity:** low
@@ -128,19 +109,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 - `package.json` overrides (or direct dependency bumps) for `esbuild`/`tmp`.
 - CI workflow: fail `pnpm audit` unless advisories are allowlisted.
 - New tracked file: `security/audit-allowlist.json` for scoped exceptions.
-
----
-
-### ISSUE-040: Missing assumption-extractor rule
-
-**Best approach:**
-
-- Add `.cursor/rules/assumption-extractor.mdc` with prompts to log assumptions.
-
-**Integration points:**
-
-- `.cursor/rules/assumption-extractor.mdc`
-- Optional: write outputs to `workflow-state/disagreements.md` or a new assumptions log.
 
 ---
 

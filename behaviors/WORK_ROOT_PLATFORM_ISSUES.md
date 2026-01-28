@@ -24,10 +24,12 @@
 **Actions:**
 
 1. Ensure the current workspace is clean before starting work.
-2. Create a new branch for the issue and push it.
-3. Read the issue entry in `./tests/ISSUES.md`.
-4. Verify the described behavior is still reproducible or still missing.
-5. If the issue description is outdated or incorrect:
+2. Switch to main branch and ensure it's up to date: `git checkout main && git pull origin main`
+3. Create a new branch for the issue from main: `git checkout -b issue-XXX-description`
+4. Push the branch: `git push -u origin issue-XXX-description`
+5. Read the issue entry in `./tests/ISSUES.md`.
+6. Verify the described behavior is still reproducible or still missing.
+7. If the issue description is outdated or incorrect:
    - Update the issue with corrected findings before proceeding.
    - If the issue is no longer valid, mark it resolved and move it to `./tests/ISSUES_HISTORIC.md`.
 
@@ -81,9 +83,9 @@
 
 ---
 
-### Step 5: Report Outcome
+### Step 5: Submit PR and Review Cycle
 
-**Objective:** Provide a concise summary of work and status.
+**Objective:** Submit PR and iterate until it's ready to merge.
 
 **Actions:**
 
@@ -91,6 +93,30 @@
 2. Report the final status (resolved/blocked/invalid).
 3. Point to the updated issue history entry.
 4. Submit a PR after everything is finished and committed.
+5. **Review the PR** and add comments with findings:
+   - Check for bloat, rabbit holes, or unnecessary complexity
+   - Verify all requirements are met
+   - Check for unrelated changes
+   - Verify code quality and consistency
+6. **If PR is not ready to merge:**
+   - Resolve all identified issues
+   - Commit the fixes: `git commit -m "Fix: [description of fixes]"`
+   - Push the changes: `git push`
+   - Add a comment to the PR summarizing the fixes
+   - **Review the PR again** and add comments with findings
+   - **Repeat** the review/fix cycle until the PR is ready to merge
+7. **If PR is ready to merge:**
+   - Confirm in PR comment that it's ready
+   - Wait for merge approval
+
+**Review Criteria:**
+
+- No bloat or unnecessary complexity
+- No rabbit holes (scope creep)
+- All requirements met
+- No unrelated changes
+- Code quality and consistency verified
+- Issue tracking updated correctly
 
 ---
 
