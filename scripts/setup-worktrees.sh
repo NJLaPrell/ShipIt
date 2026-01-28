@@ -68,14 +68,16 @@ for i in $(seq 1 $TASK_COUNT); do
     continue
   fi
   
-      # Create .agent-id file
-      echo "$i" > "$WORKTREE_DIR/.agent-id"
-      
-      # Register agent in coordination system
-      if [ -f "scripts/agent-coordinator.sh" ]; then
-        AGENT_ID="agent-$i"
-        # Agent will be registered when first task is assigned
-      fi || error_exit "Failed to create .agent-id in worktree $i"
+  # Create .agent-id file with unique integer per worktree
+  if ! echo "$i" > "$WORKTREE_DIR/.agent-id"; then
+    error_exit "Failed to create .agent-id in worktree $i"
+  fi
+  
+  # Register agent in coordination system
+  if [ -f "scripts/agent-coordinator.sh" ]; then
+    AGENT_ID="agent-$i"
+    # Agent will be registered when first task is assigned
+  fi
   
   # Add to worktrees.json
   if [ $i -gt 1 ]; then
