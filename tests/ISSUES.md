@@ -57,25 +57,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ## Active Issues
 
-### ISSUE-039: Missing do-not-repeat ledgers
-
-**Severity:** low
-**Step:** UX
-**Status:** active
-**First Seen:** 2026-01-27
-**Last Seen:** 2026-01-27
-
-**Expected:** `/do-not-repeat/` includes `bad-patterns.md` and `rejected-libraries.md`
-**Actual:** Only `abandoned-designs.md` and `failed-experiments.md` exist
-**Error:** Missing ledgers for negative knowledge tracking
-
-**Implementation:**
-
-- Add `do-not-repeat/bad-patterns.md` and `do-not-repeat/rejected-libraries.md` with brief headers + usage guidance.
-- Update `scripts/init-project.sh` to create these files for new projects.
-
----
-
 ### ISSUE-040: Missing assumption-extractor rule
 
 **Severity:** low
@@ -166,19 +147,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 - `package.json` overrides (or direct dependency bumps) for `esbuild`/`tmp`.
 - CI workflow: fail `pnpm audit` unless advisories are allowlisted.
 - New tracked file: `security/audit-allowlist.json` for scoped exceptions.
-
----
-
-### ISSUE-039: Missing do-not-repeat ledgers
-
-**Best approach:**
-
-- Add missing ledgers as empty templates with brief guidance.
-
-**Integration points:**
-
-- `do-not-repeat/bad-patterns.md`
-- `do-not-repeat/rejected-libraries.md`
 
 ---
 
