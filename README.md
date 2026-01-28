@@ -292,6 +292,7 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 .
 ├── intent/              # What to build (F-001.md, B-002.md, etc.)
 ├── workflow-state/      # Current execution state (active + phase files)
+├── SYSTEM_STATE.md      # Auto-generated summary for Steward
 ├── architecture/        # CANON.md (boundaries) + invariants.yml
 ├── do-not-repeat/      # Failed approaches (don't rediscover)
 ├── drift/              # Entropy monitoring

@@ -74,6 +74,22 @@ This document contains all resolved issues and historic test runs. For current t
 
 ---
 
+### ISSUE-042: Missing SYSTEM_STATE.md
+
+**Severity:** medium
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** `SYSTEM_STATE.md` exists and is updated by generator
+**Actual:** Generator wrote `workflow-state/SYSTEM_STATE.md` and failed in the root repo without `project.json`
+**Error:** No concise system summary for Steward context
+
+**Resolution:** Updated `scripts/generate-system-state.sh` to write root `SYSTEM_STATE.md` and fall back to `package.json` when `project.json` is missing. Copied the script into new projects via `init-project.sh` and generate an initial SYSTEM_STATE file. Generated `SYSTEM_STATE.md` in this repo and documented it in README.
+
+---
+
 ### ISSUE-030: Scripts don't auto-verify outputs or run dependent generators
 
 **Severity:** medium

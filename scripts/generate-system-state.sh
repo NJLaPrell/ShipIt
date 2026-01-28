@@ -16,22 +16,22 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-STATE_FILE="workflow-state/SYSTEM_STATE.md"
+STATE_FILE="SYSTEM_STATE.md"
 
 echo -e "${BLUE}Generating SYSTEM_STATE.md...${NC}"
 
 # Check prerequisites
-if [ ! -f "project.json" ]; then
-    error_exit "project.json not found. Run /init-project first." 1
+if [ -f "project.json" ]; then
+    PROJECT_NAME=$(jq -r '.name' project.json 2>/dev/null || echo "project")
+else
+    PROJECT_NAME=$(jq -r '.name' package.json 2>/dev/null || echo "shipit")
 fi
-
-PROJECT_NAME=$(jq -r '.name' project.json 2>/dev/null || echo "project")
 
 # Collect state information
 INTENT_TOTAL=$(find intent -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null | wc -l | tr -d ' ')
-INTENT_ACTIVE=$(grep -l "Status.*active" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
-INTENT_PLANNED=$(grep -l "Status.*planned" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
-INTENT_SHIPPED=$(grep -l "Status.*shipped" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
+INTENT_ACTIVE=$(find intent -name "*.md" ! -name "_TEMPLATE.md" -print0 2>/dev/null | xargs -0 grep -l "Status.*active" 2>/dev/null | wc -l | tr -d ' ' || echo "0")
+INTENT_PLANNED=$(find intent -name "*.md" ! -name "_TEMPLATE.md" -print0 2>/dev/null | xargs -0 grep -l "Status.*planned" 2>/dev/null | wc -l | tr -d ' ' || echo "0")
+INTENT_SHIPPED=$(find intent -name "*.md" ! -name "_TEMPLATE.md" -print0 2>/dev/null | xargs -0 grep -l "Status.*shipped" 2>/dev/null | wc -l | tr -d ' ' || echo "0")
 
 # Get active intent
 ACTIVE_INTENT=$(grep -h "Intent ID:" workflow-state/active.md 2>/dev/null | grep -o "F-[0-9]*\|B-[0-9]*\|T-[0-9]*" | head -1 || echo "none")

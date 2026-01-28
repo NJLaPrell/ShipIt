@@ -107,7 +107,7 @@ if [ -f "$ROOT_DIR/stryker.conf.json" ]; then
     cp "$ROOT_DIR/stryker.conf.json" "stryker.conf.json"
 fi
 
-for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh verify.sh help.sh status.sh suggest.sh; do
+for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh generate-system-state.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh verify.sh help.sh status.sh suggest.sh; do
     if [ -f "$ROOT_DIR/scripts/$script" ]; then
         cp "$ROOT_DIR/scripts/$script" "scripts/$script"
         chmod +x "scripts/$script"
@@ -444,6 +444,11 @@ cat > workflow-state/05_release_notes.md << EOF || error_exit "Failed to create 
 EOF
 
 echo -e "${GREEN}✓ Created workflow-state files${NC}"
+
+# Generate initial SYSTEM_STATE.md (best-effort)
+if [ -x "scripts/generate-system-state.sh" ]; then
+    ./scripts/generate-system-state.sh >/dev/null 2>&1 || echo "WARNING: system state generation failed"
+fi
 
 # Create drift baselines
 mkdir -p drift

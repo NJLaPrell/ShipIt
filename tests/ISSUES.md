@@ -115,25 +115,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ---
 
-### ISSUE-042: Missing SYSTEM_STATE.md
-
-**Severity:** medium
-**Step:** UX
-**Status:** active
-**First Seen:** 2026-01-27
-**Last Seen:** 2026-01-27
-
-**Expected:** `SYSTEM_STATE.md` exists and is updated by generator
-**Actual:** File does not exist
-**Error:** No concise system summary for Steward context
-
-**Implementation:**
-- Update `scripts/generate-system-state.sh` to compile: active intent, phase, recent decisions, drift summary.
-- Ensure script writes `SYSTEM_STATE.md` at repo root.
-- Add a `generate-system-state` invocation to `/status` or `/ship` as a post-step.
-
----
-
 ### ISSUE-043: Missing confidence-calibration.json
 
 **Severity:** low
@@ -240,17 +221,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 **Integration points:**
 - `.cursor/rules/assumption-extractor.mdc`
 - Optional: write outputs to `workflow-state/disagreements.md` or a new assumptions log.
-
----
-
-### ISSUE-042: Missing SYSTEM_STATE.md
-
-**Best approach:**
-- Create a generator to summarize active/blocked intents and recent decisions.
-
-**Integration points:**
-- `scripts/generate-system-state.sh` (already present) should output `SYSTEM_STATE.md`.
-- `SYSTEM_STATE.md` at repo root.
 
 ---
 
