@@ -115,25 +115,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ---
 
-### ISSUE-041: Missing slash commands (/pr, /risk, /revert-plan)
-
-**Severity:** medium
-**Step:** UX
-**Status:** active
-**First Seen:** 2026-01-27
-**Last Seen:** 2026-01-27
-
-**Expected:** Commands exist in `.cursor/commands/` for `/pr`, `/risk`, `/revert-plan`
-**Actual:** These commands are missing
-**Error:** No standardized PR summary, risk skim, or rollback plan scaffolding
-
-**Implementation:**
-- Add `.cursor/commands/pr.md`, `.cursor/commands/risk.md`, `.cursor/commands/revert-plan.md` with required outputs.
-- Link `/pr` output to `.github/pull_request_template.md`.
-- Have `/revert-plan` write to `workflow-state/05_release_notes.md` or a `rollback.md` section.
-
----
-
 ### ISSUE-042: Missing SYSTEM_STATE.md
 
 **Severity:** medium
@@ -259,18 +240,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 **Integration points:**
 - `.cursor/rules/assumption-extractor.mdc`
 - Optional: write outputs to `workflow-state/disagreements.md` or a new assumptions log.
-
----
-
-### ISSUE-041: Missing slash commands (/pr, /risk, /revert-plan)
-
-**Best approach:**
-- Add command templates mirroring plan guidance with required outputs.
-
-**Integration points:**
-- `.cursor/commands/pr.md`
-- `.cursor/commands/risk.md`
-- `.cursor/commands/revert-plan.md`
 
 ---
 

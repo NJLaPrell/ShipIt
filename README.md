@@ -225,6 +225,9 @@ Intent → Analysis → Planning → Tests → Code → Verify → Release
 | `/generate-roadmap` | Generate roadmap (now/next/later) | After creating/updating intents |
 | `/fix` | Auto-fix intent issues (dependency ordering, whitespace) | When validation shows issues |
 | `/status` | Unified dashboard: intents, workflow, tests, recent changes | Anytime to check project state |
+| `/pr <id>` | Generate PR summary/checklist | Before opening a PR |
+| `/risk <id>` | Force security/threat skim | Before release or high-risk change |
+| `/revert-plan <id>` | Write rollback plan | Before implementation or release |
 
 ### Execution
 

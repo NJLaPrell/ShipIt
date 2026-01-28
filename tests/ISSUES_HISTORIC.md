@@ -58,6 +58,22 @@ This document contains all resolved issues and historic test runs. For current t
 
 ---
 
+### ISSUE-041: Missing slash commands (/pr, /risk, /revert-plan)
+
+**Severity:** medium
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** Commands exist in `.cursor/commands/` for `/pr`, `/risk`, `/revert-plan`
+**Actual:** Commands were missing
+**Error:** No standardized PR summary, risk skim, or rollback plan scaffolding
+
+**Resolution:** Added `.cursor/commands/risk.md` and `.cursor/commands/revert-plan.md`, aligned `/pr` with the PR template, and updated help/docs to surface the new commands.
+
+---
+
 ### ISSUE-030: Scripts don't auto-verify outputs or run dependent generators
 
 **Severity:** medium

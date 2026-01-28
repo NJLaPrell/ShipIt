@@ -38,11 +38,14 @@ show_general_help() {
     echo -e "${CYAN}Operations:${NC}"
     echo "  /deploy [env]            - Deploy with readiness checks"
     echo "  /drift_check             - Check for entropy/decay"
+    echo "  /risk <id>               - Force security/threat skim"
     echo ""
     echo -e "${CYAN}Help & Status:${NC}"
     echo "  /help [command]          - Show help for a command"
     echo "  /status                  - Show current project status"
     echo "  /suggest                 - Get suggested next actions"
+    echo "  /pr <id>                 - Generate PR summary/checklist"
+    echo "  /revert-plan <id>        - Write rollback plan"
     echo ""
     echo "Use /help <command> for detailed help on a specific command."
 }
@@ -227,6 +230,33 @@ show_command_help() {
             echo "  - Continue workflow for active intent"
             echo "  - Review pending approvals"
             echo "  - Update release plan"
+            ;;
+        pr)
+            echo -e "${BLUE}/pr${NC}"
+            echo ""
+            echo "Generate PR summary and checklist for an intent."
+            echo ""
+            echo "Usage: /pr <intent-id>"
+            echo ""
+            echo "Writes workflow-state/pr.md"
+            ;;
+        risk)
+            echo -e "${BLUE}/risk${NC}"
+            echo ""
+            echo "Force a focused security/threat skim for an intent."
+            echo ""
+            echo "Usage: /risk <intent-id>"
+            echo ""
+            echo "Writes workflow-state/04_security.md"
+            ;;
+        revert-plan|revert_plan)
+            echo -e "${BLUE}/revert-plan${NC}"
+            echo ""
+            echo "Write a rollback plan for an intent."
+            echo ""
+            echo "Usage: /revert-plan <intent-id>"
+            echo ""
+            echo "Writes workflow-state/rollback.md"
             ;;
         *)
             echo -e "${YELLOW}Unknown command: $COMMAND${NC}"
