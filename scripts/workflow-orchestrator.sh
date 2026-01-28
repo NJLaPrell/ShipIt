@@ -77,6 +77,7 @@ if [ -f "$SCRIPT_DIR/lib/progress.sh" ]; then
 fi
 
 echo -e "${BLUE}Orchestrating workflow for $INTENT_ID...${NC}"
+echo -e "${BLUE}Using intent file: ${INTENT_FILE}${NC}"
 echo ""
 
 # Phase 1: Analysis

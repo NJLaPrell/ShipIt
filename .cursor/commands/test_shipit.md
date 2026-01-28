@@ -31,6 +31,8 @@ gh auth status
 
 If this fails, **STOP** and treat it as a **blocking** failure (issues cannot be recorded correctly). Follow `behaviors/WORK_TEST_PLAN_ISSUES.md`.
 
+If `behaviors/WORK_TEST_PLAN_ISSUES.md` is not present in your current workspace, use `./scripts/create-test-plan-issue.sh` to file issues with consistent formatting.
+
 ### Where to Record Results
 
 Root mode results must be written to `tests/ISSUES.md` (root ShipIt project).
@@ -105,6 +107,8 @@ gh auth status
 ```
 
 If this fails, **STOP** and treat it as a **blocking** failure. Follow `behaviors/WORK_TEST_PLAN_ISSUES.md` (includes repo resolution rules).
+
+If `behaviors/WORK_TEST_PLAN_ISSUES.md` is not present in your current workspace, use `./scripts/create-test-plan-issue.sh` to file issues with consistent formatting.
 
 ### Execute Steps
 
