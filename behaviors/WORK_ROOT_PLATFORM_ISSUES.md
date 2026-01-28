@@ -22,9 +22,12 @@
 **Objective:** Confirm the current implementation and issue description still match reality.
 
 **Actions:**
-1. Read the issue entry in `./tests/ISSUES.md`.
-2. Verify the described behavior is still reproducible or still missing.
-3. If the issue description is outdated or incorrect:
+
+1. Ensure the current workspace is clean before starting work.
+2. Create a new branch for the issue and push it.
+3. Read the issue entry in `./tests/ISSUES.md`.
+4. Verify the described behavior is still reproducible or still missing.
+5. If the issue description is outdated or incorrect:
    - Update the issue with corrected findings before proceeding.
    - If the issue is no longer valid, mark it resolved and move it to `./tests/ISSUES_HISTORIC.md`.
 
@@ -37,10 +40,12 @@
 **Objective:** Implement the fix or missing functionality.
 
 **Actions:**
+
 1. Identify the smallest set of files required to change.
 2. Implement the fix.
 3. Avoid bloat: no unrelated refactors or feature additions.
 4. Run the narrowest verification that proves the fix.
+5. Commit any new changes made during validation.
 
 **Stop gate:** If the fix requires new scope, stop and request approval.
 
@@ -51,6 +56,7 @@
 **Objective:** Ensure the solution is correct, minimal, and safe.
 
 **Actions:**
+
 1. Re-read the changed files for logic errors or regressions.
 2. Check for unnecessary complexity or duplication.
 3. Confirm the fix aligns with existing patterns and scripts.
@@ -63,6 +69,7 @@
 **Objective:** Record resolution and archive the issue.
 
 **Actions:**
+
 1. Update the issue in `./tests/ISSUES.md` with:
    - Resolution summary
    - Validation performed
@@ -70,6 +77,7 @@
 2. Move the issue entry to `./tests/ISSUES_HISTORIC.md`.
 3. Ensure the active issues list remains accurate.
 4. Update `README.md` if the change affects user-facing docs.
+5. Commit the final changes when the work is finished.
 
 ---
 
@@ -78,9 +86,11 @@
 **Objective:** Provide a concise summary of work and status.
 
 **Actions:**
+
 1. Summarize changes and validation performed.
 2. Report the final status (resolved/blocked/invalid).
 3. Point to the updated issue history entry.
+4. Submit a PR after everything is finished and committed.
 
 ---
 
