@@ -375,13 +375,72 @@ mkdir -p workflow-state
 cat > workflow-state/active.md << EOF || error_exit "Failed to create workflow-state/active.md"
 # Active Intent
 
-No active intent currently.
+**Intent ID:** none
+**Status:** idle
+**Current Phase:** none
+**Started:** -
 
-When an intent is approved and work begins, this file will be updated with:
-- Intent ID
-- Current phase
-- Assigned agents
-- Status
+## Progress
+
+- [ ] Phase 1: Analysis
+- [ ] Phase 2: Planning
+- [ ] Phase 3: Implementation
+- [ ] Phase 4: Verification
+- [ ] Phase 5: Release Notes
+EOF
+
+cat > workflow-state/blocked.md << EOF || error_exit "Failed to create workflow-state/blocked.md"
+# Blocked Intents
+
+(No blocked intents yet.)
+EOF
+
+cat > workflow-state/validating.md << EOF || error_exit "Failed to create workflow-state/validating.md"
+# Validating Intents
+
+(No validating intents yet.)
+EOF
+
+cat > workflow-state/shipped.md << EOF || error_exit "Failed to create workflow-state/shipped.md"
+# Shipped Intents
+
+(No shipped intents yet.)
+EOF
+
+cat > workflow-state/disagreements.md << EOF || error_exit "Failed to create workflow-state/disagreements.md"
+# Disagreements Log
+
+(No disagreements yet.)
+EOF
+
+cat > workflow-state/01_analysis.md << EOF || error_exit "Failed to create workflow-state/01_analysis.md"
+# Analysis
+
+(Waiting for PM output.)
+EOF
+
+cat > workflow-state/02_plan.md << EOF || error_exit "Failed to create workflow-state/02_plan.md"
+# Plan
+
+(Waiting for Architect output.)
+EOF
+
+cat > workflow-state/03_implementation.md << EOF || error_exit "Failed to create workflow-state/03_implementation.md"
+# Implementation
+
+(Waiting for Implementer output.)
+EOF
+
+cat > workflow-state/04_verification.md << EOF || error_exit "Failed to create workflow-state/04_verification.md"
+# Verification
+
+(Waiting for QA/Security output.)
+EOF
+
+cat > workflow-state/05_release_notes.md << EOF || error_exit "Failed to create workflow-state/05_release_notes.md"
+# Release Notes
+
+(Waiting for Docs/Steward output.)
 EOF
 
 echo -e "${GREEN}✓ Created workflow-state files${NC}"

@@ -42,6 +42,151 @@ This document contains all resolved issues and historic test runs. For current t
 
 ---
 
+### ISSUE-038: Missing workflow-state seed files
+
+**Severity:** medium
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** `workflow-state/` should include baseline state files (active, blocked, validating, shipped, phase outputs) per `PLAN.md`
+**Actual:** `workflow-state/` was empty
+**Error:** No persisted phase outputs or state gates
+
+**Resolution:** Added baseline workflow-state files in the repo and updated `scripts/init-project.sh` to seed them in new projects. Phase files now exist alongside `active.md`, `blocked.md`, `validating.md`, `shipped.md`, and `disagreements.md`.
+
+---
+
+### ISSUE-030: Scripts don't auto-verify outputs or run dependent generators
+
+**Severity:** medium
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** Scripts should automatically verify their outputs and run dependent generators. For example, `/scope-project` should verify files were created, then automatically run `/generate-release-plan` and `/generate-roadmap`, displaying a summary of all outputs.
+**Actual:** User must manually verify files exist and manually run dependent generators after each script completes
+**Error:** No automatic verification, no automatic chaining of dependent operations, no summary output
+
+**Resolution:** Implemented comprehensive output verification and automatic chaining:
+- Created `scripts/lib/verify-outputs.sh` with verification functions for files and intent counts
+- Enhanced `scope-project.sh` to verify outputs, automatically run dependent generators, and display summary
+- Enhanced `generate-release-plan.sh` to verify output and show summary with intent/release counts
+- Enhanced `generate-roadmap.sh` to verify outputs and show summary with intent counts per roadmap
+- Scripts now automatically chain: scope-project → generate-release-plan → generate-roadmap
+- All scripts display clear verification summaries with checkmarks
+
+---
+
+### ISSUE-031: Interactive prompts are sequential instead of batched
+
+**Severity:** low
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** `/scope-project` should display all questions at once with sensible defaults, allow editing in a single view, then require one confirmation
+**Actual:** Script asks questions one-by-one sequentially, requiring many individual responses
+**Error:** Sequential prompts slow down workflow and make it hard to review/edit answers
+
+**Resolution:** Refactored `scope-project.sh` to use batched prompts:
+- All follow-up questions now displayed at once with sensible defaults
+- User can review all questions before answering
+- Defaults provided for each question (e.g., "Web" for UI type, "JSON file" for persistence)
+- User can press Enter to accept default or type new answer
+- After all answers collected, shows review summary
+- Single confirmation prompt before proceeding
+- Significantly faster workflow - all questions visible at once
+
+---
+
+### ISSUE-033: No progress indicators for long-running operations
+
+**Severity:** low
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** During long-running operations (especially `/ship` workflow), display clear progress indicators showing current phase, completion status, and estimated time remaining. Format: "[Phase 1/6] Analysis... ✓" or "[Phase 3/6] Test Writing... ⏳ (3/12 tests written)"
+**Actual:** No progress indication during operations, user doesn't know what's happening or how long it will take
+**Error:** No progress feedback, poor UX for long operations
+
+**Resolution:** Implemented progress indicators for workflow operations:
+- Created `scripts/lib/progress.sh` with progress display functions (show_phase_progress, show_subtask_progress, update_progress_line)
+- Integrated progress indicators into `workflow-orchestrator.sh` for all 5 phases
+- Each phase now shows "[Phase X/5] PhaseName... ⏳" when running and "✓" when complete
+- Progress library supports subtask progress and in-place updates for future enhancements
+
+---
+
+### ISSUE-034: No proactive validation or auto-fix for common issues
+
+**Severity:** high
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** System should proactively validate and optionally auto-fix common issues: (1) dependency ordering conflicts (e.g., "F-001 depends on F-002, but F-002 is in R2 while F-001 is in R1"), (2) whitespace formatting in dependencies, (3) missing dependencies, (4) circular dependencies. Validation should occur when editing intents or running generators. Auto-fix should be available via `/fix` command with preview.
+**Actual:** Issues are only discovered when running `/generate-release-plan` or manually checking. No proactive validation or auto-fix capability.
+**Error:** No proactive validation, no auto-fix, errors discovered late in workflow
+
+**Resolution:** Implemented comprehensive validation and auto-fix system:
+- Created `scripts/lib/validate-intents.sh` with validation functions for dependency ordering, whitespace, missing dependencies, and circular dependencies
+- Created `scripts/fix-intents.sh` command that detects issues, shows preview, and auto-fixes whitespace and dependency ordering issues
+- Integrated validation into `generate-release-plan.sh` to show warnings before generating plan
+- Created `/fix` command definition in `.cursor/commands/fix.md`
+- Validation runs automatically when generating release plans, and `/fix` command provides interactive auto-fix capability
+
+---
+
+### ISSUE-035: No unified status dashboard
+
+**Severity:** medium
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** `/status` command should provide a comprehensive project status dashboard showing: intents by status (planned/active/blocked/shipped), active workflow phase, recent test results summary, recent changes, next suggested actions
+**Actual:** User must check multiple files (`intent/`, `workflow-state/`, run `pnpm test`, check git log) to understand project state
+**Error:** No unified status view, requires multiple commands/files
+
+**Resolution:** Enhanced `scripts/status.sh` to provide comprehensive unified dashboard:
+- Shows intents by status (planned/active/blocked/validating/shipped/killed) with counts
+- Displays active workflow phase and current intent
+- Shows recent test results summary (if tests are configured)
+- Displays recent git commits (last 5)
+- Provides context-aware next step suggestions based on project state
+- All information aggregated in a single formatted dashboard view
+
+---
+
+### ISSUE-037: No context-aware next-step suggestions
+
+**Severity:** low
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** After each command completes, display context-aware suggestions for next steps based on current project state. Example: "✓ Release plan generated. 💡 Next steps: Run `/ship F-001` to start implementing, or edit intents with `/new-intent`"
+**Actual:** User must know which command to run next, no guidance provided
+**Error:** No workflow guidance, poor discoverability
+
+**Resolution:** Implemented context-aware suggestion system:
+- Created `scripts/lib/suggest-next.sh` with state analysis and suggestion logic
+- Analyzes project state: intent counts by status, active workflow, release plan existence
+- Generates relevant suggestions based on state (e.g., suggest `/ship` if intents exist, suggest `/scope-project` if no intents)
+- Integrated into `scope-project.sh`, `generate-release-plan.sh`, and `generate-roadmap.sh`
+- Suggestions displayed after each command completes, helping users navigate workflow
+
+---
+
 ### ISSUE-017: Release target ignored in release plan
 
 **Severity:** high

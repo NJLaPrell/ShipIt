@@ -108,6 +108,39 @@ if [ -d "$WORKFLOW_DIR" ]; then
     echo ""
 fi
 
+# Workflow state sanity check
+required_state_files=(
+    "active.md"
+    "blocked.md"
+    "validating.md"
+    "shipped.md"
+    "disagreements.md"
+    "01_analysis.md"
+    "02_plan.md"
+    "03_implementation.md"
+    "04_verification.md"
+    "05_release_notes.md"
+)
+
+if [ -d "$WORKFLOW_DIR" ]; then
+    missing_state_files=()
+    for file in "${required_state_files[@]}"; do
+        if [ ! -f "$WORKFLOW_DIR/$file" ]; then
+            missing_state_files+=("$file")
+        fi
+    done
+
+    if [ "${#missing_state_files[@]}" -gt 0 ]; then
+        echo -e "${YELLOW}⚠ Workflow State Check:${NC}"
+        echo "  Missing files:"
+        for file in "${missing_state_files[@]}"; do
+            echo "  - $WORKFLOW_DIR/$file"
+        done
+        echo "  💡 Run /ship <id> or re-run /init-project to seed files"
+        echo ""
+    fi
+fi
+
 # Recent intents
 if [ -d "$INTENT_DIR" ] && [ "${TOTAL:-0}" -gt 0 ]; then
     echo -e "${CYAN}Recent Intents:${NC}"
