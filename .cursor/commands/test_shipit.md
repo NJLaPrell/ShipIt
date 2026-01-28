@@ -15,34 +15,59 @@ Run the ShipIt end-to-end test plan.
 ### Before Starting
 
 If `./projects/shipit-test` already exists, DELETE IT:
+
 ```bash
 rm -rf ./projects/shipit-test
 ```
 
+### GitHub Issue Tracking Preflight (Required)
+
+This test plan records issues on GitHub (not in local files). Before running steps, verify `gh` is available and authenticated:
+
+```bash
+gh --version
+gh auth status
+```
+
+If this fails, **STOP** and treat it as a **blocking** failure (issues cannot be recorded correctly). Follow `behaviors/WORK_TEST_PLAN_ISSUES.md`.
+
 ### Where to Record Results
 
-Root mode results and failures must be written to the framework file:
-- `tests/ISSUES.md` (in the root ShipIt project)
+Root mode results must be written to `tests/ISSUES.md` (root ShipIt project).
+
+**Important:** `tests/ISSUES.md` is **test run logging only**. Any failures that represent real issues must be created as **GitHub issues** per `behaviors/WORK_TEST_PLAN_ISSUES.md`, and the run should reference them by GitHub issue number.
 
 ### Guardrails
 
 Before starting, verify the file exists:
+
 - `tests/fixtures.json`
 
 If missing, STOP and log a **blocking** failure.
 
 ### Execute Steps
 
-**Step 1-1:** Run `/init-project`
+**Step 1-1:** Initialize the test project (non-interactive using fixtures)
 
-**Step 1-2:** When prompted, provide these EXACT inputs:
-- Tech stack: `1` (TypeScript/Node.js)
+Use these exact inputs (from `tests/fixtures.json`):
+
+- Tech stack: `1`
 - Description: `Test project for ShipIt end-to-end validation`
 - High-risk domains: `none`
+
+Run:
+
+```bash
+rm -rf ./projects/shipit-test
+printf "1\nTest project for ShipIt end-to-end validation\nnone\n" | ./scripts/init-project.sh shipit-test
+```
+
+**Step 1-2:** (Covered by Step 1-1) Verify the init used the exact fixture inputs.
 
 **Step 1-3:** Verify `./projects/shipit-test` was created
 
 **Step 1-4:** Verify these files exist in the new project:
+
 - `project.json`
 - `package.json`
 - `tsconfig.json`
@@ -70,37 +95,50 @@ NEXT: Open ./projects/shipit-test in a NEW Cursor window, then run /test-shipit 
 
 Read `tests/fixtures.json` (or the framework's `tests/fixtures.json` if running from test project) for hardcoded inputs.
 
+### GitHub Issue Tracking Preflight (Required)
+
+Before executing steps, verify `gh` is available and authenticated:
+
+```bash
+gh --version
+gh auth status
+```
+
+If this fails, **STOP** and treat it as a **blocking** failure. Follow `behaviors/WORK_TEST_PLAN_ISSUES.md` (includes repo resolution rules).
+
 ### Execute Steps
 
 Follow `tests/TEST_PLAN.md` starting from step 2-2.
 
 **Use these hardcoded inputs:**
 
-| Step | Input |
-|------|-------|
-| 3-1 | Scope: `"Build a todo list app with CRUD, tagging, and persistence"` |
-| 3-2 | Follow-ups: REST API, JSON file, single-user, no auth. Select all features. |
-| 4-1 | Intent: `"Add due dates to todos"` (feature) |
-| 7-2 | Update F-001: priority=p0, effort=s, release_target=R1 |
-| 8-1 | F-001 deps: `- F-002`, F-002 deps: `(none)` |
-| 9-1 | Add `- F-999` to F-001 dependencies |
-| 10-1 | Create intent: `"Awesome Banner"` |
+| Step | Input                                                                         |
+| ---- | ----------------------------------------------------------------------------- |
+| 3-1  | Scope: `"Build a todo list app with CRUD, tagging, and persistence"`          |
+| 3-2  | Follow-ups: API-only, JSON file, Single-user, auth none. Select all features. |
+| 4-1  | Intent: `"Add due dates to todos"` (feature)                                  |
+| 7-2  | Update F-001: priority=p0, effort=s, release_target=R1                        |
+| 8-1  | F-001 deps: `- F-002`, F-002 deps: `(none)`                                   |
+| 9-1  | Add `- F-999` to F-001 dependencies                                           |
+| 10-1 | Create intent: `"Awesome Banner"`                                             |
 
 ### After Each Step
 
-1. Record result (PASS/FAIL) 
+1. Record result (PASS/FAIL)
 2. If FAIL, determine severity:
    - `blocking` — stops subsequent tests
    - `high` — core functionality broken
    - `medium` — works incorrectly
    - `low` — minor/cosmetic
-3. Update `tests/ISSUES.md` (see format below)
+3. Append the step result to the current run block in `tests/ISSUES.md`
+4. If the failure indicates a real bug/tooling gap, create a GitHub issue per `behaviors/WORK_TEST_PLAN_ISSUES.md` and reference it by issue number in the run block
 
 ### Fail-Fast Rule
 
 If a step fails with `blocking` severity, STOP testing immediately. Do not continue to subsequent steps.
 
 **Blocking failures include:**
+
 - Project initialization fails (can't create project)
 - Required files missing after init
 - Scripts fail to execute
@@ -111,6 +149,7 @@ When stopping early, mark all remaining steps as `⏭️ SKIP` with reason: `Blo
 ### On Completion
 
 Output summary:
+
 ```
 ## Test Run Complete
 
@@ -130,8 +169,6 @@ After each test run, update `tests/ISSUES.md`:
 
 1. **Append a new Run block** under `## Test Runs` (do not overwrite prior runs)
 2. **Update the Run's Summary table** with all step results
-3. **Add new issues** to "Active Issues" section
-4. **Update existing issues** if they reoccur or are resolved
-5. **Move resolved issues** to "Resolved Issues" section
+3. **List GitHub issues created** in an "Issues Found This Run" section, referencing issue numbers (e.g., `#123`)
 
 See `.cursor/rules/test-runner.mdc` for detailed formatting rules.

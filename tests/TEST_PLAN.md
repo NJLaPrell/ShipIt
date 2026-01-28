@@ -19,6 +19,15 @@ This plan validates the complete ShipIt workflow from project initialization thr
 - Cursor IDE installed
 - Node.js 20+ and `pnpm` available
 - This repository open in Cursor
+- GitHub CLI (`gh`) installed and authenticated (required for test-plan issue creation)
+- A POSIX shell environment capable of running the scripts (macOS supported)
+
+Preflight (run once before executing steps):
+
+```bash
+gh --version
+gh auth status
+```
 
 ---
 
@@ -69,18 +78,21 @@ This plan validates the complete ShipIt workflow from project initialization thr
      - `./scripts/scope-project.sh "Build a todo list app with CRUD, tagging, and persistence"`
 
 2. When the scoping script prompts, enter these exact responses:
+   (Use fixture-aligned inputs from `tests/fixtures.json`.)
    - **Is a UI required (API-only, CLI, Web)?** `API-only`
    - **What persistence should be used (JSON file, SQLite, etc.)?** `JSON file`
    - **Single-user or multi-user?** `Single-user`
-   - **Authentication required (none, API key, full auth)?** `API key`
-   - **Any non-functional requirements (performance, scaling, etc.)?** `p95 < 200ms, tests required`
-   - **Open Questions (optional):** `done`
-   - **Feature candidates (one per line):**
+   - **Authentication required (none, API key, full auth)?** `none`
+   - **Any non-functional requirements (performance, scaling, etc.)?** press Enter (accept default) or enter `p95 < 200ms`
+   - **Confirm answers?** `y`
+   - **Open Questions (optional, type 'done'):** `done`
+   - **Feature candidates (one per line, then 'done'):**
      - `Todo data model + persistence layer`
      - `CRUD HTTP API for todos`
      - `Tagging + filtering`
      - `done`
    - **Select features to generate intents:** `all`
+   - **Dependencies prompts:** enter `none` for each generated intent
 
 3. When prompted for dependencies per intent, enter logical dependencies:
    - Foundation layers (persistence, auth) should have `none`

@@ -1,18 +1,8 @@
-# ShipIt Test Results
+# ShipIt Test Runs
 
-## 🏆 E2E VALIDATION COMPLETE
+This file logs **test runs only**. Issues discovered during runs are tracked on GitHub (see `behaviors/WORK_TEST_PLAN_ISSUES.md`).
 
-**Date:** 2026-01-23  
-**Overall Result:** ✅ **PASS**  
-**Steps:** 84 executed, 82 passed (97.6%)  
-**Features Validated:** 9/9 (100%)  
-**Workflow Phases:** 6/6 (100%)
-
-The ShipIt framework has been fully validated end-to-end. All core features work as designed.
-
----
-
-## Latest Test Run
+## Test Runs
 
 ### Run: 2026-01-23T23:57:01Z (test-project)
 
@@ -48,6 +38,27 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 | 9-3  | Verify missing deps section | ❌ FAIL | medium   | No Missing Dependencies section found             |
 | 10-1 | Create new intent           | ✅ PASS | -        | Created F-005 "Awesome Banner"                    |
 
----
+#### Issues Found This Run
 
-**Note:** For historic test runs and resolved issues, see `ISSUES_HISTORIC.md`.
+- (not recorded as GitHub issues in this historic run)
+
+### Run: 2026-01-28T04:33:07Z (root-project)
+
+**Steps Executed:** 4  
+**Steps Passed:** 4  
+**Steps Failed:** 0  
+**Blocking Issues:** 0  
+**Result:** ✅ PASS
+
+#### Summary
+
+| Step | Name                        | Status  | Severity | Notes                                 |
+| ---- | --------------------------- | ------- | -------- | ------------------------------------- |
+| 1-1  | Init project                | ✅ PASS | -        | Created `./projects/shipit-test`      |
+| 1-2  | Provide inputs              | ✅ PASS | -        | stack=1, desc fixture, high-risk=none |
+| 1-3  | Verify project dir created  | ✅ PASS | -        | `./projects/shipit-test` exists       |
+| 1-4  | Verify required files exist | ✅ PASS | -        | All required files present            |
+
+#### Issues Found This Run
+
+- (none)

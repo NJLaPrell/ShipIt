@@ -34,10 +34,48 @@ fi
 echo -e "${BLUE}Scoping project: $PROJECT_DESC${NC}"
 echo ""
 
-# Read project metadata
-PROJECT_NAME=$(jq -r '.name' project.json 2>/dev/null || echo "project")
-TECH_STACK=$(jq -r '.techStack' project.json 2>/dev/null || echo "typescript-nodejs")
-HIGH_RISK=$(jq -r '.highRiskDomains | join(", ")' project.json 2>/dev/null || echo "none")
+# Read project metadata (prefer jq, fallback to node; avoid hard dependency on jq)
+read_project_json_field() {
+    local expr="$1"
+    local fallback="$2"
+
+    if command -v jq >/dev/null 2>&1; then
+        local v
+        v="$(jq -r "$expr" project.json 2>/dev/null || true)"
+        if [ -z "$v" ] || [ "$v" = "null" ]; then
+            echo "$fallback"
+        else
+            echo "$v"
+        fi
+        return 0
+    fi
+
+    if command -v node >/dev/null 2>&1; then
+        node -e "
+          const fs = require('fs');
+          try {
+            const p = JSON.parse(fs.readFileSync('project.json','utf8'));
+            const v = (function(){
+              // supported expr values: .name, .techStack, .highRiskDomains
+              if ('$expr' === '.name') return p.name;
+              if ('$expr' === '.techStack') return p.techStack;
+              if ('$expr' === '.highRiskDomains | join(\", \")') return Array.isArray(p.highRiskDomains) ? p.highRiskDomains.join(', ') : undefined;
+              return undefined;
+            })();
+            process.stdout.write((v === undefined || v === null || v === '') ? '$fallback' : String(v));
+          } catch {
+            process.stdout.write('$fallback');
+          }
+        " 2>/dev/null || echo "$fallback"
+        return 0
+    fi
+
+    echo "$fallback"
+}
+
+PROJECT_NAME="$(read_project_json_field '.name' 'project')"
+TECH_STACK="$(read_project_json_field '.techStack' 'typescript-nodejs')"
+HIGH_RISK="$(read_project_json_field '.highRiskDomains | join(", ")' 'none')"
 
 echo -e "${YELLOW}Project Context:${NC}"
 echo "  Name: $PROJECT_NAME"
@@ -45,21 +83,21 @@ echo "  Tech Stack: $TECH_STACK"
 echo "  High-Risk Domains: $HIGH_RISK"
 echo ""
 
-# Interactive follow-up questions with defaults
-declare -A FOLLOW_UP_DEFAULTS=(
-    ["Is a UI required (API-only, CLI, Web)?"]="Web"
-    ["What persistence should be used (JSON file, SQLite, etc.)?"]="JSON file"
-    ["Single-user or multi-user?"]="Single-user"
-    ["Authentication required (none, API key, full auth)?"]="none"
-    ["Any non-functional requirements (performance, scaling, etc.)?"]="Fast for typical use cases"
-)
-
+# Interactive follow-up questions with defaults (bash 3.2 compatible: no associative arrays)
 FOLLOW_UP_QUESTIONS=(
     "Is a UI required (API-only, CLI, Web)?"
     "What persistence should be used (JSON file, SQLite, etc.)?"
     "Single-user or multi-user?"
     "Authentication required (none, API key, full auth)?"
     "Any non-functional requirements (performance, scaling, etc.)?"
+)
+
+FOLLOW_UP_DEFAULTS=(
+    "Web"
+    "JSON file"
+    "Single-user"
+    "none"
+    "Fast for typical use cases"
 )
 
 FOLLOW_UP_ANSWERS=()
@@ -72,7 +110,7 @@ echo ""
 
 for i in "${!FOLLOW_UP_QUESTIONS[@]}"; do
     question="${FOLLOW_UP_QUESTIONS[$i]}"
-    default="${FOLLOW_UP_DEFAULTS[$question]}"
+    default="${FOLLOW_UP_DEFAULTS[$i]}"
     
     # Show question with default
     echo -e "${CYAN}Q$((i + 1)):${NC} $question"

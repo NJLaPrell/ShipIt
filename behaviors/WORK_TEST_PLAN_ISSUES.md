@@ -6,7 +6,7 @@
 
 ## Quick Reference: Templates
 
-- **Active Issues:** Use `tests/ISSUE_TEMPLATE.md` (GitHub issue body)
+- **Issue body:** Use `tests/ISSUE_TEMPLATE.md` (GitHub issue body)
 - **Research Notes:** Use `tests/ISSUE_RESEARCH_TEMPLATE.md` (GitHub issue body)
 - **Resolution Comments:** Use `tests/ISSUE_RESOLUTION_COMMENT_TEMPLATE.md` (GitHub issue comment)
 - **Issue Title:** Brief descriptive title (e.g., "Missing golden-data directory")
@@ -21,7 +21,46 @@ Always create issues on GitHub using the templates. Issues are tracked on GitHub
 - Test project issues: Create in test project repository (if it has its own repo) or root platform repository.
 - After resolving an issue, close it on GitHub with a resolution comment.
 
-**Note:** This workflow replaces the previous file-based issue tracking in `tests/ISSUES.md`. Existing issues in `tests/ISSUES.md` should be migrated to GitHub. The "Active Issues" and "Implementation Research Notes" sections in `tests/ISSUES.md` are deprecated and should not be used for new issues.
+**Note:** This workflow replaces the previous file-based issue tracking in `tests/ISSUES.md`. `tests/ISSUES.md` is for **test run logs only**; issues live on GitHub.
+
+---
+
+## Preflight (Must Pass Before Creating Issues)
+
+Before creating any issues, verify `gh` is available and authenticated:
+
+```bash
+gh --version
+gh auth status
+```
+
+If authentication is missing/expired, **STOP** and treat it as a **blocking** test-plan failure (you cannot correctly record issues).
+
+## Repo Resolution (Where to File the Issue)
+
+### Determine the current repo
+
+From the workspace where the failure occurred:
+
+```bash
+gh repo view --json nameWithOwner -q .nameWithOwner
+```
+
+If this fails (e.g., not a git repo, no remote), fall back to the **root platform repo** (usually `NJLaPrell/ShipIt`) and note the limitation in the issue body.
+
+### Decision rule
+
+- **Root platform issue → file in root platform repo**
+  - Missing/broken framework scripts or commands
+  - Incorrect framework behaviors/docs/templates
+  - CI/lint/test configuration in the framework
+  - Anything that would affect _any_ initialized project
+
+- **Test project issue → file in test project repo (only if it exists as a real repo), otherwise root platform repo**
+  - Failures caused by test-project-specific content or changes _after_ initialization
+  - If the test project is just a folder created under `./projects/` (no separate remote), file in the root platform repo and label it as test-project surfaced
+
+Rule of thumb: if fixing it requires changing the framework repo → file in the framework repo.
 
 ---
 
@@ -53,7 +92,7 @@ Create a GitHub issue when:
    - Remove placeholder text and brackets
 
 2. **Create the issue on GitHub:**
-   - Use GitHub API (via MCP tools) or web interface to create the issue
+   - Use the GitHub CLI (`gh`) to create the issue
    - **Title:** Brief descriptive title (e.g., "Missing golden-data directory")
    - **Body:** Use the filled-out template content
    - **Labels:** Add appropriate labels (labels must exist before use):
@@ -126,14 +165,14 @@ Use `tests/ISSUE_RESEARCH_TEMPLATE.md` for the body and add `research-note` labe
 
 ## Test Run Recording
 
-### Latest Test Run Section
+### Test Runs (run logs only)
 
-Record each test run execution in `tests/ISSUES.md` (test results only, not issue tracking):
+Record each test run execution in `tests/ISSUES.md` (**run logs only**, not issue tracking):
 
 ```markdown
-## Latest Test Run
+## Test Runs
 
-### Run: YYYY-MM-DDTHH:MM:SSZ (test-project-name)
+### Run: YYYY-MM-DDTHH:MM:SSZ (root-project | test-project)
 
 **Steps Executed:** [number]
 **Steps Passed:** [number]
@@ -154,20 +193,6 @@ Record each test run execution in `tests/ISSUES.md` (test results only, not issu
 ```
 
 **Note:** Issues are tracked on GitHub. Only reference GitHub issue numbers here.
-
-### Overall Validation Status
-
-Update the header section when validation is complete:
-
-```markdown
-## 🏆 E2E VALIDATION COMPLETE
-
-**Date:** YYYY-MM-DD
-**Overall Result:** ✅ **PASS** | ❌ **FAIL**
-**Steps:** [total] executed, [passed] passed ([percentage]%)
-**Features Validated:** [X]/[Y] ([percentage]%)
-**Workflow Phases:** [X]/[Y] ([percentage]%)
-```
 
 ---
 

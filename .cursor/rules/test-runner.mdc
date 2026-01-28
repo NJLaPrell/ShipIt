@@ -51,33 +51,43 @@ After each step, record:
 - Status: `PASS` or `FAIL`
 - If FAIL: severity, expected vs actual, error details
 
-### 4. Update ISSUES.md Properly
+### 4. Issue Tracking (GitHub ONLY)
 
-**For new issues:**
-```markdown
-### ISSUE-XXX: [Short title]
+Issues discovered during test execution are tracked **only** on GitHub, following `behaviors/WORK_TEST_PLAN_ISSUES.md`.
 
-**Severity:** blocking | high | medium | low
-**Step:** [step ID]
-**Status:** open
-**First Seen:** [ISO date]
-**Last Seen:** [ISO date]
+- Do **not** write new “ISSUE-XXX” entries into `tests/ISSUES.md`.
+- `tests/ISSUES.md` is **test run logging only**.
 
-**Expected:** [what should happen]
-**Actual:** [what happened]
-**Error:** [error message if any]
+#### Create an Issue (required on failures)
 
-**Notes:** [additional context]
+Use `gh` to create issues (per repo rules). Do **not** include literal `\n` sequences in the body (they look gross in the GitHub UI). Use a heredoc body instead.
+
+Example:
+
+```bash
+gh issue create --title "scope-project fails on macOS bash 3.2" --body "$(cat <<'EOF'
+**Severity:** high
+**Step:** 3-1
+**First Seen:** 2026-01-28
+
+## Expected
+
+`./scripts/scope-project.sh` runs on macOS default shell.
+
+## Actual
+
+Script exits early with a bash syntax error / unsupported feature.
+
+## Error
+
+<paste error output>
+
+## Implementation
+
+- Make script compatible with bash 3.2 or document bash 4+ prerequisite.
+EOF
+)"
 ```
-
-**For existing issues that reoccur:**
-- Update `Last Seen` date
-- Add note about recurrence
-
-**For resolved issues:**
-- Change `Status` to `resolved`
-- Add `Resolved` date
-- Move to "Resolved Issues" section
 
 ### 5. Summary Table Format
 
@@ -97,13 +107,7 @@ Use these status indicators:
 - `⏭️ SKIP` — Skipped due to blocking failure or root-mode stop
 - `🔄 RETEST` — Needs manual retest
 
-### 6. Issue ID Assignment
-
-- Use format `ISSUE-XXX` where XXX is a sequential number
-- Check existing issues before creating new ones
-- If same root cause, update existing issue instead of creating duplicate
-
-### 7. Severity Definitions
+### 6. Severity Definitions
 
 | Severity | Meaning | Action |
 |----------|---------|--------|
@@ -112,7 +116,7 @@ Use these status indicators:
 | `medium` | Works but incorrectly | Continue |
 | `low` | Minor/cosmetic | Continue |
 
-### 8. Final Output
+### 7. Final Output
 
 After completing (or stopping), output:
 
@@ -131,10 +135,11 @@ After completing (or stopping), output:
 See tests/ISSUES.md for details.
 ```
 
-## Run History Rules
+## Run Logging Rules
 
 - Do NOT overwrite previous runs.
-- Append a new Run block under `## Test Runs` with timestamp, mode, and summary.
+- Append a new run block to `tests/ISSUES.md` with timestamp, mode, and summary.
+- If issues were created, include an “Issues Found This Run” list referencing GitHub issue numbers (e.g., `#123`).
 
 ## Forbidden Actions
 
@@ -142,4 +147,4 @@ See tests/ISSUES.md for details.
 - ❌ Do NOT continue testing after a blocking failure
 - ❌ Do NOT modify production code during testing
 - ❌ Do NOT skip steps without marking them as skipped
-- ❌ Do NOT create duplicate issues for the same problem
+- ❌ Do NOT track issues in `tests/ISSUES.md` (GitHub only)

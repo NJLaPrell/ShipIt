@@ -1,7 +1,7 @@
 {
   "projectName": "shipit-test",
   "projectPath": "./projects/shipit-test",
-  
+
   "inputs": {
     "step_1-2": {
       "techStack": "1",
@@ -13,12 +13,19 @@
     },
     "step_3-2": {
       "followUps": {
-        "uiType": "REST API",
+        "uiType": "API-only",
         "storage": "JSON file",
-        "userModel": "single-user",
+        "userModel": "Single-user",
         "authentication": "none"
       },
-      "featureSelection": ["F-001", "F-002", "F-003", "F-004", "F-005", "F-006"]
+      "openQuestions": [],
+      "featureCandidates": [
+        "Todo data model + persistence layer",
+        "CRUD HTTP API for todos",
+        "Tagging + filtering"
+      ],
+      "selection": "all",
+      "dependencyAnswersForSelectedFeatures": ["none", "none", "none"]
     },
     "step_4-1": {
       "intentTitle": "Add due dates to todos",
