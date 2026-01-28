@@ -28,11 +28,23 @@ fi
 PROJECT_NAME=$(jq -r '.name' project.json 2>/dev/null || echo "project")
 
 # Collect metrics
-INTENT_TOTAL=$(find intent -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null | wc -l | tr -d ' ')
-INTENT_PLANNED=$(grep -l "Status.*planned" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
-INTENT_ACTIVE=$(grep -l "Status.*active" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
-INTENT_SHIPPED=$(grep -l "Status.*shipped" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
-INTENT_BLOCKED=$(grep -l "Status.*blocked" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
+intent_files=()
+while IFS= read -r file; do
+    intent_files+=("$file")
+done < <(find intent -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
+
+INTENT_TOTAL=${#intent_files[@]}
+if [ "$INTENT_TOTAL" -gt 0 ]; then
+    INTENT_PLANNED=$(grep -l "Status.*planned" "${intent_files[@]}" 2>/dev/null | wc -l | tr -d ' ')
+    INTENT_ACTIVE=$(grep -l "Status.*active" "${intent_files[@]}" 2>/dev/null | wc -l | tr -d ' ')
+    INTENT_SHIPPED=$(grep -l "Status.*shipped" "${intent_files[@]}" 2>/dev/null | wc -l | tr -d ' ')
+    INTENT_BLOCKED=$(grep -l "Status.*blocked" "${intent_files[@]}" 2>/dev/null | wc -l | tr -d ' ')
+else
+    INTENT_PLANNED=0
+    INTENT_ACTIVE=0
+    INTENT_SHIPPED=0
+    INTENT_BLOCKED=0
+fi
 
 # Calculate progress
 if [ "$INTENT_TOTAL" -gt 0 ]; then
@@ -95,7 +107,7 @@ Shipped:    [$(printf '#%.0s' $(seq 1 $((PROGRESS / 2))))$(printf ' %.0s' $(seq 
 
 ## 📋 Recent Intents
 
-$(find intent -name "*.md" ! -name "_TEMPLATE.md" -type f -exec basename {} .md \; 2>/dev/null | head -5 | sed 's/^/- /' || echo "No intents yet")
+$(if [ "$INTENT_TOTAL" -gt 0 ]; then printf "%s\n" "${intent_files[@]}" | head -5 | xargs -I{} basename "{}" .md | sed 's/^/- /'; else echo "No intents yet"; fi)
 
 ## 🔗 Quick Links
 

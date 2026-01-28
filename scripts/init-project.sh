@@ -86,7 +86,7 @@ HIGH_RISK="${HIGH_RISK:-none}"
 echo -e "${BLUE}Creating project structure...${NC}"
 
 # Core directories
-mkdir -p intent workflow-state architecture do-not-repeat drift roadmap scripts golden-data src tests .cursor/rules .cursor/commands .github/workflows
+mkdir -p intent/features intent/bugs intent/tech-debt workflow-state architecture do-not-repeat drift roadmap scripts golden-data src tests .cursor/rules .cursor/commands .github/workflows
 
 # Copy framework commands, rules, and core scripts into the new project
 if [ -d "$ROOT_DIR/.cursor/commands" ]; then
@@ -267,7 +267,7 @@ EOF
 echo -e "${GREEN}✓ Created architecture/invariants.yml${NC}"
 
 # Create intent template
-mkdir -p intent
+mkdir -p intent/features intent/bugs intent/tech-debt
 cat > intent/_TEMPLATE.md << 'EOFTEMPLATE' || error_exit "Failed to create intent template"
 # F-###: Title
 

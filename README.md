@@ -57,7 +57,7 @@ A framework that optimizes for _epistemology_, not coordination:
 - 🎯 **Executable Truth** - Tests and invariants replace documentation
 - 📁 **State-Anchored** - Workflow state in files, not meetings
 - 🔍 **Adversarial Verification** - Multiple agents try to break things
-- 📋 **Intent Ledger** - Planned work in `/intent/` (not tickets)
+- 📋 **Intent Ledger** - Planned work in `/intent/{features,bugs,tech-debt}` (not tickets)
 - 🚪 **Automated Gates** - CI/CD enforces quality
 - 📊 **Drift Detection** - Entropy monitoring prevents decay
 - ✅ **Auto-Validation** - Proactive validation and auto-fix for common issues
@@ -113,7 +113,7 @@ SETUP PHASE
 PLANNING PHASE
     │
     ├─ /new_intent
-    │   └─ Creates intent file (F-001.md, B-002.md, etc.)
+    │   └─ Creates intent file in subfolders (F-001.md, B-002.md, etc.)
     │
     ├─ /generate-release-plan
     │   └─ Orders intents by dependencies, priorities, release targets
@@ -268,7 +268,7 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 ```bash
 # Create an intent
 /new_intent
-# → Creates F-001.md with template
+# → Creates intent/features/F-001.md with template
 
 # Fill it in (type, motivation, acceptance criteria, etc.)
 
@@ -297,7 +297,10 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 
 ```
 .
-├── intent/              # What to build (F-001.md, B-002.md, etc.)
+├── intent/              # What to build (features/bugs/tech-debt)
+│   ├── features/        # Feature intents (F-###.md)
+│   ├── bugs/            # Bug intents (B-###.md)
+│   └── tech-debt/       # Tech-debt intents (T-###.md)
 ├── workflow-state/      # Current execution state (active + phase files)
 ├── SYSTEM_STATE.md      # Auto-generated summary for Steward
 ├── architecture/        # CANON.md (boundaries) + invariants.yml
@@ -310,7 +313,7 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 
 ### Intent Ledger
 
-All work lives in `/intent/` as markdown files. Each intent has:
+All work lives in `/intent/` as markdown files under `features/`, `bugs/`, or `tech-debt`. Each intent has:
 
 - Executable acceptance criteria (not "looks good")
 - Confidence scores (requirements + domain assumptions)

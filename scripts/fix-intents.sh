@@ -66,8 +66,8 @@ fix_dependency_ordering() {
     local dep_id="$2"
     local intent_release="$3"
     
-    local dep_file="$INTENT_DIR/$dep_id.md"
-    if [ ! -f "$dep_file" ]; then
+    local dep_file=$(find "$INTENT_DIR" -type f -name "${dep_id}.md" -print -quit 2>/dev/null)
+    if [ -z "$dep_file" ] || [ ! -f "$dep_file" ]; then
         warning "Cannot fix: $dep_id file not found"
         return 1
     fi
@@ -144,12 +144,11 @@ main() {
     local all_issues=()
     local intent_files=()
     
-    # Find all intent files
-    for file in "$INTENT_DIR"/*.md; do
-        [ -f "$file" ] || continue
-        [ "$(basename "$file")" = "_TEMPLATE.md" ] && continue
+    # Find all intent files recursively
+    intent_files=()
+    while IFS= read -r file; do
         intent_files+=("$file")
-    done
+    done < <(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
     
     if [ ${#intent_files[@]} -eq 0 ]; then
         echo -e "${GREEN}✓ No intent files found${NC}"
@@ -203,7 +202,11 @@ main() {
     for issue in "${all_issues[@]}"; do
         local issue_type=$(echo "$issue" | cut -d'|' -f1)
         local intent_id=$(echo "$issue" | cut -d'|' -f2)
-        local intent_file="$INTENT_DIR/$intent_id.md"
+        local intent_file=$(find "$INTENT_DIR" -type f -name "${intent_id}.md" -print -quit 2>/dev/null)
+        if [ -z "$intent_file" ] || [ ! -f "$intent_file" ]; then
+            warning "Intent file not found: $intent_id"
+            continue
+        fi
         
         case "$issue_type" in
             whitespace)

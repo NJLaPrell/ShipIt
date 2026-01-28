@@ -6,6 +6,23 @@ This document contains all resolved issues and historic test runs. For current t
 
 ## Resolved Issues
 
+### ISSUE-046: Intent subfolders missing
+
+**Severity:** low
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-27
+
+**Expected:** Intent ledger uses `intent/features`, `intent/bugs`, `intent/tech-debt` per plan
+**Actual:** Flat `intent/` with only `_TEMPLATE.md`
+**Error:** Intent organization deviates from plan
+
+**Resolution:** Added intent subfolders with placeholders, updated intent creation/scoping to write to subfolders, and updated release-plan/roadmap plus supporting scripts to read intents recursively. `init-project.sh` now seeds the subfolders. Documentation updated to reflect new intent paths.
+**Validation:** `./scripts/generate-release-plan.sh`, `./scripts/generate-roadmap.sh`
+
+---
+
 ### ISSUE-021: pnpm audit reports vulnerabilities
 
 **Severity:** low

@@ -59,17 +59,20 @@ KILLED=0
 TOTAL=0
 
 if [ -d "$INTENT_DIR" ]; then
-    
-    for file in "$INTENT_DIR"/*.md; do
+    intent_files=()
+    while IFS= read -r file; do
+        intent_files+=("$file")
+    done < <(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
+
+    for file in "${intent_files[@]}"; do
         [ -f "$file" ] || continue
-        [ "$(basename "$file")" = "_TEMPLATE.md" ] && continue
-        
+
         STATUS=$(awk '
             $0 ~ /^## Status/ {found=1; next}
             found && $0 ~ /^## / {exit}
             found && $0 ~ /[^[:space:]]/ {gsub(/^[[:space:]]+|[[:space:]]+$/, "", $0); print tolower($0); exit}
         ' "$file" 2>/dev/null || echo "planned")
-        
+
         case "$STATUS" in
             planned) PLANNED=$((PLANNED + 1)) ;;
             active) ACTIVE=$((ACTIVE + 1)) ;;
@@ -79,7 +82,7 @@ if [ -d "$INTENT_DIR" ]; then
             killed) KILLED=$((KILLED + 1)) ;;
         esac
     done
-    
+
     TOTAL=$((PLANNED + ACTIVE + BLOCKED + VALIDATING + SHIPPED + KILLED))
 fi
 
@@ -144,7 +147,8 @@ fi
 # Recent intents
 if [ -d "$INTENT_DIR" ] && [ "${TOTAL:-0}" -gt 0 ]; then
     echo -e "${CYAN}Recent Intents:${NC}"
-    ls -t "$INTENT_DIR"/*.md 2>/dev/null | grep -v "_TEMPLATE.md" | head -5 | while read -r file; do
+    if [ "${#intent_files[@]}" -gt 0 ]; then
+        ls -t "${intent_files[@]}" 2>/dev/null | head -5 | while read -r file; do
         ID=$(basename "$file" .md)
         TITLE=$(grep "^# " "$file" 2>/dev/null | head -1 | sed 's/^# [^:]*: //' || echo "$ID")
         STATUS=$(awk '
@@ -153,7 +157,8 @@ if [ -d "$INTENT_DIR" ] && [ "${TOTAL:-0}" -gt 0 ]; then
             found && $0 ~ /[^[:space:]]/ {gsub(/^[[:space:]]+|[[:space:]]+$/, "", $0); print tolower($0); exit}
         ' "$file" 2>/dev/null || echo "unknown")
         echo "  $ID: $TITLE ($STATUS)"
-    done
+        done
+    fi
     echo ""
 fi
 

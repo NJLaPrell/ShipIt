@@ -57,8 +57,22 @@ const path = require('path');
 const intentDir = process.env.INTENT_DIR;
 const planFile = process.env.PLAN_FILE;
 
-const intentFiles = fs.readdirSync(intentDir)
-  .filter((f) => f.endsWith('.md') && f !== '_TEMPLATE.md');
+const collectIntentFiles = (dir) => {
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...collectIntentFiles(fullPath));
+    } else if (entry.isFile()) {
+      files.push(fullPath);
+    }
+  }
+  return files;
+};
+
+const intentFiles = collectIntentFiles(intentDir)
+  .filter((file) => file.endsWith('.md') && path.basename(file) !== '_TEMPLATE.md');
 
 const priorities = ['p0', 'p1', 'p2', 'p3'];
 const efforts = ['s', 'm', 'l'];
@@ -137,8 +151,7 @@ const parseDependencies = (lines) => {
 };
 
 const intents = intentFiles.map((file) => {
-  const fullPath = path.join(intentDir, file);
-  const content = fs.readFileSync(fullPath, 'utf8');
+  const content = fs.readFileSync(file, 'utf8');
   const lines = content.split('\n');
   const titleLine = lines.find((line) => line.startsWith('# ')) || '';
   const title = titleLine.replace(/^#\s*/, '').trim();

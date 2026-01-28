@@ -30,13 +30,21 @@ PROJECT_DESC=$(jq -r '.description' project.json 2>/dev/null || echo "Project de
 TECH_STACK=$(jq -r '.techStack' project.json 2>/dev/null || echo "unknown")
 
 # Count intents
-INTENT_COUNT=$(find intent -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null | wc -l | tr -d ' ')
+intent_files=()
+while IFS= read -r file; do
+    intent_files+=("$file")
+done < <(find intent -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
+
+INTENT_COUNT=${#intent_files[@]}
 
 # Count active intents
-ACTIVE_COUNT=$(grep -l "Status.*active" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
-
-# Count completed intents
-COMPLETED_COUNT=$(grep -l "Status.*shipped" intent/*.md 2>/dev/null | wc -l | tr -d ' ')
+if [ "$INTENT_COUNT" -gt 0 ]; then
+    ACTIVE_COUNT=$(grep -l "Status.*active" "${intent_files[@]}" 2>/dev/null | wc -l | tr -d ' ')
+    COMPLETED_COUNT=$(grep -l "Status.*shipped" "${intent_files[@]}" 2>/dev/null | wc -l | tr -d ' ')
+else
+    ACTIVE_COUNT=0
+    COMPLETED_COUNT=0
+fi
 
 # Get active intent
 ACTIVE_INTENT=$(grep -h "^## Status" workflow-state/active.md 2>/dev/null | grep -o "F-[0-9]*\|B-[0-9]*\|T-[0-9]*" | head -1 || echo "none")
@@ -71,6 +79,9 @@ cat > "$CONTEXT_FILE" << EOF || error_exit "Failed to generate PROJECT_CONTEXT.m
 \`\`\`
 .
 ├── intent/              # $INTENT_COUNT intents
+│   ├── features/        # Feature intents (F-###.md)
+│   ├── bugs/            # Bug intents (B-###.md)
+│   └── tech-debt/       # Tech-debt intents (T-###.md)
 ├── workflow-state/      # Current execution state
 ├── architecture/        # System boundaries
 ├── src/                 # Source code

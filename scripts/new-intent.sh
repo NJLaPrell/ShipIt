@@ -17,8 +17,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-INTENT_DIR="intent"
-TEMPLATE_FILE="$INTENT_DIR/_TEMPLATE.md"
+INTENT_BASE_DIR="intent"
+TEMPLATE_FILE="$INTENT_BASE_DIR/_TEMPLATE.md"
 
 # Validate prerequisites
 if [ ! -f "$TEMPLATE_FILE" ]; then
@@ -33,15 +33,17 @@ echo "3) Tech Debt (T-###)"
 read -p "Select type [1-3]: " type_choice
 
 case $type_choice in
-    1) INTENT_TYPE="feature"; PREFIX="F" ;;
-    2) INTENT_TYPE="bug"; PREFIX="B" ;;
-    3) INTENT_TYPE="tech-debt"; PREFIX="T" ;;
+    1) INTENT_TYPE="feature"; PREFIX="F"; INTENT_DIR="$INTENT_BASE_DIR/features" ;;
+    2) INTENT_TYPE="bug"; PREFIX="B"; INTENT_DIR="$INTENT_BASE_DIR/bugs" ;;
+    3) INTENT_TYPE="tech-debt"; PREFIX="T"; INTENT_DIR="$INTENT_BASE_DIR/tech-debt" ;;
     *) error_exit "Invalid choice" 1 ;;
 esac
 
+mkdir -p "$INTENT_DIR"
+
 # Get next intent number without overwriting existing files
 LAST_INTENT=0
-for file in "$INTENT_DIR"/[FBT]-*.md; do
+while IFS= read -r file; do
     [ -e "$file" ] || continue
     base="$(basename "$file")"
     if [[ "$base" =~ ^[FBT]-([0-9]+)\.md$ ]]; then
@@ -50,7 +52,7 @@ for file in "$INTENT_DIR"/[FBT]-*.md; do
             LAST_INTENT=$((10#$num))
         fi
     fi
-done
+done < <(find "$INTENT_BASE_DIR" -type f -name '[FBT]-*.md' 2>/dev/null)
 NEXT_NUM=$((LAST_INTENT + 1))
 INTENT_ID="${PREFIX}-$(printf "%03d" $NEXT_NUM)"
 

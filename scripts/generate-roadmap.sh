@@ -33,7 +33,7 @@ NOW_INTENTS=()
 NEXT_INTENTS=()
 LATER_INTENTS=()
 
-for intent_file in "$INTENT_DIR"/*.md; do
+while IFS= read -r intent_file; do
     [ -f "$intent_file" ] || continue
     
     INTENT_ID=$(basename "$intent_file" .md)
@@ -76,7 +76,7 @@ for intent_file in "$INTENT_DIR"/*.md; do
     else
         LATER_INTENTS+=("$INTENT_ID")
     fi
-done
+done < <(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
 
 # Generate roadmap files
 generate_roadmap_file() {
@@ -101,7 +101,7 @@ EOF
         echo "(No intents yet. Add intents as they're planned.)" >> "$file"
     else
         for intent_id in "${intents[@]}"; do
-            INTENT_FILE="$INTENT_DIR/$intent_id.md"
+            INTENT_FILE=$(find "$INTENT_DIR" -type f -name "${intent_id}.md" -print -quit 2>/dev/null || true)
             if [ -f "$INTENT_FILE" ]; then
                 TITLE=$(grep "^# " "$INTENT_FILE" | head -1 | sed 's/^# //' || echo "$intent_id")
                 echo "- **$intent_id:** $TITLE" >> "$file"
@@ -155,7 +155,7 @@ cat > "$DEPENDENCY_FILE" << EOF || error_exit "Failed to create dependency file"
 
 EOF
 
-for intent_file in "$INTENT_DIR"/*.md; do
+while IFS= read -r intent_file; do
     [ -f "$intent_file" ] || continue
     
     INTENT_ID=$(basename "$intent_file" .md)
@@ -177,7 +177,7 @@ for intent_file in "$INTENT_DIR"/*.md; do
         echo "  (no dependencies)" >> "$DEPENDENCY_FILE"
     fi
     echo "" >> "$DEPENDENCY_FILE"
-done
+done < <(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" 2>/dev/null)
 
 echo -e "${GREEN}✓ Generated dependency graph: $DEPENDENCY_FILE${NC}"
 echo ""

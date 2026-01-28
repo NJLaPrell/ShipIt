@@ -1,16 +1,11 @@
 # Now (Current Sprint)
 
-Active work that's in progress or about to start.
+**Generated:** 2026-01-28T03:18:49Z
 
-## Active Intents
+## Intents
 
-(No active intents yet. Add intents as work begins.)
+(No intents yet. Add intents as they're planned.)
 
-## Blocked
+## Dependencies
 
-(No blocked intents.)
-
-## This Week's Goals
-
-- [ ] Complete initial setup
-- [ ] Run pilot feature through full SDLC
+(Dependencies will be shown here)

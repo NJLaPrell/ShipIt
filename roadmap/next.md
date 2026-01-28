@@ -1,11 +1,11 @@
 # Next (Upcoming)
 
-Work planned for the next sprint or two.
+**Generated:** 2026-01-28T03:18:49Z
 
-## Planned Intents
+## Intents
 
-(No planned intents yet. Add intents as they're created.)
+(No intents yet. Add intents as they're planned.)
 
 ## Dependencies
 
-(No dependencies yet.)
+(Dependencies will be shown here)
