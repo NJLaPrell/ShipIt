@@ -14,7 +14,7 @@ Example: `/ship F-042`
 
 - Project must be initialized (run `/init-project` first)
 - `project.json` must exist and be valid
-- Intent file must exist in `/intent/<intent-id>.md`
+- Intent file must exist under `intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
 
 ## Automated State Generation
 
@@ -28,6 +28,7 @@ This automatically creates all workflow state files for the 6 phases.
 ## Important: Role Switching
 
 Cursor doesn't have native "subagents." You will switch roles by:
+
 1. Reading the relevant rule file (e.g., `.cursor/rules/pm.mdc`)
 2. Adopting that role's constraints and output format
 3. Completing that role's tasks
@@ -67,7 +68,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 
 3. **For updates, show diffs or summaries:**
    - When updating existing files: Show what changed, not the entire file
-   - Use: "Added `deleteTodo()` function to `src/data/todoStore.ts`" 
+   - Use: "Added `deleteTodo()` function to `src/data/todoStore.ts`"
    - Or show a diff: `+ export async function deleteTodo(...) { ... }`
 
 4. **Never duplicate:**
@@ -85,7 +86,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 
 **Switch to PM role** (read `.cursor/rules/pm.mdc`):
 
-1. Read the intent file: `/intent/<intent-id>.md`
+1. Read the intent file: `intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
 2. Restate requirements clearly (no ambiguity)
 3. Define acceptance criteria (executable, not subjective)
 4. Score confidence:
@@ -120,6 +121,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 **Status:** "Starting Phase 3: Test Writing (QA Role)"
 
 **Phase Boundary:** This phase is for writing tests ONLY. Do NOT add dependencies or modify infrastructure files unless:
+
 1. Tests absolutely cannot run without them
 2. You STOP and get explicit approval
 3. You document the deviation
@@ -245,38 +247,47 @@ Cursor doesn't have native "subagents." You will switch roles by:
 **Each phase has strict boundaries. Do NOT perform actions assigned to other phases.**
 
 ### Phase 1 (Analysis - PM Role)
+
 **CAN DO:**
+
 - Read intent files
 - Write analysis documents
 - Define acceptance criteria
 - Score confidence
 
 **CANNOT DO:**
+
 - Modify source code
 - Add dependencies
 - Write tests
 - Create/modify infrastructure files
 
 ### Phase 2 (Planning - Architect Role)
+
 **CAN DO:**
+
 - Read analysis documents
 - Write plan documents
 - List files to create/modify
 - Check CANON.md compliance
 
 **CANNOT DO:**
+
 - Modify source code
 - Add dependencies
 - Write tests
 - Create/modify infrastructure files
 
 ### Phase 3 (Test Writing - QA Role)
+
 **CAN DO:**
+
 - Write test files
 - Run tests to verify they fail
 - Commit test files
 
 **CANNOT DO:**
+
 - Add dependencies (unless tests absolutely require them - then STOP and get approval)
 - Modify source code
 - Modify infrastructure files (`.gitignore`, `package.json`, etc.) unless explicitly in plan for this phase
@@ -285,13 +296,16 @@ Cursor doesn't have native "subagents." You will switch roles by:
 **If tests need dependencies:** STOP, explain why, get approval, then add them. Document the deviation.
 
 ### Phase 4 (Implementation - Implementer Role)
+
 **CAN DO:**
+
 - Add dependencies (as specified in plan)
 - Modify infrastructure files (`.gitignore`, `package.json`, etc. as specified in plan)
 - Write/modify source code
 - Make tests pass
 
 **CANNOT DO:**
+
 - Write new tests (tests should already exist from Phase 3)
 - Modify plan without approval
 - Add features not in approved plan
@@ -310,6 +324,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 ## Workflow State Files
 
 All state is saved to `workflow-state/`:
+
 - `01_analysis.md` - PM analysis
 - `02_plan.md` - Architect plan (requires approval)
 - `03_implementation.md` - Implementer progress

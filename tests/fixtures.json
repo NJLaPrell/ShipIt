@@ -29,7 +29,17 @@
     },
     "step_4-1": {
       "intentTitle": "Add due dates to todos",
-      "intentType": "feature"
+      "intentType": "feature",
+      "intentTypeChoice": "1",
+      "intentMotivationLines": [
+        "Improve prioritization for users",
+        "Support basic deadline tracking"
+      ],
+      "priorityChoice": "2",
+      "effortChoice": "2",
+      "releaseTargetChoice": "2",
+      "dependenciesInput": "none",
+      "riskChoice": "2"
     },
     "step_7-2": {
       "targetIntent": "F-001",
@@ -47,7 +57,14 @@
     },
     "step_10-1": {
       "intentTitle": "Awesome Banner",
-      "intentMotivation": "Display a graphical banner at the top of the project README"
+      "intentType": "feature",
+      "intentTypeChoice": "1",
+      "intentMotivationLines": ["Display a graphical banner at the top of the project README"],
+      "priorityChoice": "4",
+      "effortChoice": "1",
+      "releaseTargetChoice": "4",
+      "dependenciesInput": "none",
+      "riskChoice": "1"
     }
   },
 

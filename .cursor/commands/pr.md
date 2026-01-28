@@ -16,7 +16,7 @@ Creates a PR-ready summary using the intent and workflow state files.
 
 ## Inputs
 
-- `intent/<intent-id>.md`
+- `intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
 - `workflow-state/02_plan.md`
 - `workflow-state/03_implementation.md`
 - `workflow-state/04_verification.md`
@@ -47,24 +47,30 @@ Writes `workflow-state/pr.md` with:
 # PR: <intent-id> - <title>
 
 ## Intent
+
 - <intent-id>: <short description>
 
 ## Summary
+
 - Change 1
 - Change 2
 
 ## Verification
+
 - `pnpm test` → PASS
 - `pnpm lint && pnpm typecheck` → PASS
 - `pnpm audit --audit-level=high` → PASS
 
 ## Risk Level
+
 - low | medium | high
 
 ## Rollback
+
 - <rollback steps or reference to workflow-state/02_plan.md>
 
 ## Checklist
+
 - [ ] Acceptance criteria met
 - [ ] Verification evidence recorded
 - [ ] Rollback plan documented
