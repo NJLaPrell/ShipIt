@@ -64,7 +64,8 @@ jobs:
           node-version: '20'
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
-      - run: pnpm audit --audit-level=high
+      - run: chmod +x scripts/audit-check.sh
+      - run: ./scripts/audit-check.sh moderate
       - name: Check for secrets
         uses: trufflesecurity/trufflehog@main
         with:

@@ -79,10 +79,19 @@ echo ""
 # Check 4: Security audit
 echo -e "${YELLOW}[4/7] Running security audit...${NC}"
 if command -v pnpm >/dev/null 2>&1; then
-    if pnpm audit --audit-level=high >/dev/null 2>&1; then
-        echo -e "${GREEN}✓ No high/critical vulnerabilities${NC}"
+    if [ -f "scripts/audit-check.sh" ]; then
+        if ./scripts/audit-check.sh moderate; then
+            echo -e "${GREEN}✓ No unlisted moderate+ vulnerabilities${NC}"
+        else
+            warning "Security audit found unlisted or expired advisories"
+        fi
     else
-        warning "Security audit found issues (review manually)"
+        warning "audit-check.sh not found, skipping allowlist enforcement"
+        if pnpm audit --audit-level=moderate >/dev/null 2>&1; then
+            echo -e "${GREEN}✓ No moderate/high/critical vulnerabilities${NC}"
+        else
+            warning "Security audit found issues (review manually)"
+        fi
     fi
 else
     warning "pnpm not found, skipping security audit"

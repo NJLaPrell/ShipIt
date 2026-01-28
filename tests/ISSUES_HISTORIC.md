@@ -6,6 +6,23 @@ This document contains all resolved issues and historic test runs. For current t
 
 ## Resolved Issues
 
+### ISSUE-021: pnpm audit reports vulnerabilities
+
+**Severity:** low
+**Step:** 12-3
+**Status:** resolved
+**First Seen:** 2026-01-23
+**Resolved:** 2026-01-27
+
+**Expected:** `pnpm audit` should have no moderate/high findings
+**Actual:** Audit reports 1 moderate (esbuild) and 1 low (tmp) vulnerability
+**Error:** `pnpm audit` exits non-zero
+
+**Resolution:** Added `pnpm.overrides` to update `esbuild` and `tmp`, introduced `scripts/audit-check.sh` with allowlist + expiry enforcement, added `security/audit-allowlist.json`, and updated verification, readiness, and CI security checks to enforce moderate+ policy.
+**Validation:** `pnpm audit`, `./scripts/audit-check.sh moderate`
+
+---
+
 ### ISSUE-028: Dependency ordering ignores release targets
 
 **Severity:** high
@@ -103,6 +120,7 @@ This document contains all resolved issues and historic test runs. For current t
 **Error:** No automatic verification, no automatic chaining of dependent operations, no summary output
 
 **Resolution:** Implemented comprehensive output verification and automatic chaining:
+
 - Created `scripts/lib/verify-outputs.sh` with verification functions for files and intent counts
 - Enhanced `scope-project.sh` to verify outputs, automatically run dependent generators, and display summary
 - Enhanced `generate-release-plan.sh` to verify output and show summary with intent/release counts
@@ -125,6 +143,7 @@ This document contains all resolved issues and historic test runs. For current t
 **Error:** Sequential prompts slow down workflow and make it hard to review/edit answers
 
 **Resolution:** Refactored `scope-project.sh` to use batched prompts:
+
 - All follow-up questions now displayed at once with sensible defaults
 - User can review all questions before answering
 - Defaults provided for each question (e.g., "Web" for UI type, "JSON file" for persistence)
@@ -148,6 +167,7 @@ This document contains all resolved issues and historic test runs. For current t
 **Error:** No progress feedback, poor UX for long operations
 
 **Resolution:** Implemented progress indicators for workflow operations:
+
 - Created `scripts/lib/progress.sh` with progress display functions (show_phase_progress, show_subtask_progress, update_progress_line)
 - Integrated progress indicators into `workflow-orchestrator.sh` for all 5 phases
 - Each phase now shows "[Phase X/5] PhaseName... ⏳" when running and "✓" when complete
@@ -168,6 +188,7 @@ This document contains all resolved issues and historic test runs. For current t
 **Error:** No proactive validation, no auto-fix, errors discovered late in workflow
 
 **Resolution:** Implemented comprehensive validation and auto-fix system:
+
 - Created `scripts/lib/validate-intents.sh` with validation functions for dependency ordering, whitespace, missing dependencies, and circular dependencies
 - Created `scripts/fix-intents.sh` command that detects issues, shows preview, and auto-fixes whitespace and dependency ordering issues
 - Integrated validation into `generate-release-plan.sh` to show warnings before generating plan
@@ -189,6 +210,7 @@ This document contains all resolved issues and historic test runs. For current t
 **Error:** No unified status view, requires multiple commands/files
 
 **Resolution:** Enhanced `scripts/status.sh` to provide comprehensive unified dashboard:
+
 - Shows intents by status (planned/active/blocked/validating/shipped/killed) with counts
 - Displays active workflow phase and current intent
 - Shows recent test results summary (if tests are configured)
@@ -211,6 +233,7 @@ This document contains all resolved issues and historic test runs. For current t
 **Error:** No workflow guidance, poor discoverability
 
 **Resolution:** Implemented context-aware suggestion system:
+
 - Created `scripts/lib/suggest-next.sh` with state analysis and suggestion logic
 - Analyzes project state: intent counts by status, active workflow, release plan existence
 - Generates relevant suggestions based on state (e.g., suggest `/ship` if intents exist, suggest `/scope-project` if no intents)
@@ -676,52 +699,52 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 16-1 | Review plan | ✅ PASS | - | Plan reviewed and updated |
-| 16-2 | Approve plan | ✅ PASS | - | Approval recorded in 02_plan.md |
-| 16-3 | Workflow proceeds | ✅ PASS | - | Proceeded to test writing |
-| 17-1 | Switch to QA role | ✅ PASS | - | |
-| 17-2 | Write tests FIRST | ✅ PASS | - | Added banner tests |
-| 17-3 | Verify tests fail | ✅ PASS | - | Tests fail before implementation |
-| 18-1 | Switch to Implementer role | ✅ PASS | - | |
-| 18-2 | Create files per plan | ✅ PASS | - | README + assets + tests |
-| 18-3 | Make tests pass | ✅ PASS | - | pnpm test green |
-| 18-4 | Document progress | ✅ PASS | - | 03_implementation.md created |
-| 19-1 | Run test suite | ✅ PASS | - | pnpm test green |
-| 19-2 | Check coverage | ✅ PASS | - | pnpm test:coverage ran |
-| 19-3 | Security audit | ✅ PASS | low | 1 moderate + 1 low vulnerability |
-| 19-4 | Code review | ✅ PASS | - | No issues found |
-| 19-5 | Update verification | ✅ PASS | - | 04_verification.md created |
-| 20-1 | Switch to Docs role | ✅ PASS | - | |
-| 20-2 | Update README.md | ✅ PASS | - | Banner added |
-| 20-3 | Create CHANGELOG.md | ✅ PASS | - | Added Unreleased entry |
-| 20-4 | Create release notes | ✅ PASS | - | 05_release_notes.md created |
-| 20-5 | Update active.md | ✅ PASS | - | Updated during ship decision |
-| 21-1 | Switch to Steward role | ✅ PASS | - | |
-| 21-2 | Review all phases | ✅ PASS | - | All phases reviewed |
-| 21-3 | Run final tests | ✅ PASS | - | pnpm test green |
-| 21-4 | Clean up F-001 deps | ✅ PASS | - | Removed F-999 |
-| 21-5 | Update F-001 status | ✅ PASS | - | Status → shipped |
-| 21-6 | Create 06_shipped.md | ✅ PASS | - | Sign-off doc created |
-| 21-7 | Update active.md | ✅ PASS | - | Status → shipped |
-| 22-1 | Run /deploy staging | ✅ PASS | - | Readiness checks pass |
-| 22-2 | Verify tests | ✅ PASS | - | Tests pass in readiness |
-| 22-3 | Verify typecheck | ✅ PASS | - | Typecheck pass |
-| 22-4 | Verify lint | ✅ PASS | - | Lint pass |
-| 22-5 | Verify security | ✅ PASS | low | 1 moderate + 1 low vulnerability |
-| 22-6 | Steward decision | ✅ PASS | - | Staging APPROVED |
-| 23-1 | Verify intent lifecycle | ✅ PASS | - | 1 shipped, 1 killed, 4 planned |
-| 23-2 | Verify workflow artifacts | ✅ PASS | - | All required files exist |
-| 23-3 | Verify tests pass | ✅ PASS | - | pnpm test green |
-| 23-4 | Verify typecheck | ✅ PASS | - | pnpm typecheck green |
-| 23-5 | Verify security | ✅ PASS | low | 1 moderate + 1 low vulnerability |
-| 23-6 | Verify README | ✅ PASS | - | Banner present |
-| 23-7 | Verify CHANGELOG | ✅ PASS | - | Entry present |
-| 23-8 | Verify release/plan.md | ✅ PASS | - | Regenerated |
-| 24-1 | Generate final report | ✅ PASS | - | Summary recorded |
-| 24-2 | Update ISSUES.md | ✅ PASS | - | Run recorded |
-| 24-3 | Mark overall result | ✅ PASS | - | Marked PASS |
+| Step | Name                       | Status  | Severity | Notes                            |
+| ---- | -------------------------- | ------- | -------- | -------------------------------- |
+| 16-1 | Review plan                | ✅ PASS | -        | Plan reviewed and updated        |
+| 16-2 | Approve plan               | ✅ PASS | -        | Approval recorded in 02_plan.md  |
+| 16-3 | Workflow proceeds          | ✅ PASS | -        | Proceeded to test writing        |
+| 17-1 | Switch to QA role          | ✅ PASS | -        |                                  |
+| 17-2 | Write tests FIRST          | ✅ PASS | -        | Added banner tests               |
+| 17-3 | Verify tests fail          | ✅ PASS | -        | Tests fail before implementation |
+| 18-1 | Switch to Implementer role | ✅ PASS | -        |                                  |
+| 18-2 | Create files per plan      | ✅ PASS | -        | README + assets + tests          |
+| 18-3 | Make tests pass            | ✅ PASS | -        | pnpm test green                  |
+| 18-4 | Document progress          | ✅ PASS | -        | 03_implementation.md created     |
+| 19-1 | Run test suite             | ✅ PASS | -        | pnpm test green                  |
+| 19-2 | Check coverage             | ✅ PASS | -        | pnpm test:coverage ran           |
+| 19-3 | Security audit             | ✅ PASS | low      | 1 moderate + 1 low vulnerability |
+| 19-4 | Code review                | ✅ PASS | -        | No issues found                  |
+| 19-5 | Update verification        | ✅ PASS | -        | 04_verification.md created       |
+| 20-1 | Switch to Docs role        | ✅ PASS | -        |                                  |
+| 20-2 | Update README.md           | ✅ PASS | -        | Banner added                     |
+| 20-3 | Create CHANGELOG.md        | ✅ PASS | -        | Added Unreleased entry           |
+| 20-4 | Create release notes       | ✅ PASS | -        | 05_release_notes.md created      |
+| 20-5 | Update active.md           | ✅ PASS | -        | Updated during ship decision     |
+| 21-1 | Switch to Steward role     | ✅ PASS | -        |                                  |
+| 21-2 | Review all phases          | ✅ PASS | -        | All phases reviewed              |
+| 21-3 | Run final tests            | ✅ PASS | -        | pnpm test green                  |
+| 21-4 | Clean up F-001 deps        | ✅ PASS | -        | Removed F-999                    |
+| 21-5 | Update F-001 status        | ✅ PASS | -        | Status → shipped                 |
+| 21-6 | Create 06_shipped.md       | ✅ PASS | -        | Sign-off doc created             |
+| 21-7 | Update active.md           | ✅ PASS | -        | Status → shipped                 |
+| 22-1 | Run /deploy staging        | ✅ PASS | -        | Readiness checks pass            |
+| 22-2 | Verify tests               | ✅ PASS | -        | Tests pass in readiness          |
+| 22-3 | Verify typecheck           | ✅ PASS | -        | Typecheck pass                   |
+| 22-4 | Verify lint                | ✅ PASS | -        | Lint pass                        |
+| 22-5 | Verify security            | ✅ PASS | low      | 1 moderate + 1 low vulnerability |
+| 22-6 | Steward decision           | ✅ PASS | -        | Staging APPROVED                 |
+| 23-1 | Verify intent lifecycle    | ✅ PASS | -        | 1 shipped, 1 killed, 4 planned   |
+| 23-2 | Verify workflow artifacts  | ✅ PASS | -        | All required files exist         |
+| 23-3 | Verify tests pass          | ✅ PASS | -        | pnpm test green                  |
+| 23-4 | Verify typecheck           | ✅ PASS | -        | pnpm typecheck green             |
+| 23-5 | Verify security            | ✅ PASS | low      | 1 moderate + 1 low vulnerability |
+| 23-6 | Verify README              | ✅ PASS | -        | Banner present                   |
+| 23-7 | Verify CHANGELOG           | ✅ PASS | -        | Entry present                    |
+| 23-8 | Verify release/plan.md     | ✅ PASS | -        | Regenerated                      |
+| 24-1 | Generate final report      | ✅ PASS | -        | Summary recorded                 |
+| 24-2 | Update ISSUES.md           | ✅ PASS | -        | Run recorded                     |
+| 24-3 | Mark overall result        | ✅ PASS | -        | Marked PASS                      |
 
 ### Run: 2026-01-23T23:26:31Z (test-project)
 
@@ -733,12 +756,12 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 15-2 | Run /kill F-XXX | ✅ PASS | - | |
-| 15-3 | Verify status = killed | ✅ PASS | - | |
-| 15-4 | Verify kill rationale recorded | ✅ PASS | - | |
-| 15-5 | Verify active.md updated | ✅ PASS | - | |
+| Step | Name                           | Status  | Severity | Notes |
+| ---- | ------------------------------ | ------- | -------- | ----- |
+| 15-2 | Run /kill F-XXX                | ✅ PASS | -        |       |
+| 15-3 | Verify status = killed         | ✅ PASS | -        |       |
+| 15-4 | Verify kill rationale recorded | ✅ PASS | -        |       |
+| 15-5 | Verify active.md updated       | ✅ PASS | -        |       |
 
 ### Run: 2026-01-23T20:50:06Z (test-project)
 
@@ -750,12 +773,12 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 15-2 | Run /kill F-XXX | ❌ FAIL | medium | Script logs sed error while killing intent |
-| 15-3 | Verify status = killed | ✅ PASS | - | |
-| 15-4 | Verify kill rationale recorded | ✅ PASS | - | |
-| 15-5 | Verify active.md updated | ❌ FAIL | blocking | `workflow-state/active.md` still shows F-001 active |
+| Step | Name                           | Status  | Severity | Notes                                               |
+| ---- | ------------------------------ | ------- | -------- | --------------------------------------------------- |
+| 15-2 | Run /kill F-XXX                | ❌ FAIL | medium   | Script logs sed error while killing intent          |
+| 15-3 | Verify status = killed         | ✅ PASS | -        |                                                     |
+| 15-4 | Verify kill rationale recorded | ✅ PASS | -        |                                                     |
+| 15-5 | Verify active.md updated       | ❌ FAIL | blocking | `workflow-state/active.md` still shows F-001 active |
 
 #### Issues Found This Run
 
@@ -772,18 +795,18 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 14-1 | Run /deploy staging | ✅ PASS | - | Manual deploy mode, readiness checks pass |
-| 14-2 | Switch to Steward role | ✅ PASS | - | |
-| 14-3 | Execute readiness checks | ✅ PASS | - | |
-| 14-4 | No real deployment | ✅ PASS | - | |
-| 14-5 | Record missing scripts | ✅ PASS | - | |
-| 15-1 | Create disposable intent | ✅ PASS | - | Created `F-006` |
-| 15-2 | Run /kill F-XXX | ❌ FAIL | medium | Script logs sed error while killing intent |
-| 15-3 | Verify status = killed | ✅ PASS | - | |
-| 15-4 | Verify kill rationale recorded | ✅ PASS | - | |
-| 15-5 | Verify active.md updated | ❌ FAIL | blocking | `workflow-state/active.md` still shows F-001 active |
+| Step | Name                           | Status  | Severity | Notes                                               |
+| ---- | ------------------------------ | ------- | -------- | --------------------------------------------------- |
+| 14-1 | Run /deploy staging            | ✅ PASS | -        | Manual deploy mode, readiness checks pass           |
+| 14-2 | Switch to Steward role         | ✅ PASS | -        |                                                     |
+| 14-3 | Execute readiness checks       | ✅ PASS | -        |                                                     |
+| 14-4 | No real deployment             | ✅ PASS | -        |                                                     |
+| 14-5 | Record missing scripts         | ✅ PASS | -        |                                                     |
+| 15-1 | Create disposable intent       | ✅ PASS | -        | Created `F-006`                                     |
+| 15-2 | Run /kill F-XXX                | ❌ FAIL | medium   | Script logs sed error while killing intent          |
+| 15-3 | Verify status = killed         | ✅ PASS | -        |                                                     |
+| 15-4 | Verify kill rationale recorded | ✅ PASS | -        |                                                     |
+| 15-5 | Verify active.md updated       | ❌ FAIL | blocking | `workflow-state/active.md` still shows F-001 active |
 
 #### Issues Found This Run
 
@@ -800,15 +823,15 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 14-1 | Run /deploy staging | ✅ PASS | - | Manual deploy mode, readiness checks pass |
-| 14-2 | Switch to Steward role | ✅ PASS | - | |
-| 14-3 | Execute readiness checks | ✅ PASS | - | |
-| 14-4 | No real deployment | ✅ PASS | - | |
-| 14-5 | Record missing scripts | ✅ PASS | - | |
-| 15-1 | Create disposable intent | ✅ PASS | - | Created `F-006` |
-| 15-2 | Run /kill F-XXX | ❌ FAIL | blocking | `scripts/kill-intent.sh` missing |
+| Step | Name                     | Status  | Severity | Notes                                     |
+| ---- | ------------------------ | ------- | -------- | ----------------------------------------- |
+| 14-1 | Run /deploy staging      | ✅ PASS | -        | Manual deploy mode, readiness checks pass |
+| 14-2 | Switch to Steward role   | ✅ PASS | -        |                                           |
+| 14-3 | Execute readiness checks | ✅ PASS | -        |                                           |
+| 14-4 | No real deployment       | ✅ PASS | -        |                                           |
+| 14-5 | Record missing scripts   | ✅ PASS | -        |                                           |
+| 15-1 | Create disposable intent | ✅ PASS | -        | Created `F-006`                           |
+| 15-2 | Run /kill F-XXX          | ❌ FAIL | blocking | `scripts/kill-intent.sh` missing          |
 
 #### Issues Found This Run
 
@@ -824,8 +847,8 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
+| Step | Name                | Status  | Severity | Notes                                       |
+| ---- | ------------------- | ------- | -------- | ------------------------------------------- |
 | 14-1 | Run /deploy staging | ❌ FAIL | blocking | deploy.sh calls check-readiness without env |
 
 #### Issues Found This Run
@@ -842,8 +865,8 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
+| Step | Name                | Status  | Severity | Notes                             |
+| ---- | ------------------- | ------- | -------- | --------------------------------- |
 | 14-1 | Run /deploy staging | ❌ FAIL | blocking | ESLint no-console in src/index.ts |
 
 #### Issues Found This Run
@@ -860,8 +883,8 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
+| Step | Name                | Status  | Severity | Notes                                 |
+| ---- | ------------------- | ------- | -------- | ------------------------------------- |
 | 14-1 | Run /deploy staging | ❌ FAIL | blocking | ESLint no-console + unsafe-any errors |
 
 #### Issues Found This Run
@@ -878,8 +901,8 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
+| Step | Name                | Status  | Severity | Notes                                          |
+| ---- | ------------------- | ------- | -------- | ---------------------------------------------- |
 | 14-1 | Run /deploy staging | ❌ FAIL | blocking | ESLint errors (no-console + tsconfig includes) |
 
 #### Issues Found This Run
@@ -896,17 +919,17 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 12-1 | Run /verify F-001 | ❌ FAIL | medium | Mutation tests failed: vitest runner missing |
-| 12-2 | Switch to QA role | ✅ PASS | - | |
-| 12-3 | Switch to Security role | ❌ FAIL | low | pnpm audit reports 1 moderate + 1 low |
-| 12-4 | Verify 04_verification.md created | ❌ FAIL | medium | workflow-state/04_verification.md missing |
-| 12-5 | Record missing tooling | ✅ PASS | - | Logged mutation tooling issue |
-| 13-1 | Run /drift_check | ✅ PASS | - | |
-| 13-2 | Verify drift/metrics.md created | ✅ PASS | - | |
-| 13-3 | Record missing tooling | ✅ PASS | - | |
-| 14-1 | Run /deploy staging | ❌ FAIL | blocking | check-readiness lint error (parserOptions.project missing) |
+| Step | Name                              | Status  | Severity | Notes                                                      |
+| ---- | --------------------------------- | ------- | -------- | ---------------------------------------------------------- |
+| 12-1 | Run /verify F-001                 | ❌ FAIL | medium   | Mutation tests failed: vitest runner missing               |
+| 12-2 | Switch to QA role                 | ✅ PASS | -        |                                                            |
+| 12-3 | Switch to Security role           | ❌ FAIL | low      | pnpm audit reports 1 moderate + 1 low                      |
+| 12-4 | Verify 04_verification.md created | ❌ FAIL | medium   | workflow-state/04_verification.md missing                  |
+| 12-5 | Record missing tooling            | ✅ PASS | -        | Logged mutation tooling issue                              |
+| 13-1 | Run /drift_check                  | ✅ PASS | -        |                                                            |
+| 13-2 | Verify drift/metrics.md created   | ✅ PASS | -        |                                                            |
+| 13-3 | Record missing tooling            | ✅ PASS | -        |                                                            |
+| 14-1 | Run /deploy staging               | ❌ FAIL | blocking | check-readiness lint error (parserOptions.project missing) |
 
 #### Issues Found This Run
 
@@ -925,13 +948,13 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 11-1 | Run /ship F-001 | ✅ PASS | - | workflow-orchestrator created state files |
-| 11-2 | Verify 01_analysis.md created | ✅ PASS | - | |
-| 11-3 | Verify 02_plan.md created | ✅ PASS | - | |
-| 11-4 | Verify plan gate stops for approval | ✅ PASS | - | Approval checklist present |
-| 12-1 | Run /verify F-001 | ❌ FAIL | blocking | `vitest` not found (node_modules missing) |
+| Step | Name                                | Status  | Severity | Notes                                     |
+| ---- | ----------------------------------- | ------- | -------- | ----------------------------------------- |
+| 11-1 | Run /ship F-001                     | ✅ PASS | -        | workflow-orchestrator created state files |
+| 11-2 | Verify 01_analysis.md created       | ✅ PASS | -        |                                           |
+| 11-3 | Verify 02_plan.md created           | ✅ PASS | -        |                                           |
+| 11-4 | Verify plan gate stops for approval | ✅ PASS | -        | Approval checklist present                |
+| 12-1 | Run /verify F-001                   | ❌ FAIL | blocking | `vitest` not found (node_modules missing) |
 
 #### Issues Found This Run
 
@@ -947,8 +970,8 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
+| Step | Name            | Status  | Severity | Notes                                      |
+| ---- | --------------- | ------- | -------- | ------------------------------------------ |
 | 11-1 | Run /ship F-001 | ❌ FAIL | blocking | `scripts/workflow-orchestrator.sh` missing |
 
 #### Issues Found This Run
@@ -965,8 +988,8 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
+| Step | Name            | Status  | Severity | Notes                                      |
+| ---- | --------------- | ------- | -------- | ------------------------------------------ |
 | 11-1 | Run /ship F-001 | ❌ FAIL | blocking | `scripts/workflow-orchestrator.sh` missing |
 
 #### Issues Found This Run
@@ -983,26 +1006,26 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 4-1 | Create single intent | ✅ PASS | - | Created `F-004` |
-| 5-1 | Run generate-release-plan | ✅ PASS | - | |
-| 5-2 | Verify release plan | ✅ PASS | - | |
-| 6-1 | Run generate-roadmap | ✅ PASS | - | |
-| 6-2 | Verify roadmap | ✅ PASS | - | |
-| 7-1 | Check template fields | ✅ PASS | - | |
-| 7-2 | Update intent fields | ✅ PASS | - | |
-| 7-3 | Regenerate release plan | ✅ PASS | - | |
-| 7-4 | Verify ordering | ❌ FAIL | high | F-001 release target ignored (still in R2) |
-| 8-1 | Edit dependencies | ✅ PASS | - | |
-| 8-2 | Regenerate release plan | ✅ PASS | - | |
-| 8-3 | Verify F-002 before F-001 | ✅ PASS | - | |
-| 9-1 | Add fake dependency | ✅ PASS | - | |
-| 9-2 | Regenerate release plan | ✅ PASS | - | |
-| 9-3 | Verify missing deps section | ✅ PASS | - | |
-| 10-1 | Create new intent | ✅ PASS | - | Created `F-005` |
-| 10-2 | Verify roadmap+release update | ✅ PASS | - | |
-| 11-1 | Run /ship F-001 | ❌ FAIL | blocking | `workflow-orchestrator` command missing |
+| Step | Name                          | Status  | Severity | Notes                                      |
+| ---- | ----------------------------- | ------- | -------- | ------------------------------------------ |
+| 4-1  | Create single intent          | ✅ PASS | -        | Created `F-004`                            |
+| 5-1  | Run generate-release-plan     | ✅ PASS | -        |                                            |
+| 5-2  | Verify release plan           | ✅ PASS | -        |                                            |
+| 6-1  | Run generate-roadmap          | ✅ PASS | -        |                                            |
+| 6-2  | Verify roadmap                | ✅ PASS | -        |                                            |
+| 7-1  | Check template fields         | ✅ PASS | -        |                                            |
+| 7-2  | Update intent fields          | ✅ PASS | -        |                                            |
+| 7-3  | Regenerate release plan       | ✅ PASS | -        |                                            |
+| 7-4  | Verify ordering               | ❌ FAIL | high     | F-001 release target ignored (still in R2) |
+| 8-1  | Edit dependencies             | ✅ PASS | -        |                                            |
+| 8-2  | Regenerate release plan       | ✅ PASS | -        |                                            |
+| 8-3  | Verify F-002 before F-001     | ✅ PASS | -        |                                            |
+| 9-1  | Add fake dependency           | ✅ PASS | -        |                                            |
+| 9-2  | Regenerate release plan       | ✅ PASS | -        |                                            |
+| 9-3  | Verify missing deps section   | ✅ PASS | -        |                                            |
+| 10-1 | Create new intent             | ✅ PASS | -        | Created `F-005`                            |
+| 10-2 | Verify roadmap+release update | ✅ PASS | -        |                                            |
+| 11-1 | Run /ship F-001               | ❌ FAIL | blocking | `workflow-orchestrator` command missing    |
 
 #### Issues Found This Run
 
@@ -1019,26 +1042,26 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 4-1 | Create single intent | ❌ FAIL | high | new-intent overwrote existing F-001 instead of creating new ID |
-| 5-1 | Run generate-release-plan | ✅ PASS | - | |
-| 5-2 | Verify release plan | ❌ FAIL | medium | Missing expected R1 section in release plan |
-| 6-1 | Run generate-roadmap | ✅ PASS | - | |
-| 6-2 | Verify roadmap | ✅ PASS | - | |
-| 7-1 | Check template fields | ✅ PASS | - | |
-| 7-2 | Update intent fields | ✅ PASS | - | |
-| 7-3 | Regenerate release plan | ✅ PASS | - | |
-| 7-4 | Verify ordering | ✅ PASS | - | |
-| 8-1 | Edit dependencies | ✅ PASS | - | |
-| 8-2 | Regenerate release plan | ✅ PASS | - | |
-| 8-3 | Verify F-002 before F-001 | ✅ PASS | - | |
-| 9-1 | Add fake dependency | ✅ PASS | - | |
-| 9-2 | Regenerate release plan | ✅ PASS | - | |
-| 9-3 | Verify missing deps section | ✅ PASS | - | |
-| 10-1 | Create new intent | ❌ FAIL | high | new-intent overwrote existing F-001 instead of creating new ID |
-| 10-2 | Verify roadmap+release update | ❌ FAIL | high | Roadmap/release not updated with new intent count |
-| 11-1 | Run /ship F-001 | ❌ FAIL | blocking | `workflow-orchestrator` command missing |
+| Step | Name                          | Status  | Severity | Notes                                                          |
+| ---- | ----------------------------- | ------- | -------- | -------------------------------------------------------------- |
+| 4-1  | Create single intent          | ❌ FAIL | high     | new-intent overwrote existing F-001 instead of creating new ID |
+| 5-1  | Run generate-release-plan     | ✅ PASS | -        |                                                                |
+| 5-2  | Verify release plan           | ❌ FAIL | medium   | Missing expected R1 section in release plan                    |
+| 6-1  | Run generate-roadmap          | ✅ PASS | -        |                                                                |
+| 6-2  | Verify roadmap                | ✅ PASS | -        |                                                                |
+| 7-1  | Check template fields         | ✅ PASS | -        |                                                                |
+| 7-2  | Update intent fields          | ✅ PASS | -        |                                                                |
+| 7-3  | Regenerate release plan       | ✅ PASS | -        |                                                                |
+| 7-4  | Verify ordering               | ✅ PASS | -        |                                                                |
+| 8-1  | Edit dependencies             | ✅ PASS | -        |                                                                |
+| 8-2  | Regenerate release plan       | ✅ PASS | -        |                                                                |
+| 8-3  | Verify F-002 before F-001     | ✅ PASS | -        |                                                                |
+| 9-1  | Add fake dependency           | ✅ PASS | -        |                                                                |
+| 9-2  | Regenerate release plan       | ✅ PASS | -        |                                                                |
+| 9-3  | Verify missing deps section   | ✅ PASS | -        |                                                                |
+| 10-1 | Create new intent             | ❌ FAIL | high     | new-intent overwrote existing F-001 instead of creating new ID |
+| 10-2 | Verify roadmap+release update | ❌ FAIL | high     | Roadmap/release not updated with new intent count              |
+| 11-1 | Run /ship F-001               | ❌ FAIL | blocking | `workflow-orchestrator` command missing                        |
 
 #### Issues Found This Run
 
@@ -1056,14 +1079,14 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 2-2 | Validate project structure | ❌ FAIL | high | Missing `.cursor/commands` directory |
-| 3-1 | Run scope-project | ✅ PASS | - | |
-| 3-2 | Answer follow-ups | ✅ PASS | - | |
-| 3-3 | Verify intent files | ✅ PASS | - | |
-| 3-4 | Verify outputs | ✅ PASS | - | |
-| 4-1 | Create single intent | ❌ FAIL | blocking | `scripts/new-intent.sh` failed with sed error |
+| Step | Name                       | Status  | Severity | Notes                                         |
+| ---- | -------------------------- | ------- | -------- | --------------------------------------------- |
+| 2-2  | Validate project structure | ❌ FAIL | high     | Missing `.cursor/commands` directory          |
+| 3-1  | Run scope-project          | ✅ PASS | -        |                                               |
+| 3-2  | Answer follow-ups          | ✅ PASS | -        |                                               |
+| 3-3  | Verify intent files        | ✅ PASS | -        |                                               |
+| 3-4  | Verify outputs             | ✅ PASS | -        |                                               |
+| 4-1  | Create single intent       | ❌ FAIL | blocking | `scripts/new-intent.sh` failed with sed error |
 
 #### Issues Found This Run
 
@@ -1080,96 +1103,96 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 2-2 | Validate project structure | ✅ PASS | - | |
-| 3-1 | Run scope-project | ✅ PASS | - | Script error on F-005 but 5 intents created |
-| 3-2 | Answer follow-ups | ✅ PASS | - | |
-| 3-3 | Verify intent files | ✅ PASS | - | |
-| 3-4 | Verify outputs | ✅ PASS | - | |
-| 4-1 | Create single intent | ✅ PASS | - | F-006 created |
-| 5-1 | Run generate-release-plan | ✅ PASS | - | |
-| 5-2 | Verify release plan | ✅ PASS | - | |
-| 6-1 | Run generate-roadmap | ✅ PASS | - | |
-| 6-2 | Verify roadmap | ⚠️ PASS | medium | Required manual fix for whitespace in deps |
-| 7-1 | Check template fields | ❌ FAIL | high | Template missing Priority/Effort/Release Target |
-| 7-2 | Update intent fields | ✅ PASS | - | Added fields manually |
-| 7-3 | Regenerate release plan | ✅ PASS | - | |
-| 7-4 | Verify ordering | ✅ PASS | - | |
-| 8-1 | Edit dependencies | ✅ PASS | - | |
-| 8-2 | Regenerate release plan | ✅ PASS | - | |
-| 8-3 | Verify F-002 before F-001 | ✅ PASS | - | |
-| 9-1 | Add fake dependency | ✅ PASS | - | |
-| 9-2 | Regenerate release plan | ✅ PASS | - | |
-| 9-3 | Verify missing deps section | ✅ PASS | - | |
-| 10-1 | Create new intent | ✅ PASS | - | F-007 Awesome Banner |
-| 10-2 | Verify roadmap+release update | ✅ PASS | - | |
-| 11-1 | Run /ship F-001 | ✅ PASS | - | |
-| 11-2 | Verify 01_analysis.md created | ✅ PASS | - | PM analysis complete |
-| 11-3 | Verify 02_plan.md created | ✅ PASS | - | Architect plan with file list |
-| 11-4 | Verify plan gate stops for approval | ✅ PASS | - | "GATE: APPROVAL REQUIRED" |
-| 12-1 | Run /verify F-001 | ✅ PASS | - | |
-| 12-2 | Switch to QA role | ✅ PASS | - | Tests run, mutation missing |
-| 12-3 | Switch to Security role | ✅ PASS | - | pnpm audit: 1 moderate |
-| 12-4 | Verify 04_verification.md created | ✅ PASS | - | |
-| 12-5 | Record missing tooling | ✅ PASS | low | See ISSUE-007, ISSUE-008 |
-| 13-1 | Run /drift_check | ⚠️ PASS | low | Script missing, manual calc |
-| 13-2 | Verify drift/metrics.md created | ✅ PASS | - | Created manually |
-| 13-3 | Record missing tooling | ✅ PASS | low | See ISSUE-009 |
-| 14-1 | Run /deploy staging | ✅ PASS | - | Readiness checks only |
-| 14-2 | Switch to Steward role | ✅ PASS | - | |
-| 14-3 | Execute readiness checks | ✅ PASS | - | 3 blocking failures |
-| 14-4 | No real deployment | ✅ PASS | - | Blocked as expected |
-| 14-5 | Record missing scripts | ✅ PASS | low | See ISSUE-010, ISSUE-011 |
-| 15-1 | Create disposable intent | ✅ PASS | - | F-008 created |
-| 15-2 | Run /kill F-008 | ✅ PASS | - | |
-| 15-3 | Verify status = killed | ✅ PASS | - | Status updated |
-| 15-4 | Verify kill rationale recorded | ✅ PASS | - | Kill Record section added |
-| 15-5 | Verify active.md updated | ✅ PASS | - | Recent Kill Actions added |
-| 16-1 | Review plan | ✅ PASS | - | Plan is sound |
-| 16-2 | Approve plan | ✅ PASS | - | Status → APPROVED |
-| 16-3 | Workflow proceeds | ✅ PASS | - | Phase → 03_implementation |
-| 17-1 | Switch to QA role | ✅ PASS | - | Read acceptance criteria |
-| 17-2 | Write tests FIRST | ✅ PASS | - | 25 test cases written |
-| 17-3 | Verify tests fail | ✅ PASS | - | Tests fail (no impl yet) |
-| 18-1 | Switch to Implementer role | ✅ PASS | - | Read approved plan |
-| 18-2 | Create files per plan | ✅ PASS | - | 4 files created |
-| 18-3 | Make tests pass | ✅ PASS | - | 29/29 tests pass |
-| 18-4 | Document progress | ✅ PASS | - | 03_implementation.md |
-| 19-1 | Run test suite | ✅ PASS | - | 29/29 tests pass |
-| 19-2 | Check coverage | ✅ PASS | - | 94% (json-store: 100%) |
-| 19-3 | Security audit | ✅ PASS | - | 1 moderate (dev only) |
-| 19-4 | Code review | ✅ PASS | - | No issues found |
-| 19-5 | Update verification | ✅ PASS | - | 04_verification.md |
-| 20-1 | Switch to Docs role | ✅ PASS | - | |
-| 20-2 | Update README.md | ✅ PASS | - | Added API Reference |
-| 20-3 | Create CHANGELOG.md | ✅ PASS | - | With F-001 entry |
-| 20-4 | Create release notes | ✅ PASS | - | 05_release_notes.md |
-| 20-5 | Update active.md | ✅ PASS | - | Phase 5 complete |
-| 21-1 | Switch to Steward role | ✅ PASS | - | Final review |
-| 21-2 | Review all phases | ✅ PASS | - | All 5 phases verified |
-| 21-3 | Run final tests | ✅ PASS | - | 29/29 pass |
-| 21-4 | Clean up F-001 deps | ✅ PASS | - | Removed F-999 |
-| 21-5 | Update F-001 status | ✅ PASS | - | Status → shipped |
-| 21-6 | Create 06_shipped.md | ✅ PASS | - | Sign-off doc created |
-| 21-7 | Update active.md | ✅ PASS | - | Workflow → idle |
-| 22-1 | Run /deploy staging | ✅ PASS | - | Readiness check |
-| 22-2 | Verify tests | ✅ PASS | - | 29/29 pass |
-| 22-3 | Verify typecheck | ✅ PASS | - | Clean |
-| 22-4 | Verify lint | ✅ PASS | - | Clean |
-| 22-5 | Verify security | ⚠️ PASS | - | 1 moderate (dev) |
-| 22-6 | Steward decision | ✅ PASS | - | Staging APPROVED |
-| 23-1 | Verify intent lifecycle | ✅ PASS | - | 1 shipped, 1 killed, 6 planned |
-| 23-2 | Verify workflow artifacts | ✅ PASS | - | All 8 files exist |
-| 23-3 | Verify tests pass | ✅ PASS | - | 29/29 pass |
-| 23-4 | Verify typecheck | ✅ PASS | - | Clean |
-| 23-5 | Verify security | ⚠️ PASS | - | 1 moderate (dev) |
-| 23-6 | Verify README | ✅ PASS | - | API Reference added |
-| 23-7 | Verify CHANGELOG | ✅ PASS | - | F-001 entry |
-| 23-8 | Verify release/plan.md | ✅ PASS | - | Regenerated |
-| 24-1 | Generate final report | ✅ PASS | - | Summary recorded |
-| 24-2 | Update ISSUES.md | ✅ PASS | - | Final run recorded |
-| 24-3 | Mark overall result | ✅ PASS | - | **E2E VALIDATED** |
+| Step | Name                                | Status  | Severity | Notes                                           |
+| ---- | ----------------------------------- | ------- | -------- | ----------------------------------------------- |
+| 2-2  | Validate project structure          | ✅ PASS | -        |                                                 |
+| 3-1  | Run scope-project                   | ✅ PASS | -        | Script error on F-005 but 5 intents created     |
+| 3-2  | Answer follow-ups                   | ✅ PASS | -        |                                                 |
+| 3-3  | Verify intent files                 | ✅ PASS | -        |                                                 |
+| 3-4  | Verify outputs                      | ✅ PASS | -        |                                                 |
+| 4-1  | Create single intent                | ✅ PASS | -        | F-006 created                                   |
+| 5-1  | Run generate-release-plan           | ✅ PASS | -        |                                                 |
+| 5-2  | Verify release plan                 | ✅ PASS | -        |                                                 |
+| 6-1  | Run generate-roadmap                | ✅ PASS | -        |                                                 |
+| 6-2  | Verify roadmap                      | ⚠️ PASS | medium   | Required manual fix for whitespace in deps      |
+| 7-1  | Check template fields               | ❌ FAIL | high     | Template missing Priority/Effort/Release Target |
+| 7-2  | Update intent fields                | ✅ PASS | -        | Added fields manually                           |
+| 7-3  | Regenerate release plan             | ✅ PASS | -        |                                                 |
+| 7-4  | Verify ordering                     | ✅ PASS | -        |                                                 |
+| 8-1  | Edit dependencies                   | ✅ PASS | -        |                                                 |
+| 8-2  | Regenerate release plan             | ✅ PASS | -        |                                                 |
+| 8-3  | Verify F-002 before F-001           | ✅ PASS | -        |                                                 |
+| 9-1  | Add fake dependency                 | ✅ PASS | -        |                                                 |
+| 9-2  | Regenerate release plan             | ✅ PASS | -        |                                                 |
+| 9-3  | Verify missing deps section         | ✅ PASS | -        |                                                 |
+| 10-1 | Create new intent                   | ✅ PASS | -        | F-007 Awesome Banner                            |
+| 10-2 | Verify roadmap+release update       | ✅ PASS | -        |                                                 |
+| 11-1 | Run /ship F-001                     | ✅ PASS | -        |                                                 |
+| 11-2 | Verify 01_analysis.md created       | ✅ PASS | -        | PM analysis complete                            |
+| 11-3 | Verify 02_plan.md created           | ✅ PASS | -        | Architect plan with file list                   |
+| 11-4 | Verify plan gate stops for approval | ✅ PASS | -        | "GATE: APPROVAL REQUIRED"                       |
+| 12-1 | Run /verify F-001                   | ✅ PASS | -        |                                                 |
+| 12-2 | Switch to QA role                   | ✅ PASS | -        | Tests run, mutation missing                     |
+| 12-3 | Switch to Security role             | ✅ PASS | -        | pnpm audit: 1 moderate                          |
+| 12-4 | Verify 04_verification.md created   | ✅ PASS | -        |                                                 |
+| 12-5 | Record missing tooling              | ✅ PASS | low      | See ISSUE-007, ISSUE-008                        |
+| 13-1 | Run /drift_check                    | ⚠️ PASS | low      | Script missing, manual calc                     |
+| 13-2 | Verify drift/metrics.md created     | ✅ PASS | -        | Created manually                                |
+| 13-3 | Record missing tooling              | ✅ PASS | low      | See ISSUE-009                                   |
+| 14-1 | Run /deploy staging                 | ✅ PASS | -        | Readiness checks only                           |
+| 14-2 | Switch to Steward role              | ✅ PASS | -        |                                                 |
+| 14-3 | Execute readiness checks            | ✅ PASS | -        | 3 blocking failures                             |
+| 14-4 | No real deployment                  | ✅ PASS | -        | Blocked as expected                             |
+| 14-5 | Record missing scripts              | ✅ PASS | low      | See ISSUE-010, ISSUE-011                        |
+| 15-1 | Create disposable intent            | ✅ PASS | -        | F-008 created                                   |
+| 15-2 | Run /kill F-008                     | ✅ PASS | -        |                                                 |
+| 15-3 | Verify status = killed              | ✅ PASS | -        | Status updated                                  |
+| 15-4 | Verify kill rationale recorded      | ✅ PASS | -        | Kill Record section added                       |
+| 15-5 | Verify active.md updated            | ✅ PASS | -        | Recent Kill Actions added                       |
+| 16-1 | Review plan                         | ✅ PASS | -        | Plan is sound                                   |
+| 16-2 | Approve plan                        | ✅ PASS | -        | Status → APPROVED                               |
+| 16-3 | Workflow proceeds                   | ✅ PASS | -        | Phase → 03_implementation                       |
+| 17-1 | Switch to QA role                   | ✅ PASS | -        | Read acceptance criteria                        |
+| 17-2 | Write tests FIRST                   | ✅ PASS | -        | 25 test cases written                           |
+| 17-3 | Verify tests fail                   | ✅ PASS | -        | Tests fail (no impl yet)                        |
+| 18-1 | Switch to Implementer role          | ✅ PASS | -        | Read approved plan                              |
+| 18-2 | Create files per plan               | ✅ PASS | -        | 4 files created                                 |
+| 18-3 | Make tests pass                     | ✅ PASS | -        | 29/29 tests pass                                |
+| 18-4 | Document progress                   | ✅ PASS | -        | 03_implementation.md                            |
+| 19-1 | Run test suite                      | ✅ PASS | -        | 29/29 tests pass                                |
+| 19-2 | Check coverage                      | ✅ PASS | -        | 94% (json-store: 100%)                          |
+| 19-3 | Security audit                      | ✅ PASS | -        | 1 moderate (dev only)                           |
+| 19-4 | Code review                         | ✅ PASS | -        | No issues found                                 |
+| 19-5 | Update verification                 | ✅ PASS | -        | 04_verification.md                              |
+| 20-1 | Switch to Docs role                 | ✅ PASS | -        |                                                 |
+| 20-2 | Update README.md                    | ✅ PASS | -        | Added API Reference                             |
+| 20-3 | Create CHANGELOG.md                 | ✅ PASS | -        | With F-001 entry                                |
+| 20-4 | Create release notes                | ✅ PASS | -        | 05_release_notes.md                             |
+| 20-5 | Update active.md                    | ✅ PASS | -        | Phase 5 complete                                |
+| 21-1 | Switch to Steward role              | ✅ PASS | -        | Final review                                    |
+| 21-2 | Review all phases                   | ✅ PASS | -        | All 5 phases verified                           |
+| 21-3 | Run final tests                     | ✅ PASS | -        | 29/29 pass                                      |
+| 21-4 | Clean up F-001 deps                 | ✅ PASS | -        | Removed F-999                                   |
+| 21-5 | Update F-001 status                 | ✅ PASS | -        | Status → shipped                                |
+| 21-6 | Create 06_shipped.md                | ✅ PASS | -        | Sign-off doc created                            |
+| 21-7 | Update active.md                    | ✅ PASS | -        | Workflow → idle                                 |
+| 22-1 | Run /deploy staging                 | ✅ PASS | -        | Readiness check                                 |
+| 22-2 | Verify tests                        | ✅ PASS | -        | 29/29 pass                                      |
+| 22-3 | Verify typecheck                    | ✅ PASS | -        | Clean                                           |
+| 22-4 | Verify lint                         | ✅ PASS | -        | Clean                                           |
+| 22-5 | Verify security                     | ⚠️ PASS | -        | 1 moderate (dev)                                |
+| 22-6 | Steward decision                    | ✅ PASS | -        | Staging APPROVED                                |
+| 23-1 | Verify intent lifecycle             | ✅ PASS | -        | 1 shipped, 1 killed, 6 planned                  |
+| 23-2 | Verify workflow artifacts           | ✅ PASS | -        | All 8 files exist                               |
+| 23-3 | Verify tests pass                   | ✅ PASS | -        | 29/29 pass                                      |
+| 23-4 | Verify typecheck                    | ✅ PASS | -        | Clean                                           |
+| 23-5 | Verify security                     | ⚠️ PASS | -        | 1 moderate (dev)                                |
+| 23-6 | Verify README                       | ✅ PASS | -        | API Reference added                             |
+| 23-7 | Verify CHANGELOG                    | ✅ PASS | -        | F-001 entry                                     |
+| 23-8 | Verify release/plan.md              | ✅ PASS | -        | Regenerated                                     |
+| 24-1 | Generate final report               | ✅ PASS | -        | Summary recorded                                |
+| 24-2 | Update ISSUES.md                    | ✅ PASS | -        | Final run recorded                              |
+| 24-3 | Mark overall result                 | ✅ PASS | -        | **E2E VALIDATED**                               |
 
 #### Issues Found This Run
 
@@ -1191,12 +1214,12 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 1-1 | Init project | ✅ PASS | - | |
-| 1-2 | Provide inputs | ✅ PASS | - | |
-| 1-3 | Verify project created | ✅ PASS | - | |
-| 1-4 | Verify required files | ✅ PASS | - | |
+| Step | Name                   | Status  | Severity | Notes |
+| ---- | ---------------------- | ------- | -------- | ----- |
+| 1-1  | Init project           | ✅ PASS | -        |       |
+| 1-2  | Provide inputs         | ✅ PASS | -        |       |
+| 1-3  | Verify project created | ✅ PASS | -        |       |
+| 1-4  | Verify required files  | ✅ PASS | -        |       |
 
 ### Run: 2026-01-22T22:15:23Z (root-project)
 
@@ -1208,9 +1231,9 @@ Multiple issues were discovered and fixed related to `/scope-project` not follow
 
 #### Summary
 
-| Step | Name | Status | Severity | Notes |
-|------|------|--------|----------|-------|
-| 1-1 | Init project | ✅ PASS | - | |
-| 1-2 | Provide inputs | ✅ PASS | - | |
-| 1-3 | Verify project created | ✅ PASS | - | |
-| 1-4 | Verify required files | ✅ PASS | - | |
+| Step | Name                   | Status  | Severity | Notes |
+| ---- | ---------------------- | ------- | -------- | ----- |
+| 1-1  | Init project           | ✅ PASS | -        |       |
+| 1-2  | Provide inputs         | ✅ PASS | -        |       |
+| 1-3  | Verify project created | ✅ PASS | -        |       |
+| 1-4  | Verify required files  | ✅ PASS | -        |       |

@@ -42,6 +42,7 @@ An AI-native Software Development Life Cycle that replaces meetings, docs, and h
 ## The Problem
 
 Traditional SDLC assumes humans are the bottleneck. But AI agents don't need:
+
 - ❌ Status meetings → They need **state files**
 - ❌ Documentation → They need **executable tests**
 - ❌ Handoffs → They need **explicit gates**
@@ -51,7 +52,7 @@ Traditional SDLC assumes humans are the bottleneck. But AI agents don't need:
 
 ## The Solution
 
-A framework that optimizes for *epistemology*, not coordination:
+A framework that optimizes for _epistemology_, not coordination:
 
 - 🎯 **Executable Truth** - Tests and invariants replace documentation
 - 📁 **State-Anchored** - Workflow state in files, not meetings
@@ -188,6 +189,12 @@ UTILITY COMMANDS
 Intent → Analysis → Planning → Tests → Code → Verify → Release
 ```
 
+### Security Audit Allowlist
+
+Security checks use `scripts/audit-check.sh` with a default threshold of moderate.
+If you need to temporarily accept a known advisory, add it to `security/audit-allowlist.json`
+with a reason and an expiry date.
+
 1. **You define what** (intent file)
 2. **PM clarifies requirements** (executable acceptance criteria)
 3. **Architect designs approach** (plan with approval gate)
@@ -202,55 +209,55 @@ Intent → Analysis → Planning → Tests → Code → Verify → Release
 
 7 specialized AI agents, each with a clear role:
 
-| Role | Job | Can't Do |
-|------|-----|----------|
-| **Steward** | Executive brain, veto power | Write code |
-| **PM** | Intent clarity, confidence scoring | Change architecture |
-| **Architect** | System design, CANON compliance | Write production code |
-| **Implementer** | Code execution | Change architecture, write tests |
-| **QA** | Break things (adversarial) | Weaken acceptance criteria |
-| **Security** | Threat modeling, red team | Waive findings |
-| **Docs** | Keep docs current | Change code behavior |
+| Role            | Job                                | Can't Do                         |
+| --------------- | ---------------------------------- | -------------------------------- |
+| **Steward**     | Executive brain, veto power        | Write code                       |
+| **PM**          | Intent clarity, confidence scoring | Change architecture              |
+| **Architect**   | System design, CANON compliance    | Write production code            |
+| **Implementer** | Code execution                     | Change architecture, write tests |
+| **QA**          | Break things (adversarial)         | Weaken acceptance criteria       |
+| **Security**    | Threat modeling, red team          | Waive findings                   |
+| **Docs**        | Keep docs current                  | Change code behavior             |
 
 ## Commands
 
 ### Setup & Planning
 
-| Command | What It Does | When to Use |
-|---------|--------------|-------------|
-| `/init-project [name]` | Create a new project with full structure | Start of new project |
-| `/scope-project [desc]` | AI-assisted feature breakdown with batched prompts | After init, to break down features |
-| `/new_intent` | Create a feature/bug/tech-debt intent | When planning new work |
-| `/generate-release-plan` | Build release plan from intents (auto-validates) | After creating/updating intents |
-| `/generate-roadmap` | Generate roadmap (now/next/later) | After creating/updating intents |
-| `/fix` | Auto-fix intent issues (dependency ordering, whitespace) | When validation shows issues |
-| `/status` | Unified dashboard: intents, workflow, tests, recent changes | Anytime to check project state |
-| `/pr <id>` | Generate PR summary/checklist | Before opening a PR |
-| `/risk <id>` | Force security/threat skim | Before release or high-risk change |
-| `/revert-plan <id>` | Write rollback plan | Before implementation or release |
+| Command                  | What It Does                                                | When to Use                        |
+| ------------------------ | ----------------------------------------------------------- | ---------------------------------- |
+| `/init-project [name]`   | Create a new project with full structure                    | Start of new project               |
+| `/scope-project [desc]`  | AI-assisted feature breakdown with batched prompts          | After init, to break down features |
+| `/new_intent`            | Create a feature/bug/tech-debt intent                       | When planning new work             |
+| `/generate-release-plan` | Build release plan from intents (auto-validates)            | After creating/updating intents    |
+| `/generate-roadmap`      | Generate roadmap (now/next/later)                           | After creating/updating intents    |
+| `/fix`                   | Auto-fix intent issues (dependency ordering, whitespace)    | When validation shows issues       |
+| `/status`                | Unified dashboard: intents, workflow, tests, recent changes | Anytime to check project state     |
+| `/pr <id>`               | Generate PR summary/checklist                               | Before opening a PR                |
+| `/risk <id>`             | Force security/threat skim                                  | Before release or high-risk change |
+| `/revert-plan <id>`      | Write rollback plan                                         | Before implementation or release   |
 
 ### Execution
 
-| Command | What It Does | When to Use |
-|---------|--------------|-------------|
-| `/ship <id>` | Run full SDLC workflow (5 phases with progress indicators) | To implement an intent |
-| `/verify <id>` | Re-run verification phase only | After code changes |
-| `/kill <id>` | Kill an intent (with rationale) | When work should stop permanently |
+| Command        | What It Does                                               | When to Use                       |
+| -------------- | ---------------------------------------------------------- | --------------------------------- |
+| `/ship <id>`   | Run full SDLC workflow (5 phases with progress indicators) | To implement an intent            |
+| `/verify <id>` | Re-run verification phase only                             | After code changes                |
+| `/kill <id>`   | Kill an intent (with rationale)                            | When work should stop permanently |
 
 ### Maintenance
 
-| Command | What It Does | When to Use |
-|---------|--------------|-------------|
-| `/drift_check` | Check for entropy/decay (PR size, test ratio, deps) | Periodically to monitor health |
-| `/deploy [env]` | Deploy with readiness checks | When ready to release |
-| `/test_shipit` | Run end-to-end test suite | To validate framework itself |
+| Command         | What It Does                                        | When to Use                    |
+| --------------- | --------------------------------------------------- | ------------------------------ |
+| `/drift_check`  | Check for entropy/decay (PR size, test ratio, deps) | Periodically to monitor health |
+| `/deploy [env]` | Deploy with readiness checks                        | When ready to release          |
+| `/test_shipit`  | Run end-to-end test suite                           | To validate framework itself   |
 
 ### Utilities
 
-| Command | What It Does | When to Use |
-|---------|--------------|-------------|
-| `/help` | Lists all commands with descriptions | When you need a reminder |
-| `/suggest` | Suggests next intent to work on | When unsure what to do next |
+| Command    | What It Does                         | When to Use                 |
+| ---------- | ------------------------------------ | --------------------------- |
+| `/help`    | Lists all commands with descriptions | When you need a reminder    |
+| `/suggest` | Suggests next intent to work on      | When unsure what to do next |
 
 **Note:** All commands show context-aware next-step suggestions after completion. Scripts auto-verify outputs and run dependent generators (e.g., `/scope-project` automatically runs `/generate-release-plan` and `/generate-roadmap`).
 
@@ -282,7 +289,7 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 # ✅ Docs update README/CHANGELOG
 # ✅ Steward approves
 # ✅ Done!
-# 
+#
 # 💡 Next steps: Review release notes, deploy, or start next intent
 ```
 
@@ -302,7 +309,9 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 ## Key Concepts
 
 ### Intent Ledger
+
 All work lives in `/intent/` as markdown files. Each intent has:
+
 - Executable acceptance criteria (not "looks good")
 - Confidence scores (requirements + domain assumptions)
 - Invariants (hard constraints, dual form: human + executable)
@@ -312,7 +321,9 @@ All work lives in `/intent/` as markdown files. Each intent has:
 **Validation & Auto-Fix:** The framework proactively validates intents for common issues (dependency ordering conflicts, whitespace formatting, missing dependencies, circular dependencies). Use `/fix` to auto-fix issues with a preview before applying changes.
 
 ### Truth Hierarchy
+
 When facts conflict, this is the order of precedence:
+
 1. **Runtime behavior** (what actually happens)
 2. **Tests** (executable assertions)
 3. **Invariants** (hard constraints)
@@ -324,17 +335,22 @@ When facts conflict, this is the order of precedence:
 > **Rule:** If tests contradict comments, tests win. If runtime contradicts tests, that's a bug—runtime is truth, tests are intent.
 
 ### Tests First (Critical!)
+
 ```
 Spec → Tests → Code
 ```
+
 Tests MUST exist BEFORE production code. The workflow enforces this:
+
 1. QA writes tests (Phase 3)
 2. Tests fail initially (nothing to pass yet)
 3. Implementer writes code (Phase 4)
 4. Tests pass ✅
 
 ### High-Risk Gates
+
 These domains require human approval:
+
 - 🔐 Authentication
 - 💰 Payments
 - 🔑 Permissions/RBAC

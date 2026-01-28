@@ -43,11 +43,20 @@ if command -v pnpm >/dev/null 2>&1; then
     fi
 
     if pnpm -s run audit >/dev/null 2>&1; then
-        if pnpm audit --audit-level=high; then
-            AUDIT_STATUS="pass"
+        if [ -f "scripts/audit-check.sh" ]; then
+            if ./scripts/audit-check.sh moderate; then
+                AUDIT_STATUS="pass"
+            else
+                AUDIT_STATUS="fail (unlisted or expired advisories)"
+                FAILED=1
+            fi
         else
-            AUDIT_STATUS="fail (high+ vulnerabilities)"
-            FAILED=1
+            if pnpm audit --audit-level=moderate; then
+                AUDIT_STATUS="pass"
+            else
+                AUDIT_STATUS="fail (moderate+ vulnerabilities)"
+                FAILED=1
+            fi
         fi
     else
         AUDIT_STATUS="skipped (audit not available)"

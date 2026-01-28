@@ -59,5 +59,11 @@
     "typescript": "^5.3.3",
     "vitest": "^1.0.4"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.25.0",
+      "tmp": "0.2.4"
+    }
+  }
 }
