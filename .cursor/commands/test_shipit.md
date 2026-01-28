@@ -165,7 +165,11 @@ Output summary:
 ## Test Run Complete
 
 **Date:** [ISO timestamp]
-**Steps Passed:** X/Y
+**Steps Total:** X
+**Steps Executed:** Y
+**Steps Skipped:** Z
+**Steps Passed:** A
+**Steps Failed:** B
 **Blocking Issues:** N
 **Result:** PASS | FAIL
 

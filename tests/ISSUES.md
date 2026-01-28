@@ -2,6 +2,12 @@
 
 This file logs **test runs only**. Issues discovered during runs are tracked on GitHub (see `behaviors/WORK_TEST_PLAN_ISSUES.md`).
 
+## Counting Conventions
+
+- **Steps Executed**: count of steps with status **✅ PASS** or **❌ FAIL** (exclude **⏭️ SKIP**).
+- **Steps Skipped**: count of steps with status **⏭️ SKIP**.
+- **Steps Total**: Steps Executed + Steps Skipped.
+
 ## Test Runs
 
 ### Run: 2026-01-23T23:57:01Z (test-project)
