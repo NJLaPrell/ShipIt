@@ -114,25 +114,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ---
 
-### ISSUE-045: Missing golden-data/.gitkeep
-
-**Severity:** low
-**Step:** UX
-**Status:** active
-**First Seen:** 2026-01-27
-**Last Seen:** 2026-01-27
-
-**Expected:** `golden-data/.gitkeep` keeps replay data directory tracked
-**Actual:** Directory exists but empty
-**Error:** Replay validation storage not initialized
-
-**Implementation:**
-
-- Add `golden-data/.gitkeep` to keep directory tracked.
-- Optionally add `golden-data/README.md` describing replay input format.
-
----
-
 ## Implementation Research Notes (for future work)
 
 ### ISSUE-021: pnpm audit reports vulnerabilities
@@ -185,19 +166,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 - `scripts/setup-worktrees.sh`
 - `.agent-id` at worktree root.
-
----
-
-### ISSUE-045: Missing golden-data/.gitkeep
-
-**Best approach:**
-
-- Add `.gitkeep` to keep directory tracked and document replay inputs.
-
-**Integration points:**
-
-- `golden-data/.gitkeep`
-- Optional: add a short README in `golden-data/`.
 
 ---
 

@@ -6,7 +6,9 @@ This document contains all resolved issues and historic test runs. For current t
 
 ## Resolved Issues
 
-### ISSUE-039: Missing do-not-repeat ledgers
+
+### ISSUE-045: Missing golden-data/.gitkeep
+
 
 **Severity:** low
 **Step:** UX
@@ -14,14 +16,14 @@ This document contains all resolved issues and historic test runs. For current t
 **First Seen:** 2026-01-27
 **Resolved:** 2026-01-28
 
-**Expected:** `/do-not-repeat/` includes `bad-patterns.md` and `rejected-libraries.md`
-**Actual:** Only `abandoned-designs.md` and `failed-experiments.md` exist
-**Error:** Missing ledgers for negative knowledge tracking
 
-**Resolution:** Added `do-not-repeat/bad-patterns.md` and `do-not-repeat/rejected-libraries.md` with format guidance and usage instructions. Updated `scripts/init-project.sh` to create all four ledger files (abandoned-designs, failed-experiments, bad-patterns, rejected-libraries) when initializing new projects.
-**Validation:** Verified files created correctly, script syntax valid, and init script includes new files.
+**Expected:** `golden-data/.gitkeep` keeps replay data directory tracked
+**Actual:** Directory exists but empty
+**Error:** Replay validation storage not initialized
 
----
+**Resolution:** Added `golden-data/.gitkeep` to keep directory tracked in Git. Created `golden-data/README.md` describing replay validation format and usage patterns. Updated `scripts/init-project.sh` to create the directory with `.gitkeep` and README when initializing new projects.
+**Validation:** Verified files created correctly, script syntax valid, and init script includes golden-data setup.
+
 
 ### ISSUE-046: Intent subfolders missing
 
