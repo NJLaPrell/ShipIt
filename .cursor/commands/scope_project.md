@@ -17,12 +17,14 @@ Run this command in the terminal:
 ```
 
 **CRITICAL: Show all script output**
+
 - Display all script prompts and user responses in the chat
 - Show any errors or warnings from the script
 - Echo the interactive Q&A session as it happens
 - After completion, read and display `project-scope.md` contents
 
 That's it. The script handles everything:
+
 - Asks follow-up questions
 - Waits for user answers
 - Collects feature candidates
@@ -44,7 +46,8 @@ If the script is missing, tell the user to re-run `/init-project`.
 ## Output
 
 After the script runs, verify these files exist:
+
 - `project-scope.md` (with Q/A and intent selection)
-- `intent/F-*.md` (generated intents)
+- `intent/features/F-*.md` (generated intents)
 - `roadmap/now.md`, `next.md`, `later.md`
 - `release/plan.md`

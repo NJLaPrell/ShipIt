@@ -16,7 +16,7 @@ Produces a rollback section to ensure changes are reversible.
 
 ## Inputs
 
-- `intent/<intent-id>.md`
+- `intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
 - `workflow-state/02_plan.md`
 - `workflow-state/03_implementation.md` (if present)
 
@@ -41,14 +41,18 @@ Writes `workflow-state/rollback.md` with:
 # Rollback Plan: <intent-id>
 
 ## Feature Flags
+
 - `FEATURE_X_ENABLED=false`
 
 ## Config Rollback
+
 - Restore previous config values in `config/...`
 
 ## Data/Migrations
+
 - Run down migration: `<migration_name>`
 
 ## Code Revert
+
 - `git revert <sha>`
 ```

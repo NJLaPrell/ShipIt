@@ -26,9 +26,20 @@ cat project.json 2>/dev/null | grep '"name"'
 | 1-2 | description | `Test project for ShipIt end-to-end validation` |
 | 1-2 | highRiskDomains | `none` |
 | 3-1 | scopeDescription | `Build a todo list app with CRUD, tagging, and persistence` |
+| 4-1 | newIntent.typeChoice | `1` |
+| 4-1 | newIntent.title | `Add due dates to todos` |
+| 4-1 | newIntent.motivationLines | `Improve prioritization for users`, `Support basic deadline tracking` |
+| 4-1 | newIntent.priorityChoice | `2` |
+| 4-1 | newIntent.effortChoice | `2` |
+| 4-1 | newIntent.releaseTargetChoice | `2` |
+| 4-1 | newIntent.dependenciesInput | `none` |
+| 4-1 | newIntent.riskChoice | `2` |
 | 7-2 | priority | `p0` |
 | 7-2 | effort | `s` |
 | 7-2 | releaseTarget | `R1` |
+
+**Note:** `./scripts/new-intent.sh` prompts in this order:
+type → title → motivation lines (until `done`) → priority → effort → release target → dependencies → risk.
 
 ### 2. Fail-Fast on Blocking Failures
 
@@ -61,6 +72,20 @@ Issues discovered during test execution are tracked **only** on GitHub, followin
 #### Create an Issue (required on failures)
 
 Use `gh` to create issues (per repo rules). Do **not** include literal `\n` sequences in the body (they look gross in the GitHub UI). Use a heredoc body instead.
+
+Preferred: use the helper script so the issue body always matches the template shape:
+
+```bash
+./scripts/create-test-plan-issue.sh \
+  --title "new-intent prompts out of sync with TEST_PLAN.md" \
+  --severity high \
+  --step "4-1" \
+  --expected "Running /new_intent with fixture-aligned inputs succeeds non-interactively." \
+  --actual "new-intent prompts changed (priority/effort/release/deps added) and the fixture input stream runs out; script exits non-zero." \
+  --error "<paste error output>" \
+  --impl "Update tests/TEST_PLAN.md + tests/fixtures.json to match the prompt sequence" \
+  --impl "Update /test-shipit docs to include the full non-interactive input stream"
+```
 
 Example:
 

@@ -25,7 +25,10 @@ The wizard will ask for:
 
 ## What It Creates
 
-- New intent file: `/intent/<intent-id>.md`
+- New intent file (by type):
+  - Feature: `intent/features/<intent-id>.md`
+  - Bug: `intent/bugs/<intent-id>.md`
+  - Tech debt: `intent/tech-debt/<intent-id>.md`
 - All fields pre-filled based on your inputs
 - Automatically regenerates roadmap files
 - Automatically regenerates release plan
@@ -52,6 +55,7 @@ The wizard will ask for:
 ## Next Steps
 
 After creating an intent:
+
 1. Review the generated file
 2. Fill in acceptance criteria, invariants, and other details
 3. Run `/ship <intent-id>` to start the workflow

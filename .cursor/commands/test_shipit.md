@@ -31,6 +31,8 @@ gh auth status
 
 If this fails, **STOP** and treat it as a **blocking** failure (issues cannot be recorded correctly). Follow `behaviors/WORK_TEST_PLAN_ISSUES.md`.
 
+If `behaviors/WORK_TEST_PLAN_ISSUES.md` is not present in your current workspace, use `./scripts/create-test-plan-issue.sh` to file issues with consistent formatting.
+
 ### Where to Record Results
 
 Root mode results must be written to `tests/ISSUES.md` (root ShipIt project).
@@ -106,21 +108,30 @@ gh auth status
 
 If this fails, **STOP** and treat it as a **blocking** failure. Follow `behaviors/WORK_TEST_PLAN_ISSUES.md` (includes repo resolution rules).
 
+If `behaviors/WORK_TEST_PLAN_ISSUES.md` is not present in your current workspace, use `./scripts/create-test-plan-issue.sh` to file issues with consistent formatting.
+
 ### Execute Steps
 
 Follow `tests/TEST_PLAN.md` starting from step 2-2.
 
 **Use these hardcoded inputs:**
 
-| Step | Input                                                                         |
-| ---- | ----------------------------------------------------------------------------- |
-| 3-1  | Scope: `"Build a todo list app with CRUD, tagging, and persistence"`          |
-| 3-2  | Follow-ups: API-only, JSON file, Single-user, auth none. Select all features. |
-| 4-1  | Intent: `"Add due dates to todos"` (feature)                                  |
-| 7-2  | Update F-001: priority=p0, effort=s, release_target=R1                        |
-| 8-1  | F-001 deps: `- F-002`, F-002 deps: `(none)`                                   |
-| 9-1  | Add `- F-999` to F-001 dependencies                                           |
-| 10-1 | Create intent: `"Awesome Banner"`                                             |
+| Step | Input                                                                                            |
+| ---- | ------------------------------------------------------------------------------------------------ |
+| 3-1  | Scope: `"Build a todo list app with CRUD, tagging, and persistence"`                             |
+| 3-2  | Follow-ups: API-only, JSON file, Single-user, auth none. Select all features.                    |
+| 4-1  | Intent: `"Add due dates to todos"` (feature), priority=2, effort=2, release=2, deps=none, risk=2 |
+| 7-2  | Update F-001: priority=p0, effort=s, release_target=R1                                           |
+| 8-1  | F-001 deps: `- F-002`, F-002 deps: `(none)`                                                      |
+| 9-1  | Add `- F-999` to F-001 dependencies                                                              |
+| 10-1 | Create intent: `"Awesome Banner"` (feature), priority=4, effort=1, release=4, deps=none, risk=1  |
+
+**Non-interactive intent creation (recommended for test runs):**
+
+```bash
+printf "1\nAdd due dates to todos\nImprove prioritization for users\nSupport basic deadline tracking\ndone\n2\n2\n2\nnone\n2\n" | ./scripts/new-intent.sh
+printf "1\nAwesome Banner\nDisplay a graphical banner at the top of the project README\ndone\n4\n1\n4\nnone\n1\n" | ./scripts/new-intent.sh
+```
 
 ### After Each Step
 

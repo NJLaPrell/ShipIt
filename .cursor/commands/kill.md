@@ -33,6 +33,7 @@ Example: `/kill F-042 "Cannot satisfy latency invariant"`
 ## Script
 
 Run:
+
 ```bash
 ./scripts/kill-intent.sh <intent-id> [reason]
 ```
@@ -40,6 +41,7 @@ Run:
 ## Kill Criteria
 
 An intent is killed when ANY of these trigger:
+
 - Cannot satisfy latency invariant without major redesign
 - Requires breaking schema compatibility beyond allowed versions
 - Adds >20% complexity to core execution path
@@ -49,12 +51,15 @@ An intent is killed when ANY of these trigger:
 
 ## Output
 
-Updates `/intent/<intent-id>.md`:
+Updates the intent file at `intent/**/<intent-id>.md` (based on type):
+
 ```markdown
 ## Status
+
 killed
 
 ## Kill Rationale
+
 - Kill criterion: Cannot satisfy latency invariant
 - Reason: [detailed explanation]
 - Date: 2026-01-12

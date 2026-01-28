@@ -2,7 +2,7 @@
 
 **Intent ID:** F-### (or B-###, T-###)
 
-**Link to Intent:** `/intent/<intent-id>.md`
+**Link to Intent:** `intent/**/<intent-id>.md` (e.g. `intent/features/F-001.md`)
 
 ## Summary
 

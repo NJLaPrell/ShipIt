@@ -121,6 +121,10 @@ gh auth status
      - `Improve prioritization for users`
      - `Support basic deadline tracking`
      - `done`
+   - **Select priority [1-4]:** `2`
+   - **Select effort [1-3]:** `2`
+   - **Select release target [1-4]:** `2`
+   - **Dependencies:** `none`
    - **Select risk [1-3]:** `2`
 
 3. Verify:
@@ -205,6 +209,7 @@ gh auth status
 ## 10) Validate Roadmap + Release from New Intents
 
 1. Create another intent with `/new_intent`
+   - Use the same prompt sequence as step 4 (type, title, motivation, priority, effort, release target, dependencies, risk)
 2. Verify that both:
    - `roadmap/*.md` updates
    - `release/plan.md` updates
@@ -261,6 +266,10 @@ gh auth status
    - **Select type [1-3]:** `1`
    - **Title:** `Temporary kill intent`
    - **Motivation (each line, then 'done'):** `done`
+   - **Select priority [1-4]:** `4`
+   - **Select effort [1-3]:** `1`
+   - **Select release target [1-4]:** `4`
+   - **Dependencies:** `none`
    - **Select risk [1-3]:** `1`
 2. Run:
    - `/kill F-XXX "Test kill flow"`

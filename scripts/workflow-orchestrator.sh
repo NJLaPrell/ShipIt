@@ -22,10 +22,50 @@ if [ -z "$INTENT_ID" ]; then
     error_exit "Usage: $0 <intent-id>" 1
 fi
 
-INTENT_FILE="intent/$INTENT_ID.md"
-if [ ! -f "$INTENT_FILE" ]; then
-    error_exit "Intent file not found: $INTENT_FILE" 1
-fi
+resolve_intent_file() {
+    local intent_id="$1"
+
+    # If the caller passed a direct path, respect it.
+    if [ -f "$intent_id" ]; then
+        echo "$intent_id"
+        return 0
+    fi
+
+    # Common/expected locations (init-project + new-intent + scope-project write to subfolders).
+    local candidates=(
+        "intent/$intent_id.md"
+        "intent/features/$intent_id.md"
+        "intent/bugs/$intent_id.md"
+        "intent/tech-debt/$intent_id.md"
+    )
+
+    local candidate=""
+    for candidate in "${candidates[@]}"; do
+        if [ -f "$candidate" ]; then
+            echo "$candidate"
+            return 0
+        fi
+    done
+
+    # Fallback: search one level deep under intent/ (portable; no find/globstar needed).
+    local matches=()
+    shopt -s nullglob
+    matches=( intent/*/"$intent_id".md )
+    shopt -u nullglob
+
+    if [ "${#matches[@]}" -eq 1 ]; then
+        echo "${matches[0]}"
+        return 0
+    fi
+
+    if [ "${#matches[@]}" -gt 1 ]; then
+        error_exit "Multiple intent files found for $intent_id: ${matches[*]}" 1
+    fi
+
+    return 1
+}
+
+INTENT_FILE="$(resolve_intent_file "$INTENT_ID")" || error_exit "Intent file not found for id '$INTENT_ID' (looked under intent/ and intent/*/)" 1
 
 WORKFLOW_DIR="workflow-state"
 mkdir -p "$WORKFLOW_DIR"
@@ -37,6 +77,7 @@ if [ -f "$SCRIPT_DIR/lib/progress.sh" ]; then
 fi
 
 echo -e "${BLUE}Orchestrating workflow for $INTENT_ID...${NC}"
+echo -e "${BLUE}Using intent file: ${INTENT_FILE}${NC}"
 echo ""
 
 # Phase 1: Analysis

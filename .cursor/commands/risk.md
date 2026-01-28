@@ -16,7 +16,7 @@ Performs a structured security skim and records findings.
 
 ## Inputs
 
-- `intent/<intent-id>.md`
+- `intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
 - `workflow-state/02_plan.md`
 - `workflow-state/03_implementation.md` (if present)
 - `architecture/invariants.yml`
@@ -43,18 +43,22 @@ Writes `workflow-state/04_security.md` with:
 # Security Review: <intent-id>
 
 ## Threat Model
+
 - Attack vector 1: ...
 - Attack vector 2: ...
 
 ## Vulnerabilities Found
+
 - [ ] Finding 1
 - [ ] Finding 2
 
 ## Mitigations Required
+
 - [ ] Mitigation 1
 - [ ] Mitigation 2
 
 ## High-Risk Check
+
 - [ ] Not high-risk domain
 - [ ] High-risk domain (human approval required)
 ```
