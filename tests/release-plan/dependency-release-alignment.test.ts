@@ -75,6 +75,23 @@ describe('generate-release-plan dependency release alignment', () => {
     expect(f002).toBeLessThanOrEqual(f001);
   });
 
+  it('reports missing dependencies in a dedicated section', () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'shipit-release-plan-'));
+
+    writeFile(
+      path.join(tmpDir, 'intent', 'features', 'F-001.md'),
+      `# F-001: Dependent\n\n## Status\nplanned\n\n## Priority\np1\n\n## Effort\ns\n\n## Release Target\nR1\n\n## Dependencies\n- F-999\n`
+    );
+
+    runGenerateReleasePlan(tmpDir);
+
+    const planPath = path.join(tmpDir, 'release', 'plan.md');
+    const plan = fs.readFileSync(planPath, 'utf8');
+
+    expect(plan).toContain('## Missing Dependencies');
+    expect(plan).toMatch(/-\s+\*\*F-001:\*\*.*F-999/i);
+  });
+
   it('does not schedule a dependency into a later release than its dependent (default targets)', () => {
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'shipit-release-plan-'));
 
