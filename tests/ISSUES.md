@@ -57,25 +57,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 
 ## Active Issues
 
-### ISSUE-044: Missing .agent-id coordination file
-
-**Severity:** low
-**Step:** UX
-**Status:** active
-**First Seen:** 2026-01-27
-**Last Seen:** 2026-01-27
-
-**Expected:** `.agent-id` exists (per worktree) to coordinate parallel agents
-**Actual:** File does not exist
-**Error:** Parallel worktree protocol not scaffolded
-
-**Implementation:**
-
-- Update `scripts/setup-worktrees.sh` to write `.agent-id` with a unique integer per worktree.
-- Include instructions in `scripts/setup-worktrees.sh` output for agents to read `.agent-id`.
-
----
-
 ## Implementation Research Notes (for future work)
 
 ### ISSUE-021: pnpm audit reports vulnerabilities
@@ -90,19 +71,6 @@ The ShipIt framework has been fully validated end-to-end. All core features work
 - `package.json` overrides (or direct dependency bumps) for `esbuild`/`tmp`.
 - CI workflow: fail `pnpm audit` unless advisories are allowlisted.
 - New tracked file: `security/audit-allowlist.json` for scoped exceptions.
-
----
-
-### ISSUE-044: Missing .agent-id coordination file
-
-**Best approach:**
-
-- Generate `.agent-id` per worktree as part of `setup-worktrees.sh`.
-
-**Integration points:**
-
-- `scripts/setup-worktrees.sh`
-- `.agent-id` at worktree root.
 
 ---
 

@@ -6,6 +6,23 @@ This document contains all resolved issues and historic test runs. For current t
 
 ## Resolved Issues
 
+### ISSUE-044: Missing .agent-id coordination file
+
+**Severity:** low
+**Step:** UX
+**Status:** resolved
+**First Seen:** 2026-01-27
+**Resolved:** 2026-01-28
+
+**Expected:** `.agent-id` exists (per worktree) to coordinate parallel agents
+**Actual:** File does not exist
+**Error:** Parallel worktree protocol not scaffolded
+
+**Resolution:** Fixed error handling bug in `.agent-id` file creation in `scripts/setup-worktrees.sh`. The script now properly creates `.agent-id` files with unique integers (1, 2, 3, etc.) per worktree. Added detailed instructions in the script output explaining how agents should read `.agent-id` to get their task number, how to find their task in `worktrees.json`, and how to coordinate via the shared file.
+**Validation:** Verified script syntax, error handling works correctly, and instructions are clear and comprehensive.
+
+---
+
 ### ISSUE-043: Missing confidence-calibration.json
 
 **Severity:** low
