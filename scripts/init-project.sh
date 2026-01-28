@@ -356,6 +356,48 @@ This ledger records experiments that were tried but failed.
 (No entries yet. Add entries as experiments fail.)
 EOF
 
+cat > do-not-repeat/bad-patterns.md << EOF || error_exit "Failed to create bad-patterns.md"
+# Bad Patterns
+
+This ledger records code patterns, architectural approaches, or practices that have been identified as problematic. **Do not repeat these patterns.**
+
+## Format
+
+Each entry should include:
+- **Pattern:** Brief description of the pattern
+- **Why it's bad:** Problems it causes
+- **Date:** When it was identified
+- **Intent ID:** Related intent (if any)
+- **Alternative:** Better approach (if known)
+
+---
+
+## Entries
+
+(No entries yet. Add entries as bad patterns are identified.)
+EOF
+
+cat > do-not-repeat/rejected-libraries.md << EOF || error_exit "Failed to create rejected-libraries.md"
+# Rejected Libraries
+
+This ledger records libraries, frameworks, or tools that were evaluated but rejected. **Do not reconsider these without new information.**
+
+## Format
+
+Each entry should include:
+- **Library:** Name and version (if applicable)
+- **Why rejected:** Reason for rejection (performance, licensing, maintenance, etc.)
+- **Date:** When it was rejected
+- **Intent ID:** Related intent (if any)
+- **Alternatives:** Better options (if known)
+
+---
+
+## Entries
+
+(No entries yet. Add entries as libraries are rejected.)
+EOF
+
 echo -e "${GREEN}✓ Created do-not-repeat ledger files${NC}"
 
 # Create roadmap files
@@ -467,6 +509,56 @@ cat > workflow-state/05_release_notes.md << EOF || error_exit "Failed to create 
 EOF
 
 echo -e "${GREEN}✓ Created workflow-state files${NC}"
+
+# Create golden-data directory with .gitkeep (directory already created on line 89)
+touch golden-data/.gitkeep
+cat > golden-data/README.md << EOF || error_exit "Failed to create golden-data/README.md"
+# Golden Data
+
+This directory stores replay validation test data for regression testing.
+
+## Purpose
+
+Golden data captures known-good inputs and expected outputs that can be replayed through code changes to verify behavior hasn't regressed.
+
+## Format
+
+Golden data files are typically JSON files containing test cases:
+
+\`\`\`json
+[
+  {
+    "input": { /* input data */ },
+    "expectedOutput": { /* expected result */ },
+    "description": "Brief description of test case"
+  }
+]
+\`\`\`
+
+## Usage
+
+1. **Capture golden data** from production or hand-crafted test cases
+2. **Replay through code** during testing
+3. **Compare outputs** to detect regressions
+
+## Example
+
+See \`PLAN.md\` Research Q11 for implementation patterns and examples of replay-based validation.
+
+## Non-Deterministic Data
+
+For outputs with timestamps, UUIDs, or other non-deterministic values, normalize them before comparison:
+
+\`\`\`typescript
+const normalize = (output) => ({
+  ...output,
+  timestamp: 'NORMALIZED',
+  id: 'NORMALIZED',
+});
+\`\`\`
+EOF
+
+echo -e "${GREEN}✓ Created golden-data directory${NC}"
 
 # Generate initial SYSTEM_STATE.md (best-effort)
 if [ -x "scripts/generate-system-state.sh" ]; then
