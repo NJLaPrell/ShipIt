@@ -11,6 +11,7 @@
 - After resolving an issue, update it in `./tests/ISSUES.md` and then move it to `./tests/ISSUES_HISTORIC.md`.
 - If the issue cannot be resolved without changing scope or requirements, stop and report.
 - If `./tests/ISSUES.md` or `./tests/ISSUES_HISTORIC.md` is missing, stop and report.
+- Update `README.md` if the fix adds or changes user-facing behavior, commands, or workflows.
 
 ---
 
@@ -68,6 +69,7 @@
    - Date resolved
 2. Move the issue entry to `./tests/ISSUES_HISTORIC.md`.
 3. Ensure the active issues list remains accurate.
+4. Update `README.md` if the change affects user-facing docs.
 
 ---
 
