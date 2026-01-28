@@ -86,7 +86,7 @@ HIGH_RISK="${HIGH_RISK:-none}"
 echo -e "${BLUE}Creating project structure...${NC}"
 
 # Core directories
-mkdir -p intent/features intent/bugs intent/tech-debt workflow-state architecture do-not-repeat drift roadmap scripts golden-data src tests .cursor/rules .cursor/commands .github/workflows
+mkdir -p intent/features intent/bugs intent/tech-debt workflow-state architecture do-not-repeat drift roadmap scripts behaviors golden-data src tests .cursor/rules .cursor/commands .github/workflows
 
 # Copy framework commands, rules, and core scripts into the new project
 if [ -d "$ROOT_DIR/.cursor/commands" ]; then
@@ -113,6 +113,17 @@ for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-releas
         chmod +x "scripts/$script"
     fi
 done
+
+# Copy test-plan issue helper into the new project (used by test runner rules).
+if [ -f "$ROOT_DIR/scripts/create-test-plan-issue.sh" ]; then
+    cp "$ROOT_DIR/scripts/create-test-plan-issue.sh" "scripts/create-test-plan-issue.sh"
+    chmod +x "scripts/create-test-plan-issue.sh"
+fi
+
+# Copy test-plan issue tracking runbook into the new project (referenced by tests + Cursor rules).
+if [ -f "$ROOT_DIR/behaviors/WORK_TEST_PLAN_ISSUES.md" ]; then
+    cp "$ROOT_DIR/behaviors/WORK_TEST_PLAN_ISSUES.md" "behaviors/WORK_TEST_PLAN_ISSUES.md"
+fi
 
 # Create project.json
 cat > project.json << EOF || error_exit "Failed to create project.json"
