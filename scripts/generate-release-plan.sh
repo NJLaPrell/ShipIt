@@ -29,8 +29,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ -f "$SCRIPT_DIR/lib/validate-intents.sh" ]; then
     source "$SCRIPT_DIR/lib/validate-intents.sh" || true
     echo "Validating intents..."
-    validation_output=$(validate_all_intents 2>&1 || true)
+
+    # NOTE: validate_all_intents returns the number of issues found (non-zero when warnings exist).
+    # We want to surface warnings without failing the release plan generation.
+    set +e
+    validation_output=$(validate_all_intents 2>&1)
     validation_exit=$?
+    set -e
+
     if [ $validation_exit -ne 0 ] || [ -n "$validation_output" ]; then
         echo ""
         echo "⚠️  Validation warnings:"
