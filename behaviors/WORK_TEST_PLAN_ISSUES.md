@@ -174,7 +174,9 @@ Record each test run execution in `tests/ISSUES.md` (**run logs only**, not issu
 
 ### Run: YYYY-MM-DDTHH:MM:SSZ (root-project | test-project)
 
+**Steps Total:** [number]
 **Steps Executed:** [number]
+**Steps Skipped:** [number]
 **Steps Passed:** [number]
 **Steps Failed:** [number]
 **Blocking Issues:** [number]
@@ -193,6 +195,12 @@ Record each test run execution in `tests/ISSUES.md` (**run logs only**, not issu
 ```
 
 **Note:** Issues are tracked on GitHub. Only reference GitHub issue numbers here.
+
+Definitions:
+
+- **Steps Total**: Total steps in the test plan section being run (including those that may be skipped due to blocking failures).
+- **Steps Executed**: Count of steps with status **✅ PASS** or **❌ FAIL** (exclude **⏭️ SKIP**).
+- **Steps Skipped**: Count of steps with status **⏭️ SKIP**.
 
 ---
 

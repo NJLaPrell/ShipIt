@@ -150,15 +150,22 @@ After completing (or stopping), output:
 
 **Date:** [ISO timestamp]
 **Mode:** [root-project | test-project]
-**Steps Executed:** X
-**Steps Passed:** Y
-**Steps Failed:** Z
+**Steps Total:** X
+**Steps Executed:** Y
+**Steps Skipped:** Z
+**Steps Passed:** A
+**Steps Failed:** B
 **Blocking Issues:** N
 
 **Result:** [PASS if no failures | FAIL if any failures]
 
 See tests/ISSUES.md for details.
 ```
+
+Definitions:
+- **Steps Total**: total steps in scope for the run (including skipped).
+- **Steps Executed**: count of **✅ PASS** + **❌ FAIL** (exclude **⏭️ SKIP**).
+- **Steps Skipped**: count of **⏭️ SKIP**.
 
 ## Run Logging Rules
 
