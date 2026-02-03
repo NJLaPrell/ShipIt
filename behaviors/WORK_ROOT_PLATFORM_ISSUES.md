@@ -4,6 +4,17 @@
 
 **When to use:** Any time you are working a platform issue from GitHub Issues.
 
+## Agent Execution Rule
+
+**You must execute the entire workflow yourself.** Do not stop early to "give the user directions" or "let them do the next step." For each step:
+
+- **Do it:** Run the commands, create the PR, post the resolution comment, close the issue, add the review comment. Use `gh`, `git`, and your tools.
+- **Only hand off** when the workflow explicitly requires a human (e.g. "Wait for merge approval" or "stop and request approval").
+
+If you cannot complete a step (e.g. no `gh` auth, no merge permission), say so and do everything up to that point—do not hand off steps you _can_ do (push, PR create, issue close, PR comment) by telling the user to do them.
+
+**Anti-pattern:** Ending with "Next: push the branch and open a PR" or "You can now merge" when you have not yet pushed, created the PR, or posted the resolution comment. That is drift; complete the steps instead.
+
 ## Scope and Safety
 
 - This behavior applies to the root platform repo (not downstream project repos).
@@ -88,13 +99,13 @@
 
 **Objective:** Submit PR and iterate until it's ready to merge.
 
-**Actions:**
+**Actions (you perform these; do not hand off to the user):**
 
 1. Summarize changes and validation performed.
 2. Report the final status (resolved/blocked/invalid).
 3. Reference the GitHub issue number in the PR description (e.g., "Resolves #123").
-4. Submit a PR after everything is finished and committed.
-5. **Review the PR** and add comments with findings:
+4. **Submit the PR yourself:** `git push -u origin <branch>` then `gh pr create` (or equivalent). Do not tell the user to "open a PR" or "push and create a PR."
+5. **Review the PR yourself** and add comments with findings:
    - Check for bloat, rabbit holes, or unnecessary complexity
    - Verify all requirements are met
    - Check for unrelated changes
@@ -107,8 +118,8 @@
    - **Review the PR again** and add comments with findings
    - **Repeat** the review/fix cycle until the PR is ready to merge
 7. **If PR is ready to merge:**
-   - Confirm in PR comment that it's ready
-   - Wait for merge approval
+   - Confirm in a PR comment that it's ready.
+   - If you can merge (e.g. `gh pr merge` works), merge the PR. Otherwise, the only handoff is: the user merges when ready.
 
 **Review Criteria:**
 
