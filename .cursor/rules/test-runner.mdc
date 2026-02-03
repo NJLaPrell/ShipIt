@@ -169,8 +169,8 @@ Definitions:
 
 ## Run Logging Rules
 
-- Do NOT overwrite previous runs.
-- Append a new run block to `tests/ISSUES.md` with timestamp, mode, and summary.
+- **ISSUES.md = latest run only.** Before writing the new run, move all existing run blocks from `tests/ISSUES.md` to `tests/ISSUES_HISTORIC.md` (append under `## Historic Test Runs`).
+- Write `tests/ISSUES.md` with header, Counting Conventions, and only the new run block.
 - If issues were created, include an “Issues Found This Run” list referencing GitHub issue numbers (e.g., `#123`).
 
 ## Forbidden Actions

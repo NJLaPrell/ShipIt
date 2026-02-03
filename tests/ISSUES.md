@@ -213,3 +213,65 @@ This file logs **test runs only**. Issues discovered during runs are tracked on 
 - **#18:** verify.sh skips pnpm audit unless an 'audit' script exists, then marks checks pass (medium) - **ACTIVE**
 - **#19:** drift-check.sh counts node_modules in test-to-code ratio (inflated metrics after pnpm install) (medium) - **ACTIVE**
 - **#20:** kill-intent.sh only looks for intent/<id>.md and fails with intent/features/<id>.md (high) - **ACTIVE**
+
+### Run: 2026-02-03T21:47:00Z (test-project)
+
+**Steps Total:** 23  
+**Steps Executed:** 23  
+**Steps Skipped:** 0  
+**Steps Passed:** 23  
+**Steps Failed:** 0  
+**Blocking Issues:** 0  
+**Result:** ✅ PASS
+
+#### Summary
+
+| Step | Name                        | Status  | Severity | Notes                                                           |
+| ---- | --------------------------- | ------- | -------- | --------------------------------------------------------------- |
+| 2-2  | Validate project structure  | ✅ PASS | -        | project.json, intent/\_TEMPLATE.md, roadmap/, .cursor/commands/ |
+| 3-1  | Run scope-project           | ✅ PASS | -        | Fixture scope description                                       |
+| 3-2  | Answer follow-ups           | ✅ PASS | -        | API-only, JSON file, Single-user, none, all features, deps none |
+| 3-3  | Verify intent files         | ✅ PASS | -        | intent/features/F-001.md .. F-003.md                            |
+| 3-4  | Verify outputs              | ✅ PASS | -        | project-scope.md, roadmap/\*, release/plan.md                   |
+| 4-1  | Create single intent        | ✅ PASS | -        | F-004 "Add due dates to todos"                                  |
+| 5-1  | Run generate-release-plan   | ✅ PASS | -        |                                                                 |
+| 5-2  | Verify release plan         | ✅ PASS | -        | ## Summary, ## R1, Total intents                                |
+| 6-1  | Run generate-roadmap        | ✅ PASS | -        |                                                                 |
+| 6-2  | Verify roadmap              | ✅ PASS | -        | Roadmap reflects intents/deps                                   |
+| 7-1  | Check template fields       | ✅ PASS | -        | Priority, Effort, Release Target enumerated                     |
+| 7-2  | Update intent fields        | ✅ PASS | -        | F-001: p0, s, R1                                                |
+| 7-3  | Regenerate release plan     | ✅ PASS | -        |                                                                 |
+| 7-4  | Verify ordering             | ✅ PASS | -        | F-001 in R1                                                     |
+| 8-1  | Edit dependencies           | ✅ PASS | -        | F-001 depends on F-002                                          |
+| 8-2  | Regenerate release plan     | ✅ PASS | -        |                                                                 |
+| 8-3  | Verify F-002 before F-001   | ✅ PASS | -        | F-002 then F-001 in R1                                          |
+| 9-1  | Add fake dependency         | ✅ PASS | -        | F-999 added to F-001                                            |
+| 9-2  | Regenerate release plan     | ✅ PASS | -        |                                                                 |
+| 9-3  | Verify missing deps section | ✅ PASS | -        | release/plan.md lists missing F-999                             |
+| 10-1 | Create new intent           | ✅ PASS | -        | F-005 "Awesome Banner"                                          |
+| 10-2 | Verify roadmap + release    | ✅ PASS | -        | Roadmap and release plan refreshed                              |
+
+#### Issues Found This Run
+
+- (none)
+
+### Run: 2026-02-03T21:43:01Z (root-project)
+
+**Steps Executed:** 4  
+**Steps Passed:** 4  
+**Steps Failed:** 0  
+**Blocking Issues:** 0  
+**Result:** ✅ PASS
+
+#### Summary
+
+| Step | Name                        | Status  | Severity | Notes                                 |
+| ---- | --------------------------- | ------- | -------- | ------------------------------------- |
+| 1-1  | Init project                | ✅ PASS | -        | Created `./projects/shipit-test`      |
+| 1-2  | Provide inputs              | ✅ PASS | -        | stack=1, desc fixture, high-risk=none |
+| 1-3  | Verify project dir created  | ✅ PASS | -        | `./projects/shipit-test` exists       |
+| 1-4  | Verify required files exist | ✅ PASS | -        | All required files present            |
+
+#### Issues Found This Run
+
+- (none)

@@ -91,7 +91,9 @@ NEXT: Open ./projects/shipit-test in a NEW Cursor window, then run /test-shipit 
 
 ---
 
-## Test Project Mode (Steps 2-2 → 10)
+## Test Project Mode (Steps 2-2 → 24)
+
+**In-scope:** All steps in `tests/TEST_PLAN.md` from 2-2 through 24. Do NOT stop at step 10. Continue through commands (11-15), full /ship cycle (16-21), and validation (22-24) until completion or a blocking failure.
 
 ### Load Test Fixtures
 
@@ -116,21 +118,24 @@ Follow `tests/TEST_PLAN.md` starting from step 2-2.
 
 **Use these hardcoded inputs:**
 
-| Step | Input                                                                                            |
-| ---- | ------------------------------------------------------------------------------------------------ |
-| 3-1  | Scope: `"Build a todo list app with CRUD, tagging, and persistence"`                             |
-| 3-2  | Follow-ups: API-only, JSON file, Single-user, auth none. Select all features.                    |
-| 4-1  | Intent: `"Add due dates to todos"` (feature), priority=2, effort=2, release=2, deps=none, risk=2 |
-| 7-2  | Update F-001: priority=p0, effort=s, release_target=R1                                           |
-| 8-1  | F-001 deps: `- F-002`, F-002 deps: `(none)`                                                      |
-| 9-1  | Add `- F-999` to F-001 dependencies                                                              |
-| 10-1 | Create intent: `"Awesome Banner"` (feature), priority=4, effort=1, release=4, deps=none, risk=1  |
+| Step | Input                                                                                                                                         |
+| ---- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 3-1  | Scope: `"Build a todo list app with CRUD, tagging, and persistence"`                                                                          |
+| 3-2  | Follow-ups: API-only, JSON file, Single-user, auth none. Select all features.                                                                 |
+| 4-1  | Intent: `"Add due dates to todos"` (feature), priority=2, effort=2, release=2, deps=none, risk=2                                              |
+| 7-2  | Update F-001: priority=p0, effort=s, release_target=R1                                                                                        |
+| 8-1  | F-001 deps: `- F-002`, F-002 deps: `(none)`                                                                                                   |
+| 9-1  | Add `- F-999` to F-001 dependencies                                                                                                           |
+| 10-1 | Create intent: `"Awesome Banner"` (feature), priority=4, effort=1, release=4, deps=none, risk=1                                               |
+| 15-1 | Create disposable intent for kill: type=1, title=`Temporary kill intent`, motivation=done, priority=4, effort=1, release=4, deps=none, risk=1 |
 
 **Non-interactive intent creation (recommended for test runs):**
 
 ```bash
 printf "1\nAdd due dates to todos\nImprove prioritization for users\nSupport basic deadline tracking\ndone\n2\n2\n2\nnone\n2\n" | ./scripts/new-intent.sh
 printf "1\nAwesome Banner\nDisplay a graphical banner at the top of the project README\ndone\n4\n1\n4\nnone\n1\n" | ./scripts/new-intent.sh
+# Step 15-1: disposable intent for /kill
+printf "1\nTemporary kill intent\ndone\n4\n1\n4\nnone\n1\n" | ./scripts/new-intent.sh
 ```
 
 ### After Each Step
@@ -180,10 +185,12 @@ Output summary:
 
 ## ISSUES.md Update Rules
 
-After each test run, update `tests/ISSUES.md`:
+After each test run:
 
-1. **Append a new Run block** under `## Test Runs` (do not overwrite prior runs)
-2. **Update the Run's Summary table** with all step results
-3. **List GitHub issues created** in an "Issues Found This Run" section, referencing issue numbers (e.g., `#123`)
+1. **Rotate prior runs to historic:** Move all existing run blocks from `tests/ISSUES.md` to `tests/ISSUES_HISTORIC.md` (append under `## Historic Test Runs`). Keep the header and Counting Conventions in ISSUES.md.
+2. **Write only the new run:** Replace `tests/ISSUES.md` content with the header, Counting Conventions, and **only the latest run block** (the one you just completed).
+3. **Include "Issues Found This Run"** in the new run block, referencing GitHub issue numbers (e.g., `#123`).
+
+**Rule:** `tests/ISSUES.md` must contain **only the latest run**. All prior runs live in `tests/ISSUES_HISTORIC.md`.
 
 See `.cursor/rules/test-runner.mdc` for detailed formatting rules.

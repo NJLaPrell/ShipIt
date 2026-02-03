@@ -167,7 +167,14 @@ Use `tests/ISSUE_RESEARCH_TEMPLATE.md` for the body and add `research-note` labe
 
 ### Test Runs (run logs only)
 
-Record each test run execution in `tests/ISSUES.md` (**run logs only**, not issue tracking):
+`tests/ISSUES.md` must contain **only the latest run**. Prior runs are archived in `tests/ISSUES_HISTORIC.md`.
+
+**When recording a new run:**
+
+1. Append all existing run blocks from `tests/ISSUES.md` to `tests/ISSUES_HISTORIC.md` (under `## Historic Test Runs`).
+2. Write `tests/ISSUES.md` with header, Counting Conventions, and only the new run block.
+
+Format for each run block:
 
 ```markdown
 ## Test Runs
