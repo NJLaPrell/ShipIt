@@ -255,14 +255,17 @@ Proceed to Release phase.
 EOF
 
     # Backward compatibility: some docs/tests still look for 05_verification.md
-    cat > "$WORKFLOW_DIR/05_verification.md" << EOF || error_exit "Failed to create legacy verification state"
-# Verification (Legacy): $INTENT_ID
+    # Quoted delimiter so backticks in content are literal (no "Permission denied" from expansion)
+    cat > "$WORKFLOW_DIR/05_verification.md" << 'LEGACY_VERIFICATION_EOF' || error_exit "Failed to create legacy verification state"
+# Verification (Legacy): INTENT_ID_PLACEHOLDER
 
-**Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-**Intent:** $INTENT_ID
+**Generated:** DATE_PLACEHOLDER
+**Intent:** INTENT_ID_PLACEHOLDER
 
 This file is deprecated. Use `workflow-state/04_verification.md`.
-EOF
+LEGACY_VERIFICATION_EOF
+    # Inject values (heredoc was quoted to avoid backtick expansion)
+    sed -i.bak -e "s/INTENT_ID_PLACEHOLDER/$INTENT_ID/g" -e "s/DATE_PLACEHOLDER/$(date -u +"%Y-%m-%dT%H:%M:%SZ")/g" "$WORKFLOW_DIR/05_verification.md" && rm -f "$WORKFLOW_DIR/05_verification.md.bak"
 
     if command -v show_phase_progress >/dev/null 2>&1; then
         show_phase_progress 4 5 "Verification" "complete"
