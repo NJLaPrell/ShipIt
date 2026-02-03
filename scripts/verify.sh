@@ -42,24 +42,21 @@ if command -v pnpm >/dev/null 2>&1; then
         MUTATE_STATUS="skipped (test:mutate not defined)"
     fi
 
-    if pnpm -s run audit >/dev/null 2>&1; then
-        if [ -f "scripts/audit-check.sh" ]; then
-            if ./scripts/audit-check.sh moderate; then
-                AUDIT_STATUS="pass"
-            else
-                AUDIT_STATUS="fail (unlisted or expired advisories)"
-                FAILED=1
-            fi
+    # Always run audit (no script gate). Use audit-level=high per verification requirements.
+    if [ -f "scripts/audit-check.sh" ]; then
+        if ./scripts/audit-check.sh high; then
+            AUDIT_STATUS="pass"
         else
-            if pnpm audit --audit-level=moderate; then
-                AUDIT_STATUS="pass"
-            else
-                AUDIT_STATUS="fail (moderate+ vulnerabilities)"
-                FAILED=1
-            fi
+            AUDIT_STATUS="fail (unlisted or expired advisories)"
+            FAILED=1
         fi
     else
-        AUDIT_STATUS="skipped (audit not available)"
+        if pnpm audit --audit-level=high; then
+            AUDIT_STATUS="pass"
+        else
+            AUDIT_STATUS="fail (high+ vulnerabilities)"
+            FAILED=1
+        fi
     fi
 else
     error_exit "pnpm is required to run verification checks" 1
