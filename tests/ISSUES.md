@@ -149,3 +149,67 @@ This file logs **test runs only**. Issues discovered during runs are tracked on 
 
 - #7 (blocking): workflow-orchestrator intent path mismatch (`intent/` vs `intent/features/`)
 - #8 (medium): missing `behaviors/WORK_TEST_PLAN_ISSUES.md` (and missing `create-test-plan-issue` helper referenced by rules)
+
+### Run: 2026-01-28T17:37:53Z (test-project)
+
+**Steps Total:** 42  
+**Steps Executed:** 32  
+**Steps Skipped:** 10  
+**Steps Passed:** 31  
+**Steps Failed:** 1  
+**Blocking Issues:** 1  
+**Result:** ❌ FAIL
+
+#### Summary
+
+| Step | Name                          | Status  | Severity | Notes                                                                        |
+| ---- | ----------------------------- | ------- | -------- | ---------------------------------------------------------------------------- |
+| 2-2  | Validate project structure    | ✅ PASS | -        |                                                                              |
+| 3-1  | Run scope-project             | ✅ PASS | -        |                                                                              |
+| 3-2  | Answer follow-ups             | ✅ PASS | -        |                                                                              |
+| 3-3  | Verify intent files           | ✅ PASS | -        | Created `intent/features/F-001.md` .. `F-003.md`                             |
+| 3-4  | Verify outputs                | ✅ PASS | -        | Created `project-scope.md`, updated `roadmap/*`, generated `release/plan.md` |
+| 4-1  | Create single intent          | ✅ PASS | -        | Created `intent/features/F-004.md`                                           |
+| 5-1  | Run generate-release-plan     | ✅ PASS | -        |                                                                              |
+| 5-2  | Verify release plan           | ✅ PASS | -        | Contains `## Summary`, `## R1`, and total counts                             |
+| 6-1  | Run generate-roadmap          | ✅ PASS | -        |                                                                              |
+| 6-2  | Verify roadmap                | ✅ PASS | -        | Roadmap reflects current intents/deps                                        |
+| 7-1  | Check template fields         | ✅ PASS | -        | Verified `intent/_TEMPLATE.md` enumerates allowed values                     |
+| 7-2  | Update intent fields          | ✅ PASS | -        | F-001: p0, s, R1                                                             |
+| 7-3  | Regenerate release plan       | ✅ PASS | -        |                                                                              |
+| 7-4  | Verify ordering               | ✅ PASS | -        | F-001 scheduled in R1                                                        |
+| 8-1  | Edit dependencies             | ✅ PASS | -        | F-001 depends on F-002                                                       |
+| 8-2  | Regenerate release plan       | ✅ PASS | -        |                                                                              |
+| 8-3  | Verify F-002 before F-001     | ✅ PASS | -        | F-002 ordered before F-001 in R1                                             |
+| 9-1  | Add fake dependency           | ✅ PASS | -        | Added F-999 to F-001                                                         |
+| 9-2  | Regenerate release plan       | ✅ PASS | -        |                                                                              |
+| 9-3  | Verify missing deps section   | ✅ PASS | -        | `release/plan.md` lists missing `F-999`                                      |
+| 10-1 | Create new intent             | ✅ PASS | -        | Created `intent/features/F-005.md` "Awesome Banner"                          |
+| 10-2 | Verify roadmap + release      | ✅ PASS | -        | Roadmap and release plan refreshed                                           |
+| 11-1 | Run /ship workflow            | ✅ PASS | -        | Created workflow files; filed #17 for stderr "Permission denied" noise       |
+| 11-2 | Verify plan gate behavior     | ✅ PASS | -        | `workflow-state/01_analysis.md` and `workflow-state/02_plan.md` created      |
+| 12-1 | Run /verify                   | ✅ PASS | -        | Filed #18: audit check is skipped unless an `audit` script exists            |
+| 12-2 | Verify verification outputs   | ✅ PASS | -        | `workflow-state/04_verification.md` updated                                  |
+| 13-1 | Run /drift_check              | ✅ PASS | -        | Filed #19: node_modules counted in test-to-code ratio                        |
+| 13-2 | Verify drift outputs          | ✅ PASS | -        | `drift/metrics.md` created                                                   |
+| 14-1 | Run /deploy staging           | ✅ PASS | -        | Selected Manual platform (no real deploy)                                    |
+| 14-2 | Verify readiness-only deploy  | ✅ PASS | -        | `deployment-history.md` updated by script                                    |
+| 15-1 | Create disposable intent      | ✅ PASS | -        | Created `intent/features/F-006.md`                                           |
+| 15-2 | Run /kill                     | ❌ FAIL | blocking | `kill-intent.sh` expects `intent/F-006.md`; filed #20                        |
+| 15-3 | Verify kill results           | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+| 16   | /ship approve plan            | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+| 17   | /ship write tests (TDD)       | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+| 18   | /ship implement               | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+| 19   | /ship verify                  | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+| 20   | /ship docs                    | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+| 21   | /ship ship                    | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+| 22   | Validate deployment readiness | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+| 23   | Validate final project state  | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+| 24   | Generate final test report    | ⏭️ SKIP | blocking | Blocked by step 15-2                                                         |
+
+#### Issues Found This Run
+
+- **#17:** workflow-orchestrator emits Permission denied due to unquoted heredoc backticks (medium) - **ACTIVE**
+- **#18:** verify.sh skips pnpm audit unless an 'audit' script exists, then marks checks pass (medium) - **ACTIVE**
+- **#19:** drift-check.sh counts node_modules in test-to-code ratio (inflated metrics after pnpm install) (medium) - **ACTIVE**
+- **#20:** kill-intent.sh only looks for intent/<id>.md and fails with intent/features/<id>.md (high) - **ACTIVE**
