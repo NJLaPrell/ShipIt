@@ -41,11 +41,19 @@ else
 fi
 echo "" >> "$METRICS_FILE" || error_exit "Failed to write newline"
 
-# 2. Test-to-code ratio
+# 2. Test-to-code ratio (git-tracked only so node_modules/dist/build/reports are excluded)
 echo "## Test-to-Code Ratio" >> "$METRICS_FILE"
-TEST_LINES=$(find . -name "*.test.ts" -o -name "*.spec.ts" 2>/dev/null | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
-CODE_LINES=$(find . -name "*.ts" ! -name "*.test.ts" ! -name "*.spec.ts" 2>/dev/null | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
-if [ "$CODE_LINES" -gt 0 ]; then
+if git rev-parse --git-dir > /dev/null 2>&1; then
+  TEST_FILES=$(git ls-files -- '*.test.ts' '*.spec.ts' 2>/dev/null | tr '\n' ' ')
+  CODE_FILES=$(git ls-files -- '*.ts' 2>/dev/null | grep -v -E '\.(test|spec)\.ts$' | tr '\n' ' ')
+  if [ -z "$TEST_FILES" ]; then TEST_LINES=0; else TEST_LINES=$(echo "$TEST_FILES" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0"); fi
+  if [ -z "$CODE_FILES" ]; then CODE_LINES=0; else CODE_LINES=$(echo "$CODE_FILES" | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0"); fi
+else
+  # Fallback: find with exclusions (no git or not a repo)
+  TEST_LINES=$(find . -type d \( -name node_modules -o -name dist -o -name build -o -name reports \) -prune -o -type f \( -name "*.test.ts" -o -name "*.spec.ts" \) -print 2>/dev/null | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+  CODE_LINES=$(find . -type d \( -name node_modules -o -name dist -o -name build -o -name reports \) -prune -o -type f -name "*.ts" ! -name "*.test.ts" ! -name "*.spec.ts" -print 2>/dev/null | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo "0")
+fi
+if [ "${CODE_LINES:-0}" -gt 0 ]; then
   RATIO=$(echo "scale=2; $TEST_LINES / $CODE_LINES" | bc 2>/dev/null || echo "N/A")
   echo "Test lines: $TEST_LINES" >> "$METRICS_FILE"
   echo "Code lines: $CODE_LINES" >> "$METRICS_FILE"
