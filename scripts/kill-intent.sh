@@ -15,13 +15,43 @@ if [ -z "$INTENT_ID" ]; then
     error_exit "Usage: ./scripts/kill-intent.sh <intent-id> [reason]" 1
 fi
 
-REASON="${2:-No reason provided}"
-INTENT_FILE="intent/$INTENT_ID.md"
-DATE_UTC="$(date -u +"%Y-%m-%d")"
+# Resolve intent file: same locations as workflow-orchestrator (intent/, intent/features/, etc.)
+resolve_intent_file() {
+    local intent_id="$1"
+    if [ -f "$intent_id" ]; then
+        echo "$intent_id"
+        return 0
+    fi
+    local candidates=(
+        "intent/$intent_id.md"
+        "intent/features/$intent_id.md"
+        "intent/bugs/$intent_id.md"
+        "intent/tech-debt/$intent_id.md"
+    )
+    local c
+    for c in "${candidates[@]}"; do
+        if [ -f "$c" ]; then
+            echo "$c"
+            return 0
+        fi
+    done
+    local matches=()
+    shopt -s nullglob
+    matches=( intent/*/"$intent_id".md )
+    shopt -u nullglob
+    if [ "${#matches[@]}" -eq 1 ]; then
+        echo "${matches[0]}"
+        return 0
+    fi
+    if [ "${#matches[@]}" -gt 1 ]; then
+        error_exit "Multiple intent files found for $intent_id: ${matches[*]}" 1
+    fi
+    return 1
+}
 
-if [ ! -f "$INTENT_FILE" ]; then
-    error_exit "Intent file not found: $INTENT_FILE" 1
-fi
+REASON="${2:-No reason provided}"
+INTENT_FILE="$(resolve_intent_file "$INTENT_ID")" || error_exit "Intent file not found for id '$INTENT_ID' (looked under intent/ and intent/*/)" 1
+DATE_UTC="$(date -u +"%Y-%m-%d")"
 
 TEMP_FILE="$(mktemp)"
 
