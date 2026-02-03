@@ -120,6 +120,7 @@ If you cannot complete a step (e.g. no `gh` auth, no merge permission), say so a
 7. **If PR is ready to merge:**
    - Confirm in a PR comment that it's ready.
    - If you can merge (e.g. `gh pr merge` works), merge the PR. Otherwise, the only handoff is: the user merges when ready.
+8. **After the PR is merged** (by you or the user): Switch back to `main` and pull so the workspace is clean for the next task: `git checkout main && git pull origin main`.
 
 **Review Criteria:**
 
