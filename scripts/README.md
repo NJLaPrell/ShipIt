@@ -50,7 +50,8 @@ Agent coordinator (task queue and agent assignment) is **experimental** and live
 
 ### Utilities
 
-- `help.sh` — List all commands with descriptions
+- `help.sh` — List all commands with descriptions (builds "Available commands" from `command-manifest.yml`)
+- `command-manifest.yml` — Single source of truth for slash commands: id, slash, pnpm script, one-liner, category. Add a command by adding an entry; help.sh reads it.
 - `status.sh` — Unified dashboard (intents, workflow, tests)
 - `suggest.sh` — Suggest next intent to work on
 
