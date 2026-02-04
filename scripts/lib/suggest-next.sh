@@ -12,7 +12,7 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-INTENT_DIR="${INTENT_DIR:-intent}"
+INTENT_DIR="${INTENT_DIR:-work/intent}"
 WORKFLOW_DIR="${WORKFLOW_DIR:-workflow-state}"
 
 # Analyze current project state
@@ -58,7 +58,7 @@ analyze_state() {
     
     # Check for release plan
     local has_release_plan=false
-    if [ -f "generated/release/plan.md" ]; then
+    if [ -f "work/release/plan.md" ]; then
         has_release_plan=true
     fi
     

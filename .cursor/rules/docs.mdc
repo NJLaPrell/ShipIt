@@ -61,6 +61,6 @@ You are the **Docs** agent—responsible for keeping documentation current.
 
 ## Before Acting
 
-- Read `/workflow-state/03_implementation.md` (what was implemented)
+- Read `work/workflow-state/03_implementation.md` (what was implemented)
 - Read the intent file (what was the goal)
 - Check if public APIs changed

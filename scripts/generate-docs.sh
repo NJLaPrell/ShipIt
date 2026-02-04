@@ -64,12 +64,12 @@ esac)
 
 \`\`\`
 .
-├── intent/              # Planned work (features, bugs, tech-debt)
-├── workflow-state/      # Current execution state
-├── architecture/        # System boundaries and constraints
+├── work/intent/         # Planned work (features, bugs, tech-debt)
+├── work/workflow-state/ # Current execution state
+├── _system/architecture/ # System boundaries and constraints
 ├── src/                 # Source code
 ├── tests/               # Test files
-├── do-not-repeat/       # Failed approaches ledger
+├── _system/do-not-repeat/ # Failed approaches ledger
 ├── generated/
 │   ├── artifacts/       # Generated artifacts (SYSTEM_STATE, dependencies, etc.)
 │   ├── drift/           # Entropy monitoring
@@ -104,7 +104,7 @@ This project uses the ShipIt framework.
 
 ## Architecture
 
-See \`architecture/CANON.md\` for system boundaries and constraints.
+See \`_system/architecture/CANON.md\` for system boundaries and constraints.
 
 ## Testing
 
@@ -145,7 +145,7 @@ echo -e "${GREEN}✓ Generated README.md${NC}"
 if [ -d "src" ]; then
     echo -e "${YELLOW}Generating architecture documentation...${NC}"
     
-    ARCH_DOC="architecture/DOCUMENTATION.md"
+    ARCH_DOC="_system/architecture/DOCUMENTATION.md"
     cat > "$ARCH_DOC" << EOF || error_exit "Failed to generate architecture docs"
 # Architecture Documentation
 
@@ -273,7 +273,7 @@ echo -e "${GREEN}═════════════════════
 echo ""
 echo -e "${YELLOW}Generated files:${NC}"
 echo "  - README.md"
-[ -f "architecture/DOCUMENTATION.md" ] && echo "  - architecture/DOCUMENTATION.md"
+[ -f "_system/architecture/DOCUMENTATION.md" ] && echo "  - _system/architecture/DOCUMENTATION.md"
 [ -f "API.md" ] && echo "  - API.md"
 echo "  - DEPLOYMENT.md"
 echo ""

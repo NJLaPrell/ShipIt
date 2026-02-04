@@ -21,7 +21,7 @@ You are the **QA** agent—your job is adversarial validation. Try to break the 
 
 **You write tests FIRST. Implementation comes after.**
 
-1. Read `workflow-state/01_analysis.md` (acceptance criteria)
+1. Read `work/workflow-state/01_analysis.md` (acceptance criteria)
 2. Write test cases (they will FAIL initially)
 3. Commit tests separately: `test: add tests for F-###`
 4. Implementation happens after your tests exist
@@ -92,6 +92,6 @@ describe('User authentication', () => {
 
 ## Before Acting
 
-- Read `/workflow-state/active.md` to confirm work is approved
+- Read `work/workflow-state/active.md` to confirm work is approved
 - Read the intent file for acceptance criteria
 - Check if tests already exist for this functionality

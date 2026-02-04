@@ -239,11 +239,11 @@ SCOPE_FILE="project-scope.md"
 echo -e "${GREEN}✓ Created $SCOPE_FILE${NC}"
 
 # Create release plan stub if missing
-RELEASE_DIR="generated/release"
+RELEASE_DIR="work/release"
 RELEASE_PLAN="$RELEASE_DIR/plan.md"
 if [ ! -f "$RELEASE_PLAN" ]; then
     mkdir -p "$RELEASE_DIR" || error_exit "Failed to create release directory"
-    cat > "$RELEASE_PLAN" << EOF || error_exit "Failed to create generated/release/plan.md"
+    cat > "$RELEASE_PLAN" << EOF || error_exit "Failed to create work/release/plan.md"
 # Release Plan
 
 **Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -259,7 +259,7 @@ EOF
 fi
 
 # Best-effort release plan generation if available
-INTENT_BASE_DIR="intent"
+INTENT_BASE_DIR="work/intent"
 INTENT_DIR="$INTENT_BASE_DIR/features"
 TEMPLATE_FILE="$INTENT_BASE_DIR/_TEMPLATE.md"
 
@@ -360,7 +360,7 @@ if [ ${#SELECTED_FEATURES[@]} -gt 0 ]; then
     {
         echo ""
         for id in "${GENERATED_INTENTS[@]}"; do
-            echo "- \`intent/features/${id}.md\`"
+            echo "- \`work/intent/features/${id}.md\`"
         done
     } >> "$SCOPE_FILE"
 fi

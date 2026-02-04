@@ -107,7 +107,7 @@ show_command_help() {
             echo "  - Dependencies (other intent IDs)"
             echo "  - Risk Level (low/medium/high)"
             echo ""
-            echo "Creates: intent/<id>.md with all fields filled in."
+            echo "Creates: work/intent/<id>.md with all fields filled in."
             ;;
         ship)
             echo -e "${BLUE}/ship${NC}"
@@ -139,7 +139,7 @@ show_command_help() {
             echo "  - Security audit"
             echo "  - Code review"
             echo ""
-            echo "Updates workflow-state/04_verification.md"
+            echo "Updates work/workflow-state/04_verification.md"
             ;;
         kill)
             echo -e "${BLUE}/kill${NC}"
@@ -154,7 +154,7 @@ show_command_help() {
             echo "Updates:"
             echo "  - Intent status → killed"
             echo "  - Adds kill rationale section"
-            echo "  - Updates workflow-state/active.md"
+            echo "  - Updates work/workflow-state/active.md"
             ;;
         generate-release-plan|generate_release_plan)
             echo -e "${BLUE}/generate-release-plan${NC}"
@@ -163,7 +163,7 @@ show_command_help() {
             echo ""
             echo "Usage: /generate-release-plan"
             echo ""
-            echo "Outputs: generated/release/plan.md with:"
+            echo "Outputs: work/release/plan.md with:"
             echo "  - Intents grouped by release (R1-R4)"
             echo "  - Dependency-ordered within each release"
             echo "  - Missing dependencies section"
@@ -177,9 +177,9 @@ show_command_help() {
             echo "Usage: /generate-roadmap"
             echo ""
             echo "Outputs:"
-            echo "  - generated/roadmap/now.md (intents with no dependencies)"
-            echo "  - generated/roadmap/next.md (intents with dependencies)"
-            echo "  - generated/roadmap/later.md (blocked/backlog)"
+            echo "  - work/roadmap/now.md (intents with no dependencies)"
+            echo "  - work/roadmap/next.md (intents with dependencies)"
+            echo "  - work/roadmap/later.md (blocked/backlog)"
             ;;
         deploy)
             echo -e "${BLUE}/deploy${NC}"
@@ -203,7 +203,7 @@ show_command_help() {
             echo ""
             echo "Usage: /drift_check"
             echo ""
-            echo "Calculates metrics and updates generated/drift/metrics.md"
+            echo "Calculates metrics and updates _system/drift/metrics.md"
             ;;
         status)
             echo -e "${BLUE}/status${NC}"
@@ -238,7 +238,7 @@ show_command_help() {
             echo ""
             echo "Usage: /pr <intent-id>"
             echo ""
-            echo "Writes workflow-state/pr.md"
+            echo "Writes work/workflow-state/pr.md"
             ;;
         risk)
             echo -e "${BLUE}/risk${NC}"
@@ -247,7 +247,7 @@ show_command_help() {
             echo ""
             echo "Usage: /risk <intent-id>"
             echo ""
-            echo "Writes workflow-state/04_verification.md (Security section)"
+            echo "Writes work/workflow-state/04_verification.md (Security section)"
             ;;
         revert-plan|revert_plan)
             echo -e "${BLUE}/revert-plan${NC}"
@@ -256,7 +256,7 @@ show_command_help() {
             echo ""
             echo "Usage: /revert-plan <intent-id>"
             echo ""
-            echo "Writes workflow-state/rollback.md"
+            echo "Writes work/workflow-state/rollback.md"
             ;;
         *)
             echo -e "${YELLOW}Unknown command: $COMMAND${NC}"

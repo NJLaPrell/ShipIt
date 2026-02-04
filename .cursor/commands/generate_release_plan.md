@@ -11,20 +11,20 @@ Generate a release plan from intents (priorities, dependencies, and status).
 ## What It Does
 
 1. **Reads intents:**
-   - Scans `/intent/` for intent files
+   - Scans `work/intent/` for intent files
    - Extracts priority, effort, status, dependencies
 2. **Plans releases:**
    - Orders intents by dependency and priority
    - Buckets into releases (R1, R2, R3)
 3. **Writes output:**
-   - Creates `generated/release/plan.md`
+   - Creates `work/release/plan.md`
    - Lists missing dependencies and exclusions
 
 ## Output
 
 Creates:
 
-- `generated/release/plan.md` - Ordered release plan with dependencies
+- `work/release/plan.md` - Ordered release plan with dependencies
 
 ## See Also
 

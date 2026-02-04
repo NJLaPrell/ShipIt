@@ -17,13 +17,13 @@ Performs a structured security skim and records findings.
 ## Inputs
 
 - `intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
-- `workflow-state/02_plan.md`
-- `workflow-state/03_implementation.md` (if present)
-- `architecture/invariants.yml`
+- `work/workflow-state/02_plan.md`
+- `work/workflow-state/03_implementation.md` (if present)
+- `_system/architecture/invariants.yml`
 
 ## Output
 
-Writes `workflow-state/04_verification.md` (Security section within it) with:
+Writes `work/workflow-state/04_verification.md` (Security section within it) with:
 
 - Threat model summary
 - Findings (if any)
@@ -35,7 +35,7 @@ Writes `workflow-state/04_verification.md` (Security section within it) with:
 1. Read the intent and plan to identify high-risk domains.
 2. Review for auth/input validation/secrets/PII concerns.
 3. Run dependency audit if applicable: `pnpm audit --audit-level=high`.
-4. Record findings and required mitigations in `workflow-state/04_verification.md`.
+4. Record findings and required mitigations in `work/workflow-state/04_verification.md`.
 
 ## Template
 

@@ -50,9 +50,9 @@ Replace:
 Creates project at `./projects/<project-name>` with:
 
 - `project.json` — Project metadata
-- `intent/` — Intent directory with template
-- `generated/roadmap/` — Roadmap files
-- `architecture/` — CANON.md and invariants.yml
+- `work/intent/` — Intent directory with template
+- `work/roadmap/` — Roadmap files
+- `_system/architecture/` — CANON.md and invariants.yml
 - `.cursor/` — Commands and rules (copied from framework)
 - `scripts/` — Core scripts (copied from framework)
 - Git repository initialized

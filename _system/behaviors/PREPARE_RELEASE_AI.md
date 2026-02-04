@@ -18,6 +18,7 @@
 **Objective:** Fail fast if the repo is not clean and green.
 
 **Command:**
+
 ```bash
 pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 ```
@@ -31,11 +32,13 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Choose a semantic version consistently.
 
 **Rules:**
+
 - **MAJOR:** breaking changes that require user action
 - **MINOR:** backward-compatible features
 - **PATCH:** backward-compatible fixes only
 
 **AI Decision Procedure:**
+
 1. Read `[Unreleased]` in `CHANGELOG.md`.
 2. If all sections are "None" or empty, stop: there is nothing to release.
 3. Map categories to bump:
@@ -54,6 +57,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Define the release version once and reuse everywhere.
 
 **Actions:**
+
 1. Set `VERSION=X.Y.Z` (same value for Steps 3–5).
 2. Export `VERSION` and `TODAY` in the shell to avoid re-reading files.
 3. Do not allow alternative versions in any file.
@@ -67,6 +71,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Use any existing automation to avoid manual drift.
 
 **Actions:**
+
 1. Detect a changelog generator in the repo (examples: `scripts/generate-changelog.sh`, `changeset`, or a documented release tool).
 2. If found, run it and verify it updates `CHANGELOG.md` deterministically.
 3. If not found, proceed to Step 4 and update manually.
@@ -80,6 +85,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Move `[Unreleased]` into a versioned section.
 
 **Actions:**
+
 1. Create a new section: `## [X.Y.Z] - YYYY-MM-DD` (use `$TODAY` if exported).
 2. Move all `[Unreleased]` items into that section.
 3. Clear `[Unreleased]` (set each category to `- None`).
@@ -94,6 +100,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Set the authoritative version field.
 
 **Actions:**
+
 1. Update `"version"` to `X.Y.Z`.
 2. No other version changes in this file.
 
@@ -106,6 +113,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Keep README version references accurate.
 
 **Actions:**
+
 1. Update the version badge to `X.Y.Z`.
 2. Update the badge link to `.../releases/tag/vX.Y.Z`.
 3. Add a new entry at the top of "Version History".
@@ -120,6 +128,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Verify version consistency across all three files.
 
 **Command:**
+
 ```bash
 CURRENT_VERSION=$(grep '"version"' package.json | cut -d'"' -f4)
 CHANGELOG_VERSION=$(grep '^## \[' CHANGELOG.md | head -1 | sed 's/## \[\(.*\)\].*/\1/')
@@ -153,11 +162,13 @@ fi
 **Objective:** Ensure only release prep files changed.
 
 **Command:**
+
 ```bash
 git status --porcelain
 ```
 
 **Validation:**
+
 - Only `CHANGELOG.md`, `package.json`, `README.md` appear.
 
 **STOP GATE:** If any other file appears, stop and revert those changes.
@@ -169,6 +180,7 @@ git status --porcelain
 **Objective:** End prep cleanly and hand off to `DO_RELEASE.md`.
 
 **Report Template (fill in):**
+
 ```
 [x] Preflight gate passed (lint/typecheck/tests/clean tree)
 [x] VERSION locked: X.Y.Z
@@ -180,6 +192,7 @@ git status --porcelain
 ```
 
 **Release Status Summary (required):**
+
 ```
 Release Status: READY | BLOCKED
 Version: X.Y.Z
@@ -188,6 +201,7 @@ Notes: <short status note>
 ```
 
 **Human Handoff Question (required):**
+
 ```
 The release is ready to execute. Do you want me to proceed with the release steps now?
 ```
@@ -201,6 +215,7 @@ The release is ready to execute. Do you want me to proceed with the release step
 **Objective:** Make the agent's logs easy to scan for humans.
 
 **Per-step output format:**
+
 ```
 Step X: <Name>
 - Status: PASS | FAIL
@@ -209,6 +224,7 @@ Step X: <Name>
 ```
 
 **Final summary (always print):**
+
 ```
 Release Prep Summary
 - Version: X.Y.Z

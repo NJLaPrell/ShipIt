@@ -47,7 +47,7 @@ else
 fi
 
 # Get active intent
-ACTIVE_INTENT=$(grep -h "^## Status" workflow-state/active.md 2>/dev/null | grep -o "F-[0-9]*\|B-[0-9]*\|T-[0-9]*" | head -1 || echo "none")
+ACTIVE_INTENT=$(grep -h "^## Status" work/workflow-state/active.md 2>/dev/null | grep -o "F-[0-9]*\|B-[0-9]*\|T-[0-9]*" | head -1 || echo "none")
 
 # Generate context file
 cat > "$CONTEXT_FILE" << EOF || error_exit "Failed to generate PROJECT_CONTEXT.md"
@@ -78,12 +78,12 @@ cat > "$CONTEXT_FILE" << EOF || error_exit "Failed to generate PROJECT_CONTEXT.m
 
 \`\`\`
 .
-├── intent/              # $INTENT_COUNT intents
+├── work/intent/         # $INTENT_COUNT intents
 │   ├── features/        # Feature intents (F-###.md)
 │   ├── bugs/            # Bug intents (B-###.md)
 │   └── tech-debt/       # Tech-debt intents (T-###.md)
-├── workflow-state/      # Current execution state
-├── architecture/        # System boundaries
+├── work/workflow-state/ # Current execution state
+├── _system/architecture/ # System boundaries
 ├── src/                 # Source code
 ├── tests/               # Test files
 └── ...

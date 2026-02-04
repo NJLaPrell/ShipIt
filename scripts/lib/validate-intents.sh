@@ -11,7 +11,7 @@ YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-INTENT_DIR="${INTENT_DIR:-intent}"
+INTENT_DIR="${INTENT_DIR:-work/intent}"
 
 # Parse intent file and return structured data
 parse_intent() {

@@ -66,7 +66,7 @@ collect_phase_times() {
     local phases=("01_analysis" "02_plan" "03_implementation" "04_verification" "05_release_notes")
     
     for phase in "${phases[@]}"; do
-        local file="workflow-state/${phase}.md"
+        local file="work/workflow-state/${phase}.md"
         if [ -f "$file" ]; then
             # Extract timestamp if available
             local created=$(grep -i "generated\|created" "$file" | head -1 | grep -o "[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}T[0-9]\{2\}:[0-9]\{2\}:[0-9]\{2\}Z" | head -1 || echo "")

@@ -85,8 +85,8 @@ HIGH_RISK="${HIGH_RISK:-none}"
 # Create project structure
 echo -e "${BLUE}Creating project structure...${NC}"
 
-# Core directories
-mkdir -p intent/features intent/bugs intent/tech-debt workflow-state architecture do-not-repeat scripts behaviors golden-data src tests docs .cursor/rules .cursor/commands .github/workflows generated/artifacts generated/release generated/roadmap generated/drift generated/reports
+# Core directories (work/ = current work; _system/ = framework and generated)
+mkdir -p work/intent/features work/intent/bugs work/intent/tech-debt work/workflow-state work/roadmap work/release _system/architecture _system/do-not-repeat _system/drift _system/behaviors _system/security _system/artifacts _system/golden-data _system/reports scripts src tests docs .cursor/rules .cursor/commands .github/workflows
 
 # Copy framework commands, rules, and core scripts into the new project
 if [ -d "$ROOT_DIR/.cursor/commands" ]; then
@@ -121,8 +121,8 @@ if [ -f "$ROOT_DIR/scripts/create-test-plan-issue.sh" ]; then
 fi
 
 # Copy test-plan issue tracking runbook into the new project (referenced by tests + Cursor rules).
-if [ -f "$ROOT_DIR/behaviors/WORK_TEST_PLAN_ISSUES.md" ]; then
-    cp "$ROOT_DIR/behaviors/WORK_TEST_PLAN_ISSUES.md" "behaviors/WORK_TEST_PLAN_ISSUES.md"
+if [ -f "$ROOT_DIR/_system/behaviors/WORK_TEST_PLAN_ISSUES.md" ]; then
+    cp "$ROOT_DIR/_system/behaviors/WORK_TEST_PLAN_ISSUES.md" "_system/behaviors/WORK_TEST_PLAN_ISSUES.md"
 fi
 
 # Create project.json
@@ -176,9 +176,9 @@ pnpm dev
 
 ## Project Structure
 
-- \`/intent/\` - Planned work (features, bugs, tech-debt)
-- \`/workflow-state/\` - Current execution state
-- \`/architecture/\` - System boundaries and constraints
+- \`work/intent/\` - Planned work (features, bugs, tech-debt)
+- \`work/workflow-state/\` - Current execution state
+- \`_system/architecture/\` - System boundaries and constraints
 - \`/src/\` - Source code
 - \`/tests/\` - Test files
 
@@ -193,9 +193,9 @@ EOF
 
 echo -e "${GREEN}✓ Created README.md${NC}"
 
-# Create architecture/CANON.md
-mkdir -p architecture
-cat > architecture/CANON.md << EOF || error_exit "Failed to create CANON.md"
+# Create _system/architecture/CANON.md
+mkdir -p _system/architecture
+cat > _system/architecture/CANON.md << EOF || error_exit "Failed to create CANON.md"
 # Architecture Canon
 
 > **This document is the authoritative source for system architecture.**
@@ -241,10 +241,10 @@ cat > architecture/CANON.md << EOF || error_exit "Failed to create CANON.md"
 *Last updated: $(date -u +"%Y-%m-%d")*
 EOF
 
-echo -e "${GREEN}✓ Created architecture/CANON.md${NC}"
+echo -e "${GREEN}✓ Created _system/architecture/CANON.md${NC}"
 
-# Create architecture/invariants.yml
-cat > architecture/invariants.yml << EOF || error_exit "Failed to create invariants.yml"
+# Create _system/architecture/invariants.yml
+cat > _system/architecture/invariants.yml << EOF || error_exit "Failed to create invariants.yml"
 # Invariants Configuration
 version: 1
 
@@ -275,11 +275,11 @@ success_metrics:
   code_coverage_minimum: 80
 EOF
 
-echo -e "${GREEN}✓ Created architecture/invariants.yml${NC}"
+echo -e "${GREEN}✓ Created _system/architecture/invariants.yml${NC}"
 
 # Create intent template
-mkdir -p intent/features intent/bugs intent/tech-debt
-cat > intent/_TEMPLATE.md << 'EOFTEMPLATE' || error_exit "Failed to create intent template"
+mkdir -p work/intent/features work/intent/bugs work/intent/tech-debt
+cat > work/intent/_TEMPLATE.md << 'EOFTEMPLATE' || error_exit "Failed to create intent template"
 # F-###: Title
 
 ## Type
@@ -309,7 +309,7 @@ Human-readable:
 - [Constraint 1]
 - [Constraint 2]
 
-Executable (add to architecture/invariants.yml):
+Executable (add to _system/architecture/invariants.yml):
 ```yaml
 invariants:
   - [invariant_id]
@@ -339,15 +339,15 @@ low | medium | high
 - [Other intent IDs or external systems]
 
 ## Do Not Repeat Check
-- [ ] Checked /do-not-repeat/abandoned-designs.md
-- [ ] Checked /do-not-repeat/failed-experiments.md
+- [ ] Checked _system/do-not-repeat/abandoned-designs.md
+- [ ] Checked _system/do-not-repeat/failed-experiments.md
 EOFTEMPLATE
 
-echo -e "${GREEN}✓ Created intent/_TEMPLATE.md${NC}"
+echo -e "${GREEN}✓ Created work/intent/_TEMPLATE.md${NC}"
 
 # Create do-not-repeat files
-mkdir -p do-not-repeat
-cat > do-not-repeat/abandoned-designs.md << EOF || error_exit "Failed to create abandoned-designs.md"
+mkdir -p _system/do-not-repeat
+cat > _system/do-not-repeat/abandoned-designs.md << EOF || error_exit "Failed to create abandoned-designs.md"
 # Abandoned Designs
 
 This ledger records design approaches that were considered but rejected.
@@ -357,7 +357,7 @@ This ledger records design approaches that were considered but rejected.
 (No entries yet. Add entries as designs are abandoned.)
 EOF
 
-cat > do-not-repeat/failed-experiments.md << EOF || error_exit "Failed to create failed-experiments.md"
+cat > _system/do-not-repeat/failed-experiments.md << EOF || error_exit "Failed to create failed-experiments.md"
 # Failed Experiments
 
 This ledger records experiments that were tried but failed.
@@ -367,7 +367,7 @@ This ledger records experiments that were tried but failed.
 (No entries yet. Add entries as experiments fail.)
 EOF
 
-cat > do-not-repeat/bad-patterns.md << EOF || error_exit "Failed to create bad-patterns.md"
+cat > _system/do-not-repeat/bad-patterns.md << EOF || error_exit "Failed to create bad-patterns.md"
 # Bad Patterns
 
 This ledger records code patterns, architectural approaches, or practices that have been identified as problematic. **Do not repeat these patterns.**
@@ -388,7 +388,7 @@ Each entry should include:
 (No entries yet. Add entries as bad patterns are identified.)
 EOF
 
-cat > do-not-repeat/rejected-libraries.md << EOF || error_exit "Failed to create rejected-libraries.md"
+cat > _system/do-not-repeat/rejected-libraries.md << EOF || error_exit "Failed to create rejected-libraries.md"
 # Rejected Libraries
 
 This ledger records libraries, frameworks, or tools that were evaluated but rejected. **Do not reconsider these without new information.**
@@ -412,9 +412,9 @@ EOF
 echo -e "${GREEN}✓ Created do-not-repeat ledger files${NC}"
 
 # Create roadmap files
-mkdir -p generated/roadmap
+mkdir -p work/roadmap
 for file in now.md next.md later.md; do
-    cat > "generated/roadmap/$file" << EOF || error_exit "Failed to create generated/roadmap/$file"
+    cat > "work/roadmap/$file" << EOF || error_exit "Failed to create work/roadmap/$file"
 # ${file%.md}
 
 (No items yet. Add items as they're planned.)
@@ -424,8 +424,8 @@ done
 echo -e "${GREEN}✓ Created roadmap files${NC}"
 
 # Create workflow-state
-mkdir -p workflow-state
-cat > workflow-state/active.md << EOF || error_exit "Failed to create workflow-state/active.md"
+mkdir -p work/workflow-state
+cat > work/workflow-state/active.md << EOF || error_exit "Failed to create work/workflow-state/active.md"
 # Active Intent
 
 **Intent ID:** none
@@ -442,31 +442,31 @@ cat > workflow-state/active.md << EOF || error_exit "Failed to create workflow-s
 - [ ] Phase 5: Release Notes
 EOF
 
-cat > workflow-state/blocked.md << EOF || error_exit "Failed to create workflow-state/blocked.md"
+cat > work/workflow-state/blocked.md << EOF || error_exit "Failed to create work/workflow-state/blocked.md"
 # Blocked Intents
 
 (No blocked intents yet.)
 EOF
 
-cat > workflow-state/validating.md << EOF || error_exit "Failed to create workflow-state/validating.md"
+cat > work/workflow-state/validating.md << EOF || error_exit "Failed to create work/workflow-state/validating.md"
 # Validating Intents
 
 (No validating intents yet.)
 EOF
 
-cat > workflow-state/shipped.md << EOF || error_exit "Failed to create workflow-state/shipped.md"
+cat > work/workflow-state/shipped.md << EOF || error_exit "Failed to create work/workflow-state/shipped.md"
 # Shipped Intents
 
 (No shipped intents yet.)
 EOF
 
-cat > workflow-state/disagreements.md << EOF || error_exit "Failed to create workflow-state/disagreements.md"
+cat > work/workflow-state/disagreements.md << EOF || error_exit "Failed to create work/workflow-state/disagreements.md"
 # Disagreements Log
 
 (No disagreements yet.)
 EOF
 
-cat > workflow-state/assumptions.md << EOF || error_exit "Failed to create workflow-state/assumptions.md"
+cat > work/workflow-state/assumptions.md << EOF || error_exit "Failed to create work/workflow-state/assumptions.md"
 # Assumptions Log
 
 This file tracks implicit assumptions that have been identified during development. Assumptions are where most outages hide—making them explicit and testable prevents surprises.
@@ -489,41 +489,41 @@ Each entry should include:
 (No assumptions logged yet. Assumptions will be added as they are identified during development.)
 EOF
 
-cat > workflow-state/01_analysis.md << EOF || error_exit "Failed to create workflow-state/01_analysis.md"
+cat > work/workflow-state/01_analysis.md << EOF || error_exit "Failed to create work/workflow-state/01_analysis.md"
 # Analysis
 
 (Waiting for PM output.)
 EOF
 
-cat > workflow-state/02_plan.md << EOF || error_exit "Failed to create workflow-state/02_plan.md"
+cat > work/workflow-state/02_plan.md << EOF || error_exit "Failed to create work/workflow-state/02_plan.md"
 # Plan
 
 (Waiting for Architect output.)
 EOF
 
-cat > workflow-state/03_implementation.md << EOF || error_exit "Failed to create workflow-state/03_implementation.md"
+cat > work/workflow-state/03_implementation.md << EOF || error_exit "Failed to create work/workflow-state/03_implementation.md"
 # Implementation
 
 (Waiting for Implementer output.)
 EOF
 
-cat > workflow-state/04_verification.md << EOF || error_exit "Failed to create workflow-state/04_verification.md"
+cat > work/workflow-state/04_verification.md << EOF || error_exit "Failed to create work/workflow-state/04_verification.md"
 # Verification
 
 (Waiting for QA/Security output.)
 EOF
 
-cat > workflow-state/05_release_notes.md << EOF || error_exit "Failed to create workflow-state/05_release_notes.md"
+cat > work/workflow-state/05_release_notes.md << EOF || error_exit "Failed to create work/workflow-state/05_release_notes.md"
 # Release Notes
 
 (Waiting for Docs/Steward output.)
 EOF
 
-echo -e "${GREEN}✓ Created workflow-state files${NC}"
+echo -e "${GREEN}✓ Created work/workflow-state files${NC}"
 
 # Create golden-data directory with .gitkeep (directory already created on line 89)
-touch golden-data/.gitkeep
-cat > golden-data/README.md << EOF || error_exit "Failed to create golden-data/README.md"
+touch _system/golden-data/.gitkeep
+cat > _system/golden-data/README.md << EOF || error_exit "Failed to create _system/golden-data/README.md"
 # Golden Data
 
 This directory stores replay validation test data for regression testing.
@@ -569,7 +569,7 @@ const normalize = (output) => ({
 \`\`\`
 EOF
 
-echo -e "${GREEN}✓ Created golden-data directory${NC}"
+echo -e "${GREEN}✓ Created _system/golden-data directory${NC}"
 
 # Generate initial SYSTEM_STATE.md (best-effort)
 if [ -x "scripts/generate-system-state.sh" ]; then
@@ -577,8 +577,8 @@ if [ -x "scripts/generate-system-state.sh" ]; then
 fi
 
 # Create drift baselines
-mkdir -p generated/drift
-cat > generated/drift/baselines.md << EOF || error_exit "Failed to create generated/drift baselines"
+mkdir -p _system/drift
+cat > _system/drift/baselines.md << EOF || error_exit "Failed to create _system/drift baselines"
 # Drift Baselines
 
 Initial thresholds for drift detection.
@@ -881,14 +881,14 @@ EOF
 echo -e "${GREEN}✓ Created AGENTS.md${NC}"
 
 # Create confidence-calibration.json
-mkdir -p generated/artifacts
-cat > generated/artifacts/confidence-calibration.json << EOF || error_exit "Failed to create generated/artifacts/confidence-calibration.json"
+mkdir -p _system/artifacts
+cat > _system/artifacts/confidence-calibration.json << EOF || error_exit "Failed to create _system/artifacts/confidence-calibration.json"
 {
   "decisions": []
 }
 EOF
 
-echo -e "${GREEN}✓ Created generated/artifacts/confidence-calibration.json${NC}"
+echo -e "${GREEN}✓ Created _system/artifacts/confidence-calibration.json${NC}"
 
 echo ""
 echo -e "${GREEN}════════════════════════════════════════${NC}"

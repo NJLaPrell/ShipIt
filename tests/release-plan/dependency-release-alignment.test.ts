@@ -51,17 +51,17 @@ describe('generate-release-plan dependency release alignment', () => {
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'shipit-release-plan-'));
 
     writeFile(
-      path.join(tmpDir, 'intent', 'features', 'F-001.md'),
+      path.join(tmpDir, 'work', 'intent', 'features', 'F-001.md'),
       `# F-001: Dependent\n\n## Status\nplanned\n\n## Priority\np1\n\n## Effort\ns\n\n## Release Target\nR1\n\n## Dependencies\n- F-002\n`
     );
     writeFile(
-      path.join(tmpDir, 'intent', 'features', 'F-002.md'),
+      path.join(tmpDir, 'work', 'intent', 'features', 'F-002.md'),
       `# F-002: Dependency\n\n## Status\nplanned\n\n## Priority\np2\n\n## Effort\ns\n\n## Release Target\nR2\n\n## Dependencies\n- (none)\n`
     );
 
     runGenerateReleasePlan(tmpDir);
 
-    const planPath = path.join(tmpDir, 'generated', 'release', 'plan.md');
+    const planPath = path.join(tmpDir, 'work', 'release', 'plan.md');
     const plan = fs.readFileSync(planPath, 'utf8');
     const releases = parsePlanIntentReleaseMap(plan);
 
@@ -70,7 +70,7 @@ describe('generate-release-plan dependency release alignment', () => {
     expect(f001).toBeTypeOf('number');
     expect(f002).toBeTypeOf('number');
     if (typeof f001 !== 'number' || typeof f002 !== 'number') {
-      throw new Error('Expected both F-001 and F-002 to appear in generated/release/plan.md');
+      throw new Error('Expected both F-001 and F-002 to appear in work/release/plan.md');
     }
     expect(f002).toBeLessThanOrEqual(f001);
   });
@@ -79,13 +79,13 @@ describe('generate-release-plan dependency release alignment', () => {
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'shipit-release-plan-'));
 
     writeFile(
-      path.join(tmpDir, 'intent', 'features', 'F-001.md'),
+      path.join(tmpDir, 'work', 'intent', 'features', 'F-001.md'),
       `# F-001: Dependent\n\n## Status\nplanned\n\n## Priority\np1\n\n## Effort\ns\n\n## Release Target\nR1\n\n## Dependencies\n- F-999\n`
     );
 
     runGenerateReleasePlan(tmpDir);
 
-    const planPath = path.join(tmpDir, 'generated', 'release', 'plan.md');
+    const planPath = path.join(tmpDir, 'work', 'release', 'plan.md');
     const plan = fs.readFileSync(planPath, 'utf8');
 
     expect(plan).toContain('## Missing Dependencies');
@@ -97,17 +97,17 @@ describe('generate-release-plan dependency release alignment', () => {
 
     // Default release from priorityToRelease: p0 -> R1, p2 -> R2.
     writeFile(
-      path.join(tmpDir, 'intent', 'features', 'F-001.md'),
+      path.join(tmpDir, 'work', 'intent', 'features', 'F-001.md'),
       `# F-001: Dependent\n\n## Status\nplanned\n\n## Priority\np0\n\n## Effort\ns\n\n## Dependencies\n- F-002\n`
     );
     writeFile(
-      path.join(tmpDir, 'intent', 'features', 'F-002.md'),
+      path.join(tmpDir, 'work', 'intent', 'features', 'F-002.md'),
       `# F-002: Dependency\n\n## Status\nplanned\n\n## Priority\np2\n\n## Effort\ns\n\n## Dependencies\n- (none)\n`
     );
 
     runGenerateReleasePlan(tmpDir);
 
-    const planPath = path.join(tmpDir, 'generated', 'release', 'plan.md');
+    const planPath = path.join(tmpDir, 'work', 'release', 'plan.md');
     const plan = fs.readFileSync(planPath, 'utf8');
     const releases = parsePlanIntentReleaseMap(plan);
 
@@ -116,7 +116,7 @@ describe('generate-release-plan dependency release alignment', () => {
     expect(f001).toBeTypeOf('number');
     expect(f002).toBeTypeOf('number');
     if (typeof f001 !== 'number' || typeof f002 !== 'number') {
-      throw new Error('Expected both F-001 and F-002 to appear in generated/release/plan.md');
+      throw new Error('Expected both F-001 and F-002 to appear in work/release/plan.md');
     }
     expect(f002).toBeLessThanOrEqual(f001);
   });

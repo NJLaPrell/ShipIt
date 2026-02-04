@@ -1,10 +1,10 @@
 # Drift Metrics Report
 
-Generated: 2026-02-04T21:54:13Z
+Generated: 2026-02-04T22:05:43Z
 
 ## PR Size Trend
 
-Avg files changed: 4.77778
+Avg files changed: 8.625
 
 ## Test-to-Code Ratio
 
@@ -19,13 +19,14 @@ DevDependencies: 14
 
 ## Untracked New Concepts
 
+\_system/architecture/CANON.md
+\_system/drift/metrics.md
 docs/DIRECTORY_STRUCTURE.md
 experimental/README.md
-generated/drift/metrics.md
 projects/README.md
 scripts/README.md
 tests/README.md
-workflow-state/README.md
+work/workflow-state/README.md
 
 ## CI Performance
 

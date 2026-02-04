@@ -89,7 +89,7 @@ jobs:
       # Check that invariants.yml is valid YAML using Node.js (no Python dependency)
       - name: Validate invariants.yml
         run: |
-          node -e "const fs = require('fs'); const yaml = require('yaml'); try { yaml.parse(fs.readFileSync('architecture/invariants.yml', 'utf8')); console.log('✓ invariants.yml is valid YAML'); } catch (e) { console.error('✗ Invalid YAML:', e.message); process.exit(1); }" || echo "Note: YAML validation requires 'yaml' package. Using basic syntax check instead."
+          node -e "const fs = require('fs'); const yaml = require('yaml'); try { yaml.parse(fs.readFileSync('_system/architecture/invariants.yml', 'utf8')); console.log('✓ invariants.yml is valid YAML'); } catch (e) { console.error('✗ Invalid YAML:', e.message); process.exit(1); }" || echo "Note: YAML validation requires 'yaml' package. Using basic syntax check instead."
           # Fallback: basic YAML syntax check using grep
           if ! grep -q "^version:" architecture/invariants.yml; then
             echo "✗ Missing version field in invariants.yml"
@@ -111,4 +111,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: drift-report
-          path: generated/drift/metrics.md
+          path: _system/drift/metrics.md

@@ -68,11 +68,11 @@
       "properties": {
         "runtime": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "dev": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         }
       }
     },
@@ -83,14 +83,14 @@
         "performance": {
           "type": "object",
           "properties": {
-            "p95LatencyMs": {"type": "number"},
-            "p99LatencyMs": {"type": "number"},
-            "maxMemoryMb": {"type": "number"}
+            "p95LatencyMs": { "type": "number" },
+            "p99LatencyMs": { "type": "number" },
+            "maxMemoryMb": { "type": "number" }
           }
         },
         "security": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         }
       }
     }

@@ -16,7 +16,7 @@ command -v git >/dev/null 2>&1 || error_exit "git is required but not installed"
 command -v jq >/dev/null 2>&1 || error_exit "jq is required but not installed"
 command -v bc >/dev/null 2>&1 || error_exit "bc is required but not installed"
 
-DRIFT_DIR="generated/drift"
+DRIFT_DIR="_system/drift"
 METRICS_FILE="$DRIFT_DIR/metrics.md"
 
 # Create drift directory if it doesn't exist
@@ -78,7 +78,7 @@ echo "" >> "$METRICS_FILE" || error_exit "Failed to write newline"
 # 4. New files without intents
 echo "## Untracked New Concepts" >> "$METRICS_FILE"
 if git rev-parse --git-dir > /dev/null 2>&1; then
-  NEW_FILES=$(git diff --name-only HEAD~20 --diff-filter=A 2>/dev/null | grep -v "intent/" | head -10 || echo "No new files")
+  NEW_FILES=$(git diff --name-only HEAD~20 --diff-filter=A 2>/dev/null | grep -v "work/intent/" | head -10 || echo "No new files")
   echo "$NEW_FILES" >> "$METRICS_FILE"
 else
   echo "Not a git repository" >> "$METRICS_FILE"

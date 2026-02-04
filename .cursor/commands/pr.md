@@ -16,15 +16,15 @@ Creates a PR-ready summary using the intent and workflow state files.
 
 ## Inputs
 
-- `intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
-- `workflow-state/02_plan.md`
-- `workflow-state/03_implementation.md`
-- `workflow-state/04_verification.md`
-- `workflow-state/05_release_notes.md`
+- `work/intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
+- `work/workflow-state/02_plan.md`
+- `work/workflow-state/03_implementation.md`
+- `work/workflow-state/04_verification.md`
+- `work/workflow-state/05_release_notes.md`
 
 ## Output
 
-Writes `workflow-state/pr.md` with:
+Writes `work/workflow-state/pr.md` with:
 
 - Intent reference
 - Summary of changes
@@ -39,7 +39,7 @@ Writes `workflow-state/pr.md` with:
 2. Summarize the implemented changes (what/why).
 3. Include verification evidence (tests, lint, typecheck, audit).
 4. Call out any deviations from plan.
-5. Write the result to `workflow-state/pr.md`.
+5. Write the result to `work/workflow-state/pr.md`.
 
 ## Template
 
@@ -67,7 +67,7 @@ Writes `workflow-state/pr.md` with:
 
 ## Rollback
 
-- <rollback steps or reference to workflow-state/02_plan.md>
+- <rollback steps or reference to work/workflow-state/02_plan.md>
 
 ## Checklist
 

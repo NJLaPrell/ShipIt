@@ -5,6 +5,7 @@ This ledger records design approaches that were considered but rejected. **Do no
 ## Format
 
 Each entry should include:
+
 - **Design:** Brief description
 - **Why abandoned:** Reason for rejection
 - **Date:** When it was abandoned

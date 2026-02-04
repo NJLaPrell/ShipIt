@@ -29,7 +29,7 @@ verify_file_exists() {
 verify_intent_files() {
     local count="${1:-0}"
     local pattern="${2:-F-*.md}"
-    local intent_dir="${INTENT_DIR:-intent}"
+    local intent_dir="${INTENT_DIR:-work/intent}"
     
     if [ $count -eq 0 ]; then
         return 0

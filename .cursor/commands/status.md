@@ -56,7 +56,7 @@ Recent Intents:
   F-001: Initial setup (killed)
 
 ⚠ Pending Approval:
-  Plan approval required in workflow-state/02_plan.md
+  Plan approval required in work/workflow-state/02_plan.md
 
 Quick Actions:
   → Continue workflow for active intent

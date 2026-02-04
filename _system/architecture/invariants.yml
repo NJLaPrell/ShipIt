@@ -9,15 +9,15 @@ security:
   - id: no_pii_unencrypted
     description: PII must be encrypted at rest
     enforcement: ci_test
-    
+
   - id: all_endpoints_authenticated
     description: All endpoints require auth except health/metrics
     exceptions:
-      - "/health"
-      - "/metrics"
-      - "/api/v1/public/*"
+      - '/health'
+      - '/metrics'
+      - '/api/v1/public/*'
     enforcement: ci_test
-    
+
   - id: secrets_never_logged
     description: Secrets and tokens must never appear in logs
     enforcement: eslint_no_console_in_prod
@@ -26,19 +26,19 @@ security:
 code_quality:
   - id: no_explicit_any
     description: No 'any' type allowed
-    enforcement: "@typescript-eslint/no-explicit-any"
-    
+    enforcement: '@typescript-eslint/no-explicit-any'
+
   - id: no_eval
     description: No eval() calls
-    enforcement: "no-eval"
-    
+    enforcement: 'no-eval'
+
   - id: no_inner_html
     description: No innerHTML assignments
-    enforcement: "no-unsanitized/property"
-    
+    enforcement: 'no-unsanitized/property'
+
   - id: no_circular_deps
     description: No circular dependencies
-    enforcement: "import/no-cycle"
+    enforcement: 'import/no-cycle'
 
 # Performance invariants - enforced via CI benchmarks
 performance:
@@ -58,15 +58,15 @@ data:
 architecture:
   max_import_depth: 5
   forbidden_patterns:
-    - pattern: "any"
-      reason: "Defeats type safety"
-    - pattern: "eval("
-      reason: "Security vulnerability"
-    - pattern: ".innerHTML"
-      reason: "XSS vulnerability"
-    - pattern: "console.log"
-      context: "src/**"
-      reason: "Use structured logger"
+    - pattern: 'any'
+      reason: 'Defeats type safety'
+    - pattern: 'eval('
+      reason: 'Security vulnerability'
+    - pattern: '.innerHTML'
+      reason: 'XSS vulnerability'
+    - pattern: 'console.log'
+      context: 'src/**'
+      reason: 'Use structured logger'
 
 # Success metrics - tracked in drift/metrics.md
 success_metrics:
@@ -78,10 +78,10 @@ success_metrics:
 # ESLint rule mapping (for reference)
 # These map invariants to actual ESLint configuration
 eslint_mapping:
-  "@typescript-eslint/no-explicit-any": "error"
-  "@typescript-eslint/ban-types": "error"
-  "no-eval": "error"
-  "import/no-cycle": "error"
-  "no-console":
-    - "error"
-    - allow: ["warn", "error"]
+  '@typescript-eslint/no-explicit-any': 'error'
+  '@typescript-eslint/ban-types': 'error'
+  'no-eval': 'error'
+  'import/no-cycle': 'error'
+  'no-console':
+    - 'error'
+    - allow: ['warn', 'error']

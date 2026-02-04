@@ -21,8 +21,8 @@ This file provides a global view of the system state for agents to maintain cohe
 
 ## System Health
 
-- **Workflow State:** [Check workflow-state/active.md]
-- **Drift Status:** [Check drift/metrics.md]
+- **Workflow State:** [Check work/workflow-state/active.md]
+- **Drift Status:** [Check _system/drift/metrics.md]
 - **Test Coverage:** [Run: pnpm test:coverage]
 
 ## Key Decisions

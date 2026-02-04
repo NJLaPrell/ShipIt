@@ -12,6 +12,7 @@
 - If you are not on the release branch, stop and switch to the correct branch.
 
 **Prerequisites:**
+
 - All preparation steps from `PREPARE_RELEASE.md` are complete
 - Version consistency verified across all files
 - All release preparation changes are ready to commit
@@ -32,6 +33,7 @@
 **Objective:** Commit all release preparation changes.
 
 **Actions:**
+
 1. Confirm correct branch: `git branch --show-current`
    - **Verify:** You are on the intended release branch (usually `main` or `master`)
 2. Confirm only release prep files are modified: `git status --porcelain`
@@ -45,6 +47,7 @@
 6. Verify commit: `git log -1 --stat`
 
 **Commit Message Format:**
+
 ```
 chore: prepare release vX.Y.Z
 
@@ -54,6 +57,7 @@ chore: prepare release vX.Y.Z
 ```
 
 **Validation:**
+
 - All release prep files are committed
 - Commit message follows conventional commit format
 - No uncommitted changes remain
@@ -72,12 +76,14 @@ chore: prepare release vX.Y.Z
 **Objective:** Create an annotated git tag for the release.
 
 **Actions:**
+
 1. Confirm `VERSION` matches `package.json` before tagging
 2. Create annotated tag: `git tag -a vX.Y.Z -m "Release vX.Y.Z: Brief description"`
 3. Verify tag: `git tag -l "v*" | tail -1`
 4. Show tag message: `git show vX.Y.Z`
 
 **Tag Message Format:**
+
 ```
 Release vX.Y.Z: Brief Description
 
@@ -90,12 +96,14 @@ See CHANGELOG.md for full details.
 ```
 
 **Tag Message Best Practices:**
+
 - Use the version section from CHANGELOG.md as reference
 - Include 2-4 key highlights
 - Reference CHANGELOG.md for full details
 - Keep it concise but informative
 
 **Validation:**
+
 - Tag name matches version (e.g., `v0.2.0`)
 - Tag is annotated (not lightweight) - verify with `git show vX.Y.Z` shows tag message
 - Tag message is descriptive and includes key highlights
@@ -114,6 +122,7 @@ See CHANGELOG.md for full details.
 **Objective:** Push commits and tags to GitHub.
 
 **Actions:**
+
 1. Determine branch name: `git branch --show-current`
 2. Push commits first: `git push origin <branch-name>`
    - **Example:** `git push origin main`
@@ -122,6 +131,7 @@ See CHANGELOG.md for full details.
 5. Verify tag pushed: Check GitHub tags page or releases page
 
 **Validation:**
+
 - Commits pushed successfully (no errors)
 - Tag pushed successfully (no errors)
 - Tag visible on GitHub releases/tags page
@@ -129,7 +139,8 @@ See CHANGELOG.md for full details.
 
 **Rule:** Push commits before tags to ensure tag references exist on remote.
 
-**If validation fails:** 
+**If validation fails:**
+
 - If commit push fails: Fix branch/remote issues, then retry
 - If tag push fails: Verify tag exists locally, check remote permissions, then retry
 - Do not proceed to GitHub release until tag is visible on GitHub
@@ -143,6 +154,7 @@ See CHANGELOG.md for full details.
 **Objective:** Create a GitHub release with release notes. **This step is REQUIRED, not optional.**
 
 **Actions:**
+
 1. Navigate to GitHub repository releases page:
    - URL format: `https://github.com/<owner>/<repo>/releases`
    - Or: Repository → Releases → "Draft a new release"
@@ -167,24 +179,29 @@ See CHANGELOG.md for full details.
 
 **Release Notes Format:**
 Copy the version section from CHANGELOG.md, for example:
+
 ```markdown
 ## [0.2.0] - 2026-01-27
 
 ### Added
+
 - Intent validation and auto-fix (`/fix` command)
 - Output verification system with automatic generator chaining
 - Unified status dashboard (`/status` command)
 
 ### Changed
+
 - Enhanced `/scope-project` with batched prompts
 - Enhanced `/generate-release-plan` with validation warnings
 
 ### Fixed
+
 - Fixed numeric validation in dependency ordering checks
 - Fixed temp file cleanup in fix-intents.sh
 ```
 
 **Validation:**
+
 - Release is published on GitHub (not draft)
 - Release notes are complete and accurate
 - Release notes match CHANGELOG.md version section
@@ -195,6 +212,7 @@ Copy the version section from CHANGELOG.md, for example:
 **Rule:** GitHub release creation is MANDATORY. Do not skip this step.
 
 **If validation fails:**
+
 - If release creation fails: Check GitHub permissions, verify tag exists, then retry
 - If release notes are incomplete: Edit release and update notes
 - If release is draft: Click "Publish release" to make it public
@@ -208,6 +226,7 @@ Copy the version section from CHANGELOG.md, for example:
 **Objective:** Verify the complete release process was successful.
 
 **Checklist:**
+
 - [ ] Release preparation commit created and pushed
 - [ ] Git tag created and pushed to GitHub
 - [ ] GitHub release created and published
@@ -217,6 +236,7 @@ Copy the version section from CHANGELOG.md, for example:
 - [ ] All validation steps passed
 
 **Verification Commands:**
+
 ```bash
 # Verify tag exists locally and remotely
 git tag -l "v*" | tail -1
@@ -232,6 +252,7 @@ echo "Current version: $CURRENT_VERSION"
 ```
 
 **Manual Verification:**
+
 1. Visit GitHub releases page: `https://github.com/<owner>/<repo>/releases`
 2. Verify release `vX.Y.Z` exists and is published
 3. Verify release notes are complete
@@ -239,6 +260,7 @@ echo "Current version: $CURRENT_VERSION"
 5. Verify tag exists and points to correct commit
 
 **If any verification fails:** Fix issues immediately. If release was published incorrectly, you may need to:
+
 - Delete and recreate the GitHub release
 - Delete and recreate the tag (if necessary)
 - Fix any documentation issues
@@ -248,6 +270,7 @@ echo "Current version: $CURRENT_VERSION"
 ## Rules and Constraints
 
 ### Mandatory Rules:
+
 1. **GitHub release is required** - Do not skip Step 4. Every release must have a GitHub release.
 2. **Tags must be annotated** - Always use `-a` flag when creating tags
 3. **Push commits before tags** - Ensure commits exist on remote before pushing tags
@@ -257,6 +280,7 @@ echo "Current version: $CURRENT_VERSION"
 7. **No file edits in this phase** - Only commit the prepared files; do not modify other files
 
 ### Best Practices:
+
 1. **Review before committing** - Review `git diff --cached` before committing
 2. **Descriptive tag messages** - Include key highlights in tag message
 3. **Complete release notes** - Copy full version section from CHANGELOG.md
@@ -264,6 +288,7 @@ echo "Current version: $CURRENT_VERSION"
 5. **Test tag locally** - Verify tag before pushing to remote
 
 ### Error Handling:
+
 - **If commit fails:** Fix issues, then retry commit
 - **If tag creation fails:** Check for existing tag, delete if needed, then recreate
 - **If push fails:** Check remote permissions and branch protection rules
@@ -289,6 +314,7 @@ Use this checklist when executing a release:
 ## Automation Notes
 
 **For AI Agents:**
+
 - Execute steps sequentially
 - Validate each step before proceeding
 - Use provided validation commands
@@ -298,6 +324,7 @@ Use this checklist when executing a release:
 - **Do not skip GitHub release creation** - it is mandatory
 
 **For Human Review:**
+
 - Review commit changes before committing
 - Verify tag message is appropriate
 - Check release notes match CHANGELOG.md
