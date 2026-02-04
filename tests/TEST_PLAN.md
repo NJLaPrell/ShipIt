@@ -428,9 +428,12 @@ Continue the /ship workflow for a foundation intent.
    - Total steps executed
    - Steps passed / failed
    - Issues discovered
+   - **Phase summary** (Setup, Planning, Commands, Full cycle, Validation) so the run is scannable
 
 2. **Update `tests/ISSUES.md`:**
    - Record final run summary (see `_system/behaviors/WORK_TEST_PLAN_ISSUES.md` for format)
    - Mark overall result: PASS or FAIL
    - Reference GitHub issues by number in "Issues Found This Run" section
    - Follow issue creation and archiving rules defined in `_system/behaviors/WORK_TEST_PLAN_ISSUES.md` (all issues are created on GitHub)
+
+3. **In-chat output:** When running via `/test_shipit`, the agent should emit progress at phase boundaries (see `.cursor/rules/test-runner.mdc`) and a final block that points to **tests/ISSUES.md** for the per-step table.

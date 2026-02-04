@@ -84,7 +84,7 @@ Preferred: use the helper script so the issue body always matches the template s
   --actual "new-intent prompts changed (priority/effort/release/deps added) and the fixture input stream runs out; script exits non-zero." \
   --error "<paste error output>" \
   --impl "Update tests/TEST_PLAN.md + tests/fixtures.json to match the prompt sequence" \
-  --impl "Update /test-shipit docs to include the full non-interactive input stream"
+  --impl "Update /test_shipit docs to include the full non-interactive input stream"
 ```
 
 Example:
@@ -141,7 +141,19 @@ Use these status indicators:
 | `medium` | Works but incorrectly | Continue |
 | `low` | Minor/cosmetic | Continue |
 
-### 7. Final Output
+### 7. Progress Output (Test-Project Mode)
+
+During the long run (steps 2-2 through 24), emit **brief progress** at phase boundaries so the user can see how far the run has gotten without opening ISSUES.md:
+
+- After completing steps through **3** (scoping): e.g. `Progress: Setup scoping done (2-2, 3-1..3-4).`
+- After **10** (intents/roadmap/release): e.g. `Progress: Planning done (4–10).`
+- After **15** (commands): e.g. `Progress: Commands done (11–15).`
+- After **21** (full ship cycle): e.g. `Progress: Full cycle done (16–21).`
+- After **24**: emit the full "Test Run Complete" block.
+
+You may use a single line per phase (e.g. `[Setup ✓] [Planning ✓] [Commands ✓] ...`) or short sentences. Avoid a long wall of "Checking..." without any step numbers or phase labels.
+
+### 8. Final Output
 
 After completing (or stopping), output:
 
@@ -159,7 +171,9 @@ After completing (or stopping), output:
 
 **Result:** [PASS if no failures | FAIL if any failures]
 
-See tests/ISSUES.md for details.
+**Phase summary:** Setup ✓ | Planning ✓ | Commands ✓ | Full cycle ✓ | Validation ✓  (or mark failed phases)
+
+Per-step results and issue references: **tests/ISSUES.md**
 ```
 
 Definitions:

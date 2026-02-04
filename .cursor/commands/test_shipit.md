@@ -1,6 +1,6 @@
-# /test-shipit
+# /test_shipit
 
-Run the ShipIt end-to-end test plan.
+Run the ShipIt end-to-end test plan. (Slash command: use the same name as this file, e.g. `/test_shipit`.)
 
 ## Mode Detection
 
@@ -84,7 +84,7 @@ After step 1-4 passes, output this message:
 ```
 ✅ Root project steps complete (1-1 through 1-4).
 
-NEXT: Open ./projects/shipit-test in a NEW Cursor window, then run /test-shipit from there to continue testing.
+NEXT: Open ./projects/shipit-test in a NEW Cursor window, then run /test_shipit from there to continue testing.
 ```
 
 **DO NOT continue to step 2. The user must open the test project in a separate workspace.**
@@ -164,12 +164,13 @@ When stopping early, mark all remaining steps as `⏭️ SKIP` with reason: `Blo
 
 ### On Completion
 
-Output summary:
+Output summary in this shape. Include a short phase summary so the run is scannable; point explicitly to per-step details.
 
 ```
 ## Test Run Complete
 
 **Date:** [ISO timestamp]
+**Mode:** test-project
 **Steps Total:** X
 **Steps Executed:** Y
 **Steps Skipped:** Z
@@ -178,7 +179,9 @@ Output summary:
 **Blocking Issues:** N
 **Result:** PASS | FAIL
 
-[Link to tests/ISSUES.md for details]
+**Phase summary:** Setup ✓ | Planning ✓ | Commands ✓ | Full cycle ✓ | Validation ✓  (or mark failed phases)
+
+Per-step results and any issue references are in **tests/ISSUES.md**.
 ```
 
 ---

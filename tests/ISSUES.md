@@ -10,7 +10,7 @@ This file logs **test runs only**. Issues discovered during runs are tracked on 
 
 ## Test Runs
 
-### Run: 2026-02-04T21:26:00Z (test-project)
+### Run: 2026-02-04T22:12:00Z (test-project)
 
 **Steps Total:** 42  
 **Steps Executed:** 42  
@@ -62,11 +62,11 @@ This file logs **test runs only**. Issues discovered during runs are tracked on 
 | 15-4 | Verify kill rationale         | ✅ PASS | -        | Recorded in intent file                                                   |
 | 15-5 | Verify active.md updated      | ✅ PASS | -        | active.md reflects killed                                                 |
 | 16   | Approve plan                  | ✅ PASS | -        | Plan approved, workflow proceeded                                         |
-| 17   | Write tests (TDD)             | ✅ PASS | -        | todo-store tests written first, failed then passed                        |
+| 17   | Write tests (TDD)             | ✅ PASS | -        | todo-store tests written first, then implementation                       |
 | 18   | Implement                     | ✅ PASS | -        | src/store/todo-store.ts, tests pass                                       |
 | 19   | Verify                        | ✅ PASS | -        | pnpm test, coverage, 04_verification updated                              |
 | 20   | Documentation                 | ✅ PASS | -        | CHANGELOG.md, 05_release_notes.md                                         |
-| 21   | Ship                          | ✅ PASS | -        | F-001 shipped, active.md updated                                          |
+| 21   | Ship                          | ✅ PASS | -        | F-001 shipped, active.md updated, F-999 removed from deps                 |
 | 22   | Deploy readiness              | ✅ PASS | -        | Readiness checks passed                                                   |
 | 23   | Final project state           | ✅ PASS | -        | 1 shipped, 1 killed, rest planned; artifacts exist                        |
 | 24   | Final test report             | ✅ PASS | -        | Summary recorded                                                          |
