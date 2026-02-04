@@ -67,9 +67,9 @@
                   "type": "string",
                   "enum": ["request", "response", "notification", "conflict"]
                 },
-                "from": {"type": "string"},
-                "to": {"type": "string"},
-                "message": {"type": "string"}
+                "from": { "type": "string" },
+                "to": { "type": "string" },
+                "message": { "type": "string" }
               }
             }
           }

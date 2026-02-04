@@ -90,7 +90,7 @@ echo ""
 
 # Check 5: Scripts are executable
 echo -e "${YELLOW}[5/6] Checking script executability...${NC}"
-SCRIPTS=("init-project.sh" "scope-project.sh" "deploy.sh" "agent-coordinator.sh" "workflow-orchestrator.sh")
+SCRIPTS=("init-project.sh" "scope-project.sh" "deploy.sh" "workflow-orchestrator.sh")
 MISSING=0
 for script in "${SCRIPTS[@]}"; do
     if [ -f "scripts/$script" ] && [ -x "scripts/$script" ]; then
