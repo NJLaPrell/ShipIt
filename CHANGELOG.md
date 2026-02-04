@@ -5,9 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- None
+
+### Changed
+
+- None
+
+### Fixed
+
+- None
+
+## [0.2.1] - 2026-02-04
+
+### Added
+
+- None
+
+### Changed
+
+- None
+
+### Fixed
+
+- None
+
 ## [0.2.0] - 2026-01-27
 
 ### Added
+
 - **Intent validation and auto-fix** (`/fix` command)
   - Proactive validation for dependency ordering conflicts
   - Auto-fix for whitespace formatting issues
@@ -38,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved workflow discoverability
 
 ### Changed
+
 - Enhanced `/scope-project` with batched prompts and auto-chaining
 - Enhanced `/generate-release-plan` with validation warnings
 - Enhanced `/generate-roadmap` with verification summaries
@@ -46,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved error handling and edge case coverage
 
 ### Fixed
+
 - Numeric validation in dependency ordering checks (prevents crashes on invalid formats)
 - Temp file cleanup in fix-intents.sh (prevents leftover files)
 - False positive grep matches in suggest-next.sh (more accurate intent detection)
@@ -56,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2026-01-23
 
 ### Added
+
 - Hello World API endpoint at `/hello`
 - Basic HTTP server implementation
 - Test suite for hello endpoint
@@ -71,9 +103,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive test suite with end-to-end validation
 
 ### Changed
+
 - None
 
 ### Fixed
+
 - Dependency ordering in release plans
 - Missing dependencies detection
 - Intent ID generation to prevent overwrites
