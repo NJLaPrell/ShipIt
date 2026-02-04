@@ -16,7 +16,8 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-STATE_FILE="SYSTEM_STATE.md"
+mkdir -p artifacts
+STATE_FILE="artifacts/SYSTEM_STATE.md"
 
 echo -e "${BLUE}Generating SYSTEM_STATE.md...${NC}"
 

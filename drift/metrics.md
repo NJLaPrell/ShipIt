@@ -21,8 +21,8 @@ DevDependencies: 14
 
 .cursor/rules/assumption-extractor.mdc
 behaviors/WORK_TEST_PLAN_ISSUES.md
-confidence-calibration.json
-dependencies.md
+artifacts/confidence-calibration.json
+artifacts/dependencies.md
 do-not-repeat/bad-patterns.md
 do-not-repeat/rejected-libraries.md
 golden-data/.gitkeep
