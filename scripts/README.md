@@ -60,6 +60,8 @@ Agent coordinator (task queue and agent assignment) is **experimental** and live
 
 ## Shared Libraries (`lib/`)
 
+- `common.sh` — Plumbing: `error_exit`, color variables, optional `require_cmd`. Source this (or `intent.sh`) in new scripts to avoid duplicating error handling and colors.
+- `intent.sh` — Intent domain: `resolve_intent_file`, `require_intent_file`, `INTENT_DIR`. Sources `common.sh`. Use in scripts that resolve intent IDs to paths (e.g. workflow-orchestrator, kill-intent).
 - `progress.sh` — Progress indicator helpers
 - `suggest-next.sh` — Next-step suggestion logic
 - `validate-intents.sh` — Intent validation (dependencies, circular deps)

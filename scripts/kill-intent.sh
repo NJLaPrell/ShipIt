@@ -5,52 +5,17 @@
 
 set -euo pipefail
 
-error_exit() {
-    echo "ERROR: $1" >&2
-    exit "${2:-1}"
-}
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/intent.sh
+[ -f "$SCRIPT_DIR/lib/intent.sh" ] && source "$SCRIPT_DIR/lib/intent.sh"
 
 INTENT_ID="${1:-}"
 if [ -z "$INTENT_ID" ]; then
     error_exit "Usage: ./scripts/kill-intent.sh <intent-id> [reason]" 1
 fi
 
-# Resolve intent file: same locations as workflow-orchestrator (intent/, intent/features/, etc.)
-resolve_intent_file() {
-    local intent_id="$1"
-    if [ -f "$intent_id" ]; then
-        echo "$intent_id"
-        return 0
-    fi
-    local candidates=(
-        "work/intent/$intent_id.md"
-        "work/intent/features/$intent_id.md"
-        "work/intent/bugs/$intent_id.md"
-        "work/intent/tech-debt/$intent_id.md"
-    )
-    local c
-    for c in "${candidates[@]}"; do
-        if [ -f "$c" ]; then
-            echo "$c"
-            return 0
-        fi
-    done
-    local matches=()
-    shopt -s nullglob
-    matches=( work/intent/*/"$intent_id".md )
-    shopt -u nullglob
-    if [ "${#matches[@]}" -eq 1 ]; then
-        echo "${matches[0]}"
-        return 0
-    fi
-    if [ "${#matches[@]}" -gt 1 ]; then
-        error_exit "Multiple intent files found for $intent_id: ${matches[*]}" 1
-    fi
-    return 1
-}
-
 REASON="${2:-No reason provided}"
-INTENT_FILE="$(resolve_intent_file "$INTENT_ID")" || error_exit "Intent file not found for id '$INTENT_ID' (looked under work/intent/ and work/intent/*/)" 1
+INTENT_FILE="$(require_intent_file "$INTENT_ID")"
 DATE_UTC="$(date -u +"%Y-%m-%d")"
 
 TEMP_FILE="$(mktemp)"
