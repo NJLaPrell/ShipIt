@@ -85,7 +85,8 @@ Humans intervene **ONLY** at these gates:
 ### Commands and scripts
 
 - **Slash command files** live in `.cursor/commands/` and use **underscores** in filenames (e.g. `init_project.md`, `drift_check.md`).
-- **Executable scripts** live in `scripts/` and use **hyphens** (e.g. `init-project.sh`, `fix-intents.sh`).
+- **Command manifest:** The full list of slash commands, pnpm scripts, and categories lives in `scripts/command-manifest.yml`. Run `/help` (or `pnpm help`) to see the list; help output is built from the manifest.
+- **Executable scripts** live in `scripts/` and use **hyphens** (e.g. `init-project.sh`, `fix-intents.sh`). New scripts should source `scripts/lib/common.sh` (error handling, colors) or `scripts/lib/intent.sh` (intent resolution); see `scripts/README.md`.
 - Prefer **`pnpm run <script>`** when a script exists: pnpm script names use hyphens. Examples: `/fix` → `pnpm fix`, `/help` → `pnpm help`, `/verify` → `pnpm verify`, `/drift_check` → `pnpm drift-check`, `/new_intent` → `pnpm new-intent`. See `package.json` scripts for the full list.
 
 ## Truth Hierarchy

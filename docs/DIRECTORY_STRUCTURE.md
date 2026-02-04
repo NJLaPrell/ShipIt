@@ -26,14 +26,14 @@ Quick reference for ShipIt project layout. **Authoritative source:** [\_system/a
 
 ## Other (root)
 
-| Directory   | Purpose                                                                                                 |
-| ----------- | ------------------------------------------------------------------------------------------------------- |
-| `src/`      | Production source code                                                                                  |
-| `tests/`    | Test code (routes/, release-plan/), fixtures.json, run logs. See [tests/README.md](../tests/README.md). |
-| `scripts/`  | Shell scripts + lib/ for shared helpers                                                                 |
-| `docs/`     | DIRECTORY_STRUCTURE.md, PLAN.md, PILOT_GUIDE.md                                                         |
-| `projects/` | Initialized ShipIt projects (from /init-project). See [projects/README.md](../projects/README.md).      |
-| `.cursor/`  | commands/, rules/ (Cursor config)                                                                       |
+| Directory   | Purpose                                                                                                                                                                                  |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/`      | Production source code                                                                                                                                                                   |
+| `tests/`    | Test code (routes/, release-plan/), fixtures.json, run logs. See [tests/README.md](../tests/README.md).                                                                                  |
+| `scripts/`  | Shell scripts; `lib/` (common.sh, intent.sh, etc.); `workflow-templates/` (phases.yml + .tpl); `command-manifest.yml` for slash commands. See [scripts/README.md](../scripts/README.md). |
+| `docs/`     | DIRECTORY_STRUCTURE.md, PLAN.md, PILOT_GUIDE.md                                                                                                                                          |
+| `projects/` | Initialized ShipIt projects (from /init-project). See [projects/README.md](../projects/README.md).                                                                                       |
+| `.cursor/`  | commands/, rules/ (Cursor config)                                                                                                                                                        |
 
 ## Root Files (Key)
 
