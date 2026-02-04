@@ -1,0 +1,96 @@
+# Command manifest: single source of truth for slash commands and pnpm scripts.
+# help.sh builds the "Available commands" list from this file.
+# Add a command by adding an entry; keep id, slash, pnpm, description, category.
+
+commands:
+  # Project Management
+  - id: init-project
+    slash: /init-project
+    pnpm: init-project
+    description: Initialize a new ShipIt project
+    category: Project Management
+  - id: scope-project
+    slash: /scope-project
+    pnpm: scope-project
+    description: AI-assisted feature breakdown
+    category: Project Management
+
+  # Intent Management
+  - id: new-intent
+    slash: /new_intent
+    pnpm: new-intent
+    description: Create a new intent (interactive wizard)
+    category: Intent Management
+  - id: kill
+    slash: /kill
+    pnpm: kill-intent
+    description: Kill an intent with rationale
+    category: Intent Management
+
+  # Workflow
+  - id: ship
+    slash: /ship
+    pnpm: workflow-orchestrator
+    description: Run full SDLC workflow (6 phases)
+    category: Workflow
+  - id: verify
+    slash: /verify
+    pnpm: verify
+    description: Re-run verification phase
+    category: Workflow
+
+  # Planning
+  - id: generate-release-plan
+    slash: /generate-release-plan
+    pnpm: generate-release-plan
+    description: Build release plan from intents
+    category: Planning
+  - id: generate-roadmap
+    slash: /generate-roadmap
+    pnpm: generate-roadmap
+    description: Generate roadmap (now/next/later)
+    category: Planning
+
+  # Operations
+  - id: deploy
+    slash: /deploy
+    pnpm: deploy
+    description: Deploy with readiness checks
+    category: Operations
+  - id: drift-check
+    slash: /drift_check
+    pnpm: drift-check
+    description: Check for entropy/decay
+    category: Operations
+  - id: risk
+    slash: /risk
+    pnpm: null
+    description: Force security/threat skim
+    category: Operations
+
+  # Help & Status
+  - id: help
+    slash: /help
+    pnpm: help
+    description: Show help for a command
+    category: Help & Status
+  - id: status
+    slash: /status
+    pnpm: status
+    description: Show current project status
+    category: Help & Status
+  - id: suggest
+    slash: /suggest
+    pnpm: suggest
+    description: Get suggested next actions
+    category: Help & Status
+  - id: pr
+    slash: /pr
+    pnpm: null
+    description: Generate PR summary/checklist
+    category: Help & Status
+  - id: revert-plan
+    slash: /revert-plan
+    pnpm: null
+    description: Write rollback plan
+    category: Help & Status

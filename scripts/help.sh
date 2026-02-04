@@ -13,39 +13,36 @@ CYAN='\033[0;36m'
 NC='\033[0m'
 
 COMMAND="${1:-}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+MANIFEST="${SCRIPT_DIR}/command-manifest.yml"
 
 show_general_help() {
     echo -e "${BLUE}ShipIt Help${NC}"
     echo ""
     echo "Available commands:"
     echo ""
-    echo -e "${CYAN}Project Management:${NC}"
-    echo "  /init-project [name]     - Initialize a new ShipIt project"
-    echo "  /scope-project [desc]    - AI-assisted feature breakdown"
-    echo ""
-    echo -e "${CYAN}Intent Management:${NC}"
-    echo "  /new_intent              - Create a new intent (interactive wizard)"
-    echo "  /kill <id>               - Kill an intent with rationale"
-    echo ""
-    echo -e "${CYAN}Workflow:${NC}"
-    echo "  /ship <id>               - Run full SDLC workflow (6 phases)"
-    echo "  /verify <id>             - Re-run verification phase"
-    echo ""
-    echo -e "${CYAN}Planning:${NC}"
-    echo "  /generate-release-plan   - Build release plan from intents"
-    echo "  /generate-roadmap        - Generate roadmap (now/next/later)"
-    echo ""
-    echo -e "${CYAN}Operations:${NC}"
-    echo "  /deploy [env]            - Deploy with readiness checks"
-    echo "  /drift_check             - Check for entropy/decay"
-    echo "  /risk <id>               - Force security/threat skim"
-    echo ""
-    echo -e "${CYAN}Help & Status:${NC}"
-    echo "  /help [command]          - Show help for a command"
-    echo "  /status                  - Show current project status"
-    echo "  /suggest                 - Get suggested next actions"
-    echo "  /pr <id>                 - Generate PR summary/checklist"
-    echo "  /revert-plan <id>        - Write rollback plan"
+    last_cat=""
+    while IFS='|' read -r cat slash desc; do
+        [ -z "$cat" ] && continue
+        if [ "$cat" != "$last_cat" ]; then
+            [ -n "$last_cat" ] && echo ""
+            echo -e "${CYAN}${cat}:${NC}"
+            last_cat="$cat"
+        fi
+        echo "  $slash - $desc"
+    done < <(env MANIFEST="$MANIFEST" node -e "
+const yaml = require('yaml');
+const fs = require('fs');
+const path = require('path');
+const manifestPath = process.env.MANIFEST || path.join(process.cwd(), 'scripts/command-manifest.yml');
+const manifest = yaml.parse(fs.readFileSync(manifestPath, 'utf8'));
+for (const cmd of manifest.commands || []) {
+    const slash = cmd.slash || '';
+    const desc = cmd.description || '';
+    const cat = cmd.category || 'Other';
+    console.log(cat + '|' + slash + '|' + desc);
+}
+" 2>/dev/null)
     echo ""
     echo "Use /help <command> for detailed help on a specific command."
 }
