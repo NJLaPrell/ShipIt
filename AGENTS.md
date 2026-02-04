@@ -21,17 +21,20 @@ A feature/bugfix is "done" when ALL of these pass:
 ## Conventions
 
 ### Code Style
+
 - TypeScript strict mode enabled
 - ESLint + Prettier enforced via pre-commit hooks
 - Prefer configuration over custom code
 
 ### Development Process
+
 - **Tests before implementation** (Spec → Tests → Code)
 - All assumptions must be explicit
 - Check `/do-not-repeat/` before proposing designs
 - Small, reviewable diffs preferred
 
 ### Forbidden Patterns
+
 - No `any` type (use `unknown` if needed)
 - No `eval()`
 - No `innerHTML` (use safe DOM methods)
@@ -39,40 +42,43 @@ A feature/bugfix is "done" when ALL of these pass:
 
 ## Agent System
 
-This repo uses an AI-native SDLC. Key directories:
+This repo uses an AI-native SDLC. Key directories (agent-visible):
 
-| Directory | Purpose |
-|-----------|---------|
-| `/intent/` | Planned work (features, bugs, tech-debt) |
-| `/workflow-state/` | Current execution state |
-| `/architecture/CANON.md` | System boundaries and constraints |
-| `/architecture/invariants.yml` | Machine-verifiable constraints |
-| `/do-not-repeat/` | Failed approaches (don't rediscover) |
-| `/drift/` | Entropy monitoring |
-| `/roadmap/` | Planning views (now, next, later) |
+| Directory                      | Purpose                                           |
+| ------------------------------ | ------------------------------------------------- |
+| `/intent/`                     | Planned work (features, bugs, tech-debt)          |
+| `/workflow-state/`             | Current execution state                           |
+| `/architecture/CANON.md`       | System boundaries and constraints                 |
+| `/architecture/invariants.yml` | Machine-verifiable constraints                    |
+| `/do-not-repeat/`              | Failed approaches (don't rediscover)              |
+| `/drift/`                      | Entropy monitoring                                |
+| `/roadmap/`                    | Planning views (now, next, later)                 |
+| `/behaviors/`                  | Procedures and policies (release, issue tracking) |
+
+**Full directory map:** See [architecture/CANON.md](./architecture/CANON.md) Directory Boundaries and [DIRECTORY_STRUCTURE.md](./DIRECTORY_STRUCTURE.md).
 
 ## Human Interrupts Required For
 
 Humans intervene **ONLY** at these gates:
 
-| Gate | When |
-|------|------|
-| **Plan Approval** | Before implementation starts |
-| **High-Risk Changes** | Auth, payments, permissions, infra, PII |
-| **Kill/Rollback** | Kill criteria triggered or major regression |
-| **Product Judgment** | Subjective UX/taste/value tradeoffs |
+| Gate                  | When                                        |
+| --------------------- | ------------------------------------------- |
+| **Plan Approval**     | Before implementation starts                |
+| **High-Risk Changes** | Auth, payments, permissions, infra, PII     |
+| **Kill/Rollback**     | Kill criteria triggered or major regression |
+| **Product Judgment**  | Subjective UX/taste/value tradeoffs         |
 
 **Response time expectation:** Minutes (real-time collaboration)
 
 ## Slash Commands
 
-| Command | Purpose |
-|---------|---------|
-| `/ship` | Run full SDLC workflow (Phases 1-6) |
-| `/new_intent` | Create a new intent file |
-| `/verify` | Run verification phase only |
-| `/kill` | Kill an intent with rationale |
-| `/drift_check` | Calculate drift metrics |
+| Command        | Purpose                             |
+| -------------- | ----------------------------------- |
+| `/ship`        | Run full SDLC workflow (Phases 1-6) |
+| `/new_intent`  | Create a new intent file            |
+| `/verify`      | Run verification phase only         |
+| `/kill`        | Kill an intent with rationale       |
+| `/drift_check` | Calculate drift metrics             |
 
 ## Truth Hierarchy
 
@@ -92,8 +98,8 @@ When facts conflict, agents MUST know which source wins. This prevents 30–40% 
 
 ## Risk Levels
 
-| Level | Domains | Review |
-|-------|---------|--------|
-| **High** | Auth, payments, permissions, infra, PII | Human required |
-| **Medium** | New dependencies, API changes, performance | AI review |
-| **Low** | Docs, refactors, tests, internal tooling | Automerge |
+| Level      | Domains                                    | Review         |
+| ---------- | ------------------------------------------ | -------------- |
+| **High**   | Auth, payments, permissions, infra, PII    | Human required |
+| **Medium** | New dependencies, API changes, performance | AI review      |
+| **Low**    | Docs, refactors, tests, internal tooling   | Automerge      |
