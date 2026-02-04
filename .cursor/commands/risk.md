@@ -23,7 +23,7 @@ Performs a structured security skim and records findings.
 
 ## Output
 
-Writes `workflow-state/04_security.md` with:
+Writes `workflow-state/04_verification.md` (Security section within it) with:
 
 - Threat model summary
 - Findings (if any)
@@ -35,7 +35,7 @@ Writes `workflow-state/04_security.md` with:
 1. Read the intent and plan to identify high-risk domains.
 2. Review for auth/input validation/secrets/PII concerns.
 3. Run dependency audit if applicable: `pnpm audit --audit-level=high`.
-4. Record findings and required mitigations in `workflow-state/04_security.md`.
+4. Record findings and required mitigations in `workflow-state/04_verification.md`.
 
 ## Template
 
