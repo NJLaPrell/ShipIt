@@ -1,0 +1,39 @@
+# Workflow phase spec: single source of truth for workflow-orchestrator.
+# Add a phase by adding an entry here and a matching .tpl file.
+
+phases:
+  - id: analysis
+    output: 01_analysis.md
+    template: 01_analysis.md.tpl
+    name: Analysis
+    role: PM
+  - id: plan
+    output: 02_plan.md
+    template: 02_plan.md.tpl
+    name: Planning
+    role: Architect
+  - id: implementation
+    output: 03_implementation.md
+    template: 03_implementation.md.tpl
+    name: Implementation
+    role: Implementer
+  - id: verification
+    output: 04_verification.md
+    template: 04_verification.md.tpl
+    name: Verification
+    role: QA
+  - id: release
+    output: 05_release_notes.md
+    template: 05_release_notes.md.tpl
+    name: Release
+    role: Docs
+  - id: legacy_verification
+    output: 05_verification.md
+    template: 05_verification_legacy.md.tpl
+    name: Legacy Verification
+    role: null
+  - id: active
+    output: active.md
+    template: active.md.tpl
+    name: Active
+    role: null
