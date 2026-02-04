@@ -14,3 +14,8 @@ projects/*
 !projects/.gitkeep
 !projects/README.md
 .stryker-tmp
+
+# Scratch files from agent workflows (issue creation, resolution notes, release planning)
+.gh-*.md
+.resolution-*.md
+.release-plan-*.md
