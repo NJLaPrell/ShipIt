@@ -12,6 +12,7 @@
 - If any step requires edits outside those files, stop and report.
 
 **Prerequisites:**
+
 - All active issues resolved or documented
 - All tests passing
 - All changes committed to feature branches (if applicable)
@@ -32,6 +33,7 @@
 **Objective:** Ensure all code quality checks pass before release.
 
 **Actions:**
+
 1. Run linting: `pnpm lint`
    - **Success criteria:** No errors or warnings
    - **If fails:** Fix all linting errors before proceeding
@@ -53,6 +55,7 @@
    - **Rule:** Only release prep files should change during this document
 
 **Validation:**
+
 ```bash
 pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 ```
@@ -68,11 +71,13 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Select the appropriate semantic version number.
 
 **Rules:**
+
 - **MAJOR (X.0.0):** Breaking changes that require user action
 - **MINOR (0.X.0):** New features, backward compatible
 - **PATCH (0.0.X):** Bug fixes, backward compatible
 
 **Decision Process:**
+
 1. Review `CHANGELOG.md` [Unreleased] section
 2. Categorize changes:
    - Breaking changes → MAJOR bump
@@ -82,11 +87,13 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 4. Calculate next version using semantic versioning rules
 
 **Example:**
+
 - Current: `0.1.0`
 - Changes: New features (validation, status dashboard, progress indicators)
 - Next: `0.2.0` (MINOR bump)
 
 **Validation:**
+
 - Version number follows semantic versioning format (X.Y.Z)
 - Version number is higher than current version
 - Version bump matches change type (major/minor/patch)
@@ -98,10 +105,12 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Lock the chosen version for the remainder of preparation.
 
 **Actions:**
+
 1. Set `VERSION` to the chosen value (e.g., `0.2.0`).
 2. Use this `VERSION` string consistently in Steps 3–5.
 
 **Validation:**
+
 - `VERSION` is defined once and reused verbatim
 - No conflicting version strings appear in the release prep files
 
@@ -114,6 +123,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Document all changes in the changelog.
 
 **Actions:**
+
 1. Read current `CHANGELOG.md`
 2. Review `[Unreleased]` section
 3. Create new version section with date: `## [X.Y.Z] - YYYY-MM-DD`
@@ -128,30 +138,36 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 8. Clear `[Unreleased]` section (set all to "None" or remove items)
 
 **Format Requirements:**
+
 - Use markdown list format (`- Item description`)
 - Group by category (Added, Changed, Fixed, Removed)
 - Match the existing style in `CHANGELOG.md`
 - Be specific and actionable
 
 **Example:**
+
 ```markdown
 ## [0.2.0] - 2026-01-27
 
 ### Added
+
 - Intent validation and auto-fix (`/fix` command)
 - Output verification system with automatic generator chaining
 - Unified status dashboard (`/status` command)
 
 ### Changed
+
 - Enhanced `/scope-project` with batched prompts
 - Enhanced `/generate-release-plan` with validation warnings
 
 ### Fixed
+
 - Fixed numeric validation in dependency ordering checks
 - Fixed temp file cleanup in fix-intents.sh
 ```
 
 **Validation:**
+
 - New version section exists with correct date
 - All changes from `[Unreleased]` are categorized
 - `[Unreleased]` section is cleared
@@ -166,12 +182,14 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Update the version field in package.json.
 
 **Actions:**
+
 1. Open `package.json`
 2. Locate `"version"` field
 3. Update to new version number (e.g., `"0.2.0"`)
 4. Save file
 
 **Validation:**
+
 - Version matches the version in CHANGELOG.md
 - Version follows semantic versioning format
 - No other version references need updating (this is the source of truth)
@@ -187,6 +205,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Update version badges and history in README.
 
 **Actions:**
+
 1. Find version badge near top of README.md:
    ```markdown
    [![Version](https://img.shields.io/badge/version-X.Y.Z-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/vX.Y.Z)
@@ -203,6 +222,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 6. Keep previous versions in history
 
 **Validation:**
+
 - Badge shows correct version
 - Badge link points to correct GitHub release tag
 - Version history includes new version
@@ -219,6 +239,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 **Objective:** Verify all release preparation steps are complete.
 
 **Checklist:**
+
 - [ ] All code quality checks pass (lint, typecheck, tests)
 - [ ] Version number determined and documented
 - [ ] CHANGELOG.md updated with new version section
@@ -229,6 +250,7 @@ pnpm lint && pnpm typecheck && pnpm test && [ -z "$(git status --porcelain)" ]
 - [ ] Active issues in `tests/ISSUES.md` are resolved or explicitly documented
 
 **Validation Command:**
+
 ```bash
 # Verify version consistency
 CURRENT_VERSION=$(grep '"version"' package.json | cut -d'"' -f4)
@@ -249,6 +271,7 @@ fi
 **If validation fails:** Fix inconsistencies before proceeding.
 
 **Fallback (if the command fails or returns empty values):**
+
 - Manually open `package.json`, `CHANGELOG.md`, and `README.md`.
 - Confirm the version is identical in all three places.
 
@@ -261,10 +284,12 @@ fi
 **Objective:** End preparation cleanly and report what was accomplished.
 
 **Actions:**
+
 1. Stop. Do not commit, tag, push, or create a release here.
 2. Produce a short summary of completed preparation tasks.
 
 **Accomplished (Preparation Complete):**
+
 ```
 [ ] Code quality verified (lint, typecheck, tests)
 [ ] Release VERSION selected and locked
@@ -282,6 +307,7 @@ fi
 ## Rules and Constraints
 
 ### Mandatory Rules:
+
 1. **Never skip code quality checks** - All lint, typecheck, and tests must pass
 2. **Version consistency is required** - package.json, CHANGELOG.md, and README.md must match
 3. **Semantic versioning is mandatory** - Follow MAJOR.MINOR.PATCH rules strictly
@@ -290,12 +316,14 @@ fi
 6. **No commits in this phase** - Do not commit, tag, push, or release here
 
 ### Best Practices:
+
 1. **Test before release** - Run full test suite before preparing release
 2. **Review changes** - Review all changes in CHANGELOG.md before proceeding
 3. **Clear documentation** - Ensure all changes are properly documented
 4. **Update documentation** - Keep README.md and CHANGELOG.md current
 
 ### Error Handling:
+
 - **If any step fails:** Stop immediately, fix the issue, then restart from Step 1
 - **If version mismatch detected:** Fix all version references before proceeding
 - **If tests fail:** Do not proceed with release until tests pass
@@ -323,6 +351,7 @@ Use this checklist when preparing a release:
 ## Automation Notes
 
 **For AI Agents:**
+
 - Execute steps sequentially
 - Validate each step before proceeding
 - Use provided validation commands
@@ -332,6 +361,7 @@ Use this checklist when preparing a release:
 - Do not proceed to DO_RELEASE.md until all preparation steps pass validation
 
 **For Human Review:**
+
 - Review CHANGELOG.md before proceeding
 - Verify version number makes sense
 - Check that all changes are documented

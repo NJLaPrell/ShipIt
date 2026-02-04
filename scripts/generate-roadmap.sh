@@ -16,8 +16,8 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-INTENT_DIR="intent"
-ROADMAP_DIR="generated/roadmap"
+INTENT_DIR="work/intent"
+ROADMAP_DIR="work/roadmap"
 
 if [ ! -d "$INTENT_DIR" ]; then
     error_exit "Intent directory not found: $INTENT_DIR" 1
@@ -125,9 +125,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ -f "$SCRIPT_DIR/lib/verify-outputs.sh" ]; then
     source "$SCRIPT_DIR/lib/verify-outputs.sh"
     echo ""
-    verify_file_exists "$ROADMAP_DIR/now.md" "Updated generated/roadmap/now.md"
-    verify_file_exists "$ROADMAP_DIR/next.md" "Updated generated/roadmap/next.md"
-    verify_file_exists "$ROADMAP_DIR/later.md" "Updated generated/roadmap/later.md"
+    verify_file_exists "$ROADMAP_DIR/now.md" "Updated work/roadmap/now.md"
+    verify_file_exists "$ROADMAP_DIR/next.md" "Updated work/roadmap/next.md"
+    verify_file_exists "$ROADMAP_DIR/later.md" "Updated work/roadmap/later.md"
     
     # Count intents in each roadmap
     now_count=$(grep -c "^\*\*" "$ROADMAP_DIR/now.md" 2>/dev/null || echo "0")
@@ -145,8 +145,8 @@ else
 fi
 
 # Generate dependency graph
-mkdir -p generated/artifacts
-DEPENDENCY_FILE="generated/artifacts/dependencies.md"
+mkdir -p _system/artifacts
+DEPENDENCY_FILE="_system/artifacts/dependencies.md"
 cat > "$DEPENDENCY_FILE" << EOF || error_exit "Failed to create dependency file"
 # Feature Dependency Graph
 

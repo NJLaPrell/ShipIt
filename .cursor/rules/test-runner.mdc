@@ -64,7 +64,7 @@ After each step, record:
 
 ### 4. Issue Tracking (GitHub ONLY)
 
-Issues discovered during test execution are tracked **only** on GitHub, following `behaviors/WORK_TEST_PLAN_ISSUES.md`.
+Issues discovered during test execution are tracked **only** on GitHub, following `_system/behaviors/WORK_TEST_PLAN_ISSUES.md`.
 
 - Do **not** write new “ISSUE-XXX” entries into `tests/ISSUES.md`.
 - `tests/ISSUES.md` is **test run logging only**.

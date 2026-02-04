@@ -13,8 +13,8 @@ CYAN='\033[0;36m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-INTENT_DIR="intent"
-WORKFLOW_DIR="workflow-state"
+INTENT_DIR="work/intent"
+WORKFLOW_DIR="work/workflow-state"
 
 echo -e "${BLUE}════════════════════════════════════════${NC}"
 echo -e "${BLUE}ShipIt Project Status${NC}"
@@ -166,7 +166,7 @@ fi
 if [ -f "$WORKFLOW_DIR/02_plan.md" ]; then
     if grep -q "\[ \].*approval\|\[ \].*Approval" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null && ! grep -q "\[x\].*approval\|\[x\].*Approval\|Approved\|APPROVE" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null; then
         echo -e "${YELLOW}⚠ Pending Approval:${NC}"
-        echo "  Plan approval required in workflow-state/02_plan.md"
+        echo "  Plan approval required in work/workflow-state/02_plan.md"
         echo ""
     fi
 fi

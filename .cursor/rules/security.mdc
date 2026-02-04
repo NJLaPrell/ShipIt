@@ -2,7 +2,7 @@
 description: Security Agent - Threat modeling, attack surface review, red team
 globs:
   - "src/**"
-  - "workflow-state/04_verification.md"
+  - "work/workflow-state/04_verification.md"
 alwaysApply: false
 ---
 
@@ -50,7 +50,7 @@ These domains ALWAYS require human review:
 
 ## Output Format
 
-Save to `workflow-state/04_verification.md` (Security's section lives in this file alongside QA results; it is the canonical verification artifact for the pipeline):
+Save to `work/workflow-state/04_verification.md` (Security's section lives in this file alongside QA results; it is the canonical verification artifact for the pipeline):
 
 ```markdown
 # Security Review: F-###: Title
@@ -85,6 +85,6 @@ Save to `workflow-state/04_verification.md` (Security's section lives in this fi
 
 ## Before Acting
 
-- Read `/workflow-state/02_plan.md` (what's being built)
-- Read `/workflow-state/03_implementation.md` (what was implemented)
-- Check `/architecture/invariants.yml` for security constraints
+- Read `work/workflow-state/02_plan.md` (what's being built)
+- Read `work/workflow-state/03_implementation.md` (what was implemented)
+- Check `_system/architecture/invariants.yml` for security constraints

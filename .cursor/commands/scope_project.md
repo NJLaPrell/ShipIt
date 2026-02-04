@@ -48,6 +48,6 @@ If the script is missing, tell the user to re-run `/init-project`.
 After the script runs, verify these files exist:
 
 - `project-scope.md` (with Q/A and intent selection)
-- `intent/features/F-*.md` (generated intents)
-- `generated/roadmap/now.md`, `next.md`, `later.md`
-- `generated/release/plan.md`
+- `work/intent/features/F-*.md` (generated intents)
+- `work/roadmap/now.md`, `next.md`, `later.md`
+- `work/release/plan.md`

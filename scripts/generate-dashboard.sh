@@ -54,8 +54,8 @@ else
 fi
 
 # Get active intent details
-ACTIVE_INTENT=$(grep -h "Intent ID:" workflow-state/active.md 2>/dev/null | grep -o "F-[0-9]*\|B-[0-9]*\|T-[0-9]*" | head -1 || echo "none")
-ACTIVE_PHASE=$(grep -h "Current Phase:" workflow-state/active.md 2>/dev/null | sed 's/.*Current Phase: *//' || echo "unknown")
+ACTIVE_INTENT=$(grep -h "Intent ID:" work/workflow-state/active.md 2>/dev/null | grep -o "F-[0-9]*\|B-[0-9]*\|T-[0-9]*" | head -1 || echo "none")
+ACTIVE_PHASE=$(grep -h "Current Phase:" work/workflow-state/active.md 2>/dev/null | sed 's/.*Current Phase: *//' || echo "unknown")
 
 # Test coverage (if available)
 if command -v pnpm >/dev/null 2>&1 && [ -f "package.json" ]; then
@@ -112,15 +112,15 @@ $(if [ "$INTENT_TOTAL" -gt 0 ]; then printf "%s\n" "${intent_files[@]}" | head -
 ## 🔗 Quick Links
 
 - [Project Context](./PROJECT_CONTEXT.md)
-- [Roadmap](./generated/roadmap/now.md)
-- [Dependencies](./generated/artifacts/dependencies.md)
+- [Roadmap](./work/roadmap/now.md)
+- [Dependencies](./_system/artifacts/dependencies.md)
 - [Deployment History](./deployment-history.md)
 
 ## 🚀 Next Actions
 
 1. Review active intent: $ACTIVE_INTENT
-2. Check workflow state: workflow-state/
-3. Update roadmap: generated/roadmap/
+2. Check workflow state: work/workflow-state/
+3. Update roadmap: work/roadmap/
 
 ---
 

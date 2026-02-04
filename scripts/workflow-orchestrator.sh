@@ -33,10 +33,10 @@ resolve_intent_file() {
 
     # Common/expected locations (init-project + new-intent + scope-project write to subfolders).
     local candidates=(
-        "intent/$intent_id.md"
-        "intent/features/$intent_id.md"
-        "intent/bugs/$intent_id.md"
-        "intent/tech-debt/$intent_id.md"
+        "work/intent/$intent_id.md"
+        "work/intent/features/$intent_id.md"
+        "work/intent/bugs/$intent_id.md"
+        "work/intent/tech-debt/$intent_id.md"
     )
 
     local candidate=""
@@ -50,7 +50,7 @@ resolve_intent_file() {
     # Fallback: search one level deep under intent/ (portable; no find/globstar needed).
     local matches=()
     shopt -s nullglob
-    matches=( intent/*/"$intent_id".md )
+    matches=( work/intent/*/"$intent_id".md )
     shopt -u nullglob
 
     if [ "${#matches[@]}" -eq 1 ]; then
@@ -65,9 +65,9 @@ resolve_intent_file() {
     return 1
 }
 
-INTENT_FILE="$(resolve_intent_file "$INTENT_ID")" || error_exit "Intent file not found for id '$INTENT_ID' (looked under intent/ and intent/*/)" 1
+INTENT_FILE="$(resolve_intent_file "$INTENT_ID")" || error_exit "Intent file not found for id '$INTENT_ID' (looked under work/intent/ and work/intent/*/)" 1
 
-WORKFLOW_DIR="workflow-state"
+WORKFLOW_DIR="work/workflow-state"
 mkdir -p "$WORKFLOW_DIR"
 
 # Source progress library
@@ -109,7 +109,7 @@ create_analysis() {
 
 ## Do-Not-Repeat Check
 
-[Results from /do-not-repeat/ check]
+[Results from _system/do-not-repeat/ check]
 
 ## Next Steps
 
@@ -262,7 +262,7 @@ EOF
 **Generated:** DATE_PLACEHOLDER
 **Intent:** INTENT_ID_PLACEHOLDER
 
-This file is deprecated. Use `workflow-state/04_verification.md`.
+This file is deprecated. Use `work/workflow-state/04_verification.md`.
 LEGACY_VERIFICATION_EOF
     # Inject values (heredoc was quoted to avoid backtick expansion)
     sed -i.bak -e "s/INTENT_ID_PLACEHOLDER/$INTENT_ID/g" -e "s/DATE_PLACEHOLDER/$(date -u +"%Y-%m-%dT%H:%M:%SZ")/g" "$WORKFLOW_DIR/05_verification.md" && rm -f "$WORKFLOW_DIR/05_verification.md.bak"

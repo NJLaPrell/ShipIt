@@ -17,7 +17,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-INTENT_BASE_DIR="intent"
+INTENT_BASE_DIR="work/intent"
 TEMPLATE_FILE="$INTENT_BASE_DIR/_TEMPLATE.md"
 
 # Validate prerequisites

@@ -23,10 +23,10 @@ resolve_intent_file() {
         return 0
     fi
     local candidates=(
-        "intent/$intent_id.md"
-        "intent/features/$intent_id.md"
-        "intent/bugs/$intent_id.md"
-        "intent/tech-debt/$intent_id.md"
+        "work/intent/$intent_id.md"
+        "work/intent/features/$intent_id.md"
+        "work/intent/bugs/$intent_id.md"
+        "work/intent/tech-debt/$intent_id.md"
     )
     local c
     for c in "${candidates[@]}"; do
@@ -37,7 +37,7 @@ resolve_intent_file() {
     done
     local matches=()
     shopt -s nullglob
-    matches=( intent/*/"$intent_id".md )
+    matches=( work/intent/*/"$intent_id".md )
     shopt -u nullglob
     if [ "${#matches[@]}" -eq 1 ]; then
         echo "${matches[0]}"
@@ -50,7 +50,7 @@ resolve_intent_file() {
 }
 
 REASON="${2:-No reason provided}"
-INTENT_FILE="$(resolve_intent_file "$INTENT_ID")" || error_exit "Intent file not found for id '$INTENT_ID' (looked under intent/ and intent/*/)" 1
+INTENT_FILE="$(resolve_intent_file "$INTENT_ID")" || error_exit "Intent file not found for id '$INTENT_ID' (looked under work/intent/ and work/intent/*/)" 1
 DATE_UTC="$(date -u +"%Y-%m-%d")"
 
 TEMP_FILE="$(mktemp)"
@@ -126,7 +126,7 @@ awk -v reason="$REASON" -v date="$DATE_UTC" '
 
 mv "$TEMP_FILE2" "$INTENT_FILE"
 
-ACTIVE_FILE="workflow-state/active.md"
+ACTIVE_FILE="work/workflow-state/active.md"
 if [ -f "$ACTIVE_FILE" ]; then
     ACTIVE_TEMP="$(mktemp)"
     awk -v intent="$INTENT_ID" '

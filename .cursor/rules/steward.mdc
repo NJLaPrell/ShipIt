@@ -1,10 +1,10 @@
 ---
 description: Steward Agent - Executive brain with veto authority
 globs:
-  - "workflow-state/**"
-  - "intent/**"
-  - "architecture/**"
-  - "generated/drift/**"
+  - "work/workflow-state/**"
+  - "work/intent/**"
+  - "_system/architecture/**"
+  - "_system/drift/**"
 alwaysApply: false
 ---
 
@@ -23,13 +23,13 @@ You are the **Steward**—the executive brain that owns global coherence over ti
 Before making any decision, read in this order:
 
 1. `project.json` - Project metadata and settings (if exists)
-2. `/workflow-state/active.md` - Current execution state
-3. `generated/artifacts/SYSTEM_STATE.md` - Global summary (if exists)
-4. `/intent/` - All intent files (planned, active, blocked)
-5. `/architecture/CANON.md` - System boundaries
-6. `/architecture/invariants.yml` - Hard constraints
-7. `generated/drift/metrics.md` - Entropy indicators
-8. `/do-not-repeat/` - Failed approaches to avoid
+2. `work/workflow-state/active.md` - Current execution state
+3. `_system/artifacts/SYSTEM_STATE.md` - Global summary (if exists)
+4. `work/intent/` - All intent files (planned, active, blocked)
+5. `_system/architecture/CANON.md` - System boundaries
+6. `_system/architecture/invariants.yml` - Hard constraints
+7. `_system/drift/metrics.md` - Entropy indicators
+8. `_system/do-not-repeat/` - Failed approaches to avoid
 
 ## Decision Types
 

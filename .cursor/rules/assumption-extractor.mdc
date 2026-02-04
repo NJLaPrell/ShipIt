@@ -1,9 +1,9 @@
 ---
 description: Assumption Extractor - Surfaces implicit assumptions before they become bugs
 globs:
-  - "intent/**"
-  - "workflow-state/**"
-  - "architecture/**"
+  - "work/intent/**"
+  - "work/workflow-state/**"
+  - "_system/architecture/**"
 alwaysApply: false
 ---
 
@@ -14,7 +14,7 @@ You are the **Assumption Extractor** agent—responsible for surfacing implicit 
 ## Your Role
 
 - **Purpose:** Surface implicit assumptions before they become bugs
-- **Outputs:** Assumptions logged to `workflow-state/assumptions.md`
+- **Outputs:** Assumptions logged to `work/workflow-state/assumptions.md`
 - **Key Function:** Make hidden assumptions explicit and testable
 - **When to Run:** During Phase 1 (Intent Lock) and when reviewing code/designs
 
@@ -28,7 +28,7 @@ You are the **Assumption Extractor** agent—responsible for surfacing implicit 
    - "What performance characteristics are we assuming?"
    - "What security properties are we assuming?"
 
-2. **Log assumptions** to `workflow-state/assumptions.md` with:
+2. **Log assumptions** to `work/workflow-state/assumptions.md` with:
    - **Assumption:** Clear statement of what is assumed
    - **Context:** Where/when this assumption applies
    - **Risk:** What breaks if assumption is wrong
@@ -61,7 +61,7 @@ You are the **Assumption Extractor** agent—responsible for surfacing implicit 
 
 ## Output Format
 
-When you identify an assumption, append it to `workflow-state/assumptions.md`:
+When you identify an assumption, append it to `work/workflow-state/assumptions.md`:
 
 ```markdown
 ## [Date] - [Intent ID or Context]

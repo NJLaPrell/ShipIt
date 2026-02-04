@@ -26,11 +26,12 @@ Runs the verification phase without going through the full /ship workflow:
    - Check high-risk domains
 
 3. **Save Results:**
-   - Output to `workflow-state/04_verification.md`
+   - Output to `work/workflow-state/04_verification.md`
 
 ## Script
 
 Run:
+
 ```bash
 ./scripts/verify.sh <intent-id>
 ```
@@ -44,5 +45,6 @@ Run:
 ## Role Switching
 
 This command uses the same role-switching pattern as `/ship`:
+
 - Switch to QA role for test verification
 - Switch to Security role for security review

@@ -1,41 +1,42 @@
 # Directory Structure
 
-Quick reference for ShipIt project layout. **Authoritative source:** [architecture/CANON.md](../architecture/CANON.md).
+Quick reference for ShipIt project layout. **Authoritative source:** [\_system/architecture/CANON.md](../_system/architecture/CANON.md).
 
-## First-Class Directories
+## work/ (current work)
 
-| Directory              | Purpose                                                                                                                                                    |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `intent/`              | Planned work (features/, bugs/, tech-debt/)                                                                                                                |
-| `architecture/`        | CANON.md, invariants.yml, schemas, ADRs                                                                                                                    |
-| `workflow-state/`      | Phase files (01_analysis → 05_release_notes), status (active, blocked, shipped), assumptions                                                               |
-| `do-not-repeat/`       | Failed approaches: abandoned-designs, bad-patterns, failed-experiments, rejected-libraries                                                                 |
-| `src/`                 | Production source code                                                                                                                                     |
-| `tests/`               | Test code (routes/, release-plan/), fixtures.json, run logs (ISSUES\*.md), process docs (TEST_PLAN, templates). See [tests/README.md](../tests/README.md). |
-| `generated/artifacts/` | Generated files (SYSTEM_STATE.md, dependencies.md, confidence-calibration.json)                                                                            |
-| `generated/release/`   | Generated release plan (plan.md)                                                                                                                           |
-| `generated/roadmap/`   | Generated triage (now.md, next.md, later.md)                                                                                                               |
-| `scripts/`             | Shell scripts + lib/ for shared helpers                                                                                                                    |
-| `security/`            | audit-allowlist.json                                                                                                                                       |
-| `behaviors/`           | Release procedures, issue tracking rules, platform work                                                                                                    |
-| `generated/reports/`   | Generated reports (mutation/, etc.)                                                                                                                        |
-| `golden-data/`         | Replay validation test data                                                                                                                                |
-| `projects/`            | Initialized ShipIt projects (from /init-project). See [projects/README.md](../projects/README.md). Contents gitignored except .gitkeep.                    |
-| `generated/drift/`     | Baselines and metrics for entropy monitoring                                                                                                               |
-| `.cursor/`             | commands/, rules/, agents/ (Cursor config)                                                                                                                 |
+| Directory              | Purpose                                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------------------- |
+| `work/intent/`         | Planned work (features/, bugs/, tech-debt/)                                                  |
+| `work/workflow-state/` | Phase files (01_analysis → 05_release_notes), status (active, blocked, shipped), assumptions |
+| `work/roadmap/`        | Generated triage (now.md, next.md, later.md)                                                 |
+| `work/release/`        | Generated release plan (plan.md)                                                             |
 
-## generated/ (Generated outputs)
+## \_system/ (framework and generated)
 
-- `generated/artifacts/SYSTEM_STATE.md` — Generated summary for Steward
-- `generated/artifacts/dependencies.md` — Generated dependency graph
-- `generated/artifacts/confidence-calibration.json` — Confidence vs outcomes
-- `generated/release/plan.md` — Release plan
-- `generated/roadmap/` — now.md, next.md, later.md
-- `generated/drift/` — baselines.md, metrics.md
-- `generated/reports/` — mutation/, etc.
+| Directory                | Purpose                                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| `_system/architecture/`  | CANON.md, invariants.yml, schemas, ADRs                                                    |
+| `_system/artifacts/`     | SYSTEM_STATE.md, dependencies.md, confidence-calibration.json                              |
+| `_system/drift/`         | Baselines and metrics for entropy monitoring                                               |
+| `_system/do-not-repeat/` | Failed approaches: abandoned-designs, bad-patterns, failed-experiments, rejected-libraries |
+| `_system/behaviors/`     | Release procedures, issue tracking rules, platform work                                    |
+| `_system/security/`      | audit-allowlist.json                                                                       |
+| `_system/reports/`       | Generated reports (mutation/, etc.)                                                        |
+| `_system/golden-data/`   | Replay validation test data                                                                |
+
+## Other (root)
+
+| Directory   | Purpose                                                                                                 |
+| ----------- | ------------------------------------------------------------------------------------------------------- |
+| `src/`      | Production source code                                                                                  |
+| `tests/`    | Test code (routes/, release-plan/), fixtures.json, run logs. See [tests/README.md](../tests/README.md). |
+| `scripts/`  | Shell scripts + lib/ for shared helpers                                                                 |
+| `docs/`     | DIRECTORY_STRUCTURE.md, PLAN.md, PILOT_GUIDE.md                                                         |
+| `projects/` | Initialized ShipIt projects (from /init-project). See [projects/README.md](../projects/README.md).      |
+| `.cursor/`  | commands/, rules/ (Cursor config)                                                                       |
 
 ## Root Files (Key)
 
-- `AGENTS.md` — Role definitions, conventions
+- `AGENTS.md` — Role definitions and conventions
 - `README.md` — Quick start, usage
 - `project.json` — Project metadata (in initialized projects)

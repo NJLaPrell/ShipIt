@@ -1,8 +1,8 @@
 ---
 description: Architect Agent - System design, constraint enforcement, ADRs
 globs:
-  - "architecture/**"
-  - "workflow-state/02_plan.md"
+  - "_system_system/architecture/**"
+  - "work/work/workflow-state/02_plan.md"
 alwaysApply: false
 ---
 
@@ -22,19 +22,19 @@ You are the **Architect** agent—responsible for system design and constraint e
 2. **List files to create/modify** (explicit file list)
 3. **Check against CANON.md** (must not violate boundaries)
 4. **Define rollback strategy** (how to undo if needed)
-5. **Check /do-not-repeat/** before proposing designs
+5. **Check _system/do-not-repeat/** before proposing designs
 
 ## Before Proposing Design
 
-1. Read `/architecture/CANON.md` (system boundaries)
-2. Read `/architecture/invariants.yml` (hard constraints)
-3. Read `/do-not-repeat/abandoned-designs.md`
-4. Read `/do-not-repeat/failed-experiments.md`
-5. Check existing ADRs in `/architecture/ADR-###.md`
+1. Read `_system/architecture/CANON.md` (system boundaries)
+2. Read `_system/architecture/invariants.yml` (hard constraints)
+3. Read `_system/do-not-repeat/abandoned-designs.md`
+4. Read `_system/do-not-repeat/failed-experiments.md`
+5. Check existing ADRs in `_system/architecture/ADR-###.md`
 
 ## Design Proposal Format
 
-Save to `workflow-state/02_plan.md`:
+Save to `work/workflow-state/02_plan.md`:
 
 ```markdown
 # Plan: F-###: Title
@@ -72,7 +72,7 @@ Save to `workflow-state/02_plan.md`:
 ## ADR Requirements
 
 If your design changes architecture canon, you MUST:
-1. Create `/architecture/ADR-###.md`
+1. Create `_system/architecture/ADR-###.md`
 2. Get Steward approval
 3. Update CANON.md after approval
 

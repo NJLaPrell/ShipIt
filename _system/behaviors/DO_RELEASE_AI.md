@@ -19,6 +19,7 @@
 **Objective:** Ensure the user explicitly approves execution.
 
 **Check:**
+
 - The user responded "yes" (or equivalent) to the prep handoff question.
 
 **STOP GATE:** If approval is missing or ambiguous, stop and ask for confirmation.
@@ -30,6 +31,7 @@
 **Objective:** Anchor execution to the prep summary for auditability.
 
 **Record (copy from prep summary):**
+
 ```
 Release Status: READY | BLOCKED
 Version: X.Y.Z
@@ -47,6 +49,7 @@ Approval: <yes/no + who approved>
 **Objective:** Fail fast if prereqs are not met.
 
 **Command:**
+
 ```bash
 BRANCH=$(git branch --show-current)
 STATUS=$(git status --porcelain)
@@ -69,6 +72,7 @@ fi
 ```
 
 **Validation:**
+
 - Branch is the intended release branch (usually `main` or `master`).
 - Only release prep files appear in status.
 - User explicitly approved execution after prep summary.
@@ -82,10 +86,12 @@ fi
 **Objective:** Use one version string for the entire execution.
 
 **Actions:**
+
 1. Set `VERSION=X.Y.Z` and export it.
 2. Validate it matches `package.json`.
 
 **Command:**
+
 ```bash
 export VERSION="X.Y.Z"
 CURRENT_VERSION=$(grep '"version"' package.json | cut -d'"' -f4)
@@ -104,6 +110,7 @@ fi
 **Objective:** Commit only the release prep changes.
 
 **Commands:**
+
 ```bash
 git add CHANGELOG.md package.json README.md
 git diff --cached
@@ -123,6 +130,7 @@ git log -1 --stat
 ```
 
 **Validation:**
+
 - Only prep files are staged and committed.
 - Commit message follows the required format.
 
@@ -135,10 +143,12 @@ git log -1 --stat
 **Objective:** Create a descriptive annotated tag.
 
 **Actions:**
+
 1. Extract 2–4 highlights from the `CHANGELOG.md` section for `VERSION`.
 2. Create an annotated tag using those highlights.
 
 **Extraction (deterministic):**
+
 ```bash
 # Pull first 4 bullet lines from the VERSION section (any category)
 HIGHLIGHTS=$(awk -v v="## [$VERSION]" '
@@ -150,6 +160,7 @@ HIGHLIGHTS=$(awk -v v="## [$VERSION]" '
 ```
 
 **Command (template):**
+
 ```bash
 git tag -a "v$VERSION" -m "Release v$VERSION: <Brief Description>" \
   -m "Key highlights:" \
@@ -171,6 +182,7 @@ git show "v$VERSION"
 **Objective:** Push to GitHub in correct order.
 
 **Commands:**
+
 ```bash
 BRANCH=$(git branch --show-current)
 git push origin "$BRANCH"
@@ -186,10 +198,12 @@ git push origin "v$VERSION"
 **Objective:** Publish the release using the exact changelog section.
 
 **Actions:**
+
 1. Extract the `CHANGELOG.md` section for `VERSION` into a temporary notes file.
 2. Use `gh release create` with the notes file to avoid shell expansion.
 
 **Commands (safe):**
+
 ```bash
 # Extract the exact VERSION section into a notes file
 awk -v v="## [$VERSION]" '
@@ -212,6 +226,7 @@ gh release create "v$VERSION" \
 **Objective:** Prevent collisions if a tag or release already exists.
 
 **Commands:**
+
 ```bash
 if git rev-parse "v$VERSION" >/dev/null 2>&1; then
   echo "✗ Tag v$VERSION already exists"
@@ -233,6 +248,7 @@ fi
 **Objective:** Verify release integrity end-to-end.
 
 **Commands:**
+
 ```bash
 git tag -l "v*" | tail -1
 git ls-remote --tags origin | grep "v$VERSION"
@@ -242,6 +258,7 @@ gh release view "v$VERSION" --json name,tagName,url,isDraft,isPrerelease,publish
 ```
 
 **Validation:**
+
 - Tag exists locally and on remote.
 - GitHub release is published (not draft).
 - Release notes match the `CHANGELOG.md` section for `VERSION`.
@@ -255,6 +272,7 @@ gh release view "v$VERSION" --json name,tagName,url,isDraft,isPrerelease,publish
 **Objective:** Provide a clean recovery path if a release was created incorrectly.
 
 **Commands:**
+
 ```bash
 # Delete GitHub release (if created)
 gh release delete "v$VERSION" --yes
@@ -273,6 +291,7 @@ git push origin ":refs/tags/v$VERSION"
 **Objective:** End execution cleanly and report status.
 
 **Report Template (fill in):**
+
 ```
 [x] Release prep commit created and pushed
 [x] Annotated tag vX.Y.Z created and pushed
@@ -290,6 +309,7 @@ git push origin ":refs/tags/v$VERSION"
 **Objective:** Make the agent's logs easy to scan for humans.
 
 **Per-step output format:**
+
 ```
 Step X: <Name>
 - Status: PASS | FAIL
@@ -298,6 +318,7 @@ Step X: <Name>
 ```
 
 **Final summary (always print):**
+
 ```
 Release Execution Summary
 - Version: X.Y.Z

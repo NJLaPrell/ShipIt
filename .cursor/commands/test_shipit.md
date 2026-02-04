@@ -29,15 +29,15 @@ gh --version
 gh auth status
 ```
 
-If this fails, **STOP** and treat it as a **blocking** failure (issues cannot be recorded correctly). Follow `behaviors/WORK_TEST_PLAN_ISSUES.md`.
+If this fails, **STOP** and treat it as a **blocking** failure (issues cannot be recorded correctly). Follow `_system/behaviors/WORK_TEST_PLAN_ISSUES.md`.
 
-If `behaviors/WORK_TEST_PLAN_ISSUES.md` is not present in your current workspace, use `./scripts/create-test-plan-issue.sh` to file issues with consistent formatting.
+If `_system/behaviors/WORK_TEST_PLAN_ISSUES.md` is not present in your current workspace, use `./scripts/create-test-plan-issue.sh` to file issues with consistent formatting.
 
 ### Where to Record Results
 
 Root mode results must be written to `tests/ISSUES.md` (root ShipIt project).
 
-**Important:** `tests/ISSUES.md` is **test run logging only**. Any failures that represent real issues must be created as **GitHub issues** per `behaviors/WORK_TEST_PLAN_ISSUES.md`, and the run should reference them by GitHub issue number.
+**Important:** `tests/ISSUES.md` is **test run logging only**. Any failures that represent real issues must be created as **GitHub issues** per `_system/behaviors/WORK_TEST_PLAN_ISSUES.md`, and the run should reference them by GitHub issue number.
 
 ### Guardrails
 
@@ -73,9 +73,9 @@ printf "1\nTest project for ShipIt end-to-end validation\nnone\n" | ./scripts/in
 - `project.json`
 - `package.json`
 - `tsconfig.json`
-- `intent/_TEMPLATE.md`
-- `architecture/CANON.md`
-- `generated/roadmap/now.md`, `next.md`, `later.md`
+- `work/intent/_TEMPLATE.md`
+- `_system/architecture/CANON.md`
+- `work/roadmap/now.md`, `next.md`, `later.md`
 
 ### STOP HERE
 
@@ -108,9 +108,9 @@ gh --version
 gh auth status
 ```
 
-If this fails, **STOP** and treat it as a **blocking** failure. Follow `behaviors/WORK_TEST_PLAN_ISSUES.md` (includes repo resolution rules).
+If this fails, **STOP** and treat it as a **blocking** failure. Follow `_system/behaviors/WORK_TEST_PLAN_ISSUES.md` (includes repo resolution rules).
 
-If `behaviors/WORK_TEST_PLAN_ISSUES.md` is not present in your current workspace, use `./scripts/create-test-plan-issue.sh` to file issues with consistent formatting.
+If `_system/behaviors/WORK_TEST_PLAN_ISSUES.md` is not present in your current workspace, use `./scripts/create-test-plan-issue.sh` to file issues with consistent formatting.
 
 ### Execute Steps
 
@@ -147,7 +147,7 @@ printf "1\nTemporary kill intent\ndone\n4\n1\n4\nnone\n1\n" | ./scripts/new-inte
    - `medium` — works incorrectly
    - `low` — minor/cosmetic
 3. Append the step result to the current run block in `tests/ISSUES.md`
-4. If the failure indicates a real bug/tooling gap, create a GitHub issue per `behaviors/WORK_TEST_PLAN_ISSUES.md` and reference it by issue number in the run block
+4. If the failure indicates a real bug/tooling gap, create a GitHub issue per `_system/behaviors/WORK_TEST_PLAN_ISSUES.md` and reference it by issue number in the run block
 
 ### Fail-Fast Rule
 

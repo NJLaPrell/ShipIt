@@ -32,7 +32,7 @@ Golden data files are typically JSON files containing test cases:
 
 ## Example
 
-See `docs/PLAN.md` Research Q11 for implementation patterns and examples of replay-based validation.
+See `docs/PLAN.md` (in repo root docs/) Research Q11 for implementation patterns and examples of replay-based validation.
 
 ## Non-Deterministic Data
 

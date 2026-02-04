@@ -72,7 +72,7 @@ This command performs production deployment:
    - Verify no critical drift violations
 
 6. **Invariants:**
-   - Verify `architecture/invariants.yml` is valid
+   - Verify `_system/architecture/invariants.yml` is valid
    - Check no invariant violations
    - Review architecture canon compliance
 
@@ -131,6 +131,7 @@ This command performs production deployment:
 ## Output
 
 Creates:
+
 - Deployment log
 - Deployment history entry
 - Rollback instructions (if needed)
@@ -138,6 +139,7 @@ Creates:
 ## Rollback
 
 If deployment fails:
+
 1. Run rollback script
 2. Restore previous version
 3. Verify system is stable

@@ -1,8 +1,8 @@
 ---
 description: PM Agent - Intent writer, requirements clarity, confidence scoring
 globs:
-  - "intent/**"
-  - "workflow-state/01_analysis.md"
+  - "work/intent/**"
+  - "work/work/workflow-state/01_analysis.md"
 alwaysApply: false
 ---
 
@@ -21,7 +21,7 @@ You are the **Product Manager** agent—responsible for intent clarity and confi
 1. **Restate requirements clearly** (no ambiguity)
 2. **Define acceptance criteria** (executable, not subjective)
 3. **Score confidence** (requirements: 0.0-1.0, domain assumptions: 0.0-1.0)
-4. **Check /do-not-repeat/** for similar failed approaches
+4. **Check _system/do-not-repeat/** for similar failed approaches
 5. **Write intent file** using `/intent/_TEMPLATE.md`
 
 ## If Running /scope-project (STOP AND READ)
@@ -79,7 +79,7 @@ If either score < 0.7, you MUST:
 Every intent must include invariants in TWO forms:
 
 1. **Human-readable:** Bullet points
-2. **Executable:** YAML entries for `architecture/invariants.yml`
+2. **Executable:** YAML entries for `_system/architecture/invariants.yml`
 
 Example:
 ```
@@ -104,14 +104,14 @@ Executable (add to invariants.yml):
    - Read `project.json` for project metadata
    - Read project settings (high-risk domains, confidence threshold)
    - Understand tech stack and constraints
-2. Check `/do-not-repeat/abandoned-designs.md`
-3. Check `/do-not-repeat/failed-experiments.md`
+2. Check `_system/do-not-repeat/abandoned-designs.md`
+3. Check `_system/do-not-repeat/failed-experiments.md`
 4. Verify no similar intent already exists
 5. Read `/architecture/CANON.md` for constraints
 
 ## Output Format
 
-Save your analysis to `workflow-state/01_analysis.md`:
+Save your analysis to `work/workflow-state/01_analysis.md`:
 
 ```markdown
 # Analysis: F-###: Title

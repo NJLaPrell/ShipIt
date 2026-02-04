@@ -48,7 +48,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
    - "Proceeding to Phase Y: [next steps]"
 4. **Next steps:** Always tell the user what to do next:
    - "Waiting for APPROVE to proceed"
-   - "Review `workflow-state/02_plan.md` and confirm"
+   - "Review `work/workflow-state/02_plan.md` and confirm"
    - "No action needed - proceeding automatically"
 
 **Never proceed silently.** The user should never have to ask "did you finish?"
@@ -63,7 +63,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 
 2. **Reference files later, don't re-display:**
    - After initial creation: Reference the file instead of showing full content
-   - Use: "Updated `workflow-state/02_plan.md`" instead of showing entire plan again
+   - Use: "Updated `work/workflow-state/02_plan.md`" instead of showing entire plan again
    - Use: "Modified `src/server.ts` - added DELETE route" instead of showing entire file
 
 3. **For updates, show diffs or summaries:**
@@ -93,7 +93,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
    - Requirements clarity: 0.0-1.0
    - Domain assumptions: 0.0-1.0
 5. Check `/do-not-repeat/` for similar failed approaches
-6. Save output to `workflow-state/01_analysis.md`
+6. Save output to `work/workflow-state/01_analysis.md`
 7. **If confidence < 0.7, STOP and request human interrupt**
 
 **Status:** "Phase 1 complete. Summary: [requirements clarified, X acceptance criteria defined, confidence: Y]. Proceeding to Phase 2: Planning."
@@ -104,15 +104,15 @@ Cursor doesn't have native "subagents." You will switch roles by:
 
 **Switch to Architect role** (read `.cursor/rules/architect.mdc`):
 
-1. Read `workflow-state/01_analysis.md`
+1. Read `work/workflow-state/01_analysis.md`
 2. Propose technical approach
 3. List files to create/modify (explicit file list)
-4. Check against `/architecture/CANON.md` (must not violate)
+4. Check against `_system/architecture/CANON.md` (must not violate)
 5. Define rollback strategy
-6. Save output to `workflow-state/02_plan.md`
+6. Save output to `work/workflow-state/02_plan.md`
 7. **STOP: Present plan and ask for approval before any edits**
 
-**Status:** "Phase 2 complete. Plan created: [X files to create, Y files to modify]. **WAITING FOR APPROVAL** - Review `workflow-state/02_plan.md` and type APPROVE to proceed."
+**Status:** "Phase 2 complete. Plan created: [X files to create, Y files to modify]. **WAITING FOR APPROVAL** - Review `work/workflow-state/02_plan.md` and type APPROVE to proceed."
 
 **Gate:** Human approval required before proceeding.
 
@@ -128,7 +128,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 
 **Switch to QA role** (read `.cursor/rules/qa.mdc`):
 
-1. Read `workflow-state/01_analysis.md` (acceptance criteria)
+1. Read `work/workflow-state/01_analysis.md` (acceptance criteria)
 2. Write test cases for all acceptance criteria
 3. Write edge case tests
 4. Write property-based tests (using fast-check)
@@ -151,7 +151,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 
 **CRITICAL: Strict Plan Compliance**
 
-**You MUST implement ONLY what is in the approved plan (`workflow-state/02_plan.md`).**
+**You MUST implement ONLY what is in the approved plan (`work/workflow-state/02_plan.md`).**
 
 - **If you need something NOT in plan:** STOP immediately, explain why it's needed, get approval
 - **If approval granted:** Update plan first, then implement
@@ -160,7 +160,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 
 **Switch to Implementer role** (read `.cursor/rules/implementer.mdc`):
 
-1. Read `workflow-state/02_plan.md` (approved plan)
+1. Read `work/workflow-state/02_plan.md` (approved plan)
    - **Check plan for:** Which files to modify, which dependencies to add, which infrastructure files to update
    - **Identify what's in plan:** List all features, endpoints, functions that are approved
    - **If something is missing:** STOP and get approval before implementing
@@ -180,9 +180,9 @@ Cursor doesn't have native "subagents." You will switch roles by:
    - Example: If plan says "POST /api/todos" but you need "GET /api/todos": STOP, explain why, get approval
 7. Make tests pass
    - **CRITICAL: Show test output** - display pass/fail results
-8. Save progress to `workflow-state/03_implementation.md`
+8. Save progress to `work/workflow-state/03_implementation.md`
    - **CRITICAL: Document ALL deviations from plan accurately**
-   - Compare what was implemented vs what was in the approved plan (`workflow-state/02_plan.md`)
+   - Compare what was implemented vs what was in the approved plan (`work/workflow-state/02_plan.md`)
    - If you added anything not in plan: List it explicitly with explanation AND approval status
    - If you skipped anything in plan: List it explicitly with explanation
    - If you modified approach: List it explicitly with explanation
@@ -213,7 +213,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 2. Run `npm audit` for dependency vulnerabilities
    - **CRITICAL: Show audit output** - display vulnerability counts and details
 3. Check high-risk domains (require human approval)
-4. Save results to `workflow-state/04_verification.md`
+4. Save results to `work/workflow-state/04_verification.md`
 5. **If verification fails repeatedly, escalate to Steward for kill review**
 6. **Provide status update:** "Security review complete. Findings: [summary]"
 
@@ -226,7 +226,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 1. Update README.md (if public APIs changed)
 2. Update CHANGELOG.md
 3. Write release notes
-4. Save to `workflow-state/05_release_notes.md`
+4. Save to `work/workflow-state/05_release_notes.md`
 
 **Status:** "Docs updates complete. Summary: [README updated, CHANGELOG updated, release notes written]"
 
@@ -323,7 +323,7 @@ Cursor doesn't have native "subagents." You will switch roles by:
 
 ## Workflow State Files
 
-All state is saved to `workflow-state/`:
+All state is saved to `work/workflow-state/`:
 
 - `01_analysis.md` - PM analysis
 - `02_plan.md` - Architect plan (requires approval)

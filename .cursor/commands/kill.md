@@ -27,7 +27,7 @@ Example: `/kill F-042 "Cannot satisfy latency invariant"`
    - Feature flags to disable
 
 4. **Updates workflow state:**
-   - Marks `workflow-state/active.md` as killed
+   - Marks `work/workflow-state/active.md` as killed
    - Archives state files
 
 ## Script
@@ -51,7 +51,7 @@ An intent is killed when ANY of these trigger:
 
 ## Output
 
-Updates the intent file at `intent/**/<intent-id>.md` (based on type):
+Updates the intent file at `work/intent/**/<intent-id>.md` (based on type):
 
 ```markdown
 ## Status

@@ -1,6 +1,6 @@
-# Later (Backlog)
+# Now (Current Sprint)
 
-**Generated:** 2026-02-04T21:54:12Z
+**Generated:** 2026-02-04T22:05:41Z
 
 ## Intents
 

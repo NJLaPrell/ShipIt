@@ -25,7 +25,7 @@ NC='\033[0m'
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/lib/validate-intents.sh" || error_exit "Failed to load validation library" 1
 
-INTENT_DIR="${INTENT_DIR:-intent}"
+INTENT_DIR="${INTENT_DIR:-work/intent}"
 
 # Fix whitespace issues in dependencies
 fix_whitespace() {

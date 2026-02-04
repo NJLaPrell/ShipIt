@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Verification Script
-# Runs verification checks and writes workflow-state/04_verification.md
+# Runs verification checks and writes work/workflow-state/04_verification.md
 
 set -euo pipefail
 
@@ -15,7 +15,7 @@ if [ -z "$INTENT_ID" ]; then
     error_exit "Usage: ./scripts/verify.sh <intent-id>" 1
 fi
 
-WORKFLOW_DIR="workflow-state"
+WORKFLOW_DIR="work/workflow-state"
 mkdir -p "$WORKFLOW_DIR"
 
 FAILED=0
@@ -84,8 +84,8 @@ $(if [ "$FAILED" -eq 0 ]; then echo "- [x] All checks pass"; else echo "- [ ] Al
 EOF
 
 # Append to confidence-calibration.json if it exists
-mkdir -p generated/artifacts
-CALIBRATION_FILE="generated/artifacts/confidence-calibration.json"
+mkdir -p _system/artifacts
+CALIBRATION_FILE="_system/artifacts/confidence-calibration.json"
 if [ -f "$CALIBRATION_FILE" ] && command -v jq >/dev/null 2>&1; then
     # Determine outcome
     if [ "$FAILED" -eq 0 ]; then

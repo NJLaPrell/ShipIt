@@ -13,7 +13,7 @@ CYAN='\033[0;36m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-INTENT_DIR="intent"
+INTENT_DIR="work/intent"
 WORKFLOW_DIR="workflow-state"
 
 echo -e "${BLUE}ShipIt Suggestions${NC}"
@@ -100,22 +100,22 @@ fi
 if [ -n "$ACTIVE_ID" ]; then
     case "$ACTIVE_PHASE" in
         *analysis*|*Analysis*)
-            SUGGESTIONS+=("${CYAN}1. Continue analysis:${NC} Fill in workflow-state/01_analysis.md")
+            SUGGESTIONS+=("${CYAN}1. Continue analysis:${NC} Fill in work/workflow-state/01_analysis.md")
             SUGGESTIONS+=("${CYAN}2. Move to planning:${NC} Run /ship $ACTIVE_ID (will proceed to Phase 2)")
             ;;
         *plan*|*Plan*)
             if [ -f "$WORKFLOW_DIR/02_plan.md" ] && grep -q "\[ \].*approval\|\[ \].*Approval" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null && ! grep -q "\[x\].*approval\|\[x\].*Approval\|Approved\|APPROVE" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null; then
-                SUGGESTIONS+=("${YELLOW}1. ⚠ Approval required:${NC} Review and approve workflow-state/02_plan.md")
+                SUGGESTIONS+=("${YELLOW}1. ⚠ Approval required:${NC} Review and approve work/workflow-state/02_plan.md")
             else
                 SUGGESTIONS+=("${CYAN}1. Continue to implementation:${NC} Run /ship $ACTIVE_ID")
             fi
             ;;
         *implementation*|*Implementation*)
-            SUGGESTIONS+=("${CYAN}1. Continue implementation:${NC} Fill in workflow-state/03_implementation.md")
+            SUGGESTIONS+=("${CYAN}1. Continue implementation:${NC} Fill in work/workflow-state/03_implementation.md")
             SUGGESTIONS+=("${CYAN}2. Move to verification:${NC} Run /verify $ACTIVE_ID")
             ;;
         *verification*|*Verification*)
-            SUGGESTIONS+=("${CYAN}1. Complete verification:${NC} Fill in workflow-state/04_verification.md")
+            SUGGESTIONS+=("${CYAN}1. Complete verification:${NC} Fill in work/workflow-state/04_verification.md")
             SUGGESTIONS+=("${CYAN}2. Move to release:${NC} Run /ship $ACTIVE_ID")
             ;;
         *)
@@ -126,14 +126,14 @@ fi
 
 # Release plan needs update
 if [ "$PLANNED" -gt 0 ] || [ "$ACTIVE" -gt 0 ]; then
-    if [ ! -f "generated/release/plan.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "generated/release/plan.md" -print -quit 2>/dev/null)" ]; then
+    if [ ! -f "work/release/plan.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "work/release/plan.md" -print -quit 2>/dev/null)" ]; then
         SUGGESTIONS+=("${CYAN}Update release plan:${NC} /generate-release-plan")
     fi
 fi
 
 # Roadmap needs update
 if [ "$PLANNED" -gt 0 ] || [ "$ACTIVE" -gt 0 ]; then
-    if [ ! -f "generated/roadmap/now.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "generated/roadmap/now.md" -print -quit 2>/dev/null)" ]; then
+    if [ ! -f "work/roadmap/now.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "work/roadmap/now.md" -print -quit 2>/dev/null)" ]; then
         SUGGESTIONS+=("${CYAN}Update roadmap:${NC} /generate-roadmap")
     fi
 fi

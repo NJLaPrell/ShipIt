@@ -197,7 +197,7 @@ with a reason and an expiry date.
 
 ### Confidence Calibration
 
-The `generated/artifacts/confidence-calibration.json` file tracks confidence scores vs actual outcomes to improve calibration over time.
+The `_system/artifacts/confidence-calibration.json` file tracks confidence scores vs actual outcomes to improve calibration over time.
 
 **Schema:**
 
@@ -325,20 +325,20 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 
 ```
 .
-├── intent/              # What to build (features/bugs/tech-debt)
-│   ├── features/        # Feature intents (F-###.md)
-│   ├── bugs/            # Bug intents (B-###.md)
-│   └── tech-debt/       # Tech-debt intents (T-###.md)
-├── workflow-state/      # Current execution state (active + phase files)
-├── generated/           # Generated outputs
-│   ├── artifacts/      # SYSTEM_STATE.md, dependencies.md, confidence-calibration.json
-│   ├── release/        # plan.md
+├── work/                # Current work
+│   ├── intent/         # What to build (features/bugs/tech-debt)
+│   ├── workflow-state/ # Active + phase files
 │   ├── roadmap/        # now.md, next.md, later.md
+│   └── release/        # plan.md
+├── _system/             # Framework and generated (don’t touch)
+│   ├── architecture/   # CANON.md, invariants.yml
+│   ├── artifacts/      # SYSTEM_STATE.md, dependencies.md, confidence-calibration.json
 │   ├── drift/          # baselines.md, metrics.md
-│   └── reports/        # mutation/, etc.
-├── architecture/        # CANON.md (boundaries) + invariants.yml
-├── behaviors/          # Procedures and policies (release, issue tracking, platform work)
-├── do-not-repeat/      # Failed approaches (don't rediscover)
+│   ├── reports/        # mutation/, etc.
+│   ├── do-not-repeat/  # Failed approaches
+│   ├── behaviors/      # Procedures and policies
+│   ├── security/       # audit-allowlist.json
+│   └── golden-data/    # Replay validation data
 └── experimental/       # Experimental tooling (e.g. agent-coordinator); not part of main workflow
 ```
 
@@ -356,7 +356,7 @@ Generated planning artifacts and how they relate:
 
 ### Intent Ledger
 
-All work lives in `/intent/` as markdown files under `features/`, `bugs/`, or `tech-debt`. Each intent has:
+All work lives in `work/intent/` as markdown files under `features/`, `bugs/`, or `tech-debt`. Each intent has:
 
 - Executable acceptance criteria (not "looks good")
 - Confidence scores (requirements + domain assumptions)

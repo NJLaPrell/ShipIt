@@ -5,7 +5,7 @@
 set -euo pipefail
 
 AUDIT_LEVEL="${1:-moderate}"
-ALLOWLIST_FILE="security/audit-allowlist.json"
+ALLOWLIST_FILE="_system/security/audit-allowlist.json"
 
 if ! command -v pnpm >/dev/null 2>&1; then
     echo "ERROR: pnpm is required to run audit checks" >&2

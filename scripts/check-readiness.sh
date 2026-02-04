@@ -128,7 +128,7 @@ echo ""
 
 # Check 7: Invariants
 echo -e "${YELLOW}[7/7] Checking invariants...${NC}"
-if [ -f "architecture/invariants.yml" ]; then
+if [ -f "_system/architecture/invariants.yml" ]; then
     if [ -f "scripts/validate-project.sh" ]; then
         if ./scripts/validate-project.sh >/dev/null 2>&1; then
             echo -e "${GREEN}✓ Invariants valid${NC}"

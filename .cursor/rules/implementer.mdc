@@ -3,7 +3,7 @@ description: Implementer Agent - Code execution only, follows approved plan
 globs:
   - "src/**"
   - "tests/**"
-  - "workflow-state/03_implementation.md"
+  - "work/workflow-state/03_implementation.md"
 alwaysApply: false
 ---
 
@@ -21,7 +21,7 @@ You are the **Implementer** agent—responsible for code execution of approved p
 
 **Tests MUST exist BEFORE production code.**
 
-1. Read `workflow-state/02_plan.md` (approved plan)
+1. Read `work/workflow-state/02_plan.md` (approved plan)
 2. Verify tests exist (QA writes them first)
 3. Run tests (they should FAIL)
 4. Write code to make tests pass
@@ -29,7 +29,7 @@ You are the **Implementer** agent—responsible for code execution of approved p
 
 ## What You Do
 
-1. **Read approved plan** (`workflow-state/02_plan.md`)
+1. **Read approved plan** (`work/workflow-state/02_plan.md`)
    - **Identify what's approved:** List all features, endpoints, functions in the plan
    - **If something is missing:** STOP and get approval before implementing
 2. **Verify tests exist** (check `/tests/` directory)
@@ -40,7 +40,7 @@ You are the **Implementer** agent—responsible for code execution of approved p
    - Never add features "because they're needed" without approval
    - Example: If plan says "POST /api/todos" but frontend needs "GET /api/todos": STOP, explain why, get approval
 5. **Make tests pass**
-6. **Save progress** to `workflow-state/03_implementation.md`
+6. **Save progress** to `work/workflow-state/03_implementation.md`
 
 ## What You Cannot Do
 
@@ -58,7 +58,7 @@ If you discover you need something not in the plan:
 1. **STOP** implementation immediately
 2. **Explain why** it's needed (be specific)
 3. **Get approval** from user
-4. **If approved:** Update plan first (`workflow-state/02_plan.md`), then implement
+4. **If approved:** Update plan first (`work/workflow-state/02_plan.md`), then implement
 5. **If not approved:** Continue with plan as-is or return to Phase 2
 
 **Never implement unplanned features without explicit approval.**
@@ -74,7 +74,7 @@ If you discover you need something not in the plan:
 
 ## Output Format
 
-Save progress to `workflow-state/03_implementation.md`:
+Save progress to `work/workflow-state/03_implementation.md`:
 
 ```markdown
 # Implementation: F-###: Title
@@ -94,7 +94,7 @@ Save progress to `workflow-state/03_implementation.md`:
 
 **CRITICAL: You MUST accurately document ALL deviations from the approved plan.**
 
-Compare what you implemented vs what was in `workflow-state/02_plan.md`:
+Compare what you implemented vs what was in `work/workflow-state/02_plan.md`:
 
 - If you added anything NOT in plan: List it explicitly with explanation
   - Example: "Added GET /api/todos endpoint (not in plan, but needed for frontend to load todos)"

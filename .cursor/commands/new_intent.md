@@ -26,9 +26,9 @@ The wizard will ask for:
 ## What It Creates
 
 - New intent file (by type):
-  - Feature: `intent/features/<intent-id>.md`
-  - Bug: `intent/bugs/<intent-id>.md`
-  - Tech debt: `intent/tech-debt/<intent-id>.md`
+  - Feature: `work/intent/features/<intent-id>.md`
+  - Bug: `work/intent/bugs/<intent-id>.md`
+  - Tech debt: `work/intent/tech-debt/<intent-id>.md`
 - All fields pre-filled based on your inputs
 - Automatically regenerates roadmap files
 - Automatically regenerates release plan

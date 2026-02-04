@@ -1,37 +1,47 @@
 # F-###: Title
 
 ## Type
+
 feature | bug | tech-debt
 
 ## Status
+
 planned | active | blocked | validating | shipped | killed
 
 ## Priority
+
 p0 | p1 | p2 | p3
 
 ## Effort
+
 s | m | l
 
 ## Release Target
+
 R1 | R2 | R3 | R4
 
 ## Motivation
+
 (Why it exists, 1–3 bullets)
 
 ## Confidence
+
 Requirements: 0.0–1.0  
 Domain assumptions: 0.0–1.0
 (If either < threshold, document why proceeding or request human interrupt)
 
 ## Invariants (Hard Constraints)
+
 Written in dual form: human-readable AND executable
 
 Human-readable:
+
 - No PII stored unencrypted
 - p95 latency < 200ms
 - Schema backward compatible for 3 versions
 
 Executable (add to architecture/invariants.yml):
+
 ```yaml
 invariants:
   - no_pii_unencrypted
@@ -43,6 +53,7 @@ success_metrics:
 ```
 
 ## Acceptance (Executable)
+
 These are the ONLY criteria for "done." If it can't be checked automatically, it doesn't belong here.
 
 - [ ] Tests: `<test_name>` added; fails before fix, passes after
@@ -53,6 +64,7 @@ These are the ONLY criteria for "done." If it can't be checked automatically, it
 - [ ] Performance: p95 < budget (if applicable)
 
 ## Assumptions (MUST BE EXPLICIT)
+
 Every assumption is a potential bug. List them and make them testable where possible.
 
 - (ex: "User sessions never exceed 24h" — add test?)
@@ -60,14 +72,17 @@ Every assumption is a potential bug. List them and make them testable where poss
 - (ex: "This regex handles all Unicode correctly" — add property test?)
 
 ## Risk Level
+
 low | medium | high
 
 Risk triggers:
+
 - high: auth, money, data migration, permissions, infra, PII
 - medium: new dependencies, API changes, performance-sensitive
 - low: docs, refactors, tests, internal tooling
 
 ## Kill Criteria (Stop Conditions)
+
 If ANY of these trigger, the intent is KILLED (not paused, not reworked—killed):
 
 - Cannot satisfy latency invariant without major redesign
@@ -78,6 +93,7 @@ If ANY of these trigger, the intent is KILLED (not paused, not reworked—killed
 - Cost exceeds budget by >X%
 
 ## Rollback Plan
+
 REQUIRED before implementation begins.
 
 - Feature flag: `FEATURE_X_ENABLED=false`
@@ -86,12 +102,15 @@ REQUIRED before implementation begins.
 - Revert commit: clean revert possible without data loss
 
 ## Dependencies
+
 - (Other intent IDs that must ship first)
 - (ADRs that must be approved)
 - (External systems/APIs)
 
 ## Do Not Repeat Check
+
 Before starting, verify this hasn't been tried before:
+
 - [ ] Checked /do-not-repeat/abandoned-designs.md
 - [ ] Checked /do-not-repeat/failed-experiments.md
 - [ ] No similar rejected approaches exist

@@ -16,8 +16,8 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-mkdir -p generated/artifacts
-STATE_FILE="generated/artifacts/SYSTEM_STATE.md"
+mkdir -p _system/artifacts
+STATE_FILE="_system/artifacts/SYSTEM_STATE.md"
 
 echo -e "${BLUE}Generating SYSTEM_STATE.md...${NC}"
 
@@ -35,7 +35,7 @@ INTENT_PLANNED=$(find intent -name "*.md" ! -name "_TEMPLATE.md" -print0 2>/dev/
 INTENT_SHIPPED=$(find intent -name "*.md" ! -name "_TEMPLATE.md" -print0 2>/dev/null | xargs -0 grep -l "Status.*shipped" 2>/dev/null | wc -l | tr -d ' ' || echo "0")
 
 # Get active intent
-ACTIVE_INTENT=$(grep -h "Intent ID:" workflow-state/active.md 2>/dev/null | grep -o "F-[0-9]*\|B-[0-9]*\|T-[0-9]*" | head -1 || echo "none")
+ACTIVE_INTENT=$(grep -h "Intent ID:" work/workflow-state/active.md 2>/dev/null | grep -o "F-[0-9]*\|B-[0-9]*\|T-[0-9]*" | head -1 || echo "none")
 
 # Get recent intents
 RECENT_INTENTS=$(find intent -name "*.md" ! -name "_TEMPLATE.md" -type f -exec basename {} .md \; 2>/dev/null | head -10 | tr '\n' ',' | sed 's/,$//' || echo "none")
@@ -65,8 +65,8 @@ This file provides a global view of the system state for agents to maintain cohe
 
 ## System Health
 
-- **Workflow State:** [Check workflow-state/active.md]
-- **Drift Status:** [Check generated/drift/metrics.md]
+- **Workflow State:** [Check work/workflow-state/active.md]
+- **Drift Status:** [Check _system/drift/metrics.md]
 - **Test Coverage:** [Run: pnpm test:coverage]
 
 ## Key Decisions

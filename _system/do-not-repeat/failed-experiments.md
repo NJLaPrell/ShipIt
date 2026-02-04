@@ -5,6 +5,7 @@ This ledger records experiments that were tried but failed. **Do not repeat thes
 ## Format
 
 Each entry should include:
+
 - **Experiment:** What was tried
 - **Why it failed:** Root cause
 - **Date:** When it failed
