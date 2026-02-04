@@ -40,7 +40,7 @@ Human-readable:
 - p95 latency < 200ms
 - Schema backward compatible for 3 versions
 
-Executable (add to architecture/invariants.yml):
+Executable (add to \_system/architecture/invariants.yml):
 
 ```yaml
 invariants:
@@ -111,6 +111,6 @@ REQUIRED before implementation begins.
 
 Before starting, verify this hasn't been tried before:
 
-- [ ] Checked /do-not-repeat/abandoned-designs.md
-- [ ] Checked /do-not-repeat/failed-experiments.md
+- [ ] Checked \_system/do-not-repeat/abandoned-designs.md
+- [ ] Checked \_system/do-not-repeat/failed-experiments.md
 - [ ] No similar rejected approaches exist

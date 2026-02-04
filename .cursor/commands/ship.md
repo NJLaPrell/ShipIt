@@ -14,7 +14,7 @@ Example: `/ship F-042`
 
 - Project must be initialized (run `/init-project` first)
 - `project.json` must exist and be valid
-- Intent file must exist under `intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
+- Intent file must exist under `work/intent/**/<intent-id>.md` (commonly `work/intent/features/<intent-id>.md`)
 
 ## Automated State Generation
 
@@ -86,13 +86,13 @@ Cursor doesn't have native "subagents." You will switch roles by:
 
 **Switch to PM role** (read `.cursor/rules/pm.mdc`):
 
-1. Read the intent file: `intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
+1. Read the intent file: `work/intent/**/<intent-id>.md` (commonly `work/intent/features/<intent-id>.md`)
 2. Restate requirements clearly (no ambiguity)
 3. Define acceptance criteria (executable, not subjective)
 4. Score confidence:
    - Requirements clarity: 0.0-1.0
    - Domain assumptions: 0.0-1.0
-5. Check `/do-not-repeat/` for similar failed approaches
+5. Check `_system/do-not-repeat/` for similar failed approaches
 6. Save output to `work/workflow-state/01_analysis.md`
 7. **If confidence < 0.7, STOP and request human interrupt**
 

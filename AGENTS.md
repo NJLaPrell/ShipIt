@@ -30,7 +30,7 @@ A feature/bugfix is "done" when ALL of these pass:
 
 - **Tests before implementation** (Spec → Tests → Code)
 - All assumptions must be explicit
-- Check `/do-not-repeat/` before proposing designs
+- Check `_system/do-not-repeat/` before proposing designs
 - Small, reviewable diffs preferred
 
 ### Forbidden Patterns

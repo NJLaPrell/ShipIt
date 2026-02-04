@@ -145,7 +145,7 @@ Forbidden: domain → services (no upward deps)
 
 ## ADR Log
 
-Architecture Decision Records are stored in `/architecture/ADR-###.md`.
+Architecture Decision Records are stored in `_system/architecture/ADR-###.md`.
 
 | ADR     | Decision                       | Date       |
 | ------- | ------------------------------ | ---------- |

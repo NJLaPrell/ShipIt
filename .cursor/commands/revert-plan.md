@@ -16,7 +16,7 @@ Produces a rollback section to ensure changes are reversible.
 
 ## Inputs
 
-- `work/intent/**/<intent-id>.md` (commonly `intent/features/<intent-id>.md`)
+- `work/intent/**/<intent-id>.md` (commonly `work/intent/features/<intent-id>.md`)
 - `work/workflow-state/02_plan.md`
 - `work/workflow-state/03_implementation.md` (if present)
 
