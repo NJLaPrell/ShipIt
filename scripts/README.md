@@ -12,7 +12,8 @@ Shell scripts for the ShipIt framework. Run via `pnpm <script-name>` (see `packa
 
 ### Workflow Orchestration
 
-- `workflow-orchestrator.sh` — Generate workflow state files for `/ship` phases
+- `workflow-orchestrator.sh` — Generate workflow state files for `/ship` phases (spec-driven: reads `workflow-templates/phases.yml` and substitutes templates)
+- `workflow-templates/` — Phase spec (`phases.yml`) and `.tpl` templates; add a phase by adding a spec entry and a template file
 - `verify.sh` — Run verification phase (tests, mutation, audit)
 
 Agent coordinator (task queue and agent assignment) is **experimental** and lives in `experimental/`; see `experimental/README.md`.

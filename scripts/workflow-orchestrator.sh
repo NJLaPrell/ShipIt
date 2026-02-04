@@ -1,11 +1,13 @@
 #!/bin/bash
 
 # Workflow Orchestrator Script
-# Automates workflow state file generation and phase transitions
+# Automates workflow state file generation from phase spec and templates.
+# Phase list: scripts/workflow-templates/phases.yml. Add a phase there and a .tpl file.
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TEMPLATES_DIR="$SCRIPT_DIR/workflow-templates"
 # shellcheck source=lib/intent.sh
 [ -f "$SCRIPT_DIR/lib/intent.sh" ] && source "$SCRIPT_DIR/lib/intent.sh"
 
@@ -24,308 +26,57 @@ if [ -f "$SCRIPT_DIR/lib/progress.sh" ]; then
     source "$SCRIPT_DIR/lib/progress.sh"
 fi
 
+DATE_UTC="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+PHASE_COUNT=$(node -e "
+const yaml = require('yaml');
+const fs = require('fs');
+const spec = yaml.parse(fs.readFileSync('$TEMPLATES_DIR/phases.yml', 'utf8'));
+console.log(spec.phases.length);
+")
+
 echo -e "${BLUE}Orchestrating workflow for $INTENT_ID...${NC}"
 echo -e "${BLUE}Using intent file: ${INTENT_FILE}${NC}"
 echo ""
 
-# Phase 1: Analysis
-create_analysis() {
+phase_num=0
+while IFS='|' read -r output_file template_file phase_name; do
+    [ -z "$output_file" ] && continue
+    phase_num=$((phase_num + 1))
     if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 1 5 "Analysis" "running"
+        show_phase_progress "$phase_num" "$PHASE_COUNT" "$phase_name" "running"
     else
-        echo -e "${YELLOW}[Phase 1/5] Analysis... ⏳${NC}"
+        echo -e "${YELLOW}[Phase $phase_num/$PHASE_COUNT] $phase_name... ⏳${NC}"
     fi
-    
-    cat > "$WORKFLOW_DIR/01_analysis.md" << EOF || error_exit "Failed to create analysis state"
-# Analysis: $INTENT_ID
 
-**Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-**Intent:** $INTENT_ID
+    template_path="$TEMPLATES_DIR/$template_file"
+    if [ ! -f "$template_path" ]; then
+        error_exit "Template not found: $template_path" 1
+    fi
 
-## Requirements
-
-[To be filled by PM agent]
-
-## Acceptance Criteria
-
-[To be filled by PM agent]
-
-## Confidence Scores
-
-- Requirements clarity: [0.0-1.0]
-- Domain assumptions: [0.0-1.0]
-
-## Do-Not-Repeat Check
-
-[Results from _system/do-not-repeat/ check]
-
-## Next Steps
-
-Proceed to Planning phase.
-EOF
+    sed -e "s/{{INTENT_ID}}/$INTENT_ID/g" -e "s/{{DATE_UTC}}/$DATE_UTC/g" "$template_path" > "$WORKFLOW_DIR/$output_file" \
+        || error_exit "Failed to create $WORKFLOW_DIR/$output_file" 1
 
     if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 1 5 "Analysis" "complete"
+        show_phase_progress "$phase_num" "$PHASE_COUNT" "$phase_name" "complete"
     else
-        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/01_analysis.md${NC}"
+        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/$output_file${NC}"
     fi
-}
-
-# Phase 2: Planning
-create_plan() {
-    if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 2 5 "Planning" "running"
-    else
-        echo -e "${YELLOW}[Phase 2/5] Planning... ⏳${NC}"
-    fi
-    
-    cat > "$WORKFLOW_DIR/02_plan.md" << EOF || error_exit "Failed to create plan state"
-# Plan: $INTENT_ID
-
-**Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-**Intent:** $INTENT_ID
-
-## Technical Approach
-
-[To be filled by Architect agent]
-
-## Files to Create/Modify
-
-- [File list]
-
-## CANON.md Compliance
-
-[Compliance check results]
-
-## Rollback Strategy
-
-[Rollback plan]
-
-## Approval Status
-
-- [ ] Human approval required
-- [ ] Approved
-- [ ] Blocked
-
-## Next Steps
-
-Proceed to Test Writing phase.
-EOF
-
-    if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 2 5 "Planning" "complete"
-    else
-        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/02_plan.md${NC}"
-    fi
-}
-
-# Phase 3: Implementation
-create_implementation() {
-    if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 3 5 "Implementation" "running"
-    else
-        echo -e "${YELLOW}[Phase 3/5] Implementation... ⏳${NC}"
-    fi
-    
-    cat > "$WORKFLOW_DIR/03_implementation.md" << EOF || error_exit "Failed to create implementation state"
-# Implementation: $INTENT_ID
-
-**Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-**Intent:** $INTENT_ID
-
-## Implementation Progress
-
-[To be filled by Implementer agent]
-
-## Files Modified
-
-- [List of files]
-
-## Tests Status
-
-- [ ] All tests pass
-- [ ] Coverage meets threshold
-
-## Deviations from Plan
-
-[Any deviations and rationale]
-
-## Next Steps
-
-Proceed to Verification phase.
-EOF
-
-    if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 3 5 "Implementation" "complete"
-    else
-        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/03_implementation.md${NC}"
-    fi
-}
-
-# Phase 4: Verification
-create_verification() {
-    if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 4 5 "Verification" "running"
-    else
-        echo -e "${YELLOW}[Phase 4/5] Verification... ⏳${NC}"
-    fi
-    
-    cat > "$WORKFLOW_DIR/04_verification.md" << EOF || error_exit "Failed to create verification state"
-# Verification: $INTENT_ID
-
-**Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-**Intent:** $INTENT_ID
-
-## Test Results
-
-[QA agent results]
-
-## Mutation Testing
-
-[Mutation test results]
-
-## Security Review
-
-[Security agent findings]
-
-## Dependency Audit
-
-[Audit results]
-
-## Verification Status
-
-- [ ] All checks pass
-- [ ] Ready for release
-
-## Next Steps
-
-Proceed to Release phase.
-EOF
-
-    # Backward compatibility: some docs/tests still look for 05_verification.md
-    # Quoted delimiter so backticks in content are literal (no "Permission denied" from expansion)
-    cat > "$WORKFLOW_DIR/05_verification.md" << 'LEGACY_VERIFICATION_EOF' || error_exit "Failed to create legacy verification state"
-# Verification (Legacy): INTENT_ID_PLACEHOLDER
-
-**Generated:** DATE_PLACEHOLDER
-**Intent:** INTENT_ID_PLACEHOLDER
-
-This file is deprecated. Use `work/workflow-state/04_verification.md`.
-LEGACY_VERIFICATION_EOF
-    # Inject values (heredoc was quoted to avoid backtick expansion)
-    sed -i.bak -e "s/INTENT_ID_PLACEHOLDER/$INTENT_ID/g" -e "s/DATE_PLACEHOLDER/$(date -u +"%Y-%m-%dT%H:%M:%SZ")/g" "$WORKFLOW_DIR/05_verification.md" && rm -f "$WORKFLOW_DIR/05_verification.md.bak"
-
-    if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 4 5 "Verification" "complete"
-    else
-        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/04_verification.md${NC}"
-    fi
-}
-
-# Phase 5: Release Notes
-create_release() {
-    if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 5 5 "Release" "running"
-    else
-        echo -e "${YELLOW}[Phase 5/5] Release... ⏳${NC}"
-    fi
-    
-    cat > "$WORKFLOW_DIR/05_release_notes.md" << EOF || error_exit "Failed to create release notes state"
-# Release Notes: $INTENT_ID
-
-**Generated:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-**Intent:** $INTENT_ID
-
-## Documentation Updates
-
-[Docs agent updates]
-
-## Release Notes
-
-[Release notes]
-
-## Approval Summary
-
-[Steward decision and rationale]
-EOF
-
-    if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress 5 5 "Release" "complete"
-    else
-        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/05_release_notes.md${NC}"
-    fi
-}
-
-# Update active.md
-update_active() {
-    cat > "$WORKFLOW_DIR/active.md" << EOF || error_exit "Failed to update active.md"
-# Active Intent
-
-**Intent ID:** $INTENT_ID
-**Status:** active
-**Current Phase:** [Phase name]
-**Started:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
-## Progress
-
-- [ ] Phase 1: Analysis
-- [ ] Phase 2: Planning
-- [ ] Phase 3: Implementation
-- [ ] Phase 4: Verification
-- [ ] Phase 5: Release Notes
-
-## Assigned Agents
-
-[Agent assignments]
-EOF
-
-    echo -e "${GREEN}✓ Updated $WORKFLOW_DIR/active.md${NC}"
-}
-
-# Check gate
-check_gate() {
-    local phase="$1"
-    local gate_file="$2"
-    
-    if [ ! -f "$gate_file" ]; then
-        return 1
-    fi
-    
-    # Check for approval markers
-    if grep -q "\[ \].*approval\|\[ \].*Approval" "$gate_file" 2>/dev/null; then
-        # Check if approved
-        if grep -q "\[x\].*approval\|\[x\].*Approval\|Approved\|APPROVE" "$gate_file" 2>/dev/null; then
-            return 0
-        else
-            return 1
-        fi
-    fi
-    
-    return 0
-}
-
-# Main workflow
-main() {
-    # Initialize all state files
-    create_analysis
-    create_plan
-    create_implementation
-    create_verification
-    create_release
-    update_active
-    
-    echo ""
-    echo -e "${GREEN}════════════════════════════════════════${NC}"
-    echo -e "${GREEN}✓ Workflow state files created${NC}"
-    echo -e "${GREEN}════════════════════════════════════════${NC}"
-    echo ""
-    echo -e "${YELLOW}Next steps:${NC}"
-    echo "1. Fill in $WORKFLOW_DIR/01_analysis.md (PM role)"
-    echo "2. Fill in $WORKFLOW_DIR/02_plan.md (Architect role)"
-    echo "3. Fill in $WORKFLOW_DIR/03_implementation.md (Implementer role)"
-    echo "4. Fill in $WORKFLOW_DIR/04_verification.md (QA + Security roles)"
-    echo "5. Fill in $WORKFLOW_DIR/05_release_notes.md (Docs + Steward roles)"
-    echo ""
-}
-
-main
+done < <(node -e "
+const yaml = require('yaml');
+const fs = require('fs');
+const spec = yaml.parse(fs.readFileSync('$TEMPLATES_DIR/phases.yml', 'utf8'));
+spec.phases.forEach(p => console.log(p.output + '|' + p.template + '|' + (p.name || '')));
+")
+
+echo ""
+echo -e "${GREEN}════════════════════════════════════════${NC}"
+echo -e "${GREEN}✓ Workflow state files created${NC}"
+echo -e "${GREEN}════════════════════════════════════════${NC}"
+echo ""
+echo -e "${YELLOW}Next steps:${NC}"
+echo "1. Fill in $WORKFLOW_DIR/01_analysis.md (PM role)"
+echo "2. Fill in $WORKFLOW_DIR/02_plan.md (Architect role)"
+echo "3. Fill in $WORKFLOW_DIR/03_implementation.md (Implementer role)"
+echo "4. Fill in $WORKFLOW_DIR/04_verification.md (QA + Security roles)"
+echo "5. Fill in $WORKFLOW_DIR/05_release_notes.md (Docs + Steward roles)"
+echo ""
