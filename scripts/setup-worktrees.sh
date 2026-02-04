@@ -74,7 +74,7 @@ for i in $(seq 1 $TASK_COUNT); do
   fi
   
   # Register agent in coordination system
-  if [ -f "scripts/agent-coordinator.sh" ]; then
+  if [ -f "experimental/agent-coordinator.sh" ]; then
     AGENT_ID="agent-$i"
     # Agent will be registered when first task is assigned
   fi

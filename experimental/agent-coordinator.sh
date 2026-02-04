@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Agent Coordinator Script
-# Manages task queue, agent assignment, and coordination
+# Agent Coordinator Script (experimental)
+# Manages task queue, agent assignment, and coordination.
+# Writes agent-queue.json and agent-status.json in this directory.
 
 set -euo pipefail
 
@@ -17,8 +18,9 @@ BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m'
 
-QUEUE_FILE="agent-queue.json"
-STATUS_FILE="agent-status.json"
+COORD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+QUEUE_FILE="$COORD_DIR/agent-queue.json"
+STATUS_FILE="$COORD_DIR/agent-status.json"
 
 # Initialize queue if it doesn't exist
 init_queue() {
@@ -54,13 +56,13 @@ add_task() {
     local intent_id="$1"
     local task_type="$2"
     local priority="${3:-medium}"
-    
+
     init_queue
-    
+
     # Generate task ID
     local task_count=$(jq '.tasks | length' "$QUEUE_FILE" 2>/dev/null || echo "0")
     local task_id="T-$(printf "%03d" $((task_count + 1)))"
-    
+
     # Add task
     jq --arg id "$task_id" \
        --arg intent "$intent_id" \
@@ -85,7 +87,7 @@ add_task() {
          "notes": ""
        }] | .updated = $updated' \
        "$QUEUE_FILE" > "$QUEUE_FILE.tmp" && mv "$QUEUE_FILE.tmp" "$QUEUE_FILE"
-    
+
     echo -e "${GREEN}✓ Added task $task_id for intent $intent_id${NC}"
     echo "$task_id"
 }
@@ -94,10 +96,10 @@ add_task() {
 assign_task() {
     local task_id="$1"
     local agent_id="$2"
-    
+
     init_queue
     init_status
-    
+
     # Update task
     jq --arg id "$task_id" \
        --arg agent "$agent_id" \
@@ -108,7 +110,7 @@ assign_task() {
         (.tasks[] | select(.id == $id) | .status) = "assigned" |
         .updated = $updated' \
        "$QUEUE_FILE" > "$QUEUE_FILE.tmp" && mv "$QUEUE_FILE.tmp" "$QUEUE_FILE"
-    
+
     # Update agent status
     if ! jq -e ".agents[] | select(.id == \"$agent_id\")" "$STATUS_FILE" >/dev/null 2>&1; then
         # Add agent if doesn't exist
@@ -138,36 +140,36 @@ assign_task() {
             .updated = $updated' \
            "$STATUS_FILE" > "$STATUS_FILE.tmp" && mv "$STATUS_FILE.tmp" "$STATUS_FILE"
     fi
-    
+
     echo -e "${GREEN}✓ Assigned task $task_id to agent $agent_id${NC}"
 }
 
 # Check for conflicts
 check_conflicts() {
     local task_id="$1"
-    
+
     if [ ! -f "$QUEUE_FILE" ]; then
         return 0
     fi
-    
+
     # Get task files
     local task_files=$(jq -r ".tasks[] | select(.id == \"$task_id\") | .outputFiles[]" "$QUEUE_FILE" 2>/dev/null || echo "")
-    
+
     if [ -z "$task_files" ]; then
         return 0
     fi
-    
+
     # Check for other tasks using same files
     local conflicts=$(jq -r --arg id "$task_id" \
-        '.tasks[] | select(.id != $id and .status == "in-progress") | 
+        '.tasks[] | select(.id != $id and .status == "in-progress") |
          select(.outputFiles[] as $f | $task_files | contains([$f])) | .id' \
         "$QUEUE_FILE" 2>/dev/null || echo "")
-    
+
     if [ -n "$conflicts" ]; then
         echo -e "${RED}⚠ Conflict detected: Task $task_id conflicts with: $conflicts${NC}"
         return 1
     fi
-    
+
     return 0
 }
 
@@ -177,9 +179,9 @@ list_pending() {
         echo "No task queue found"
         return
     fi
-    
+
     echo -e "${BLUE}Pending Tasks:${NC}"
-    jq -r '.tasks[] | select(.status == "pending" or .status == "assigned") | 
+    jq -r '.tasks[] | select(.status == "pending" or .status == "assigned") |
            "\(.id): \(.intentId) - \(.type) [\(.priority)]"' "$QUEUE_FILE" 2>/dev/null || echo "No pending tasks"
 }
 
@@ -189,7 +191,7 @@ list_agents() {
         echo "No agent status found"
         return
     fi
-    
+
     echo -e "${BLUE}Agent Status:${NC}"
     jq -r '.agents[] | "\(.id) [\(.role)]: \(.status) - Task: \(.currentTask // "none")"' "$STATUS_FILE" 2>/dev/null || echo "No agents"
 }
@@ -200,38 +202,38 @@ case "${1:-}" in
         init_queue
         init_status
         ;;
-    
+
     add)
         if [ -z "${2:-}" ] || [ -z "${3:-}" ]; then
             error_exit "Usage: $0 add <intent-id> <task-type> [priority]" 1
         fi
         add_task "$2" "$3" "${4:-medium}"
         ;;
-    
+
     assign)
         if [ -z "${2:-}" ] || [ -z "${3:-}" ]; then
             error_exit "Usage: $0 assign <task-id> <agent-id>" 1
         fi
         assign_task "$2" "$3"
         ;;
-    
+
     check-conflicts)
         if [ -z "${2:-}" ]; then
             error_exit "Usage: $0 check-conflicts <task-id>" 1
         fi
         check_conflicts "$2"
         ;;
-    
+
     list-pending)
         list_pending
         ;;
-    
+
     list-agents)
         list_agents
         ;;
-    
+
     *)
-        echo "Agent Coordinator"
+        echo "Agent Coordinator (experimental)"
         echo ""
         echo "Usage: $0 <command> [args]"
         echo ""

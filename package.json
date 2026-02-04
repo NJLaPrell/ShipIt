@@ -22,7 +22,7 @@
     "check-readiness": "./scripts/check-readiness.sh",
     "deploy": "./scripts/deploy.sh",
     "generate-docs": "./scripts/generate-docs.sh",
-    "agent-coordinator": "./scripts/agent-coordinator.sh",
+    "agent-coordinator": "./experimental/agent-coordinator.sh",
     "workflow-orchestrator": "./scripts/workflow-orchestrator.sh",
     "kill-intent": "./scripts/kill-intent.sh",
     "verify": "./scripts/verify.sh",

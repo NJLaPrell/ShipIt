@@ -338,7 +338,8 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 ├── behaviors/          # Procedures and policies (release, issue tracking, platform work)
 ├── do-not-repeat/      # Failed approaches (don't rediscover)
 ├── drift/              # Entropy monitoring
-└── roadmap/            # now.md, next.md, later.md
+├── roadmap/            # now.md, next.md, later.md
+└── experimental/       # Experimental tooling (e.g. agent-coordinator); not part of main workflow
 ```
 
 ### Planning outputs

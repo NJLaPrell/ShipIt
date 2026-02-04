@@ -15,6 +15,10 @@ projects/*
 !projects/README.md
 .stryker-tmp
 
+# Experimental coordinator state (generated in experimental/)
+experimental/agent-queue.json
+experimental/agent-status.json
+
 # Scratch files from agent workflows (issue creation, resolution notes, release planning)
 .gh-*.md
 .resolution-*.md
