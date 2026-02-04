@@ -24,18 +24,21 @@ This guide helps you run a real-world feature through the complete ShipIt workfl
 Choose a non-trivial but manageable feature:
 
 ### Option 1: User Authentication
+
 - **Complexity:** Medium
 - **Dependencies:** None
 - **Risk:** High (auth is high-risk)
 - **Good for:** Testing security agent, high-risk workflows
 
 ### Option 2: API Endpoint
+
 - **Complexity:** Low-Medium
 - **Dependencies:** None
 - **Risk:** Low
 - **Good for:** Testing basic workflow, test-first approach
 
 ### Option 3: Database Integration
+
 - **Complexity:** Medium
 - **Dependencies:** None
 - **Risk:** Medium
@@ -46,11 +49,15 @@ Choose a non-trivial but manageable feature:
 ### Step 1: Initialize Workflow
 
 \`\`\`bash
+
 # Create intent
+
 /new_intent
 
 # Or manually create intent file
+
 # Then initialize workflow state
+
 pnpm workflow-orchestrator F-001
 \`\`\`
 
@@ -133,24 +140,32 @@ After completing the pilot:
 ## Common Issues & Solutions
 
 ### Issue: Cursor doesn't recognize slash commands
-**Solution:** 
+
+**Solution:**
+
 - Check `.cursor/commands/` files exist
 - Restart Cursor
 - Check Cursor settings for command recognition
 
 ### Issue: Workflow state files not auto-generated
+
 **Solution:**
+
 - Run `pnpm workflow-orchestrator <intent-id>` manually
 - Check script permissions: `chmod +x scripts/workflow-orchestrator.sh`
 
 ### Issue: Agent roles not clear
+
 **Solution:**
+
 - Read `.cursor/rules/*.mdc` files
 - Explicitly state role switching in chat
 - Follow role constraints strictly
 
 ### Issue: Tests fail after implementation
+
 **Solution:**
+
 - Review test expectations
 - Check implementation matches plan
 - Verify no plan deviations
@@ -186,4 +201,4 @@ Pilot is successful if:
 
 ---
 
-*Last updated: 2026-01-12*
+_Last updated: 2026-01-12_

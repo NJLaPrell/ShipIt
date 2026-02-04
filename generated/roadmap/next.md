@@ -1,6 +1,6 @@
-# Now (Current Sprint)
+# Next (Upcoming)
 
-**Generated:** 2026-01-28T03:18:49Z
+**Generated:** 2026-02-04T21:54:12Z
 
 ## Intents
 

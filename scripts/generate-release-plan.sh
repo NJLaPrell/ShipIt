@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Generate Release Plan from Intents
-# Produces release/plan.md with ordered intents by release/priority/dependencies
+# Produces generated/release/plan.md with ordered intents by release/priority/dependencies
 
 set -euo pipefail
 
@@ -11,7 +11,7 @@ error_exit() {
 }
 
 INTENT_DIR="intent"
-RELEASE_DIR="release"
+RELEASE_DIR="generated/release"
 PLAN_FILE="$RELEASE_DIR/plan.md"
 
 if [ ! -d "$INTENT_DIR" ]; then
@@ -426,7 +426,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ -f "$SCRIPT_DIR/lib/verify-outputs.sh" ]; then
     source "$SCRIPT_DIR/lib/verify-outputs.sh"
     echo ""
-    verify_file_exists "$PLAN_FILE" "Generated release/plan.md"
+    verify_file_exists "$PLAN_FILE" "generated/release/plan.md"
     
     # Count intents in plan
     if [ -f "$PLAN_FILE" ]; then

@@ -163,7 +163,7 @@ show_command_help() {
             echo ""
             echo "Usage: /generate-release-plan"
             echo ""
-            echo "Outputs: release/plan.md with:"
+            echo "Outputs: generated/release/plan.md with:"
             echo "  - Intents grouped by release (R1-R4)"
             echo "  - Dependency-ordered within each release"
             echo "  - Missing dependencies section"
@@ -177,9 +177,9 @@ show_command_help() {
             echo "Usage: /generate-roadmap"
             echo ""
             echo "Outputs:"
-            echo "  - roadmap/now.md (intents with no dependencies)"
-            echo "  - roadmap/next.md (intents with dependencies)"
-            echo "  - roadmap/later.md (blocked/backlog)"
+            echo "  - generated/roadmap/now.md (intents with no dependencies)"
+            echo "  - generated/roadmap/next.md (intents with dependencies)"
+            echo "  - generated/roadmap/later.md (blocked/backlog)"
             ;;
         deploy)
             echo -e "${BLUE}/deploy${NC}"
@@ -203,7 +203,7 @@ show_command_help() {
             echo ""
             echo "Usage: /drift_check"
             echo ""
-            echo "Calculates metrics and updates drift/metrics.md"
+            echo "Calculates metrics and updates generated/drift/metrics.md"
             ;;
         status)
             echo -e "${BLUE}/status${NC}"

@@ -112,15 +112,15 @@ $(if [ "$INTENT_TOTAL" -gt 0 ]; then printf "%s\n" "${intent_files[@]}" | head -
 ## 🔗 Quick Links
 
 - [Project Context](./PROJECT_CONTEXT.md)
-- [Roadmap](./roadmap/now.md)
-- [Dependencies](./artifacts/dependencies.md)
+- [Roadmap](./generated/roadmap/now.md)
+- [Dependencies](./generated/artifacts/dependencies.md)
 - [Deployment History](./deployment-history.md)
 
 ## 🚀 Next Actions
 
 1. Review active intent: $ACTIVE_INTENT
 2. Check workflow state: workflow-state/
-3. Update roadmap: roadmap/
+3. Update roadmap: generated/roadmap/
 
 ---
 

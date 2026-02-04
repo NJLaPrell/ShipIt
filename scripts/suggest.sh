@@ -126,14 +126,14 @@ fi
 
 # Release plan needs update
 if [ "$PLANNED" -gt 0 ] || [ "$ACTIVE" -gt 0 ]; then
-    if [ ! -f "release/plan.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "release/plan.md" -print -quit 2>/dev/null)" ]; then
+    if [ ! -f "generated/release/plan.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "generated/release/plan.md" -print -quit 2>/dev/null)" ]; then
         SUGGESTIONS+=("${CYAN}Update release plan:${NC} /generate-release-plan")
     fi
 fi
 
 # Roadmap needs update
 if [ "$PLANNED" -gt 0 ] || [ "$ACTIVE" -gt 0 ]; then
-    if [ ! -f "roadmap/now.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "roadmap/now.md" -print -quit 2>/dev/null)" ]; then
+    if [ ! -f "generated/roadmap/now.md" ] || [ -n "$(find "$INTENT_DIR" -type f -name "*.md" ! -name "_TEMPLATE.md" -newer "generated/roadmap/now.md" -print -quit 2>/dev/null)" ]; then
         SUGGESTIONS+=("${CYAN}Update roadmap:${NC} /generate-roadmap")
     fi
 fi
