@@ -335,6 +335,7 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 │   ├── dependencies.md  # Generated dependency graph
 │   └── confidence-calibration.json
 ├── architecture/        # CANON.md (boundaries) + invariants.yml
+├── behaviors/          # Procedures and policies (release, issue tracking, platform work)
 ├── do-not-repeat/      # Failed approaches (don't rediscover)
 ├── drift/              # Entropy monitoring
 └── roadmap/            # now.md, next.md, later.md
