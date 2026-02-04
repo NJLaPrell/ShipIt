@@ -25,10 +25,11 @@ pnpm generate-roadmap
 ## Output
 
 Updates these files based on intent status and dependencies:
+
 - `roadmap/now.md` — Intents with no unmet dependencies (ready to work on)
 - `roadmap/next.md` — Intents with dependencies on "Now" items
 - `roadmap/later.md` — Intents with deeper dependency chains or lower priority
-- `dependencies.md` — Dependency graph visualization
+- `artifacts/dependencies.md` — Dependency graph visualization
 
 ## When To Use
 

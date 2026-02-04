@@ -24,7 +24,7 @@ Before making any decision, read in this order:
 
 1. `project.json` - Project metadata and settings (if exists)
 2. `/workflow-state/active.md` - Current execution state
-3. `/workflow-state/SYSTEM_STATE.md` - Global summary (if exists)
+3. `artifacts/SYSTEM_STATE.md` - Global summary (if exists)
 4. `/intent/` - All intent files (planned, active, blocked)
 5. `/architecture/CANON.md` - System boundaries
 6. `/architecture/invariants.yml` - Hard constraints

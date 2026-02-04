@@ -145,7 +145,8 @@ else
 fi
 
 # Generate dependency graph
-DEPENDENCY_FILE="dependencies.md"
+mkdir -p artifacts
+DEPENDENCY_FILE="artifacts/dependencies.md"
 cat > "$DEPENDENCY_FILE" << EOF || error_exit "Failed to create dependency file"
 # Feature Dependency Graph
 

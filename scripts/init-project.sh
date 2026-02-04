@@ -86,7 +86,7 @@ HIGH_RISK="${HIGH_RISK:-none}"
 echo -e "${BLUE}Creating project structure...${NC}"
 
 # Core directories
-mkdir -p intent/features intent/bugs intent/tech-debt workflow-state architecture do-not-repeat drift roadmap scripts behaviors golden-data src tests .cursor/rules .cursor/commands .github/workflows
+mkdir -p intent/features intent/bugs intent/tech-debt workflow-state architecture do-not-repeat drift roadmap scripts behaviors golden-data src tests artifacts .cursor/rules .cursor/commands .github/workflows
 
 # Copy framework commands, rules, and core scripts into the new project
 if [ -d "$ROOT_DIR/.cursor/commands" ]; then
@@ -881,13 +881,14 @@ EOF
 echo -e "${GREEN}✓ Created AGENTS.md${NC}"
 
 # Create confidence-calibration.json
-cat > confidence-calibration.json << EOF || error_exit "Failed to create confidence-calibration.json"
+mkdir -p artifacts
+cat > artifacts/confidence-calibration.json << EOF || error_exit "Failed to create artifacts/confidence-calibration.json"
 {
   "decisions": []
 }
 EOF
 
-echo -e "${GREEN}✓ Created confidence-calibration.json${NC}"
+echo -e "${GREEN}✓ Created artifacts/confidence-calibration.json${NC}"
 
 echo ""
 echo -e "${GREEN}════════════════════════════════════════${NC}"

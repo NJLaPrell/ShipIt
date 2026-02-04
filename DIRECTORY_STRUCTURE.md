@@ -12,6 +12,7 @@ Quick reference for ShipIt project layout. **Authoritative source:** [architectu
 | `do-not-repeat/`  | Failed approaches: abandoned-designs, bad-patterns, failed-experiments, rejected-libraries   |
 | `src/`            | Production source code                                                                       |
 | `tests/`          | Test code, fixtures, TEST_PLAN, ISSUES run logs                                              |
+| `artifacts/`      | Generated files (SYSTEM_STATE.md, dependencies.md, confidence-calibration.json)              |
 | `release/`        | Generated release plan (plan.md)                                                             |
 | `roadmap/`        | Generated triage (now.md, next.md, later.md)                                                 |
 | `scripts/`        | Shell scripts + lib/ for shared helpers                                                      |
@@ -23,11 +24,14 @@ Quick reference for ShipIt project layout. **Authoritative source:** [architectu
 | `drift/`          | Baselines and metrics for entropy monitoring                                                 |
 | `.cursor/`        | commands/, rules/, agents/ (Cursor config)                                                   |
 
+## artifacts/ (Generated)
+
+- `artifacts/SYSTEM_STATE.md` — Generated summary for Steward
+- `artifacts/dependencies.md` — Generated dependency graph
+- `artifacts/confidence-calibration.json` — Confidence vs outcomes
+
 ## Root Files (Key)
 
 - `AGENTS.md` — Role definitions, conventions
 - `README.md` — Quick start, usage
 - `project.json` — Project metadata (in initialized projects)
-- `SYSTEM_STATE.md` — Generated summary for Steward
-- `dependencies.md` — Generated dependency graph
-- `confidence-calibration.json` — Confidence vs outcomes

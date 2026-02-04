@@ -197,7 +197,7 @@ with a reason and an expiry date.
 
 ### Confidence Calibration
 
-The `confidence-calibration.json` file tracks confidence scores vs actual outcomes to improve calibration over time.
+The `artifacts/confidence-calibration.json` file tracks confidence scores vs actual outcomes to improve calibration over time.
 
 **Schema:**
 
@@ -330,7 +330,10 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 │   ├── bugs/            # Bug intents (B-###.md)
 │   └── tech-debt/       # Tech-debt intents (T-###.md)
 ├── workflow-state/      # Current execution state (active + phase files)
-├── SYSTEM_STATE.md      # Auto-generated summary for Steward
+├── artifacts/           # Generated files
+│   ├── SYSTEM_STATE.md  # Auto-generated summary for Steward
+│   ├── dependencies.md  # Generated dependency graph
+│   └── confidence-calibration.json
 ├── architecture/        # CANON.md (boundaries) + invariants.yml
 ├── do-not-repeat/      # Failed approaches (don't rediscover)
 ├── drift/              # Entropy monitoring

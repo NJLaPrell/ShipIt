@@ -113,7 +113,7 @@ $(if [ "$INTENT_TOTAL" -gt 0 ]; then printf "%s\n" "${intent_files[@]}" | head -
 
 - [Project Context](./PROJECT_CONTEXT.md)
 - [Roadmap](./roadmap/now.md)
-- [Dependencies](./dependencies.md)
+- [Dependencies](./artifacts/dependencies.md)
 - [Deployment History](./deployment-history.md)
 
 ## 🚀 Next Actions
