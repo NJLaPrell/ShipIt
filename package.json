@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc",
     "drift-check": "./scripts/drift-check.sh",
+    "fix": "./scripts/fix-intents.sh",
     "new-intent": "./scripts/new-intent.sh",
     "init-project": "./scripts/init-project.sh",
     "scope-project": "./scripts/scope-project.sh",
