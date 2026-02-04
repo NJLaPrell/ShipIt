@@ -6,47 +6,70 @@ This file logs **test runs only**. Issues discovered during runs are tracked on 
 
 - **Steps Executed**: count of steps with status **✅ PASS** or **❌ FAIL** (exclude **⏭️ SKIP**).
 - **Steps Skipped**: count of steps with status **⏭️ SKIP**.
-- **Steps Total**: Steps Executed + Steps Skipped.
+- **Steps Total:** Steps Executed + Steps Skipped.
 
 ## Test Runs
 
-### Run: 2026-02-04T01:13:00Z (test-project)
+### Run: 2026-02-04T21:26:00Z (test-project)
 
-**Steps Total:** 23  
-**Steps Executed:** 23  
+**Steps Total:** 42  
+**Steps Executed:** 42  
 **Steps Skipped:** 0  
-**Steps Passed:** 23  
+**Steps Passed:** 42  
 **Steps Failed:** 0  
 **Blocking Issues:** 0  
 **Result:** ✅ PASS
 
 #### Summary
 
-| Step | Name                                                    | Status  | Severity | Notes                                                                |
-| ---- | ------------------------------------------------------- | ------- | -------- | -------------------------------------------------------------------- |
-| 2-2  | Verify project (project.json, intent, roadmap, .cursor) | ✅ PASS | -        | All present                                                          |
-| 3    | Scope project                                           | ✅ PASS | -        | Fixture inputs; project-scope.md, F-001–F-003, release/plan, roadmap |
-| 4    | Create intent (Add due dates to todos)                  | ✅ PASS | -        | F-004 created; roadmap/release refreshed                             |
-| 5    | Generate release plan                                   | ✅ PASS | -        | release/plan.md has Summary, R1–R4                                   |
-| 6    | Generate roadmap                                        | ✅ PASS | -        | roadmap/\*.md updated                                                |
-| 7    | Intent template fields + F-001 p0/s/R1                  | ✅ PASS | -        | F-001 in R1, order respects deps                                     |
-| 8    | Dependency ordering (F-001→F-002)                       | ✅ PASS | -        | F-002 before F-001 in same release                                   |
-| 9    | Missing deps (F-999)                                    | ✅ PASS | -        | Missing Dependencies section lists F-999                             |
-| 10   | New intent (Awesome Banner)                             | ✅ PASS | -        | F-005 created; roadmap/release updated                               |
-| 11   | /ship F-001 (plan gate)                                 | ✅ PASS | -        | 01_analysis, 02_plan created                                         |
-| 12   | /verify F-001                                           | ✅ PASS | -        | 04_verification.md created/updated                                   |
-| 13   | /drift_check                                            | ✅ PASS | -        | drift/metrics.md created/updated                                     |
-| 14   | /deploy staging                                         | ✅ PASS | -        | Readiness checks ran; no real deploy                                 |
-| 15   | /kill F-006                                             | ✅ PASS | -        | F-006 killed; rationale in intent; active.md updated                 |
-| 16   | Approve plan                                            | ✅ PASS | -        | Plan filled and approved                                             |
-| 17   | Write tests (TDD)                                       | ✅ PASS | -        | tests/todo.test.ts added; tests pass                                 |
-| 18   | Implement                                               | ✅ PASS | -        | src/domain/todo.ts, todo-store; 03_implementation.md                 |
-| 19   | Verify                                                  | ✅ PASS | -        | pnpm test green; 04_verification updated                             |
-| 20   | Documentation                                           | ✅ PASS | -        | CHANGELOG, 05_release_notes                                          |
-| 21   | Ship F-001                                              | ✅ PASS | -        | F-001 status shipped; active.md; release/plan refreshed              |
-| 22   | Deploy readiness                                        | ✅ PASS | -        | Readiness checks passed                                              |
-| 23   | Final project state                                     | ✅ PASS | -        | 1 shipped, 1 killed, rest planned; artifacts present                 |
-| 24   | Final test report                                       | ✅ PASS | -        | ISSUES.md updated                                                    |
+| Step | Name                          | Status  | Severity | Notes                                                           |
+| ---- | ----------------------------- | ------- | -------- | --------------------------------------------------------------- |
+| 2-2  | Validate project structure    | ✅ PASS | -        | project.json, intent/\_TEMPLATE.md, roadmap/, .cursor/commands/ |
+| 3-1  | Run scope-project             | ✅ PASS | -        | Fixture scope description                                       |
+| 3-2  | Answer follow-ups             | ✅ PASS | -        | API-only, JSON file, Single-user, none, all features, deps none |
+| 3-3  | Verify intent files           | ✅ PASS | -        | intent/features/F-001.md .. F-003.md                            |
+| 3-4  | Verify outputs                | ✅ PASS | -        | project-scope.md, roadmap/\*, release/plan.md                   |
+| 4-1  | Create single intent          | ✅ PASS | -        | F-004 "Add due dates to todos"                                  |
+| 5-1  | Run generate-release-plan     | ✅ PASS | -        |                                                                 |
+| 5-2  | Verify release plan           | ✅ PASS | -        | ## Summary, ## R1, Total intents                                |
+| 6-1  | Run generate-roadmap          | ✅ PASS | -        |                                                                 |
+| 6-2  | Verify roadmap                | ✅ PASS | -        | Roadmap reflects intents/deps                                   |
+| 7-1  | Check template fields         | ✅ PASS | -        | Priority, Effort, Release Target                                |
+| 7-2  | Update intent fields          | ✅ PASS | -        | F-001: p0, s, R1                                                |
+| 7-3  | Regenerate release plan       | ✅ PASS | -        |                                                                 |
+| 7-4  | Verify ordering               | ✅ PASS | -        | F-001 in R1                                                     |
+| 8-1  | Edit dependencies             | ✅ PASS | -        | F-001 depends on F-002                                          |
+| 8-2  | Regenerate release plan       | ✅ PASS | -        |                                                                 |
+| 8-3  | Verify F-002 before F-001     | ✅ PASS | -        | F-002 then F-001 in R1                                          |
+| 9-1  | Add fake dependency           | ✅ PASS | -        | F-999 added to F-001                                            |
+| 9-2  | Regenerate release plan       | ✅ PASS | -        |                                                                 |
+| 9-3  | Verify missing deps section   | ✅ PASS | -        | release/plan.md lists missing F-999                             |
+| 10-1 | Create new intent             | ✅ PASS | -        | F-005 "Awesome Banner"                                          |
+| 10-2 | Verify roadmap + release      | ✅ PASS | -        | Roadmap and release plan refreshed                              |
+| 11-1 | Run /ship F-001               | ✅ PASS | -        | workflow-orchestrator created state files                       |
+| 11-2 | Verify 01_analysis.md created | ✅ PASS | -        |                                                                 |
+| 11-3 | Verify 02_plan.md created     | ✅ PASS | -        |                                                                 |
+| 11-4 | Verify plan gate              | ✅ PASS | -        | Plan approval checklist present                                 |
+| 12-1 | Run /verify F-001             | ✅ PASS | -        | 04_verification.md updated (after pnpm install)                 |
+| 12-2 | Verify verification outputs   | ✅ PASS | -        |                                                                 |
+| 13-1 | Run /drift_check              | ✅ PASS | -        | drift/metrics.md created                                        |
+| 13-2 | Verify drift outputs          | ✅ PASS | -        |                                                                 |
+| 14-1 | Run /deploy staging           | ✅ PASS | -        | Readiness checks executed                                       |
+| 14-2 | Verify readiness-only deploy  | ✅ PASS | -        | No real deployment                                              |
+| 15-1 | Create disposable intent      | ✅ PASS | -        | F-006 "Temporary kill intent"                                   |
+| 15-2 | Run /kill F-006               | ✅ PASS | -        |                                                                 |
+| 15-3 | Verify status = killed        | ✅ PASS | -        | F-006 status killed                                             |
+| 15-4 | Verify kill rationale         | ✅ PASS | -        | Recorded in intent file                                         |
+| 15-5 | Verify active.md updated      | ✅ PASS | -        | active.md reflects killed                                       |
+| 16   | Approve plan                  | ✅ PASS | -        | Plan approved, workflow proceeded                               |
+| 17   | Write tests (TDD)             | ✅ PASS | -        | todo-store tests written first, failed then passed              |
+| 18   | Implement                     | ✅ PASS | -        | src/store/todo-store.ts, tests pass                             |
+| 19   | Verify                        | ✅ PASS | -        | pnpm test, coverage, 04_verification updated                    |
+| 20   | Documentation                 | ✅ PASS | -        | CHANGELOG.md, 05_release_notes.md                               |
+| 21   | Ship                          | ✅ PASS | -        | F-001 shipped, active.md updated                                |
+| 22   | Deploy readiness              | ✅ PASS | -        | Readiness checks passed                                         |
+| 23   | Final project state           | ✅ PASS | -        | 1 shipped, 1 killed, rest planned; artifacts exist              |
+| 24   | Final test report             | ✅ PASS | -        | Summary recorded                                                |
 
 #### Issues Found This Run
 
