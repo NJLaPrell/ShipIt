@@ -10,7 +10,7 @@ Calculate and record drift metrics to detect system entropy.
 
 ## What It Does
 
-Runs the drift metrics script and updates `/drift/metrics.md` with:
+Runs the drift metrics script and updates `generated/drift/metrics.md` with:
 
 1. **PR Size Trend** - Average files changed in last 20 PRs
 2. **Test-to-Code Ratio** - Ratio of test lines to code lines
@@ -20,7 +20,7 @@ Runs the drift metrics script and updates `/drift/metrics.md` with:
 
 ## Output
 
-Updates `drift/metrics.md` with current metrics and compares against baselines in `drift/baselines.md`.
+Updates `generated/drift/metrics.md` with current metrics and compares against baselines in `generated/drift/baselines.md`.
 
 ## When to Use
 
@@ -32,5 +32,5 @@ Updates `drift/metrics.md` with current metrics and compares against baselines i
 ## See Also
 
 - `scripts/drift-check.sh` - The underlying script
-- `drift/baselines.md` - Baseline thresholds
-- `drift/metrics.md` - Current metrics
+- `generated/drift/baselines.md` - Baseline thresholds
+- `generated/drift/metrics.md` - Current metrics

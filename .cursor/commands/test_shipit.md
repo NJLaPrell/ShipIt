@@ -75,7 +75,7 @@ printf "1\nTest project for ShipIt end-to-end validation\nnone\n" | ./scripts/in
 - `tsconfig.json`
 - `intent/_TEMPLATE.md`
 - `architecture/CANON.md`
-- `roadmap/now.md`, `next.md`, `later.md`
+- `generated/roadmap/now.md`, `next.md`, `later.md`
 
 ### STOP HERE
 

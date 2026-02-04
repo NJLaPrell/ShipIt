@@ -17,13 +17,14 @@ Generate a release plan from intents (priorities, dependencies, and status).
    - Orders intents by dependency and priority
    - Buckets into releases (R1, R2, R3)
 3. **Writes output:**
-   - Creates `release/plan.md`
+   - Creates `generated/release/plan.md`
    - Lists missing dependencies and exclusions
 
 ## Output
 
 Creates:
-- `release/plan.md` - Ordered release plan with dependencies
+
+- `generated/release/plan.md` - Ordered release plan with dependencies
 
 ## See Also
 

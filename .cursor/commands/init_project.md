@@ -39,6 +39,7 @@ printf "<tech-stack>\n<description>\n<high-risk>\n" | ./scripts/init-project.sh 
 ```
 
 Replace:
+
 - `<tech-stack>` with 1, 2, or 3
 - `<description>` with the user's description
 - `<high-risk>` with the user's high-risk domains (or "none")
@@ -47,9 +48,10 @@ Replace:
 ## Output
 
 Creates project at `./projects/<project-name>` with:
+
 - `project.json` — Project metadata
 - `intent/` — Intent directory with template
-- `roadmap/` — Roadmap files
+- `generated/roadmap/` — Roadmap files
 - `architecture/` — CANON.md and invariants.yml
 - `.cursor/` — Commands and rules (copied from framework)
 - `scripts/` — Core scripts (copied from framework)
@@ -58,6 +60,7 @@ Creates project at `./projects/<project-name>` with:
 ## Next Steps
 
 After initialization:
+
 1. Open `./projects/<project-name>` as its own Cursor workspace
 2. Run `/scope-project` to break down features
 3. Start shipping with `/ship`

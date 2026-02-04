@@ -84,8 +84,8 @@ $(if [ "$FAILED" -eq 0 ]; then echo "- [x] All checks pass"; else echo "- [ ] Al
 EOF
 
 # Append to confidence-calibration.json if it exists
-mkdir -p artifacts
-CALIBRATION_FILE="artifacts/confidence-calibration.json"
+mkdir -p generated/artifacts
+CALIBRATION_FILE="generated/artifacts/confidence-calibration.json"
 if [ -f "$CALIBRATION_FILE" ] && command -v jq >/dev/null 2>&1; then
     # Determine outcome
     if [ "$FAILED" -eq 0 ]; then

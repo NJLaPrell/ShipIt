@@ -76,9 +76,9 @@
         "tsconfig.json",
         "intent/_TEMPLATE.md",
         "architecture/CANON.md",
-        "roadmap/now.md",
-        "roadmap/next.md",
-        "roadmap/later.md"
+        "generated/roadmap/now.md",
+        "generated/roadmap/next.md",
+        "generated/roadmap/later.md"
       ]
     },
     "step_5-2": {

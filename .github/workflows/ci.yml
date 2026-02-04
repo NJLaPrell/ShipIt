@@ -111,4 +111,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: drift-report
-          path: drift/metrics.md
+          path: generated/drift/metrics.md

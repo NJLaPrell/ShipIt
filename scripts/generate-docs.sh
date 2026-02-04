@@ -70,8 +70,12 @@ esac)
 ├── src/                 # Source code
 ├── tests/               # Test files
 ├── do-not-repeat/       # Failed approaches ledger
-├── drift/               # Entropy monitoring
-└── roadmap/             # Planning views (now, next, later)
+├── generated/
+│   ├── artifacts/       # Generated artifacts (SYSTEM_STATE, dependencies, etc.)
+│   ├── drift/           # Entropy monitoring
+│   ├── release/         # Release plan
+│   ├── roadmap/         # Planning views (now, next, later)
+│   └── reports/         # Mutation and other reports
 \`\`\`
 
 ## Development

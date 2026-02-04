@@ -16,8 +16,8 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-mkdir -p artifacts
-STATE_FILE="artifacts/SYSTEM_STATE.md"
+mkdir -p generated/artifacts
+STATE_FILE="generated/artifacts/SYSTEM_STATE.md"
 
 echo -e "${BLUE}Generating SYSTEM_STATE.md...${NC}"
 
@@ -66,7 +66,7 @@ This file provides a global view of the system state for agents to maintain cohe
 ## System Health
 
 - **Workflow State:** [Check workflow-state/active.md]
-- **Drift Status:** [Check drift/metrics.md]
+- **Drift Status:** [Check generated/drift/metrics.md]
 - **Test Coverage:** [Run: pnpm test:coverage]
 
 ## Key Decisions

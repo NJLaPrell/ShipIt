@@ -4,7 +4,7 @@ globs:
   - "workflow-state/**"
   - "intent/**"
   - "architecture/**"
-  - "drift/**"
+  - "generated/drift/**"
 alwaysApply: false
 ---
 
@@ -24,11 +24,11 @@ Before making any decision, read in this order:
 
 1. `project.json` - Project metadata and settings (if exists)
 2. `/workflow-state/active.md` - Current execution state
-3. `artifacts/SYSTEM_STATE.md` - Global summary (if exists)
+3. `generated/artifacts/SYSTEM_STATE.md` - Global summary (if exists)
 4. `/intent/` - All intent files (planned, active, blocked)
 5. `/architecture/CANON.md` - System boundaries
 6. `/architecture/invariants.yml` - Hard constraints
-7. `/drift/metrics.md` - Entropy indicators
+7. `generated/drift/metrics.md` - Entropy indicators
 8. `/do-not-repeat/` - Failed approaches to avoid
 
 ## Decision Types

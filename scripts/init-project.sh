@@ -86,7 +86,7 @@ HIGH_RISK="${HIGH_RISK:-none}"
 echo -e "${BLUE}Creating project structure...${NC}"
 
 # Core directories
-mkdir -p intent/features intent/bugs intent/tech-debt workflow-state architecture do-not-repeat drift roadmap scripts behaviors golden-data src tests artifacts .cursor/rules .cursor/commands .github/workflows
+mkdir -p intent/features intent/bugs intent/tech-debt workflow-state architecture do-not-repeat scripts behaviors golden-data src tests docs .cursor/rules .cursor/commands .github/workflows generated/artifacts generated/release generated/roadmap generated/drift generated/reports
 
 # Copy framework commands, rules, and core scripts into the new project
 if [ -d "$ROOT_DIR/.cursor/commands" ]; then
@@ -412,9 +412,9 @@ EOF
 echo -e "${GREEN}✓ Created do-not-repeat ledger files${NC}"
 
 # Create roadmap files
-mkdir -p roadmap
+mkdir -p generated/roadmap
 for file in now.md next.md later.md; do
-    cat > "roadmap/$file" << EOF || error_exit "Failed to create roadmap/$file"
+    cat > "generated/roadmap/$file" << EOF || error_exit "Failed to create generated/roadmap/$file"
 # ${file%.md}
 
 (No items yet. Add items as they're planned.)
@@ -554,7 +554,7 @@ Golden data files are typically JSON files containing test cases:
 
 ## Example
 
-See \`PLAN.md\` Research Q11 for implementation patterns and examples of replay-based validation.
+See \`docs/PLAN.md\` Research Q11 for implementation patterns and examples of replay-based validation.
 
 ## Non-Deterministic Data
 
@@ -577,8 +577,8 @@ if [ -x "scripts/generate-system-state.sh" ]; then
 fi
 
 # Create drift baselines
-mkdir -p drift
-cat > drift/baselines.md << EOF || error_exit "Failed to create drift baselines"
+mkdir -p generated/drift
+cat > generated/drift/baselines.md << EOF || error_exit "Failed to create generated/drift baselines"
 # Drift Baselines
 
 Initial thresholds for drift detection.
@@ -881,14 +881,14 @@ EOF
 echo -e "${GREEN}✓ Created AGENTS.md${NC}"
 
 # Create confidence-calibration.json
-mkdir -p artifacts
-cat > artifacts/confidence-calibration.json << EOF || error_exit "Failed to create artifacts/confidence-calibration.json"
+mkdir -p generated/artifacts
+cat > generated/artifacts/confidence-calibration.json << EOF || error_exit "Failed to create generated/artifacts/confidence-calibration.json"
 {
   "decisions": []
 }
 EOF
 
-echo -e "${GREEN}✓ Created artifacts/confidence-calibration.json${NC}"
+echo -e "${GREEN}✓ Created generated/artifacts/confidence-calibration.json${NC}"
 
 echo ""
 echo -e "${GREEN}════════════════════════════════════════${NC}"

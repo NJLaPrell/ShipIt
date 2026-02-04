@@ -14,22 +14,22 @@ Traditional SDLC is designed around scarce human attention, slow feedback loops,
 - Replaces tickets with an **Intent Ledger**
 - Replaces human bottlenecks with **automated gates**
 
-**The fundamental insight:** Human SDLC optimizes *coordination*. AI SDLC must optimize *epistemology*. Most failures aren't coding errors—they're unstated assumptions, ambiguous truth sources, conflicting incentives, and forgotten constraints.
+**The fundamental insight:** Human SDLC optimizes _coordination_. AI SDLC must optimize _epistemology_. Most failures aren't coding errors—they're unstated assumptions, ambiguous truth sources, conflicting incentives, and forgotten constraints.
 
 ---
 
 ## Core Principles
 
-| Human SDLC | AI SDLC |
-|------------|---------|
-| Humans need communication artifacts | AI needs executable truth |
-| Humans forget | AI must be state-anchored |
-| Humans debate | AI must prove |
-| Humans review occasionally | AI must review continuously |
-| Humans multitask poorly | AI parallelizes by default |
-| Humans intuit cost | AI must have explicit cost signals |
-| Humans rely on institutional memory | AI needs explicit failure memory |
-| Humans hand-wave uncertainty | AI must label it precisely |
+| Human SDLC                          | AI SDLC                            |
+| ----------------------------------- | ---------------------------------- |
+| Humans need communication artifacts | AI needs executable truth          |
+| Humans forget                       | AI must be state-anchored          |
+| Humans debate                       | AI must prove                      |
+| Humans review occasionally          | AI must review continuously        |
+| Humans multitask poorly             | AI parallelizes by default         |
+| Humans intuit cost                  | AI must have explicit cost signals |
+| Humans rely on institutional memory | AI needs explicit failure memory   |
+| Humans hand-wave uncertainty        | AI must label it precisely         |
 
 ### The 5 Stabilizers (Non-Negotiable)
 
@@ -74,12 +74,12 @@ AI does not intuit cost. Agents must reject solutions that are correct but waste
 
 **Required Cost Signals:**
 
-| Signal | Enforcement |
-|--------|-------------|
-| Token budgets per agent | Reject prompts exceeding budget |
-| Latency budgets per feature | Fail verification if p95 exceeded |
-| Cloud cost ceilings | Automated alerts + blocking |
-| "Cost delta" per design decision | Architect must justify increases |
+| Signal                           | Enforcement                       |
+| -------------------------------- | --------------------------------- |
+| Token budgets per agent          | Reject prompts exceeding budget   |
+| Latency budgets per feature      | Fail verification if p95 exceeded |
+| Cloud cost ceilings              | Automated alerts + blocking       |
+| "Cost delta" per design decision | Architect must justify increases  |
 
 > **Rule:** Humans optimize after shipping. AI must optimize before.
 
@@ -106,11 +106,11 @@ Human teams rely on institutional memory. AI needs explicit failure memory to pr
 
 Different work operates at different speeds. Mixing them causes tactical agents to override strategic intent.
 
-| Loop | Scope | Duration | Agent Focus |
-|------|-------|----------|-------------|
-| **Fast** | Refactors, tests, linting | Seconds | Implementer, QA |
-| **Medium** | Feature work, bug fixes | Minutes to hours | All operational agents |
-| **Slow** | Architecture evolution | Hours to days | Architect, Steward |
+| Loop       | Scope                     | Duration         | Agent Focus            |
+| ---------- | ------------------------- | ---------------- | ---------------------- |
+| **Fast**   | Refactors, tests, linting | Seconds          | Implementer, QA        |
+| **Medium** | Feature work, bug fixes   | Minutes to hours | All operational agents |
+| **Slow**   | Architecture evolution    | Hours to days    | Architect, Steward     |
 
 > **Rule:** Fast loop agents cannot modify slow loop artifacts (CANON.md, ADRs) without explicit Steward approval.
 
@@ -128,11 +128,11 @@ Humans forget accidentally. AI forgets deterministically unless told not to.
 
 **Artifacts:**
 
-| Artifact | Purpose |
-|----------|---------|
-| Memory contracts | Define what state survives context resets |
-| Context boundaries | Define what each agent can/cannot see |
-| Cache invalidation rules | When stale data must be purged |
+| Artifact                 | Purpose                                   |
+| ------------------------ | ----------------------------------------- |
+| Memory contracts         | Define what state survives context resets |
+| Context boundaries       | Define what each agent can/cannot see     |
+| Cache invalidation rules | When stale data must be purged            |
 
 > **Rule:** If an agent assumes something not in explicit state files, that's a bug in the agent's prompt.
 
@@ -213,22 +213,24 @@ Humans forget accidentally. AI forgets deterministically unless told not to.
 ## Agent Roles & Responsibilities
 
 ### Role Purity Rules (CRITICAL)
+
 > Any agent that can mark its own homework will cheat—deterministically.
 
-| Agent | Can Do | Cannot Do |
-|-------|--------|-----------|
-| **Steward** | Veto, block, kill intents; review drift | Write production code |
-| **PM** | Write intents, set acceptance criteria | Change architecture |
-| **Architect** | Update CANON.md, write ADRs, propose design | Implement beyond scaffolding |
-| **Implementer** | Write production code | Change architecture canon |
-| **QA** | Write tests, adversarial validation | Weaken acceptance to pass |
-| **Security** | Threat analysis, find vulnerabilities | Waive findings without mitigation |
-| **Docs** | Update docs, release notes | Change code behavior |
-| **Assumption Extractor** | Surface implicit assumptions | Make implementation decisions |
+| Agent                    | Can Do                                      | Cannot Do                         |
+| ------------------------ | ------------------------------------------- | --------------------------------- |
+| **Steward**              | Veto, block, kill intents; review drift     | Write production code             |
+| **PM**                   | Write intents, set acceptance criteria      | Change architecture               |
+| **Architect**            | Update CANON.md, write ADRs, propose design | Implement beyond scaffolding      |
+| **Implementer**          | Write production code                       | Change architecture canon         |
+| **QA**                   | Write tests, adversarial validation         | Weaken acceptance to pass         |
+| **Security**             | Threat analysis, find vulnerabilities       | Waive findings without mitigation |
+| **Docs**                 | Update docs, release notes                  | Change code behavior              |
+| **Assumption Extractor** | Surface implicit assumptions                | Make implementation decisions     |
 
 ### Agent Definitions
 
 #### Steward (Executive Brain)
+
 - **Purpose:** Owns global coherence over time
 - **Powers:** Veto, block, or kill any intent
 - **Reads First:** Everything (/intent, /workflow-state, /architecture, /drift, /do-not-repeat)
@@ -236,41 +238,48 @@ Humans forget accidentally. AI forgets deterministically unless told not to.
 - **Outputs:** Approval/block/kill decisions with rationale
 
 #### PM (Product Manager)
+
 - **Purpose:** Intent clarity and confidence scoring
 - **Outputs:** Intent files with acceptance criteria, confidence scores
 - **Key Function:** Translates requirements into executable truth
 - **Must Include:** Success metrics, invariants in dual form (human-readable + executable checks)
 
 #### Architect
+
 - **Purpose:** System design and constraint enforcement
 - **Outputs:** CANON.md updates, ADRs, design proposals
 - **Key Function:** Prevents architectural drift
 - **Constraint:** Must check /do-not-repeat before proposing designs
 
 #### Implementer
+
 - **Purpose:** Code execution of approved plans
 - **Constraint:** Can ONLY implement the approved plan—deviations return to Phase 2
 - **Key Function:** Fast, parallel code production
 - **Must Follow:** Spec → Tests → Code order (tests exist BEFORE production code)
 
 #### QA (Quality Assurance)
+
 - **Purpose:** Adversarial validation—tries to break the implementation
 - **Method:** Tests first, then implementation verification
 - **Key Function:** Proves correctness, doesn't assume it
 - **Outputs:** Test cases, mutation testing results, edge case analysis
 
 #### Security
+
 - **Purpose:** Threat modeling and attack surface review
 - **Focus:** Auth, input validation, secrets, PII, dependencies
 - **Key Function:** Red team for every sensitive change
 - **Cannot:** Waive findings—must propose mitigations
 
 #### Docs
+
 - **Purpose:** Documentation and release notes
 - **Outputs:** README updates, ADR references, changelogs
 - **Key Function:** Keeps documentation current automatically
 
 #### Assumption Extractor (Continuous)
+
 - **Purpose:** Surfaces implicit assumptions before they become bugs
 - **Questions it asks:**
   - "What did we assume but not state?"
@@ -283,13 +292,13 @@ Humans forget accidentally. AI forgets deterministically unless told not to.
 
 During verification, run these agents simultaneously to attack the implementation:
 
-| Agent | Mission |
-|-------|---------|
-| 🧠 **Architect** | "Does this violate system boundaries?" |
-| 🧪 **Test Adversary** | "What inputs break this?" |
-| 🔐 **Security Attacker** | "How would I exploit this?" |
-| 🐢 **Performance Degrader** | "What makes this slow?" |
-| 📉 **Failure Mode Explorer** | "What happens when X fails?" |
+| Agent                        | Mission                                |
+| ---------------------------- | -------------------------------------- |
+| 🧠 **Architect**             | "Does this violate system boundaries?" |
+| 🧪 **Test Adversary**        | "What inputs break this?"              |
+| 🔐 **Security Attacker**     | "How would I exploit this?"            |
+| 🐢 **Performance Degrader**  | "What makes this slow?"                |
+| 📉 **Failure Mode Explorer** | "What happens when X fails?"           |
 
 > **Ship Criteria:** If no agent can break the system, then you ship. Not "looks good"—"couldn't break it."
 
@@ -298,6 +307,7 @@ During verification, run these agents simultaneously to attack the implementatio
 AI needs explicit gradients. Define what's valued:
 
 **Reward:**
+
 - ✅ Smaller diffs
 - ✅ Reversible decisions
 - ✅ Fewer assumptions
@@ -306,6 +316,7 @@ AI needs explicit gradients. Define what's valued:
 - ✅ Explicit uncertainty
 
 **Penalize:**
+
 - ❌ Cleverness
 - ❌ Over-generalization
 - ❌ Unused abstractions
@@ -318,32 +329,39 @@ AI needs explicit gradients. Define what's valued:
 
 Every planned feature, bug fix, or tech debt item uses this template:
 
-```markdown
+````markdown
 # F-###: Title
 
 ## Type
+
 feature | bug | tech-debt
 
 ## Status
+
 planned | active | blocked | validating | shipped | killed
 
 ## Motivation
+
 (Why it exists, 1–3 bullets)
 
 ## Confidence
+
 Requirements: 0.0–1.0  
 Domain assumptions: 0.0–1.0
 (If either < threshold, document why proceeding or request human interrupt)
 
 ## Invariants (Hard Constraints)
+
 Written in dual form: human-readable AND executable
 
 Human-readable:
+
 - No PII stored unencrypted
 - p95 latency < 200ms
 - Schema backward compatible for 3 versions
 
 Executable (add to architecture/invariants.yml):
+
 ```yaml
 invariants:
   - no_pii_unencrypted
@@ -353,8 +371,10 @@ success_metrics:
   - test_pass_rate: 99.5
   - zero_data_loss_on_replay: true
 ```
+````
 
 ## Acceptance (Executable)
+
 These are the ONLY criteria for "done." If it can't be checked automatically, it doesn't belong here.
 
 - [ ] Tests: `<test_name>` added; fails before fix, passes after
@@ -365,6 +385,7 @@ These are the ONLY criteria for "done." If it can't be checked automatically, it
 - [ ] Performance: p95 < budget (if applicable)
 
 ## Assumptions (MUST BE EXPLICIT)
+
 Every assumption is a potential bug. List them and make them testable where possible.
 
 - (ex: "User sessions never exceed 24h" — add test?)
@@ -372,14 +393,17 @@ Every assumption is a potential bug. List them and make them testable where poss
 - (ex: "This regex handles all Unicode correctly" — add property test?)
 
 ## Risk Level
+
 low | medium | high
 
 Risk triggers:
+
 - high: auth, money, data migration, permissions, infra, PII
 - medium: new dependencies, API changes, performance-sensitive
 - low: docs, refactors, tests, internal tooling
 
 ## Kill Criteria (Stop Conditions)
+
 If ANY of these trigger, the intent is KILLED (not paused, not reworked—killed):
 
 - Cannot satisfy latency invariant without major redesign
@@ -390,6 +414,7 @@ If ANY of these trigger, the intent is KILLED (not paused, not reworked—killed
 - Cost exceeds budget by >X%
 
 ## Rollback Plan
+
 REQUIRED before implementation begins.
 
 - Feature flag: `FEATURE_X_ENABLED=false`
@@ -398,16 +423,20 @@ REQUIRED before implementation begins.
 - Revert commit: clean revert possible without data loss
 
 ## Dependencies
+
 - (Other intent IDs that must ship first)
 - (ADRs that must be approved)
 - (External systems/APIs)
 
 ## Do Not Repeat Check
+
 Before starting, verify this hasn't been tried before:
+
 - [ ] Checked /do-not-repeat/abandoned-designs.md
 - [ ] Checked /do-not-repeat/failed-experiments.md
 - [ ] No similar rejected approaches exist
-```
+
+````
 
 ---
 
@@ -424,17 +453,17 @@ invariants:
     - no_pii_stored_unencrypted
     - all_endpoints_require_auth_except: ["/health", "/metrics"]
     - secrets_never_logged
-  
+
   performance:
     - p95_latency_ms: 200
     - p99_latency_ms: 500
     - max_memory_mb: 512
-  
+
   data:
     - schema_backward_compat_versions: 3
     - no_data_loss_on_replay
     - all_writes_idempotent
-  
+
   architecture:
     - no_circular_dependencies
     - max_import_depth: 5
@@ -447,7 +476,7 @@ success_metrics:
   test_pass_rate: 99.5
   code_coverage_minimum: 80
   max_cyclomatic_complexity: 10
-```
+````
 
 ---
 
@@ -469,6 +498,7 @@ If tests are retrofitted, they're worthless. Tests come first.
 ---
 
 ### Phase 0 — Intake & Intent Creation
+
 **Output:** New `/intent/...` file in `planned` status
 
 1. PM writes intent using the template (including all required sections)
@@ -486,6 +516,7 @@ If tests are retrofitted, they're worthless. Tests come first.
    - ❌ **Kill** → mark `killed` with rationale, add to do-not-repeat if pattern emerges
 
 ### Phase 1 — Intent Lock (Executable Requirements)
+
 **Output:** Acceptance criteria finalized + confidence thresholds met + tests written
 
 1. PM refines acceptance into executable checks (must be runnable commands)
@@ -500,6 +531,7 @@ If tests are retrofitted, they're worthless. Tests come first.
 **Output saved to:** `workflow-state/01_analysis.md`
 
 ### Phase 2 — Architecture & Plan (Canonical Design)
+
 **Output:** `workflow-state/02_plan.md` + any needed ADR updates
 
 1. Architect proposes:
@@ -524,6 +556,7 @@ If tests are retrofitted, they're worthless. Tests come first.
 **🛑 STOP POINT: Present plan and ask for human approval before any edits (if configured)**
 
 ### Phase 3 — Implementation (Parallel Allowed)
+
 **Output:** Code changes + notes in `workflow-state/03_implementation.md`
 
 **Remember: Tests already exist from Phase 1. Implementation makes them pass.**
@@ -543,11 +576,13 @@ If tests are retrofitted, they're worthless. Tests come first.
 4. **Any plan deviation → STOP and return to Phase 2 for re-approval**
 
 ### Phase 4 — Verification (Adversarial Proof)
+
 **Output:** `workflow-state/04_verification.md` containing proof (not opinions)
 
 This is a **Proof-of-Correctness Gate**, not a "QA signoff."
 
 **Required Verification Methods:**
+
 1. **Unit & Integration Tests** — All tests pass
 2. **Property-Based Testing** — For core logic (if applicable)
 3. **Fuzzing** — For input handling (if applicable)
@@ -563,23 +598,28 @@ This is a **Proof-of-Correctness Gate**, not a "QA signoff."
 | Failure Mode | "What happens when dependencies fail?" |
 
 **Verification document must include:**
+
 ```markdown
 ## Commands Run
+
 - `pnpm test` → PASS (152 tests, 0 failures)
 - `pnpm lint` → PASS
 - `pnpm typecheck` → PASS
 
 ## Acceptance Checklist
+
 - [x] Test: user_auth_test.ts fails before, passes after
 - [x] p95 latency: 145ms (budget: 200ms)
 - [x] No new security findings
 
 ## Adversarial Results
+
 - QA: Could not break with fuzz inputs (1000 iterations)
 - Security: No auth bypass found
 - Performance: No degradation under load test
 
 ## Confidence
+
 Verification confidence: 0.92
 ```
 
@@ -588,6 +628,7 @@ Verification confidence: 0.92
 **If repeated failures → Steward triggers kill criteria review**
 
 ### Phase 5 — Release Packaging
+
 **Output:** PR ready, minimal and auditable
 
 1. Docs agent updates:
@@ -606,6 +647,7 @@ Verification confidence: 0.92
    - Risk level label
 
 ### Phase 6 — Merge & Post-Deploy Self-Interrogation
+
 **Output:** Merged code + updated intent status + drift snapshot
 
 1. Merge via GitHub branch protection (all CI checks green)
@@ -622,11 +664,11 @@ Verification confidence: 0.92
 
 ## Confidence Threshold Policy
 
-| Condition | Action |
-|-----------|--------|
-| Requirements confidence < 0.8 | **HUMAN INTERRUPT** (clarify scope/value) |
-| Domain assumptions confidence < 0.7 | **BLOCK** (add discovery spike) |
-| Security-related confidence < 0.85 | **HUMAN INTERRUPT** |
+| Condition                                       | Action                                        |
+| ----------------------------------------------- | --------------------------------------------- |
+| Requirements confidence < 0.8                   | **HUMAN INTERRUPT** (clarify scope/value)     |
+| Domain assumptions confidence < 0.7             | **BLOCK** (add discovery spike)               |
+| Security-related confidence < 0.85              | **HUMAN INTERRUPT**                           |
 | Any agent reports "uncertain" on critical point | **Steward decides:** block, escalate, or kill |
 
 ---
@@ -635,14 +677,15 @@ Verification confidence: 0.92
 
 Humans intervene **ONLY** at these gates:
 
-| Gate | Trigger |
-|------|---------|
-| Plan Approval | Before implementation starts |
-| High-Risk | See confirmed high-risk domains below |
-| Kill/Rollback | Kill criteria triggered or major regression |
-| Product Judgment | Subjective UX/taste/value tradeoffs |
+| Gate             | Trigger                                     |
+| ---------------- | ------------------------------------------- |
+| Plan Approval    | Before implementation starts                |
+| High-Risk        | See confirmed high-risk domains below       |
+| Kill/Rollback    | Kill criteria triggered or major regression |
+| Product Judgment | Subjective UX/taste/value tradeoffs         |
 
 **Confirmed High-Risk Domains (require human approval):**
+
 - 🔐 **Authentication** — Login, logout, session management, OAuth
 - 💰 **Payment processing** — Billing, subscriptions, transactions
 - 🔑 **Permissions** — RBAC, access control, authorization checks
@@ -657,13 +700,13 @@ Humans intervene **ONLY** at these gates:
 
 ### Required Indicators (Weekly)
 
-| Metric | What It Catches |
-|--------|-----------------|
+| Metric                    | What It Catches                |
+| ------------------------- | ------------------------------ |
 | Avg PR size (files + LOC) | Scope creep, complexity growth |
-| Test-to-code ratio | Test coverage decay |
-| Dependency graph growth | Coupling increase |
-| "New concept" drift | Modules without intents/ADRs |
-| Time-to-green | Verification difficulty |
+| Test-to-code ratio        | Test coverage decay            |
+| Dependency graph growth   | Coupling increase              |
+| "New concept" drift       | Modules without intents/ADRs   |
+| Time-to-green             | Verification difficulty        |
 
 ### Drift Triggers
 
@@ -678,19 +721,19 @@ Pull requests are human-bandwidth throttles. For AI teams, every commit gets con
 
 **Review Agents (run on every commit):**
 
-| Agent | Checks |
-|-------|--------|
-| **Style Agent** | Formatting, naming conventions, code organization |
-| **Logic Agent** | Dead code, unreachable branches, obvious bugs |
-| **Invariant Agent** | Violations of `invariants.yml` constraints |
-| **Regression Agent** | Test coverage, behavioral changes |
+| Agent                | Checks                                            |
+| -------------------- | ------------------------------------------------- |
+| **Style Agent**      | Formatting, naming conventions, code organization |
+| **Logic Agent**      | Dead code, unreachable branches, obvious bugs     |
+| **Invariant Agent**  | Violations of `invariants.yml` constraints        |
+| **Regression Agent** | Test coverage, behavioral changes                 |
 
 **Review Outcomes (no "LGTM"):**
 
-| Result | Meaning |
-|--------|---------|
-| ✅ **Pass** | All checks satisfied, proceed |
-| ❌ **Fail** | Specific issue identified, must fix |
+| Result           | Meaning                              |
+| ---------------- | ------------------------------------ |
+| ✅ **Pass**      | All checks satisfied, proceed        |
+| ❌ **Fail**      | Specific issue identified, must fix  |
 | ❓ **Uncertain** | Cannot determine, escalates to human |
 
 > **Rule:** Reviews are blocking, not advisory. A "Fail" must be fixed before the commit is accepted.
@@ -700,6 +743,7 @@ Pull requests are human-bandwidth throttles. For AI teams, every commit gets con
 ## GitHub Usage Policy
 
 ### GitHub Is For:
+
 - Branch protection + CI gates (the real enforcement)
 - PRs as audit log (what + why + evidence)
 - Code ownership rules for critical paths
@@ -707,6 +751,7 @@ Pull requests are human-bandwidth throttles. For AI teams, every commit gets con
 - External issue intake only (then convert to intent)
 
 ### GitHub Is NOT For:
+
 - Tasking/review conversations (use workflow-state)
 - Micro-task assignment (use intent ledger)
 - Discussion threads on PRs (decisions go in ADRs)
@@ -715,25 +760,28 @@ Pull requests are human-bandwidth throttles. For AI teams, every commit gets con
 ### PR Strategy
 
 **Batch PRs, not commits:**
+
 - AI can make 30 improvements/hour
 - GitHub can't handle 30 PRs/hour
 - Let agents commit continuously
 - Orchestrator batches into 1–3 PRs per "feature episode"
 
 **Stacked PRs:**
+
 - Use only if you truly need separate review surfaces
 - For AI teams, prefer: parallel worktrees → merge locally → 1 PR
 - Stacked PRs increase coordination complexity
 
 ### Autopass Lanes
 
-| Lane | What | Review | Merge |
-|------|------|--------|-------|
-| **A** | Docs, tests, refactors (no behavior change) | Automated only | Automerge on green CI |
-| **B** | Standard features, small API changes | AI review + green CI | Auto or human optional |
-| **C** | High-risk (auth, money, data, permissions) | Human required + green CI | Human approves |
+| Lane  | What                                        | Review                    | Merge                  |
+| ----- | ------------------------------------------- | ------------------------- | ---------------------- |
+| **A** | Docs, tests, refactors (no behavior change) | Automated only            | Automerge on green CI  |
+| **B** | Standard features, small API changes        | AI review + green CI      | Auto or human optional |
+| **C** | High-risk (auth, money, data, permissions)  | Human required + green CI | Human approves         |
 
 **Lane Assignment:**
+
 - Default to Lane B
 - Auto-detect Lane A: `docs/**`, `**/*.test.*`, `**/*.spec.*`, refactor-labeled
 - Label Lane C (confirmed high-risk): `auth`, `payments`, `permissions`, `infrastructure`, `pii`
@@ -752,6 +800,7 @@ The `AGENTS.md` file is a tool-agnostic entry point for any agent system:
 ## Project: [Name]
 
 ## Quick Start
+
 - Install: `pnpm install`
 - Test: `pnpm test`
 - Lint: `pnpm lint`
@@ -759,6 +808,7 @@ The `AGENTS.md` file is a tool-agnostic entry point for any agent system:
 - Build: `pnpm build`
 
 ## Definition of Done
+
 - All tests pass (`pnpm test`)
 - Lint + typecheck pass (`pnpm lint && pnpm typecheck`)
 - New/changed behavior has corresponding tests
@@ -767,6 +817,7 @@ The `AGENTS.md` file is a tool-agnostic entry point for any agent system:
 - No unresolved security findings
 
 ## Conventions
+
 - Never change formatting configs without approval
 - Prefer small, reviewable diffs
 - Tests before implementation (Spec → Tests → Code)
@@ -774,13 +825,16 @@ The `AGENTS.md` file is a tool-agnostic entry point for any agent system:
 - Check /do-not-repeat before proposing designs
 
 ## Agent System
+
 This repo uses an AI-native SDLC. See:
+
 - `/intent/` for planned work
 - `/workflow-state/` for current execution state
 - `/architecture/CANON.md` for system boundaries
 - `/do-not-repeat/` for failed approaches
 
 ## Human Interrupts Required For
+
 - Plan approval (before implementation)
 - High-risk changes (auth, money, data, security)
 - Kill/rollback decisions
@@ -797,26 +851,29 @@ Each agent is defined in `.cursor/rules/<name>.mdc` with MDC frontmatter:
 ---
 description: QA Agent - Use when validating changes, writing tests, or trying to break an implementation
 globs:
-  - "**/*.test.ts"
-  - "**/*.spec.ts"
-  - "tests/**"
+  - '**/*.test.ts'
+  - '**/*.spec.ts'
+  - 'tests/**'
 alwaysApply: false
 ---
 
 You are the QA agent.
 
 ## Your Role
+
 - Derive acceptance tests from requirements and edge cases
 - Write tests BEFORE implementation exists (tests must fail initially)
 - Prefer deterministic checks over subjective review
 - Try to break implementations—your job is adversarial
 
 ## What You Cannot Do
+
 - Weaken acceptance criteria to make tests pass
 - Skip edge cases
 - Approve without executable proof
 
 ## Output Format
+
 1. Risks found
 2. Missing test coverage
 3. Proposed test cases (with code)
@@ -824,6 +881,7 @@ You are the QA agent.
 5. Confidence score (0.0-1.0) with rationale
 
 ## Before Acting
+
 - Read `/workflow-state/active.md` to confirm work is approved
 - Read the intent file for acceptance criteria
 - Check if tests already exist for this functionality
@@ -838,16 +896,16 @@ You are the QA agent.
 
 ### Slash Commands to Create
 
-| Command | Purpose | Location |
-|---------|---------|----------|
-| `/new_intent` | Creates intent file from template | `.cursor/commands/new_intent.md` |
-| `/ship <intent-id>` | Runs Phases 1–5 with gates | `.cursor/commands/ship.md` |
-| `/verify` | Runs Phase 4 only (QA + security) | `.cursor/commands/verify.md` |
-| `/drift_check` | Updates `/drift/metrics.md` | `.cursor/commands/drift_check.md` |
-| `/kill <intent-id>` | Marks killed + rationale + rollback note | `.cursor/commands/kill.md` |
-| `/pr` | Generates PR description + checklist | `.cursor/commands/pr.md` |
-| `/risk` | Forces security/threat skim | `.cursor/commands/risk.md` |
-| `/revert-plan` | Writes rollback strategy | `.cursor/commands/revert-plan.md` |
+| Command             | Purpose                                  | Location                          |
+| ------------------- | ---------------------------------------- | --------------------------------- |
+| `/new_intent`       | Creates intent file from template        | `.cursor/commands/new_intent.md`  |
+| `/ship <intent-id>` | Runs Phases 1–5 with gates               | `.cursor/commands/ship.md`        |
+| `/verify`           | Runs Phase 4 only (QA + security)        | `.cursor/commands/verify.md`      |
+| `/drift_check`      | Updates `/drift/metrics.md`              | `.cursor/commands/drift_check.md` |
+| `/kill <intent-id>` | Marks killed + rationale + rollback note | `.cursor/commands/kill.md`        |
+| `/pr`               | Generates PR description + checklist     | `.cursor/commands/pr.md`          |
+| `/risk`             | Forces security/threat skim              | `.cursor/commands/risk.md`        |
+| `/revert-plan`      | Writes rollback strategy                 | `.cursor/commands/revert-plan.md` |
 
 ### /ship Orchestrator Command (Key Command)
 
@@ -860,6 +918,7 @@ You are the orchestrator. Maintain workflow state in `workflow-state/`.
 
 **IMPORTANT: Role Switching**
 Since Cursor doesn't have native subagents, you will switch roles by:
+
 1. Reading the relevant rule file (e.g., `.cursor/rules/pm.mdc`)
 2. Adopting that role's constraints and output format
 3. Completing that role's tasks
@@ -868,7 +927,9 @@ Since Cursor doesn't have native subagents, you will switch roles by:
 ## Process
 
 ### Phase 1: Analysis (PM Role)
+
 Adopt the PM role from `.cursor/rules/pm.mdc`:
+
 1. Restate requirements clearly
 2. Define acceptance criteria (executable)
 3. Score confidence (requirements, domain assumptions)
@@ -877,7 +938,9 @@ Adopt the PM role from `.cursor/rules/pm.mdc`:
 6. If confidence < threshold, STOP and request human interrupt
 
 ### Phase 2: Planning (Architect Role)
+
 Adopt the Architect role from `.cursor/rules/architect.mdc`:
+
 1. Propose technical approach
 2. List files to create/modify
 3. Check against CANON.md
@@ -886,30 +949,38 @@ Adopt the Architect role from `.cursor/rules/architect.mdc`:
 6. **STOP: Present plan and ask for approval before any edits**
 
 ### Phase 3: Test Writing (QA Role - BEFORE Implementation)
+
 Adopt the QA role from `.cursor/rules/qa.mdc`:
+
 1. Write test cases for acceptance criteria
 2. Verify tests FAIL (nothing to pass yet)
 3. Commit tests separately with message "test: ..."
 
 ### Phase 4: Implementation (Implementer Role)
+
 Adopt the Implementer role from `.cursor/rules/implementer.mdc`:
+
 1. Implement exactly the approved plan
 2. Make tests pass
 3. Save progress to `workflow-state/03_implementation.md`
 4. If plan deviation needed, STOP and return to Phase 2
 
 ### Phase 5: Verification (QA + Security Roles)
+
 Adopt QA role, then Security role:
+
 1. (QA) Validate all tests pass, try to break the implementation
 2. (Security) Check for auth/input/secrets/PII issues if relevant
 3. Save results to `workflow-state/04_verification.md`
 4. If verification fails repeatedly, escalate to Steward for kill review
 
 ### Phase 6: Release (Docs + Steward Roles)
+
 1. (Docs) Update documentation, save to `workflow-state/05_release_notes.md`
 2. (Steward) Final approval check - all acceptance met, drift acceptable
 
 ## Rules
+
 - Small diffs. Split large changes into multiple commits.
 - If tests are missing, create them FIRST.
 - If verification fails, fix or roll back—do not "explain it away."
@@ -920,12 +991,14 @@ Adopt QA role, then Security role:
 ### Parallel Agent Coordination
 
 **Setup:**
+
 1. Split work into 3–6 independent tasks
 2. Create worktrees: `git worktree add ../worktree-1 -b feature/task-1`
 3. Open each worktree in separate Cursor window
 4. Each worktree has its own `.agent-id` file
 
 **Task Assignment File (`worktrees.json`):**
+
 ```json
 {
   "intent_id": "F-042",
@@ -953,6 +1026,7 @@ Adopt QA role, then Security role:
 ```
 
 **Agent Prompt (include in each parallel session):**
+
 ```
 Read `.agent-id`. You are Agent <id>.
 Only work on TASK <id> from worktrees.json.
@@ -962,6 +1036,7 @@ When complete, update your task status to "complete" in worktrees.json.
 ```
 
 **Merge Process:**
+
 1. Wait for all task statuses to be "complete"
 2. Review each `workflow-state/agent-<id>.md` for conflicts
 3. Merge worktrees into main branch sequentially
@@ -974,6 +1049,7 @@ When complete, update your task status to "complete" in worktrees.json.
 ### Phase 1: Foundation (Days 1-2)
 
 **Directory Structure:**
+
 ```bash
 mkdir -p intent/features intent/bugs intent/tech-debt
 mkdir -p workflow-state
@@ -985,6 +1061,7 @@ mkdir -p .cursor/agents .cursor/commands
 ```
 
 **Files to Create:**
+
 - [ ] `AGENTS.md` — Root entry point for agents
 - [ ] `architecture/CANON.md` — System boundaries and constraints
 - [ ] `architecture/invariants.yml` — Machine-verifiable constraints
@@ -1004,6 +1081,7 @@ mkdir -p .cursor/agents .cursor/commands
 ### Phase 2: Agent Rules (Days 2-4)
 
 **Create each rule file with MDC frontmatter (see Agent File Format above):**
+
 - [ ] `.cursor/rules/steward.mdc` — Executive brain, veto authority
 - [ ] `.cursor/rules/pm.mdc` — Intent writer, requirements clarity
 - [ ] `.cursor/rules/architect.mdc` — Design, constraints, ADRs
@@ -1014,6 +1092,7 @@ mkdir -p .cursor/agents .cursor/commands
 - [ ] `.cursor/rules/assumption-extractor.mdc` — Surfaces implicit assumptions
 
 **Verify each rule:**
+
 - [ ] Test that Cursor recognizes the rule (check Cursor settings)
 - [ ] Verify role purity is enforced in prompts
 - [ ] Confirm rules read required files before acting
@@ -1022,6 +1101,7 @@ mkdir -p .cursor/agents .cursor/commands
 ### Phase 3: Slash Commands (Days 4-6)
 
 **Create each command with full workflow:**
+
 - [ ] `.cursor/commands/new_intent.md` — Interactive intent creation
 - [ ] `.cursor/commands/ship.md` — Full orchestrated workflow (Phases 1-6)
 - [ ] `.cursor/commands/verify.md` — Verification phase only
@@ -1032,6 +1112,7 @@ mkdir -p .cursor/agents .cursor/commands
 - [ ] `.cursor/commands/revert-plan.md` — Write rollback strategy
 
 **Verify each command:**
+
 - [ ] Test `/command` works in Cursor chat
 - [ ] Verify gates actually block progression
 - [ ] Confirm outputs are saved to correct workflow-state files
@@ -1039,12 +1120,14 @@ mkdir -p .cursor/agents .cursor/commands
 ### Phase 4: GitHub Integration (Days 6-8)
 
 **Branch Protection:**
+
 - [ ] Require PR reviews (or automated approval for Lane A)
 - [ ] Require status checks to pass
 - [ ] Require linear history (optional, recommended)
 - [ ] Configure CODEOWNERS if needed
 
 **CI Pipeline (`.github/workflows/ci.yml`):**
+
 ```yaml
 checks:
   - unit tests
@@ -1057,33 +1140,41 @@ checks:
 ```
 
 **Autopass Lanes:**
+
 - [ ] Lane A: Auto-merge label + green CI → merge
 - [ ] Lane B: AI-review label + green CI → merge (or human optional)
 - [ ] Lane C: Human-required label + green CI + human approval → merge
 
 **PR Template (`.github/pull_request_template.md`):**
+
 ```markdown
 ## Intent
+
 Closes: #[intent-id]
 
 ## Changes
+
 - [ ] Description of changes
 
 ## Verification
+
 - [ ] Tests pass
 - [ ] Lint/typecheck pass
 - [ ] Security review (if applicable)
 
 ## Rollback
+
 - [ ] Rollback plan documented
 
 ## Risk Level
+
 - [ ] Low / Medium / High
 ```
 
 ### Phase 5: Pilot & Iteration (Days 8-14)
 
 **Pilot Feature:**
+
 - [ ] Choose a small, well-defined feature (risk: low)
 - [ ] Create intent file using `/new_intent`
 - [ ] Run through all 6 phases using `/ship`
@@ -1091,12 +1182,14 @@ Closes: #[intent-id]
 - [ ] Adjust agent prompts based on learnings
 
 **Calibration:**
+
 - [ ] Run confidence scoring on 10 decisions, measure accuracy
 - [ ] Adjust confidence thresholds if needed
 - [ ] Calculate initial drift baseline from pilot
 - [ ] Tune kill criteria based on what almost failed
 
 **Iteration:**
+
 - [ ] Fix any broken workflows discovered in pilot
 - [ ] Simplify overly complex prompts
 - [ ] Remove unnecessary gates if they're just friction
@@ -1132,6 +1225,7 @@ Cursor does NOT support `.cursor/agents/*.md` with YAML frontmatter as described
    - Plain markdown, no frontmatter needed
 
 **Adaptation for our plan:**
+
 ```
 # Instead of .cursor/agents/, use:
 .cursor/rules/
@@ -1157,6 +1251,7 @@ You are the Steward agent...
 
 **Role switching approach:**
 Since Cursor doesn't have native "subagents," use explicit role activation:
+
 - Include role instructions in slash commands
 - User invokes `/ship` which contains role-switching prompts
 - Or use `@steward` style mentions if implementing a naming convention
@@ -1174,6 +1269,7 @@ Cursor does NOT have a native "parallel agents" or "Background Agents" feature f
 **What actually works:**
 
 1. **Git Worktrees** (standard git feature):
+
    ```bash
    # Create worktrees for parallel work
    git worktree add ../worktree-1 -b feature/task-1
@@ -1192,6 +1288,7 @@ Cursor does NOT have a native "parallel agents" or "Background Agents" feature f
    - Agents write progress to `workflow-state/agent-<id>.md`
 
 **Practical implementation:**
+
 ```bash
 # Setup script for parallel work
 #!/bin/bash
@@ -1204,6 +1301,7 @@ echo "Open each worktree folder in a separate Cursor window"
 ```
 
 **Merge process:**
+
 ```bash
 # After all tasks complete
 for i in $(seq 1 $TASK_COUNT); do
@@ -1226,6 +1324,7 @@ git worktree remove "../worktree-$i"
 This is a design pattern, not a Cursor feature. Implementation is straightforward:
 
 **Task Assignment (`worktrees.json`):**
+
 ```json
 {
   "intent_id": "F-042",
@@ -1242,7 +1341,7 @@ This is a design pattern, not a Cursor feature. Implementation is straightforwar
     {
       "id": 2,
       "description": "Write authentication tests",
-      "worktree": "worktree-2", 
+      "worktree": "worktree-2",
       "status": "pending",
       "assigned_at": null,
       "completed_at": null
@@ -1252,12 +1351,15 @@ This is a design pattern, not a Cursor feature. Implementation is straightforwar
 ```
 
 **Agent identification (`.agent-id`):**
+
 ```
 1
 ```
+
 Simple file containing just the task number.
 
 **Prompt instruction for each agent:**
+
 ```
 Before starting work:
 1. Read `.agent-id` to get your task number
@@ -1269,6 +1371,7 @@ Before starting work:
 ```
 
 **Race condition handling:**
+
 - Not a real concern—each worktree has its own `.agent-id` file
 - Tasks are pre-assigned, not claimed dynamically
 - worktrees.json updates can use git's merge conflict resolution
@@ -1284,19 +1387,24 @@ Before starting work:
 There is no native enforcement. It's a **convention-based system** that relies on:
 
 1. **State files as source of truth:**
+
    ```markdown
    <!-- workflow-state/active.md -->
+
    ## Active Work
+
    - F-042: User Authentication [status: BLOCKED by Steward]
      - Reason: Confidence below threshold (0.65)
      - Required: Human interrupt to clarify requirements
    ```
 
 2. **Slash commands that check status:**
+
    ```markdown
    # /ship command (excerpt)
-   
+
    Before proceeding with ANY phase:
+
    1. Read workflow-state/active.md
    2. Check if intent status is BLOCKED or KILLED
    3. If blocked: STOP and report the blocking reason
@@ -1313,6 +1421,7 @@ There is no native enforcement. It's a **convention-based system** that relies o
    ```
 
 **Enforcement strength:** Medium. Agents can technically ignore this, but:
+
 - Consistent prompting reduces violations
 - Human can audit workflow-state files
 - CI can fail if workflow-state shows blocked items being modified
@@ -1328,6 +1437,7 @@ There is no native enforcement. It's a **convention-based system** that relies o
 Implement as a shell script that can run locally or in CI:
 
 **`scripts/drift-check.sh`:**
+
 ```bash
 #!/bin/bash
 
@@ -1363,12 +1473,13 @@ echo "Drift check complete. See drift/metrics.md"
 ```
 
 **GitHub Actions integration:**
+
 ```yaml
 # .github/workflows/drift-check.yml
 name: Weekly Drift Check
 on:
   schedule:
-    - cron: '0 9 * * 1'  # Every Monday at 9am
+    - cron: '0 9 * * 1' # Every Monday at 9am
   workflow_dispatch:
 
 jobs:
@@ -1396,6 +1507,7 @@ jobs:
 LLMs are notoriously overconfident. Use these techniques:
 
 **1. Structured prompting with forced uncertainty:**
+
 ```
 Rate your confidence for each item. You MUST use the full range:
 - 0.3-0.5: Significant uncertainty, multiple valid interpretations
@@ -1403,7 +1515,7 @@ Rate your confidence for each item. You MUST use the full range:
 - 0.7-0.85: High confidence, clear requirements
 - 0.85-1.0: Very high confidence, unambiguous
 
-Requirements clarity: [X.XX] 
+Requirements clarity: [X.XX]
 Reason: [specific reason for this score]
 What would raise this score: [specific action]
 
@@ -1414,6 +1526,7 @@ What would raise this score: [specific action]
 
 **2. Calibration through examples:**
 Include examples in the prompt:
+
 ```
 Examples of appropriate confidence scores:
 - "Add a login page" → 0.4 (vague, many unknowns)
@@ -1423,6 +1536,7 @@ Examples of appropriate confidence scores:
 
 **3. Multi-agent cross-validation:**
 Have two agents independently score, then compare:
+
 ```
 If |score_agent_1 - score_agent_2| > 0.2:
   Flag for human review
@@ -1430,6 +1544,7 @@ If |score_agent_1 - score_agent_2| > 0.2:
 ```
 
 **4. Outcome tracking for calibration:**
+
 ```json
 // confidence-calibration.json
 {
@@ -1441,7 +1556,7 @@ If |score_agent_1 - score_agent_2| > 0.2:
       "notes": "Shipped without issues"
     },
     {
-      "id": "D-002", 
+      "id": "D-002",
       "stated_confidence": 0.9,
       "actual_outcome": "failure",
       "notes": "Major rework needed - overconfident"
@@ -1451,6 +1566,7 @@ If |score_agent_1 - score_agent_2| > 0.2:
 ```
 
 **Recommended thresholds (conservative):**
+
 - < 0.6: Block, require human clarification
 - 0.6-0.75: Proceed with caution, flag assumptions
 - 0.75-0.85: Normal proceed
@@ -1465,6 +1581,7 @@ If |score_agent_1 - score_agent_2| > 0.2:
 **ANSWER:**
 
 **Current context limits (approximate):**
+
 - Claude: 200K tokens
 - GPT-4: 128K tokens
 - Cursor uses these models with some overhead
@@ -1472,30 +1589,38 @@ If |score_agent_1 - score_agent_2| > 0.2:
 **Practical strategies:**
 
 **1. Summary file (`SYSTEM_STATE.md`):**
+
 ```markdown
 # System State Summary
+
 Generated: 2026-01-12T10:30:00Z
 
 ## Active Intents (3)
+
 - F-042: User Auth [Phase 3, Implementer]
 - B-015: Cache Bug [Phase 4, QA]
 - T-007: Logging [Phase 2, Architect]
 
 ## Blocked (1)
+
 - F-043: Payment Integration [Confidence < 0.6]
 
 ## Recent Decisions (last 5)
+
 - ADR-012: Use Passport.js for OAuth
 - Killed F-040: Too complex, revisit Q2
 
 ## Architecture Alerts
+
 - None
 
 ## Drift Status
+
 - All metrics within baseline
 ```
 
 **2. Hierarchical reading protocol:**
+
 ```
 Steward reading order:
 1. SYSTEM_STATE.md (always, ~500 tokens)
@@ -1514,8 +1639,9 @@ Steward reading order:
 | QA | Current intent, code files | Test patterns | Architecture |
 
 **4. Context budget per phase:**
+
 - Phase 1 (Analysis): 10K tokens max
-- Phase 2 (Planning): 15K tokens max  
+- Phase 2 (Planning): 15K tokens max
 - Phase 3 (Implementation): 30K tokens max (needs code context)
 - Phase 4 (Verification): 20K tokens max
 
@@ -1530,6 +1656,7 @@ Steward reading order:
 **Enforcement levels:**
 
 **Level 1: Prompt-based (soft):**
+
 ```
 ## Phase 3: Test Writing (BEFORE Implementation)
 
@@ -1543,10 +1670,12 @@ If you write production code before tests exist, STOP and correct.
 ```
 
 **Level 2: Slash command checks (medium):**
+
 ```markdown
 # /ship command - Phase 3 gate
 
 Before implementation:
+
 1. List all new test files created in this session
 2. Verify each test file exists
 3. Run tests and verify they FAIL
@@ -1555,6 +1684,7 @@ Before implementation:
 ```
 
 **Level 3: CI enforcement (hard):**
+
 ```yaml
 # .github/workflows/tests-first.yml
 name: Tests-First Check
@@ -1567,16 +1697,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+
       - name: Check test commits precede implementation
         run: |
           # Get commits in PR
           COMMITS=$(git log --oneline origin/main..HEAD)
-          
+
           # Find first test commit and first impl commit
           FIRST_TEST=$(git log --oneline --all --grep="test:" | tail -1)
           FIRST_IMPL=$(git log --oneline --all --grep="feat:\|fix:" | tail -1)
-          
+
           # Compare timestamps (simplified)
           echo "First test: $FIRST_TEST"
           echo "First impl: $FIRST_IMPL"
@@ -1584,6 +1714,7 @@ jobs:
 ```
 
 **When to allow exceptions:**
+
 - Exploratory spikes (labeled `spike:` in intent)
 - Proof-of-concept work (labeled `poc:`)
 - Documentation-only changes
@@ -1600,6 +1731,7 @@ jobs:
 **TypeScript/JavaScript:**
 
 **fast-check** (property-based):
+
 ```bash
 npm install --save-dev fast-check
 ```
@@ -1631,19 +1763,21 @@ describe('sanitizeInput', () => {
 ```
 
 **Fuzzing with fast-check:**
+
 ```typescript
 // Run more iterations for fuzzing-like behavior
 fc.assert(
   fc.property(fc.string(), (input) => {
     // Your property
   }),
-  { numRuns: 10000 }  // Default is 100
+  { numRuns: 10000 } // Default is 100
 );
 ```
 
 **Python:**
 
 **Hypothesis** (property-based):
+
 ```bash
 pip install hypothesis
 ```
@@ -1680,12 +1814,14 @@ def test_sanitize_idempotent(text):
 **ANSWER:**
 
 **Stryker Mutator** (TypeScript/JavaScript):
+
 ```bash
 npm install --save-dev @stryker-mutator/core @stryker-mutator/typescript-checker @stryker-mutator/jest-runner
 npx stryker init
 ```
 
 **`stryker.conf.json`:**
+
 ```json
 {
   "mutator": {
@@ -1708,17 +1844,20 @@ npx stryker init
 | Local dev | - | ✅ Targeted |
 
 **Targeted mutation testing:**
+
 ```bash
 # Only mutate changed files
 npx stryker run --mutate "src/auth/**/*.ts"
 ```
 
 **Acceptable mutation score:**
+
 - Target: 80%+ killed mutations
 - Critical paths (auth, payments): 90%+
 - Utility code: 70%+
 
 **Python (mutmut):**
+
 ```bash
 pip install mutmut
 mutmut run --paths-to-mutate=src/auth/
@@ -1736,6 +1875,7 @@ mutmut results
 **Definition:** Run historical/production inputs through new code and verify outputs match expected results.
 
 **Use cases:**
+
 1. Data transformation pipelines
 2. API endpoint behavior
 3. Business logic calculations
@@ -1744,6 +1884,7 @@ mutmut results
 **Implementation pattern:**
 
 **1. Capture golden data:**
+
 ```typescript
 // scripts/capture-golden.ts
 const testCases = [
@@ -1754,6 +1895,7 @@ fs.writeFileSync('golden-data/auth-cases.json', JSON.stringify(testCases));
 ```
 
 **2. Replay and compare:**
+
 ```typescript
 // tests/replay.test.ts
 import goldenData from '../golden-data/auth-cases.json';
@@ -1769,6 +1911,7 @@ describe('Replay validation', () => {
 ```
 
 **3. Handle non-determinism:**
+
 ```typescript
 // For timestamps, UUIDs, etc.
 const normalize = (output) => ({
@@ -1781,6 +1924,7 @@ expect(normalize(actual)).toEqual(normalize(expected));
 ```
 
 **4. Differential testing:**
+
 ```typescript
 // Compare old implementation vs new
 const oldResult = oldImplementation(input);
@@ -1789,6 +1933,7 @@ expect(newResult).toEqual(oldResult);
 ```
 
 **Data anonymization for production replay:**
+
 ```typescript
 const anonymize = (data) => ({
   ...data,
@@ -1833,18 +1978,21 @@ DISAGREEMENT RESOLUTION PROTOCOL
 ```
 
 **Structured disagreement log:**
+
 ```markdown
 <!-- workflow-state/disagreements.md -->
 
 ## F-042: Auth Implementation
 
 ### Disagreement 1
+
 - **QA**: Test coverage insufficient for edge cases
 - **Implementer**: Coverage meets 80% threshold
 - **Resolution**: Steward decided - add 3 specific edge case tests
 - **Outcome**: QA accepted after additional tests
 
-### Disagreement 2  
+### Disagreement 2
+
 - **Security**: JWT expiry too long (7 days)
 - **PM**: Business requirement for long sessions
 - **Resolution**: Human interrupt - reduced to 24h with refresh tokens
@@ -1852,6 +2000,7 @@ DISAGREEMENT RESOLUTION PROTOCOL
 ```
 
 **Voting rules (if needed):**
+
 - Simple majority for low-risk decisions
 - Unanimous for high-risk decisions
 - Security veto cannot be overruled by vote
@@ -1868,27 +2017,25 @@ These items were identified during primary research but need additional investig
 
 **ANSWER: Use ESLint + TypeScript strict mode + CI checks (config over code)**
 
-| Invariant Type | Enforcement Method | Tool/Config |
-|----------------|-------------------|-------------|
-| No `any` type | ESLint | `@typescript-eslint/no-explicit-any: "error"` |
-| Forbidden types | ESLint | `@typescript-eslint/ban-types` |
-| No `eval()` | ESLint | `no-eval: "error"` |
-| No `innerHTML` | ESLint | `no-unsanitized/property` (plugin) |
-| No circular deps | ESLint | `import/no-cycle` (eslint-plugin-import) |
-| Max import depth | ESLint | `import/no-restricted-paths` |
-| Type safety | TypeScript | `tsconfig.json` with `strict: true` |
-| Schema compat | CI | Custom test that loads old + new schema |
-| Performance (p95) | CI | Benchmark tests with threshold assertions |
-| Secrets not logged | ESLint | `no-console` in production, custom rule |
+| Invariant Type     | Enforcement Method | Tool/Config                                   |
+| ------------------ | ------------------ | --------------------------------------------- |
+| No `any` type      | ESLint             | `@typescript-eslint/no-explicit-any: "error"` |
+| Forbidden types    | ESLint             | `@typescript-eslint/ban-types`                |
+| No `eval()`        | ESLint             | `no-eval: "error"`                            |
+| No `innerHTML`     | ESLint             | `no-unsanitized/property` (plugin)            |
+| No circular deps   | ESLint             | `import/no-cycle` (eslint-plugin-import)      |
+| Max import depth   | ESLint             | `import/no-restricted-paths`                  |
+| Type safety        | TypeScript         | `tsconfig.json` with `strict: true`           |
+| Schema compat      | CI                 | Custom test that loads old + new schema       |
+| Performance (p95)  | CI                 | Benchmark tests with threshold assertions     |
+| Secrets not logged | ESLint             | `no-console` in production, custom rule       |
 
 **Implementation (minimal code):**
+
 ```json
 // .eslintrc.json (or eslint.config.js)
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/strict-type-checked"
-  ],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/strict-type-checked"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "error",
     "@typescript-eslint/ban-types": "error",
@@ -1899,6 +2046,7 @@ These items were identified during primary research but need additional investig
 ```
 
 **What remains runtime-only:**
+
 - Performance budgets (p95 latency) → CI benchmark tests
 - Memory limits → CI tests with memory monitoring
 - Data loss prevention → Integration tests with replay validation
@@ -1906,6 +2054,7 @@ These items were identified during primary research but need additional investig
 **Priority:** ✅ Resolved - use config files, not custom code
 
 #### F2. Review Agents Implementation
+
 - **Question:** How do the Style/Logic/Invariant/Regression review agents run on every commit?
 - **Current State:** Concept defined, but implementation unclear
 - **Options to Research:**
@@ -1916,6 +2065,7 @@ These items were identified during primary research but need additional investig
 - **Priority:** Medium (can use existing linters initially)
 
 #### F3. SYSTEM_STATE.md Auto-Generation
+
 - **Question:** How do we automatically generate the Steward's summary file?
 - **Current State:** Format defined, but generation not automated
 - **Options to Research:**
@@ -1926,6 +2076,7 @@ These items were identified during primary research but need additional investig
 - **Priority:** Medium (can manually maintain initially)
 
 #### F4. Performance Testing Approach
+
 - **Question:** What tools/methods for the "Performance Degrader" agent?
 - **Current State:** Role defined, but no tooling specified
 - **Options to Research:**
@@ -1948,15 +2099,16 @@ These items were identified during primary research but need additional investig
 
 **Impact on our architecture:**
 
-| Context | Solution |
-|---------|----------|
-| **CI/CD** | Use standard tools: ESLint, TypeScript, Vitest, npm audit |
-| **Pre-commit** | Use Husky + lint-staged (not Cursor) |
-| **Agent workflows** | Interactive only - user invokes `/ship` manually |
-| **Verification** | CI runs tests; Cursor is for authoring, not automation |
+| Context             | Solution                                                  |
+| ------------------- | --------------------------------------------------------- |
+| **CI/CD**           | Use standard tools: ESLint, TypeScript, Vitest, npm audit |
+| **Pre-commit**      | Use Husky + lint-staged (not Cursor)                      |
+| **Agent workflows** | Interactive only - user invokes `/ship` manually          |
+| **Verification**    | CI runs tests; Cursor is for authoring, not automation    |
 
 **Practical implication:**
 The "Review Agents" (Style, Logic, Invariant, Regression) in CI are actually:
+
 - **Style Agent** → Prettier + ESLint
 - **Logic Agent** → TypeScript strict mode + ESLint
 - **Invariant Agent** → ESLint rules + custom CI checks
@@ -1967,6 +2119,7 @@ Cursor slash commands are for interactive development, not CI automation.
 **Priority:** ✅ Resolved - design confirmed: Cursor = interactive, CI = standard tools
 
 #### F6. Token Budget Enforcement
+
 - **Question:** How do we enforce token budgets per agent?
 - **Current State:** Concept defined, but no enforcement mechanism
 - **Options to Research:**
@@ -1979,19 +2132,19 @@ Cursor slash commands are for interactive development, not CI automation.
 
 ### Technical Decisions — CONFIRMED ✅
 
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| **Primary stack** | TypeScript/Node.js | Best AI tooling support, strong typing, fast-check available |
-| **Test framework** | Vitest | Faster than Jest, native ESM, great DX |
-| **Property-based testing** | fast-check | Mature, well-documented, TypeScript-native |
-| **Mutation testing** | Stryker | Industry standard for JS/TS |
-| **CI platform** | GitHub Actions | Native integration, good free tier |
-| **Feature flags** | Environment variables | Start simple, add service later |
-| **Drift metrics** | Shell script + CI | `/scripts/drift-check.sh` (see research above) |
-| **Security scanning** | Dependabot + npm audit | Free, automatic |
-| **Linting** | ESLint + typescript-eslint | Enforce invariants via config, not code |
-| **Formatting** | Prettier | Zero-config consistency |
-| **Pre-commit** | Husky + lint-staged | Enforce gates without custom code |
+| Decision                   | Choice                     | Rationale                                                    |
+| -------------------------- | -------------------------- | ------------------------------------------------------------ |
+| **Primary stack**          | TypeScript/Node.js         | Best AI tooling support, strong typing, fast-check available |
+| **Test framework**         | Vitest                     | Faster than Jest, native ESM, great DX                       |
+| **Property-based testing** | fast-check                 | Mature, well-documented, TypeScript-native                   |
+| **Mutation testing**       | Stryker                    | Industry standard for JS/TS                                  |
+| **CI platform**            | GitHub Actions             | Native integration, good free tier                           |
+| **Feature flags**          | Environment variables      | Start simple, add service later                              |
+| **Drift metrics**          | Shell script + CI          | `/scripts/drift-check.sh` (see research above)               |
+| **Security scanning**      | Dependabot + npm audit     | Free, automatic                                              |
+| **Linting**                | ESLint + typescript-eslint | Enforce invariants via config, not code                      |
+| **Formatting**             | Prettier                   | Zero-config consistency                                      |
+| **Pre-commit**             | Husky + lint-staged        | Enforce gates without custom code                            |
 
 **Guiding Principle:** Prefer configuration over code. Use existing tools with strict settings rather than building custom enforcement.
 
@@ -1999,13 +2152,13 @@ Cursor slash commands are for interactive development, not CI automation.
 
 ### Project Owner Decisions ✅ CONFIRMED
 
-| Question | Answer |
-|----------|--------|
-| **Target project** | Greenfield (new project) |
-| **Tech stack** | TypeScript/Node.js (minimal code, prefer config) |
-| **High-risk domains** | Authentication, payment processing, permissions, infrastructure changes, PII |
-| **Human response time** | Minutes (real-time collaboration) |
-| **Compliance needs** | None currently |
+| Question                | Answer                                                                       |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| **Target project**      | Greenfield (new project)                                                     |
+| **Tech stack**          | TypeScript/Node.js (minimal code, prefer config)                             |
+| **High-risk domains**   | Authentication, payment processing, permissions, infrastructure changes, PII |
+| **Human response time** | Minutes (real-time collaboration)                                            |
+| **Compliance needs**    | None currently                                                               |
 
 **Design Principle:** Minimize custom code. Prefer development environment configuration (ESLint, TypeScript strict mode, pre-commit hooks, CI workflows) to satisfy requirements wherever possible.
 
@@ -2013,11 +2166,11 @@ Cursor slash commands are for interactive development, not CI automation.
 
 ### Completed Experiments ✅
 
-| Experiment | Status | Result |
-|------------|--------|--------|
-| Cursor Rules Test | ✅ Done | Validated MDC format works (test files removed after validation) |
-| Slash Command Test | ✅ Done | Validated slash commands work (test files removed after validation) |
-| Worktree Pattern | ✅ Documented | Manual setup required, see Research Q2 |
+| Experiment         | Status        | Result                                                              |
+| ------------------ | ------------- | ------------------------------------------------------------------- |
+| Cursor Rules Test  | ✅ Done       | Validated MDC format works (test files removed after validation)    |
+| Slash Command Test | ✅ Done       | Validated slash commands work (test files removed after validation) |
+| Worktree Pattern   | ✅ Documented | Manual setup required, see Research Q2                              |
 
 ### Remaining Experiments (Do After Setup)
 
@@ -2031,48 +2184,52 @@ Cursor slash commands are for interactive development, not CI automation.
 
 ### Known Risks & Updated Mitigations
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| **Cursor changes break setup** | High | Medium | Use `.cursor/rules/*.mdc` (documented format); keep prompts portable |
-| **Agent hallucination** | High | High | Require executable proof; verification gates; never trust explanations |
-| **Confidence scores unreliable** | High | Medium | Use calibrated prompts (see Q6); multi-agent validation; conservative thresholds |
-| **Context drift** | Medium | High | SYSTEM_STATE.md summary; hierarchical reading; memory contracts |
-| **Agents ignore Steward** | Medium | High | Slash commands check status; human audit weekly |
-| **Tests-first too rigid** | Medium | Low | Allow `spike:` and `poc:` labeled exceptions |
-| **Parallel agent conflicts** | Medium | Medium | Pre-assigned tasks in worktrees.json; clear file ownership |
-| **Drift undetected** | Low | Medium | Weekly CI job; alert on threshold breach |
-| **Human bottleneck returns** | Low | High | Async approval; strict interrupt policy; default-allow for Lane A/B |
+| Risk                             | Likelihood | Impact | Mitigation                                                                       |
+| -------------------------------- | ---------- | ------ | -------------------------------------------------------------------------------- |
+| **Cursor changes break setup**   | High       | Medium | Use `.cursor/rules/*.mdc` (documented format); keep prompts portable             |
+| **Agent hallucination**          | High       | High   | Require executable proof; verification gates; never trust explanations           |
+| **Confidence scores unreliable** | High       | Medium | Use calibrated prompts (see Q6); multi-agent validation; conservative thresholds |
+| **Context drift**                | Medium     | High   | SYSTEM_STATE.md summary; hierarchical reading; memory contracts                  |
+| **Agents ignore Steward**        | Medium     | High   | Slash commands check status; human audit weekly                                  |
+| **Tests-first too rigid**        | Medium     | Low    | Allow `spike:` and `poc:` labeled exceptions                                     |
+| **Parallel agent conflicts**     | Medium     | Medium | Pre-assigned tasks in worktrees.json; clear file ownership                       |
+| **Drift undetected**             | Low        | Medium | Weekly CI job; alert on threshold breach                                         |
+| **Human bottleneck returns**     | Low        | High   | Async approval; strict interrupt policy; default-allow for Lane A/B              |
 
 ---
 
 ## Success Criteria
 
 ### Speed Metrics
-| Metric | Target | Stretch |
-|--------|--------|---------|
-| Intent → Shipped (small feature) | < 4 hours | < 2 hours |
-| Intent → Shipped (medium feature) | < 2 days | < 1 day |
-| Intent → Shipped (large feature) | < 1 week | < 3 days |
-| Phase transition time | < 30 min | < 10 min |
+
+| Metric                            | Target    | Stretch   |
+| --------------------------------- | --------- | --------- |
+| Intent → Shipped (small feature)  | < 4 hours | < 2 hours |
+| Intent → Shipped (medium feature) | < 2 days  | < 1 day   |
+| Intent → Shipped (large feature)  | < 1 week  | < 3 days  |
+| Phase transition time             | < 30 min  | < 10 min  |
 
 ### Quality Metrics
-| Metric | Target | Why |
-|--------|--------|-----|
-| Verification pass rate (first attempt) | > 80% | Tests-first should reduce failures |
-| Post-ship bugs found | < 5% of shipped intents | Adversarial verification catches issues |
-| Rollbacks needed | < 2% of deploys | Good rollback plans reduce risk |
-| Security findings post-ship | 0 critical, < 2 medium | Security agent effectiveness |
+
+| Metric                                 | Target                  | Why                                     |
+| -------------------------------------- | ----------------------- | --------------------------------------- |
+| Verification pass rate (first attempt) | > 80%                   | Tests-first should reduce failures      |
+| Post-ship bugs found                   | < 5% of shipped intents | Adversarial verification catches issues |
+| Rollbacks needed                       | < 2% of deploys         | Good rollback plans reduce risk         |
+| Security findings post-ship            | 0 critical, < 2 medium  | Security agent effectiveness            |
 
 ### Process Metrics
-| Metric | Target | Why |
-|--------|--------|-----|
-| Human interrupts per feature | < 2 | Humans are for judgment, not rubber-stamping |
-| Kill rate (vs shipped) | 10-20% | Too low = not trying hard things; too high = poor scoping |
-| Drift metrics within baseline | > 90% of weeks | System staying healthy |
-| Agent disagreements resolved by Steward | > 80% | Steward effectiveness |
-| Agent disagreements escalated to human | < 20% | System autonomy |
+
+| Metric                                  | Target         | Why                                                       |
+| --------------------------------------- | -------------- | --------------------------------------------------------- |
+| Human interrupts per feature            | < 2            | Humans are for judgment, not rubber-stamping              |
+| Kill rate (vs shipped)                  | 10-20%         | Too low = not trying hard things; too high = poor scoping |
+| Drift metrics within baseline           | > 90% of weeks | System staying healthy                                    |
+| Agent disagreements resolved by Steward | > 80%          | Steward effectiveness                                     |
+| Agent disagreements escalated to human  | < 20%          | System autonomy                                           |
 
 ### What Success Looks Like
+
 - AI team ships faster than equivalent human team
 - Quality is measurably higher (fewer bugs, better test coverage)
 - Humans only intervene for genuine judgment calls
@@ -2083,44 +2240,45 @@ Cursor slash commands are for interactive development, not CI automation.
 
 ## Risk Mitigation
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|------------|--------|------------|
-| **Cursor feature changes** | High | Medium | Document fallback patterns; keep prompts portable; use `.cursorrules` as backup |
-| **Agent hallucination** | High | High | Require executable proof; verification gates; never trust explanations alone |
-| **Confidence scores unreliable** | High | Medium | Cross-validate with multiple agents; calibrate with experiments; use conservative thresholds |
-| **Context drift between agents** | Medium | High | State anchoring via workflow-state files; agents MUST read state before acting |
-| **Agents ignore Steward decisions** | Medium | High | Gate commands check status; humans audit periodically; add enforcement to prompts |
-| **Tests-first too rigid** | Medium | Low | Define explicit exceptions for exploratory spikes; allow "spike" intents |
-| **Parallel agents conflict** | Medium | Medium | Strong task isolation; `.agent-id` coordination; clear ownership in worktrees.json |
-| **Scope creep via agents** | Medium | Medium | Kill criteria; Steward enforcement; penalize large diffs |
-| **Do-not-repeat ledger ignored** | Medium | Medium | Agents MUST check before proposing; add to gate checklist |
-| **Drift detection too slow** | Low | Medium | Automate to CI; alert on threshold breach |
-| **Human bottleneck returns** | Low | High | Strict interrupt policy; async approval option; clear escalation rules |
-| **Over-engineering by agents** | Medium | Medium | Penalize cleverness; reward simplicity; review for unused abstractions |
+| Risk                                | Likelihood | Impact | Mitigation                                                                                   |
+| ----------------------------------- | ---------- | ------ | -------------------------------------------------------------------------------------------- |
+| **Cursor feature changes**          | High       | Medium | Document fallback patterns; keep prompts portable; use `.cursorrules` as backup              |
+| **Agent hallucination**             | High       | High   | Require executable proof; verification gates; never trust explanations alone                 |
+| **Confidence scores unreliable**    | High       | Medium | Cross-validate with multiple agents; calibrate with experiments; use conservative thresholds |
+| **Context drift between agents**    | Medium     | High   | State anchoring via workflow-state files; agents MUST read state before acting               |
+| **Agents ignore Steward decisions** | Medium     | High   | Gate commands check status; humans audit periodically; add enforcement to prompts            |
+| **Tests-first too rigid**           | Medium     | Low    | Define explicit exceptions for exploratory spikes; allow "spike" intents                     |
+| **Parallel agents conflict**        | Medium     | Medium | Strong task isolation; `.agent-id` coordination; clear ownership in worktrees.json           |
+| **Scope creep via agents**          | Medium     | Medium | Kill criteria; Steward enforcement; penalize large diffs                                     |
+| **Do-not-repeat ledger ignored**    | Medium     | Medium | Agents MUST check before proposing; add to gate checklist                                    |
+| **Drift detection too slow**        | Low        | Medium | Automate to CI; alert on threshold breach                                                    |
+| **Human bottleneck returns**        | Low        | High   | Strict interrupt policy; async approval option; clear escalation rules                       |
+| **Over-engineering by agents**      | Medium     | Medium | Penalize cleverness; reward simplicity; review for unused abstractions                       |
 
 ---
 
 ## Appendix: Key Terminology
 
-| Term | Definition |
-|------|------------|
-| **Intent** | A planned feature, bug fix, or tech debt item—the unit of work |
-| **Intent Ledger** | The `/intent/` directory containing all planned and historical work |
-| **Kill** | Permanently stop work on an intent (not pause—full stop with rationale) |
-| **Block** | Temporarily halt work pending additional information or decisions |
-| **Gate** | A checkpoint where work must be approved before proceeding |
-| **Drift** | Gradual degradation of system quality or architecture coherence |
-| **Canon** | The authoritative architecture document (CANON.md) |
-| **Steward** | The executive agent with veto power over all work |
-| **Adversarial Swarm** | Multiple agents simultaneously trying to break an implementation |
-| **Truth Stack** | The hierarchy of sources when facts conflict |
-| **Autopass Lane** | A risk-based category determining how much review is required |
+| Term                  | Definition                                                              |
+| --------------------- | ----------------------------------------------------------------------- |
+| **Intent**            | A planned feature, bug fix, or tech debt item—the unit of work          |
+| **Intent Ledger**     | The `/intent/` directory containing all planned and historical work     |
+| **Kill**              | Permanently stop work on an intent (not pause—full stop with rationale) |
+| **Block**             | Temporarily halt work pending additional information or decisions       |
+| **Gate**              | A checkpoint where work must be approved before proceeding              |
+| **Drift**             | Gradual degradation of system quality or architecture coherence         |
+| **Canon**             | The authoritative architecture document (CANON.md)                      |
+| **Steward**           | The executive agent with veto power over all work                       |
+| **Adversarial Swarm** | Multiple agents simultaneously trying to break an implementation        |
+| **Truth Stack**       | The hierarchy of sources when facts conflict                            |
+| **Autopass Lane**     | A risk-based category determining how much review is required           |
 
 ---
 
 ## Next Steps (Prioritized)
 
 ### Immediate (Before Implementation)
+
 1. **Research questions answered:** ✅
    - [x] Verified Cursor uses `.cursor/rules/*.mdc` (not agents)
    - [x] Verified slash commands work via `.cursor/commands/*.md`
@@ -2131,17 +2289,20 @@ Cursor slash commands are for interactive development, not CI automation.
    - [ ] Define what "high-risk" means for this domain
 
 ### Week 1
+
 3. **Create repository structure** (Phase 1 tasks)
 4. **Write agent rules** (Phase 2 tasks) — use `.cursor/rules/*.mdc` format
 5. **Write core slash commands** (`/new_intent`, `/ship`, `/verify`)
 6. **Create helper scripts** (`scripts/drift-check.sh`, `scripts/setup-worktrees.sh`)
 
 ### Week 2
+
 7. **Set up GitHub integration** (Phase 4 tasks)
 8. **Run pilot feature** (Phase 5)
 9. **Document learnings and adjust**
 
 ### Ongoing
+
 10. **Calibrate confidence thresholds** based on real data
 11. **Build drift baseline** over first month
 12. **Expand do-not-repeat ledger** as failures occur
@@ -2151,24 +2312,23 @@ Cursor slash commands are for interactive development, not CI automation.
 
 ## Changelog
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.5 | 2026-01-12 | **Documentation Review:** Updated AGENTS.md Truth Hierarchy to match PLAN.md with full explanatory text. Created missing `/drift_check` slash command. Enhanced README.md with key features and agent roles. Verified all cross-references and file paths. All documentation now consistent and accurate. |
-| 1.4 | 2026-01-12 | **Owner Decisions Confirmed:** Greenfield project, TypeScript/Node.js stack, minimal code philosophy (prefer config). High-risk domains: auth, payments, permissions, infra, PII. Human response time: minutes. Added ESLint, Prettier, Husky to tech stack. |
-| 1.3 | 2026-01-12 | **Consistency Review:** Fixed Next Steps to reflect completed research. Added Follow-up Research Items (F1-F6). Updated repo structure with missing files (SYSTEM_STATE.md, golden-data/, disagreements.md, confidence-calibration.json). Clarified /ship command role-switching mechanism since Cursor lacks native subagents. |
-| 1.2 | 2026-01-12 | **Research Complete:** Answered all 12 research questions with concrete implementations. Corrected Cursor file format (`.mdc` not `.md`). Added drift-check script, confidence calibration patterns, replay validation, agent disagreement protocol. Validated with test files (removed after validation). |
-| 1.1 | 2026-01-12 | Added Truth Hierarchy, Cost-Awareness, Negative Knowledge Repository, Time-Scale Separation, Memory & State Discipline, Adversarial Swarm, Reward Shaping, expanded Research section |
-| 1.0 | 2026-01-12 | Initial plan from ChatGPT conversation |
+| Version | Date       | Changes                                                                                                                                                                                                                                                                                                                         |
+| ------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.5     | 2026-01-12 | **Documentation Review:** Updated AGENTS.md Truth Hierarchy to match PLAN.md with full explanatory text. Created missing `/drift_check` slash command. Enhanced README.md with key features and agent roles. Verified all cross-references and file paths. All documentation now consistent and accurate.                       |
+| 1.4     | 2026-01-12 | **Owner Decisions Confirmed:** Greenfield project, TypeScript/Node.js stack, minimal code philosophy (prefer config). High-risk domains: auth, payments, permissions, infra, PII. Human response time: minutes. Added ESLint, Prettier, Husky to tech stack.                                                                    |
+| 1.3     | 2026-01-12 | **Consistency Review:** Fixed Next Steps to reflect completed research. Added Follow-up Research Items (F1-F6). Updated repo structure with missing files (SYSTEM_STATE.md, golden-data/, disagreements.md, confidence-calibration.json). Clarified /ship command role-switching mechanism since Cursor lacks native subagents. |
+| 1.2     | 2026-01-12 | **Research Complete:** Answered all 12 research questions with concrete implementations. Corrected Cursor file format (`.mdc` not `.md`). Added drift-check script, confidence calibration patterns, replay validation, agent disagreement protocol. Validated with test files (removed after validation).                      |
+| 1.1     | 2026-01-12 | Added Truth Hierarchy, Cost-Awareness, Negative Knowledge Repository, Time-Scale Separation, Memory & State Discipline, Adversarial Swarm, Reward Shaping, expanded Research section                                                                                                                                            |
+| 1.0     | 2026-01-12 | Initial plan from ChatGPT conversation                                                                                                                                                                                                                                                                                          |
 
 ---
 
-*Generated from ChatGPT conversation: ShipIt Design*
-*Plan Version: 1.5*
-*Last Updated: 2026-01-12*
+_Generated from ChatGPT conversation: ShipIt Design_
+_Plan Version: 1.5_
+_Last Updated: 2026-01-12_
 
 ## Files Created During Research
 
-| File | Purpose |
-|------|---------|
-| (Test files removed after validation) | |
-
+| File                                  | Purpose |
+| ------------------------------------- | ------- |
+| (Test files removed after validation) |         |

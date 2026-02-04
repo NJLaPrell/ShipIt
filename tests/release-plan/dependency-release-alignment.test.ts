@@ -61,7 +61,7 @@ describe('generate-release-plan dependency release alignment', () => {
 
     runGenerateReleasePlan(tmpDir);
 
-    const planPath = path.join(tmpDir, 'release', 'plan.md');
+    const planPath = path.join(tmpDir, 'generated', 'release', 'plan.md');
     const plan = fs.readFileSync(planPath, 'utf8');
     const releases = parsePlanIntentReleaseMap(plan);
 
@@ -70,7 +70,7 @@ describe('generate-release-plan dependency release alignment', () => {
     expect(f001).toBeTypeOf('number');
     expect(f002).toBeTypeOf('number');
     if (typeof f001 !== 'number' || typeof f002 !== 'number') {
-      throw new Error('Expected both F-001 and F-002 to appear in release/plan.md');
+      throw new Error('Expected both F-001 and F-002 to appear in generated/release/plan.md');
     }
     expect(f002).toBeLessThanOrEqual(f001);
   });
@@ -85,7 +85,7 @@ describe('generate-release-plan dependency release alignment', () => {
 
     runGenerateReleasePlan(tmpDir);
 
-    const planPath = path.join(tmpDir, 'release', 'plan.md');
+    const planPath = path.join(tmpDir, 'generated', 'release', 'plan.md');
     const plan = fs.readFileSync(planPath, 'utf8');
 
     expect(plan).toContain('## Missing Dependencies');
@@ -107,7 +107,7 @@ describe('generate-release-plan dependency release alignment', () => {
 
     runGenerateReleasePlan(tmpDir);
 
-    const planPath = path.join(tmpDir, 'release', 'plan.md');
+    const planPath = path.join(tmpDir, 'generated', 'release', 'plan.md');
     const plan = fs.readFileSync(planPath, 'utf8');
     const releases = parsePlanIntentReleaseMap(plan);
 
@@ -116,7 +116,7 @@ describe('generate-release-plan dependency release alignment', () => {
     expect(f001).toBeTypeOf('number');
     expect(f002).toBeTypeOf('number');
     if (typeof f001 !== 'number' || typeof f002 !== 'number') {
-      throw new Error('Expected both F-001 and F-002 to appear in release/plan.md');
+      throw new Error('Expected both F-001 and F-002 to appear in generated/release/plan.md');
     }
     expect(f002).toBeLessThanOrEqual(f001);
   });

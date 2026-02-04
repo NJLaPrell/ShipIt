@@ -49,5 +49,5 @@ After the script runs, verify these files exist:
 
 - `project-scope.md` (with Q/A and intent selection)
 - `intent/features/F-*.md` (generated intents)
-- `roadmap/now.md`, `next.md`, `later.md`
-- `release/plan.md`
+- `generated/roadmap/now.md`, `next.md`, `later.md`
+- `generated/release/plan.md`

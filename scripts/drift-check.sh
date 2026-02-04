@@ -16,7 +16,7 @@ command -v git >/dev/null 2>&1 || error_exit "git is required but not installed"
 command -v jq >/dev/null 2>&1 || error_exit "jq is required but not installed"
 command -v bc >/dev/null 2>&1 || error_exit "bc is required but not installed"
 
-DRIFT_DIR="drift"
+DRIFT_DIR="generated/drift"
 METRICS_FILE="$DRIFT_DIR/metrics.md"
 
 # Create drift directory if it doesn't exist

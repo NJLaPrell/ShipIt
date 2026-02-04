@@ -58,7 +58,7 @@ analyze_state() {
     
     # Check for release plan
     local has_release_plan=false
-    if [ -f "release/plan.md" ]; then
+    if [ -f "generated/release/plan.md" ]; then
         has_release_plan=true
     fi
     
