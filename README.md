@@ -289,7 +289,7 @@ Entries are automatically appended during `/verify` when outcomes are determined
 
 **Note:** All commands show context-aware next-step suggestions after completion. Scripts auto-verify outputs and run dependent generators (e.g., `/scope-project` automatically runs `/generate-release-plan` and `/generate-roadmap`).
 
-All commands are available as Cursor slash commands. See [`.cursor/commands/`](./.cursor/commands/) for full documentation.
+All commands are available as Cursor slash commands. See [`.cursor/commands/`](./.cursor/commands/) for full documentation. From the CLI, use `pnpm run <script>` where available (e.g. `pnpm fix`, `pnpm help`, `pnpm verify`); see [AGENTS.md](./AGENTS.md) for the commands–scripts mapping.
 
 ## Example: Ship a Feature
 

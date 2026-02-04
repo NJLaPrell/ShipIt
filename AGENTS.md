@@ -80,6 +80,12 @@ Humans intervene **ONLY** at these gates:
 | `/kill`        | Kill an intent with rationale       |
 | `/drift_check` | Calculate drift metrics             |
 
+### Commands and scripts
+
+- **Slash command files** live in `.cursor/commands/` and use **underscores** in filenames (e.g. `init_project.md`, `drift_check.md`).
+- **Executable scripts** live in `scripts/` and use **hyphens** (e.g. `init-project.sh`, `fix-intents.sh`).
+- Prefer **`pnpm run <script>`** when a script exists: pnpm script names use hyphens. Examples: `/fix` → `pnpm fix`, `/help` → `pnpm help`, `/verify` → `pnpm verify`, `/drift_check` → `pnpm drift-check`, `/new_intent` → `pnpm new-intent`. See `package.json` scripts for the full list.
+
 ## Truth Hierarchy
 
 When facts conflict, agents MUST know which source wins. This prevents 30–40% of "AI confusion" bugs.
