@@ -20,7 +20,7 @@ Quick reference for ShipIt project layout. **Authoritative source:** [architectu
 | `behaviors/`      | Release procedures, issue tracking rules, platform work                                                                                                   |
 | `reports/`        | Generated reports (mutation/, etc.)                                                                                                                       |
 | `golden-data/`    | Replay validation test data                                                                                                                               |
-| `projects/`       | Initialized projects (gitignored except .gitkeep)                                                                                                         |
+| `projects/`       | Initialized ShipIt projects (from /init-project). See [projects/README.md](./projects/README.md). Contents gitignored except .gitkeep.                    |
 | `drift/`          | Baselines and metrics for entropy monitoring                                                                                                              |
 | `.cursor/`        | commands/, rules/, agents/ (Cursor config)                                                                                                                |
 
