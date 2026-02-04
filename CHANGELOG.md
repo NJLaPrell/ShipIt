@@ -13,6 +13,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- None
+
+### Fixed
+
+- None
+
+## [0.3.0] - 2026-02-04
+
+### Added
+
+- None
+
+### Changed
+
 - **Reorganization (Plan C + Plan B):** Project layout now uses `work/` (intent, workflow-state, roadmap, release) and `_system/` (architecture, do-not-repeat, drift, behaviors, security, artifacts, reports, golden-data). Docs moved to `docs/` (DIRECTORY_STRUCTURE, PLAN, PILOT_GUIDE). All scripts, .cursor, CI, and docs updated. New projects from `/init-project` get the new layout.
 
 ### Fixed
