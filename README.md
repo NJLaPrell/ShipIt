@@ -425,11 +425,14 @@ pnpm validate-cursor
 ## Documentation
 
 - **[AGENTS.md](./AGENTS.md)** - Role definitions and conventions
+- **[DIRECTORY_STRUCTURE.md](./DIRECTORY_STRUCTURE.md)** - Quick reference for project layout
 - **[PILOT_GUIDE.md](./PILOT_GUIDE.md)** - Step-by-step guide for your first feature
 - **[CHANGELOG.md](./CHANGELOG.md)** - Version history and changes
 - **[architecture/CANON.md](./architecture/CANON.md)** - Architecture boundaries
 - **[architecture/invariants.yml](./architecture/invariants.yml)** - Machine-verifiable constraints
 - **[tests/ISSUES.md](./tests/ISSUES.md)** - Test results and validation status
+- **[tests/README.md](./tests/README.md)** - Test structure (code, fixtures, logs, process docs)
+- **[projects/README.md](./projects/README.md)** - Purpose of `projects/` (initialized projects)
 
 ## Validation & Testing
 
