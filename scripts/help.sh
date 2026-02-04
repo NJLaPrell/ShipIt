@@ -247,7 +247,7 @@ show_command_help() {
             echo ""
             echo "Usage: /risk <intent-id>"
             echo ""
-            echo "Writes workflow-state/04_security.md"
+            echo "Writes workflow-state/04_verification.md (Security section)"
             ;;
         revert-plan|revert_plan)
             echo -e "${BLUE}/revert-plan${NC}"
