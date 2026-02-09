@@ -39,6 +39,8 @@
     "gh-create-pr": "./scripts/gh/create-pr.sh",
     "on-ship-update-issue": "./scripts/gh/on-ship-update-issue.sh",
     "create-intent-from-issue": "./scripts/gh/create-intent-from-issue.sh",
+    "usage-record": "./scripts/usage.sh",
+    "usage-report": "./scripts/usage-report.sh",
     "prepare": "husky install"
   },
   "keywords": [

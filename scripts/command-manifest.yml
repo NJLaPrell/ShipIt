@@ -84,6 +84,16 @@ commands:
     pnpm: suggest
     description: Get suggested next actions
     category: Help & Status
+  - id: usage-record
+    slash: /usage-record
+    pnpm: usage-record
+    description: Record token/cost for a phase (intent_id phase tokens_in tokens_out [cost])
+    category: Help & Status
+  - id: usage-report
+    slash: /usage-report
+    pnpm: usage-report
+    description: Show token/cost usage table (optionally --last N)
+    category: Help & Status
   - id: pr
     slash: /pr
     pnpm: null
