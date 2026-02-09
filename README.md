@@ -251,20 +251,20 @@ Entries are automatically appended during `/verify` when outcomes are determined
 
 ### Setup & Planning
 
-| Command                           | What It Does                                                        | When to Use                        |
-| --------------------------------- | ------------------------------------------------------------------- | ---------------------------------- |
-| `/init-project [name]`            | Create a new project with full structure                            | Start of new project               |
-| `/scope-project [desc]`           | AI-assisted feature breakdown with batched prompts                  | After init, to break down features |
-| `/new_intent`                     | Create a feature/bug/tech-debt intent                               | When planning new work             |
-| `/generate-release-plan`          | Build release plan from intents (auto-validates)                    | After creating/updating intents    |
-| `/generate-roadmap`               | Generate roadmap (now/next/later)                                   | After creating/updating intents    |
-| `/fix`                            | Auto-fix intent issues (dependency ordering, whitespace)            | When validation shows issues       |
-| `/status`                         | Unified dashboard: intents, workflow, tests, recent changes         | Anytime to check project state     |
-| `/pr <id>`                        | Generate PR summary/checklist                                       | Before opening a PR                |
-| `/create-pr <id>`                 | Generate pr.md (if needed) and create GitHub PR                     | When ready to open a PR            |
-| `/create-intent-from-issue <num>` | Create intent from GitHub issue (title, body → intent; links issue) | When tracking work from an issue   |
-| `/risk <id>`                      | Force security/threat skim                                          | Before release or high-risk change |
-| `/revert-plan <id>`               | Write rollback plan                                                 | Before implementation or release   |
+| Command                           | What It Does                                                                                      | When to Use                        |
+| --------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------- |
+| `/init-project [name]`            | Create a new project with full structure                                                          | Start of new project               |
+| `/scope-project [desc]`           | AI-assisted feature breakdown with batched prompts                                                | After init, to break down features |
+| `/new_intent`                     | Create a feature/bug/tech-debt intent (optional template: API, frontend, infra, bugfix, refactor) | When planning new work             |
+| `/generate-release-plan`          | Build release plan from intents (auto-validates)                                                  | After creating/updating intents    |
+| `/generate-roadmap`               | Generate roadmap (now/next/later)                                                                 | After creating/updating intents    |
+| `/fix`                            | Auto-fix intent issues (dependency ordering, whitespace)                                          | When validation shows issues       |
+| `/status`                         | Unified dashboard: intents, workflow, tests, recent changes                                       | Anytime to check project state     |
+| `/pr <id>`                        | Generate PR summary/checklist                                                                     | Before opening a PR                |
+| `/create-pr <id>`                 | Generate pr.md (if needed) and create GitHub PR                                                   | When ready to open a PR            |
+| `/create-intent-from-issue <num>` | Create intent from GitHub issue (title, body → intent; links issue)                               | When tracking work from an issue   |
+| `/risk <id>`                      | Force security/threat skim                                                                        | Before release or high-risk change |
+| `/revert-plan <id>`               | Write rollback plan                                                                               | Before implementation or release   |
 
 ### Execution
 
@@ -370,6 +370,8 @@ All work lives in `work/intent/` as markdown files under `features/`, `bugs/`, o
 - Rollback plan (required before implementation)
 
 **Validation & Auto-Fix:** The framework proactively validates intents for common issues (dependency ordering conflicts, whitespace formatting, missing dependencies, circular dependencies). Use `/fix` to auto-fix issues with a preview before applying changes.
+
+**Intent templates:** When creating an intent with `/new_intent` or `pnpm new-intent`, you can choose a template by kind. **Generic** (default) uses `work/intent/_TEMPLATE.md`. Kind-specific templates in `work/intent/templates/` add sections and prompts: **API endpoint** (path, method, schema, auth, rate limit; contract tests); **Frontend feature** (screens/flows, accessibility; E2E/a11y); **Infra change** (resources, rollout, rollback; runbooks); **Bugfix** (reproduction, root cause, fix scope; regression test); **Refactor** (current vs desired state; behavior preserved). **Adding a new template:** Copy an existing file in `work/intent/templates/` (e.g. `generic.md` or `api-endpoint.md`), add your sections and placeholders (keep required fields: Type, Status, Motivation, Acceptance, etc.), save as `work/intent/templates/<name>.md`, and add a menu option in `scripts/new-intent.sh` (case statement and template file path). Validation (fix-intents, generate-release-plan) runs on all intents regardless of template; templates must produce valid intents with the same required sections.
 
 ### GitHub integration
 

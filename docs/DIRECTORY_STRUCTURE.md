@@ -4,12 +4,12 @@ Quick reference for ShipIt project layout. **Authoritative source:** [\_system/a
 
 ## work/ (current work)
 
-| Directory              | Purpose                                                                                      |
-| ---------------------- | -------------------------------------------------------------------------------------------- |
-| `work/intent/`         | Planned work (features/, bugs/, tech-debt/)                                                  |
-| `work/workflow-state/` | Phase files (01_analysis → 05_release_notes), status (active, blocked, shipped), assumptions |
-| `work/roadmap/`        | Generated triage (now.md, next.md, later.md)                                                 |
-| `work/release/`        | Generated release plan (plan.md)                                                             |
+| Directory              | Purpose                                                                                                                             |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `work/intent/`         | Planned work (features/, bugs/, tech-debt/); templates/ for kind-specific intent templates (API, frontend, infra, bugfix, refactor) |
+| `work/workflow-state/` | Phase files (01_analysis → 05_release_notes), status (active, blocked, shipped), assumptions                                        |
+| `work/roadmap/`        | Generated triage (now.md, next.md, later.md)                                                                                        |
+| `work/release/`        | Generated release plan (plan.md)                                                                                                    |
 
 ## \_system/ (framework and generated)
 
