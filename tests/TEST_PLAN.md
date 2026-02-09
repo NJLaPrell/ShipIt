@@ -219,6 +219,8 @@ gh auth status
 
 ## 11) Validate /ship Workflow (Stops at Plan Gate)
 
+**Prerequisite:** The test project must have `scripts/lib/` (e.g. intent.sh) and `scripts/workflow-templates/` (phases.yml + .tpl). Projects created by `init-project.sh` from the framework include these; if either is missing, step 11-1 will fail (e.g. `require_intent_file` undefined or orchestrator cannot find phase templates).
+
 1. Run:
    - `/ship F-001`
 2. Verify:

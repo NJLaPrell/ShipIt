@@ -107,12 +107,30 @@ if [ -f "$ROOT_DIR/stryker.conf.json" ]; then
     cp "$ROOT_DIR/stryker.conf.json" "stryker.conf.json"
 fi
 
-for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh generate-system-state.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh verify.sh help.sh status.sh suggest.sh; do
+for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh generate-system-state.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh verify.sh help.sh status.sh suggest.sh fix-intents.sh; do
     if [ -f "$ROOT_DIR/scripts/$script" ]; then
         cp "$ROOT_DIR/scripts/$script" "scripts/$script"
         chmod +x "scripts/$script"
     fi
 done
+
+# Copy scripts/lib (common.sh, intent.sh, etc.) so workflow-orchestrator, kill-intent, and others work.
+if [ -d "$ROOT_DIR/scripts/lib" ]; then
+    mkdir -p scripts/lib
+    cp -R "$ROOT_DIR/scripts/lib/." "scripts/lib/"
+    chmod +x scripts/lib/*.sh 2>/dev/null || true
+fi
+
+# Copy workflow-templates (phases.yml + .tpl) so workflow-orchestrator can generate phase files.
+if [ -d "$ROOT_DIR/scripts/workflow-templates" ]; then
+    mkdir -p scripts/workflow-templates
+    cp -R "$ROOT_DIR/scripts/workflow-templates/." "scripts/workflow-templates/"
+fi
+
+# Copy command-manifest.yml so help.sh can build the command list.
+if [ -f "$ROOT_DIR/scripts/command-manifest.yml" ]; then
+    cp "$ROOT_DIR/scripts/command-manifest.yml" "scripts/command-manifest.yml"
+fi
 
 # Copy test-plan issue helper into the new project (used by test runner rules).
 if [ -f "$ROOT_DIR/scripts/create-test-plan-issue.sh" ]; then
@@ -655,7 +673,11 @@ if [ "$TECH_STACK" = "typescript-nodejs" ]; then
     "check-readiness": "./scripts/check-readiness.sh",
     "workflow-orchestrator": "./scripts/workflow-orchestrator.sh",
     "kill-intent": "./scripts/kill-intent.sh",
-    "verify": "./scripts/verify.sh"
+    "verify": "./scripts/verify.sh",
+    "fix": "./scripts/fix-intents.sh",
+    "help": "./scripts/help.sh",
+    "status": "./scripts/status.sh",
+    "suggest": "./scripts/suggest.sh"
   },
   "keywords": [],
   "author": "",
