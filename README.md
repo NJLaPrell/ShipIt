@@ -221,7 +221,7 @@ The `_system/artifacts/confidence-calibration.json` file tracks confidence score
 - `actual_outcome`: "success" or "failure"
 - `notes`: Optional notes about the outcome
 
-Entries are automatically appended during `/verify` when outcomes are determined.
+Entries are automatically appended during `/verify` when outcomes are determined. **View and tune:** Run `pnpm calibration-report` (or `/calibration-report`) for calibration error (MAE), Brier score, success rate by confidence bin, and over/under-confidence summary. Use `--json` for dashboard consumption; `--fail-on-threshold 0.2` in CI to fail when calibration drifts. See AGENTS.md for how to interpret metrics and improve calibration.
 
 1. **You define what** (intent file)
 2. **PM clarifies requirements** (executable acceptance criteria)
@@ -284,12 +284,13 @@ Entries are automatically appended during `/verify` when outcomes are determined
 
 ### Utilities
 
-| Command         | What It Does                                                   | When to Use                 |
-| --------------- | -------------------------------------------------------------- | --------------------------- |
-| `/help`         | Lists all commands with descriptions                           | When you need a reminder    |
-| `/suggest`      | Suggests next intent to work on                                | When unsure what to do next |
-| `/usage-record` | Record token/cost for a phase (intent, phase, in, out, [cost]) | After a phase to log usage  |
-| `/usage-report` | Show token/cost table (optionally `--last N`)                  | To view or export usage     |
+| Command               | What It Does                                                           | When to Use                      |
+| --------------------- | ---------------------------------------------------------------------- | -------------------------------- |
+| `/help`               | Lists all commands with descriptions                                   | When you need a reminder         |
+| `/suggest`            | Suggests next intent to work on                                        | When unsure what to do next      |
+| `/usage-record`       | Record token/cost for a phase (intent, phase, in, out, [cost])         | After a phase to log usage       |
+| `/usage-report`       | Show token/cost table (optionally `--last N`)                          | To view or export usage          |
+| `/calibration-report` | Confidence calibration (MAE, bins, over/under); `--json` for dashboard | After /verify to tune confidence |
 
 **Note:** All commands show context-aware next-step suggestions after completion. Scripts auto-verify outputs and run dependent generators (e.g., `/scope-project` automatically runs `/generate-release-plan` and `/generate-roadmap`).
 

@@ -94,6 +94,11 @@ commands:
     pnpm: usage-report
     description: Show token/cost usage table (optionally --last N)
     category: Help & Status
+  - id: calibration-report
+    slash: /calibration-report
+    pnpm: calibration-report
+    description: Confidence calibration report (stated vs actual); --json for dashboard
+    category: Help & Status
   - id: pr
     slash: /pr
     pnpm: null
