@@ -4,7 +4,7 @@
 
 # ShipIt 🚀
 
-[![Version](https://img.shields.io/badge/version-0.3.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v0.3.0)
+[![Version](https://img.shields.io/badge/version-0.4.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v0.4.0)
 [![Test Status](https://img.shields.io/badge/tests-97.6%25%20passing-green.svg)](./tests/ISSUES.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -473,6 +473,7 @@ A: Run `/test_shipit` to execute the full end-to-end test suite.
 
 ## Version History
 
+- **v0.4.0** (2026-02-09) - Scripts libs, command manifest, phase templates; init-project ships lib + workflow-templates
 - **v0.3.0** (2026-02-04) - Reorganization release (Plan C + Plan B: `work/`, `_system/`, `docs/` layout)
 - **v0.2.1** (2026-02-04) - Patch release (version consistency)
 - **v0.2.0** (2026-01-27) - UX Enhancements Release

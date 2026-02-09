@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- None
+
+### Changed
+
+- None
+
+### Fixed
+
+- None
+
+## [0.4.0] - 2026-02-09
+
+### Added
+
 - **Scripts shared libraries** (`scripts/lib/common.sh`, `scripts/lib/intent.sh`) — `error_exit`, colors, `require_cmd`; intent resolution (`resolve_intent_file`, `require_intent_file`). New scripts should source these to avoid duplication.
 - **Workflow phase spec and templates** (`scripts/workflow-templates/phases.yml` + `.tpl` files) — Orchestrator is spec-driven; add a phase by adding a spec entry and template. Placeholders: `{{INTENT_ID}}`, `{{DATE_UTC}}`.
 - **Command manifest** (`scripts/command-manifest.yml`) — Single source of truth for slash commands (id, slash, pnpm, description, category). `help.sh` builds the "Available commands" list from it.
@@ -18,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **workflow-orchestrator.sh** — Now reads phase spec and templates; no inline heredocs for phase content. Legacy `05_verification.md` still generated for backward compatibility.
 - **workflow-orchestrator.sh, kill-intent.sh** — Use `lib/intent.sh` for intent resolution; removed duplicated `error_exit` and `resolve_intent_file`.
 - **help.sh** — General "Available commands" list is built from `command-manifest.yml`; detailed per-command help unchanged.
+- **init-project.sh** — New projects now receive `scripts/lib/`, `scripts/workflow-templates/`, and `scripts/command-manifest.yml`; `fix-intents.sh` and help/status/suggest scripts included so `/ship` and `/fix` work out of the box.
 
 ### Fixed
 
