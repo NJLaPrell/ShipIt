@@ -34,11 +34,12 @@ ISSUE_NUM=$(echo "$OUTPUT" | sed -n 's|.*/issues/\([0-9]*\)|\1|p')
 
 # Write #ISSUE_NUM into intent file (add or update ## GitHub issue section)
 if grep -q '^## GitHub issue' "$INTENT_FILE"; then
-  # Replace value in existing section (next line that looks like #N or N)
+  # Replace value in existing section, or insert #num if section has only placeholder text
   awk -v num="$ISSUE_NUM" '
-    /^## GitHub issue$/ { in_sec=1; print; next }
-    in_sec && /^#?[0-9]+$/ { print "#" num; in_sec=0; next }
-    in_sec && /^## / { in_sec=0 }
+    /^## GitHub issue$/ { in_sec=1; printed=0; print; next }
+    in_sec && /^#?[0-9]+$/ { if (!printed) { print "#" num; printed=1 }; next }
+    in_sec && /^## / { in_sec=0; printed=0 }
+    in_sec && NF>0 && !printed { print "#" num; printed=1 }
     { print }
   ' "$INTENT_FILE" > "$INTENT_FILE.nw" && mv "$INTENT_FILE.nw" "$INTENT_FILE"
 else
