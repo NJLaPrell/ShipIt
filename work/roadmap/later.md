@@ -1,10 +1,15 @@
 # Later (Backlog)
 
-**Generated:** 2026-02-04T22:05:41Z
+**Generated:** 2026-02-09T20:10:22Z
 
 ## Intents
 
-(No intents yet. Add intents as they're planned.)
+- **infra-change:** F-###: Title
+- **api-endpoint:** F-###: Title
+- **frontend-feature:** F-###: Title
+- **refactor:** F-###: Title
+- **bugfix:** F-###: Title
+- **generic:** F-###: Title
 
 ## Dependencies
 
