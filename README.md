@@ -251,18 +251,20 @@ Entries are automatically appended during `/verify` when outcomes are determined
 
 ### Setup & Planning
 
-| Command                  | What It Does                                                | When to Use                        |
-| ------------------------ | ----------------------------------------------------------- | ---------------------------------- |
-| `/init-project [name]`   | Create a new project with full structure                    | Start of new project               |
-| `/scope-project [desc]`  | AI-assisted feature breakdown with batched prompts          | After init, to break down features |
-| `/new_intent`            | Create a feature/bug/tech-debt intent                       | When planning new work             |
-| `/generate-release-plan` | Build release plan from intents (auto-validates)            | After creating/updating intents    |
-| `/generate-roadmap`      | Generate roadmap (now/next/later)                           | After creating/updating intents    |
-| `/fix`                   | Auto-fix intent issues (dependency ordering, whitespace)    | When validation shows issues       |
-| `/status`                | Unified dashboard: intents, workflow, tests, recent changes | Anytime to check project state     |
-| `/pr <id>`               | Generate PR summary/checklist                               | Before opening a PR                |
-| `/risk <id>`             | Force security/threat skim                                  | Before release or high-risk change |
-| `/revert-plan <id>`      | Write rollback plan                                         | Before implementation or release   |
+| Command                           | What It Does                                                        | When to Use                        |
+| --------------------------------- | ------------------------------------------------------------------- | ---------------------------------- |
+| `/init-project [name]`            | Create a new project with full structure                            | Start of new project               |
+| `/scope-project [desc]`           | AI-assisted feature breakdown with batched prompts                  | After init, to break down features |
+| `/new_intent`                     | Create a feature/bug/tech-debt intent                               | When planning new work             |
+| `/generate-release-plan`          | Build release plan from intents (auto-validates)                    | After creating/updating intents    |
+| `/generate-roadmap`               | Generate roadmap (now/next/later)                                   | After creating/updating intents    |
+| `/fix`                            | Auto-fix intent issues (dependency ordering, whitespace)            | When validation shows issues       |
+| `/status`                         | Unified dashboard: intents, workflow, tests, recent changes         | Anytime to check project state     |
+| `/pr <id>`                        | Generate PR summary/checklist                                       | Before opening a PR                |
+| `/create-pr <id>`                 | Generate pr.md (if needed) and create GitHub PR                     | When ready to open a PR            |
+| `/create-intent-from-issue <num>` | Create intent from GitHub issue (title, body → intent; links issue) | When tracking work from an issue   |
+| `/risk <id>`                      | Force security/threat skim                                          | Before release or high-risk change |
+| `/revert-plan <id>`               | Write rollback plan                                                 | Before implementation or release   |
 
 ### Execution
 
@@ -365,6 +367,19 @@ All work lives in `work/intent/` as markdown files under `features/`, `bugs/`, o
 - Rollback plan (required before implementation)
 
 **Validation & Auto-Fix:** The framework proactively validates intents for common issues (dependency ordering conflicts, whitespace formatting, missing dependencies, circular dependencies). Use `/fix` to auto-fix issues with a preview before applying changes.
+
+### GitHub integration
+
+Intents can link to GitHub issues for tracking and collaboration. **Source of truth:** The intent file is the source of truth for the ShipIt workflow; the GitHub issue is the tracker/collaboration ref.
+
+- **Intent ↔ issue link:** Add optional `## GitHub issue` with `#123` (or `owner/repo#123`) in the intent file.
+- **Create issue from intent:** `pnpm gh-create-issue <intent-id>` — creates a GitHub issue from the intent and writes the issue number back into the intent file.
+- **Link existing issue:** `pnpm gh-link-issue <intent-id> <issue-number>` — writes the issue number into the intent file.
+- **Create PR:** Run `/pr <intent-id>` to generate `work/workflow-state/pr.md`, then `pnpm gh-create-pr <intent-id>` (or `/create-pr <intent-id>`) to open a GitHub PR from that content.
+- **On ship:** `pnpm on-ship-update-issue <intent-id>` adds a comment to the linked issue; use `--close` or `SHIP_CLOSE_ISSUE=1` to close it.
+- **Create intent from issue:** `/create-intent-from-issue <issue-number>` or `pnpm create-intent-from-issue <num>` — creates a new intent from the issue title/body and sets the GitHub issue link.
+
+**Workflows:** _Intent-first:_ create intent in ShipIt, then optionally create/link a GitHub issue. _Issue-first:_ create intent from an existing issue with `/create-intent-from-issue`; edits then happen in the intent file. When an intent ships, the linked issue can be commented or closed.
 
 ### Truth Hierarchy
 

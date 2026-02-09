@@ -89,6 +89,16 @@ commands:
     pnpm: null
     description: Generate PR summary/checklist
     category: Help & Status
+  - id: create-pr
+    slash: /create-pr
+    pnpm: gh-create-pr
+    description: Generate pr.md then create GitHub PR for intent
+    category: Help & Status
+  - id: create-intent-from-issue
+    slash: /create-intent-from-issue
+    pnpm: create-intent-from-issue
+    description: Create intent from GitHub issue
+    category: Intent Management
   - id: revert-plan
     slash: /revert-plan
     pnpm: null
