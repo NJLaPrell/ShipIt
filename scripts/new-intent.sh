@@ -18,11 +18,11 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 INTENT_BASE_DIR="work/intent"
-TEMPLATE_FILE="$INTENT_BASE_DIR/_TEMPLATE.md"
+TEMPLATES_DIR="$INTENT_BASE_DIR/templates"
 
-# Validate prerequisites
-if [ ! -f "$TEMPLATE_FILE" ]; then
-    error_exit "Template file not found: $TEMPLATE_FILE"
+# Validate prerequisites: default template must exist
+if [ ! -f "$INTENT_BASE_DIR/_TEMPLATE.md" ]; then
+    error_exit "Template file not found: $INTENT_BASE_DIR/_TEMPLATE.md"
 fi
 
 # Get intent type
@@ -38,6 +38,30 @@ case $type_choice in
     3) INTENT_TYPE="tech-debt"; PREFIX="T"; INTENT_DIR="$INTENT_BASE_DIR/tech-debt" ;;
     *) error_exit "Invalid choice" 1 ;;
 esac
+
+# Template (optional): Generic or kind-specific
+echo -e "${YELLOW}Template (optional):${NC}"
+echo "1) Generic (default)"
+echo "2) API endpoint"
+echo "3) Frontend feature"
+echo "4) Infra change"
+echo "5) Bugfix"
+echo "6) Refactor"
+read -p "Select template [1-6, default=1]: " template_choice
+
+case $template_choice in
+    1) TEMPLATE_FILE="$INTENT_BASE_DIR/_TEMPLATE.md" ;;
+    2) TEMPLATE_FILE="$TEMPLATES_DIR/api-endpoint.md" ;;
+    3) TEMPLATE_FILE="$TEMPLATES_DIR/frontend-feature.md" ;;
+    4) TEMPLATE_FILE="$TEMPLATES_DIR/infra-change.md" ;;
+    5) TEMPLATE_FILE="$TEMPLATES_DIR/bugfix.md" ;;
+    6) TEMPLATE_FILE="$TEMPLATES_DIR/refactor.md" ;;
+    *) TEMPLATE_FILE="$INTENT_BASE_DIR/_TEMPLATE.md" ;;
+esac
+# Fallback to default if chosen template file does not exist (e.g. project without templates/)
+if [ ! -f "$TEMPLATE_FILE" ]; then
+    TEMPLATE_FILE="$INTENT_BASE_DIR/_TEMPLATE.md"
+fi
 
 mkdir -p "$INTENT_DIR"
 

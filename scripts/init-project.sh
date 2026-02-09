@@ -370,6 +370,15 @@ EOFTEMPLATE
 
 echo -e "${GREEN}✓ Created work/intent/_TEMPLATE.md${NC}"
 
+# Copy intent templates by kind (if present in repo) so new-intent can offer API, frontend, infra, bugfix, refactor
+if [ -d "$ROOT_DIR/work/intent/templates" ]; then
+    mkdir -p work/intent/templates
+    for f in "$ROOT_DIR/work/intent/templates/"*.md; do
+        [ -f "$f" ] && cp "$f" work/intent/templates/ || true
+    done
+    echo -e "${GREEN}✓ Created work/intent/templates/${NC}"
+fi
+
 # Create do-not-repeat files
 mkdir -p _system/do-not-repeat
 cat > _system/do-not-repeat/abandoned-designs.md << EOF || error_exit "Failed to create abandoned-designs.md"

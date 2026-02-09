@@ -15,13 +15,14 @@ This command will guide you through creating a new intent with an interactive wi
 The wizard will ask for:
 
 1. **Intent Type** - Feature (F-###), Bug (B-###), or Tech Debt (T-###)
-2. **Title** - Short, descriptive title
-3. **Motivation** - Why it exists (1-3 bullets, type 'done' when finished)
-4. **Priority** - p0 (Critical), p1 (High), p2 (Medium), p3 (Low)
-5. **Effort** - Small (s), Medium (m), Large (l)
-6. **Release Target** - R1 (Next), R2 (Following), R3 (Future), R4 (Backlog)
-7. **Dependencies** - Other intent IDs (e.g., F-001, F-002) or 'none'
-8. **Risk Level** - Low, Medium, High
+2. **Template (optional)** - Generic (default), API endpoint, Frontend feature, Infra change, Bugfix, Refactor. Kind-specific templates add sections and prompts (e.g. API: path/method, schema; Bugfix: reproduction, root cause).
+3. **Title** - Short, descriptive title
+4. **Motivation** - Why it exists (1-3 bullets, type 'done' when finished)
+5. **Priority** - p0 (Critical), p1 (High), p2 (Medium), p3 (Low)
+6. **Effort** - Small (s), Medium (m), Large (l)
+7. **Release Target** - R1 (Next), R2 (Following), R3 (Future), R4 (Backlog)
+8. **Dependencies** - Other intent IDs (e.g., F-001, F-002) or 'none'
+9. **Risk Level** - Low, Medium, High
 
 ## What It Creates
 
