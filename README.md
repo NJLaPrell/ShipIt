@@ -284,10 +284,12 @@ Entries are automatically appended during `/verify` when outcomes are determined
 
 ### Utilities
 
-| Command    | What It Does                         | When to Use                 |
-| ---------- | ------------------------------------ | --------------------------- |
-| `/help`    | Lists all commands with descriptions | When you need a reminder    |
-| `/suggest` | Suggests next intent to work on      | When unsure what to do next |
+| Command         | What It Does                                                   | When to Use                 |
+| --------------- | -------------------------------------------------------------- | --------------------------- |
+| `/help`         | Lists all commands with descriptions                           | When you need a reminder    |
+| `/suggest`      | Suggests next intent to work on                                | When unsure what to do next |
+| `/usage-record` | Record token/cost for a phase (intent, phase, in, out, [cost]) | After a phase to log usage  |
+| `/usage-report` | Show token/cost table (optionally `--last N`)                  | To view or export usage     |
 
 **Note:** All commands show context-aware next-step suggestions after completion. Scripts auto-verify outputs and run dependent generators (e.g., `/scope-project` automatically runs `/generate-release-plan` and `/generate-roadmap`).
 
@@ -380,6 +382,10 @@ Intents can link to GitHub issues for tracking and collaboration. **Source of tr
 - **Create intent from issue:** `/create-intent-from-issue <issue-number>` or `pnpm create-intent-from-issue <num>` — creates a new intent from the issue title/body and sets the GitHub issue link.
 
 **Workflows:** _Intent-first:_ create intent in ShipIt, then optionally create/link a GitHub issue. _Issue-first:_ create intent from an existing issue with `/create-intent-from-issue`; edits then happen in the intent file. When an intent ships, the linked issue can be commented or closed.
+
+### Cost and token visibility
+
+Token usage (and optional cost) per phase/intent can be recorded and viewed for tuning and budgeting. **Source of values:** Cursor does not expose per-request token usage; values are **estimates** (e.g. from prompt+response character count, or manual entry) unless obtained from a provider API (e.g. future headless/CLI with OpenAI/Anthropic usage in response headers). Record estimates with `pnpm usage-record <intent_id> <phase> <tokens_in> <tokens_out> [cost_usd]`; data is stored in `_system/artifacts/usage.json`. **Exposure:** `/status` shows the last recorded entry; `pnpm usage-report` (or `pnpm usage-report --last N`) prints a full table. **Privacy:** Only aggregate counts (intent_id, phase, tokens, cost) are stored—no prompt or response content. Retention is unbounded in v1; a future iteration may add retention (e.g. last 100 entries or 90 days).
 
 ### Truth Hierarchy
 

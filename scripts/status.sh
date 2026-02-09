@@ -191,6 +191,21 @@ if command -v pnpm >/dev/null 2>&1 && [ -f "package.json" ]; then
     echo ""
 fi
 
+# Token/usage summary (if usage.json exists)
+USAGE_FILE="_system/artifacts/usage.json"
+if [ -f "$USAGE_FILE" ] && command -v jq >/dev/null 2>&1; then
+    ENTRY_COUNT=$(jq '.entries | length' "$USAGE_FILE" 2>/dev/null || echo "0")
+    if [ "${ENTRY_COUNT:-0}" -gt 0 ]; then
+        echo -e "${CYAN}Usage (tokens/cost):${NC}"
+        LAST=$(jq -r '.entries[-1] | "\(.intent_id) \(.phase): \(.tokens_in + .tokens_out) tokens" + (if .estimated_cost_usd != null then " (~$" + (.estimated_cost_usd|tostring) + ")" else " (estimate)" end)' "$USAGE_FILE" 2>/dev/null || true)
+        if [ -n "$LAST" ]; then
+            echo "  Last: $LAST"
+        fi
+        echo "  Run \`pnpm usage-report\` for full table"
+        echo ""
+    fi
+fi
+
 # Recent changes (git)
 if command -v git >/dev/null 2>&1 && git rev-parse --git-dir >/dev/null 2>&1; then
     echo -e "${CYAN}Recent Changes:${NC}"

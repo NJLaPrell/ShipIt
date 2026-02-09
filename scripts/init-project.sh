@@ -924,6 +924,12 @@ EOF
 
 echo -e "${GREEN}✓ Created _system/artifacts/confidence-calibration.json${NC}"
 
+# Usage (token/cost) artifact for visibility
+cat > _system/artifacts/usage.json << 'USAGE_EOF' || error_exit "Failed to create _system/artifacts/usage.json"
+{"entries":[]}
+USAGE_EOF
+echo -e "${GREEN}✓ Created _system/artifacts/usage.json${NC}"
+
 echo ""
 echo -e "${GREEN}════════════════════════════════════════${NC}"
 echo -e "${GREEN}✓ Project '$PROJECT_NAME' initialized!${NC}"
