@@ -34,6 +34,11 @@
     "validate-cursor": "./scripts/validate-cursor.sh",
     "collect-metrics": "./scripts/collect-metrics.sh",
     "generate-system-state": "./scripts/generate-system-state.sh",
+    "gh-create-issue": "./scripts/gh/create-issue-from-intent.sh",
+    "gh-link-issue": "./scripts/gh/link-issue.sh",
+    "gh-create-pr": "./scripts/gh/create-pr.sh",
+    "on-ship-update-issue": "./scripts/gh/on-ship-update-issue.sh",
+    "create-intent-from-issue": "./scripts/gh/create-intent-from-issue.sh",
     "prepare": "husky install"
   },
   "keywords": [

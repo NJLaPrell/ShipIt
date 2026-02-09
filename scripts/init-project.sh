@@ -132,6 +132,13 @@ if [ -f "$ROOT_DIR/scripts/command-manifest.yml" ]; then
     cp "$ROOT_DIR/scripts/command-manifest.yml" "scripts/command-manifest.yml"
 fi
 
+# Copy scripts/gh/ (GitHub integration: create issue, link issue, create PR, on-ship update, create intent from issue).
+if [ -d "$ROOT_DIR/scripts/gh" ]; then
+    mkdir -p scripts/gh
+    cp -R "$ROOT_DIR/scripts/gh/." "scripts/gh/"
+    chmod +x scripts/gh/*.sh 2>/dev/null || true
+fi
+
 # Copy test-plan issue helper into the new project (used by test runner rules).
 if [ -f "$ROOT_DIR/scripts/create-test-plan-issue.sh" ]; then
     cp "$ROOT_DIR/scripts/create-test-plan-issue.sh" "scripts/create-test-plan-issue.sh"
@@ -675,6 +682,11 @@ if [ "$TECH_STACK" = "typescript-nodejs" ]; then
     "kill-intent": "./scripts/kill-intent.sh",
     "verify": "./scripts/verify.sh",
     "fix": "./scripts/fix-intents.sh",
+    "gh-create-issue": "./scripts/gh/create-issue-from-intent.sh",
+    "gh-link-issue": "./scripts/gh/link-issue.sh",
+    "gh-create-pr": "./scripts/gh/create-pr.sh",
+    "on-ship-update-issue": "./scripts/gh/on-ship-update-issue.sh",
+    "create-intent-from-issue": "./scripts/gh/create-intent-from-issue.sh",
     "help": "./scripts/help.sh",
     "status": "./scripts/status.sh",
     "suggest": "./scripts/suggest.sh"

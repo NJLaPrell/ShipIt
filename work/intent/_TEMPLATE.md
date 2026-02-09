@@ -107,6 +107,12 @@ REQUIRED before implementation begins.
 - (ADRs that must be approved)
 - (External systems/APIs)
 
+## GitHub issue
+
+(Optional) Link to a GitHub issue for tracking/collaboration. Single source of truth for the link is this intent file. Use `#123` (same repo) or `owner/repo#123`.
+
+- (e.g. `#42` or leave blank)
+
 ## Do Not Repeat Check
 
 Before starting, verify this hasn't been tried before:
