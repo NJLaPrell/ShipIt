@@ -41,6 +41,7 @@
     "create-intent-from-issue": "./scripts/gh/create-intent-from-issue.sh",
     "usage-record": "./scripts/usage.sh",
     "usage-report": "./scripts/usage-report.sh",
+    "calibration-report": "./scripts/calibration-report.sh",
     "prepare": "husky install"
   },
   "keywords": [
