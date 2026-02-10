@@ -283,6 +283,8 @@ Entries are automatically appended during `/verify` when outcomes are determined
 | `/rollback <id>` | Execute rollback in guided mode (reads plan from /revert-plan)                               | When reverting shipped work       |
 | `/kill <id>`     | Kill an intent (with rationale)                                                              | When work should stop permanently |
 
+**Headless / VS Code:** You can run the same workflow from the CLI or VS Code terminal. Set `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` and run `pnpm headless-run-phase <intent-id> <phase>` (phases 1–5). Human approval is required after phase 2 (plan) and phase 5 (release). See [Headless mode](docs/headless-mode.md) and [Using ShipIt in VS Code](docs/vscode-usage.md).
+
 ### Maintenance
 
 | Command         | What It Does                                        | When to Use                    |
