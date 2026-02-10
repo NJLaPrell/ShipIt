@@ -67,7 +67,7 @@ get_rollback_content() {
   if [[ "$ROLLBACK_SOURCE" == *rollback.md ]]; then
     cat "$ROLLBACK_SOURCE"
   else
-    awk '/## Rollback|## rollback|# Rollback Plan/,/^## [^R]|^## [^r]|^$/ {print}' "$ROLLBACK_SOURCE" || cat "$ROLLBACK_SOURCE"
+    awk '/^#+[[:space:]]+[Rr]ollback|^#[[:space:]]+Rollback Plan/,/^## [^Rr]/ {print}' "$ROLLBACK_SOURCE" || cat "$ROLLBACK_SOURCE"
   fi
 }
 
@@ -75,9 +75,10 @@ get_rollback_content() {
 HIGH_RISK_PATTERNS="force|drop|delete|migration down|production|auth|secret|--force|-f |rm -r|rm -rf"
 
 # Safe pattern: simple git revert (single sha, no force)
+# Note: step is content AFTER the bullet "- ", so no leading dash
 is_safe_git_revert() {
   local step="$1"
-  [[ "$step" =~ ^-[[:space:]]*git[[:space:]]+revert[[:space:]]+[a-fA-F0-9]+([[:space:]]*$|[[:space:]]+-m) ]] && \
+  [[ "$step" =~ ^git[[:space:]]+revert[[:space:]]+[a-fA-F0-9]+([[:space:]]*$|[[:space:]]+-m) ]] && \
   ! echo "$step" | grep -qEi "$HIGH_RISK_PATTERNS"
 }
 
@@ -88,12 +89,15 @@ is_high_risk() {
 log_entry() {
   local outcome="$1"
   local step_preview="$2"
+  local truncated="${step_preview:0:100}"
+  local suffix=""
+  [ ${#step_preview} -gt 100 ] && suffix="..."
   mkdir -p "$(dirname "$LOG_FILE")"
   {
     echo ""
     echo "## $(date -u +"%Y-%m-%dT%H:%M:%SZ") - $INTENT_ID"
     echo "- **Outcome:** $outcome"
-    echo "- **Step:** ${step_preview:0:100}..."
+    echo "- **Step:** ${truncated}${suffix}"
     echo ""
   } >> "$LOG_FILE"
 }

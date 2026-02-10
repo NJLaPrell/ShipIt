@@ -107,7 +107,7 @@ if [ -f "$ROOT_DIR/stryker.conf.json" ]; then
     cp "$ROOT_DIR/stryker.conf.json" "stryker.conf.json"
 fi
 
-for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh generate-system-state.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh verify.sh help.sh status.sh suggest.sh fix-intents.sh; do
+for script in new-intent.sh scope-project.sh generate-roadmap.sh generate-release-plan.sh drift-check.sh generate-system-state.sh deploy.sh check-readiness.sh workflow-orchestrator.sh kill-intent.sh verify.sh help.sh status.sh suggest.sh fix-intents.sh dashboard-start.sh execute-rollback.sh; do
     if [ -f "$ROOT_DIR/scripts/$script" ]; then
         cp "$ROOT_DIR/scripts/$script" "scripts/$script"
         chmod +x "scripts/$script"
@@ -130,6 +130,14 @@ fi
 # Copy command-manifest.yml so help.sh can build the command list.
 if [ -f "$ROOT_DIR/scripts/command-manifest.yml" ]; then
     cp "$ROOT_DIR/scripts/command-manifest.yml" "scripts/command-manifest.yml"
+fi
+
+# Copy dashboard and rollback scripts.
+if [ -f "$ROOT_DIR/scripts/export-dashboard-json.js" ]; then
+    cp "$ROOT_DIR/scripts/export-dashboard-json.js" "scripts/export-dashboard-json.js"
+fi
+if [ -d "$ROOT_DIR/dashboard-app" ]; then
+    cp -R "$ROOT_DIR/dashboard-app" "dashboard-app/"
 fi
 
 # Copy scripts/gh/ (GitHub integration: create issue, link issue, create PR, on-ship update, create intent from issue).
@@ -698,7 +706,10 @@ if [ "$TECH_STACK" = "typescript-nodejs" ]; then
     "create-intent-from-issue": "./scripts/gh/create-intent-from-issue.sh",
     "help": "./scripts/help.sh",
     "status": "./scripts/status.sh",
-    "suggest": "./scripts/suggest.sh"
+    "suggest": "./scripts/suggest.sh",
+    "dashboard": "./scripts/dashboard-start.sh",
+    "execute-rollback": "./scripts/execute-rollback.sh",
+    "export-dashboard-json": "node scripts/export-dashboard-json.js"
   },
   "keywords": [],
   "author": "",

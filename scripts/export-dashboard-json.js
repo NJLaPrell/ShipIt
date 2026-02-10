@@ -92,11 +92,6 @@ function getWorkflowState() {
     return { currentPhase, activeIntent, waitingForApproval };
   }
 
-  const entries = readdirSync(workflowDir, { withFileTypes: true });
-  const perIntentDirs = entries.filter(
-    (e) => e.isDirectory() && /^[FBT]-\d+$/.test(e.name)
-  );
-
   if (content) {
     const phaseM = content.match(/Current Phase:\s*(\S+)/i);
     const idM = content.match(/Intent ID:\s*(\S+)/i);
