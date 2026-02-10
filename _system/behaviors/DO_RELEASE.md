@@ -221,6 +221,27 @@ Copy the version section from CHANGELOG.md, for example:
 
 ---
 
+## Step 5: Publish to npm (optional)
+
+**Objective:** Publish the ShipIt CLI package to npm so users can install with `npm install -g shipit`. Skip if not publishing to npm for this release.
+
+**Actions:**
+
+1. Ensure `package.json` version matches the release (e.g. `X.Y.Z` for tag `vX.Y.Z`).
+2. Run tests: `pnpm test && pnpm test:cli && pnpm test:shipit`.
+3. Preview: `npm pack` then inspect tarball if desired.
+4. Publish: `npm publish` (requires `npm login` and 2FA).
+5. Verify at https://www.npmjs.com/package/shipit.
+
+**If using CI:** A workflow may publish on release creation when `NODE_AUTH_TOKEN` (or `NPM_TOKEN`) is set. See `docs/PUBLISHING.md`.
+
+**Validation:**
+
+- Package version on npm matches GitHub release tag.
+- `npm install -g shipit` works and `shipit --help` runs.
+
+---
+
 ## Final Verification
 
 **Objective:** Verify the complete release process was successful.
@@ -230,6 +251,7 @@ Copy the version section from CHANGELOG.md, for example:
 - [ ] Release preparation commit created and pushed
 - [ ] Git tag created and pushed to GitHub
 - [ ] GitHub release created and published
+- [ ] (Optional) npm package published; version matches release
 - [ ] Release notes match CHANGELOG.md
 - [ ] Release is marked as latest (if appropriate)
 - [ ] Version badge on README.md links to correct release
@@ -306,6 +328,7 @@ Use this checklist when executing a release:
 [ ] Step 2: Create git tag (annotated)
 [ ] Step 3: Push commits and tag to GitHub
 [ ] Step 4: Create GitHub release (REQUIRED)
+[ ] Step 5: Publish to npm (optional)
 [ ] Final verification: All steps completed successfully
 ```
 

@@ -1,0 +1,7 @@
+# Package contents are primarily controlled by "files" in package.json.
+# These patterns exclude dev/build artifacts from within published dirs.
+*.log
+.DS_Store
+_system/reports/
+coverage/
+*.tsbuildinfo

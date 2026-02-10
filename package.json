@@ -94,6 +94,17 @@
     "AGENTS.md",
     "stryker.conf.json"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NJLaPrell/ShipIt.git"
+  },
+  "homepage": "https://github.com/NJLaPrell/ShipIt#readme",
+  "bugs": {
+    "url": "https://github.com/NJLaPrell/ShipIt/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "pnpm": {
     "overrides": {
       "esbuild": "0.25.0",
