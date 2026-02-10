@@ -112,11 +112,48 @@ export async function createCommand(projectName, options) {
 
   // Create stack-specific files (package.json, tsconfig.json, etc.)
   if (techStack === 'typescript-nodejs') {
-    createNodeProjectFiles(projectPath, projectName, description, highRiskArray);
+    const shipitScripts = getShipitScripts();
+    const shipitDevDeps = getShipitDevDependencies();
+    createTypeScriptNodeFiles(projectPath, projectName, description, shipitScripts, shipitDevDeps);
   } else if (techStack === 'python') {
-    createPythonProjectFiles(projectPath, projectName, description, highRiskArray);
+    createPythonFiles(projectPath, projectName, description);
   } else {
-    createOtherProjectFiles(projectPath, projectName, description, highRiskArray);
+    createOtherStackFiles(projectPath);
+  }
+
+  // Create project.json
+  const projectJson = {
+    name: projectName,
+    description: description,
+    version: '0.1.0',
+    techStack: techStack,
+    created: new Date().toISOString(),
+    highRiskDomains: highRiskArray,
+    settings: {
+      humanResponseTime: 'minutes',
+      confidenceThreshold: 0.7,
+      testCoverageMinimum: 80
+    },
+    shipitVersion: '0.6.0'
+  };
+  writeFileSync(
+    join(projectPath, 'project.json'),
+    JSON.stringify(projectJson, null, 2) + '\n',
+    'utf-8'
+  );
+
+  // Create .override directory structure
+  const overrideDirs = [
+    '.override/rules',
+    '.override/commands',
+    '.override/scripts',
+    '.override/config'
+  ];
+  for (const dir of overrideDirs) {
+    const dirPath = join(projectPath, dir);
+    if (!existsSync(dirPath)) {
+      mkdirSync(dirPath, { recursive: true });
+    }
   }
 
   // Initialize git
@@ -151,52 +188,3 @@ export async function createCommand(projectName, options) {
   console.log('3. Start creating intents with /new_intent');
 }
 
-/**
- * Create Node.js project files
- */
-function createNodeProjectFiles(projectPath, projectName, description, highRiskArray) {
-  // This will be handled by copying framework files which includes package.json template
-  // Additional stack-specific files are created by init-project.sh logic
-  // For now, we rely on the framework files being copied
-}
-
-/**
- * Create Python project files
- */
-function createPythonProjectFiles(projectPath, projectName, description, highRiskArray) {
-  // Create pyproject.toml if not exists
-  const pyprojectPath = join(projectPath, 'pyproject.toml');
-  if (!existsSync(pyprojectPath)) {
-    const pyprojectContent = `[project]
-name = "${projectName}"
-description = "${description}"
-version = "0.1.0"
-requires-python = ">=3.10"
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
-    "ruff>=0.1.0",
-    "mypy>=1.0.0",
-]
-`;
-    writeFileSync(pyprojectPath, pyprojectContent, 'utf-8');
-  }
-}
-
-/**
- * Create Other stack project files
- */
-function createOtherProjectFiles(projectPath, projectName, description, highRiskArray) {
-  // Create minimal .gitignore
-  const gitignorePath = join(projectPath, '.gitignore');
-  if (!existsSync(gitignorePath)) {
-    writeFileSync(gitignorePath, '*.log\n.DS_Store\n.env\n', 'utf-8');
-  }
-
-  // Create src directory
-  const srcPath = join(projectPath, 'src');
-  if (!existsSync(srcPath)) {
-    mkdirSync(srcPath, { recursive: true });
-  }
-}
