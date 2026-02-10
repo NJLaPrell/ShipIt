@@ -4,7 +4,7 @@
 
 # ShipIt 🚀
 
-[![Version](https://img.shields.io/badge/version-0.5.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v0.5.0)
+[![Version](https://img.shields.io/badge/version-0.6.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v0.6.0)
 [![Test Status](https://img.shields.io/badge/tests-97.6%25%20passing-green.svg)](./tests/ISSUES.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -507,13 +507,14 @@ A: Use `/deploy` when ready. It runs readiness checks first.
 A: Create an intent and `/ship` it! The framework eats its own dog food.
 
 **Q: Is this production-ready?**  
-A: Yes! Version 0.4.0 is released and fully validated. See [tests/ISSUES.md](./tests/ISSUES.md) for validation results.
+A: Yes! Version 0.6.0 is released and fully validated. See [tests/ISSUES.md](./tests/ISSUES.md) for validation results.
 
 **Q: How do I test the framework?**  
 A: Run `/test_shipit` to execute the full end-to-end test suite.
 
 ## Version History
 
+- **v0.6.0** (2026-02-10) - Multi-intent workflow, headless/CLI runner, VS Code extension, mutation report, test docs refresh
 - **v0.5.0** (2026-02-09) - Web dashboard (`/dashboard`), rollback execution (`/rollback`), init-project includes dashboard-app and execute-rollback
 - **v0.4.0** (2026-02-09) - Scripts libs, command manifest, phase templates; init-project ships lib + workflow-templates
 - **v0.3.0** (2026-02-04) - Reorganization release (Plan C + Plan B: `work/`, `_system/`, `docs/` layout)

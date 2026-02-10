@@ -5,15 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.6.0] - 2026-02-10
 
 ### Added
 
-- None
+- **Multi-intent workflow state** — Parallel execution support with per-intent workflow state directories (Resolves #60).
+- **Headless / CLI runner** (`pnpm headless-run-phase`) and **VS Code integration** (ShipIt VS Code extension and `pnpm validate-vscode`).
+- **Mutation testing report** (`reports/mutation/`) for deeper quality insights.
 
 ### Changed
 
-- None
+- **Workflow state files** — Enhanced structure and metadata for multi-intent and headless runs.
+- **Test run records and documentation** — Updated `tests/ISSUES.md` and related docs for new structure and coverage.
 
 ### Fixed
 
