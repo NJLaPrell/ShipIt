@@ -24,6 +24,7 @@
     "generate-docs": "./scripts/generate-docs.sh",
     "agent-coordinator": "./experimental/agent-coordinator.sh",
     "workflow-orchestrator": "./scripts/workflow-orchestrator.sh",
+    "headless-run-phase": "./scripts/headless/run-phase.sh",
     "kill-intent": "./scripts/kill-intent.sh",
     "verify": "./scripts/verify.sh",
     "execute-rollback": "./scripts/execute-rollback.sh",
