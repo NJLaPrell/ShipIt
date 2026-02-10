@@ -34,21 +34,17 @@ gh auth status
 
 ## 1) Initialize a New Test Project
 
-1. In your editor, start the workflow:
-   - **Cursor:** In chat, enter `/init-project "shipit-test"`
-   - **VS Code:** Command Palette → **ShipIt: Init Project** → in Copilot Chat send the project name and follow the same inputs as step 2; or run `pnpm init-project "shipit-test"` in the terminal and follow prompts
+**Internal framework testing only.** This creates `tests/test-project/` for validating the ShipIt workflow. For user-facing project creation, use the CLI (`create-shipit-app` or `shipit init`). CLI testing is separate; see `tests/cli/` and `pnpm test:cli`.
 
-2. The assistant will ask for 3 inputs. Reply with:
+1. From the **framework repo root**, create the test project (no prompts; reads from `tests/fixtures.json`):
 
-   ```
-   1
-   Test project for ShipIt end-to-end validation
-   none
+   ```bash
+   ./scripts/init-project.sh shipit-test
    ```
 
-3. The assistant runs the init script and creates the project.
+2. The script creates the project at `./tests/test-project` with fixture values (TypeScript/Node.js stack, description and high-risk from fixtures).
 
-4. Verify:
+3. Verify:
    - New project created at `./tests/test-project`
    - `./tests/test-project/project.json` exists
    - `./tests/test-project/scripts/dashboard-start.sh` and `./tests/test-project/scripts/execute-rollback.sh` exist

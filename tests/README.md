@@ -12,6 +12,16 @@ Test code, fixtures, run logs, and process docs. **Concerns are mixed in one dir
 | **Run logs**             | `ISSUES.md`, `ISSUES_HISTORIC.md`                                                                         | Test run summaries; latest run vs archived                     |
 | **Process docs**         | `TEST_PLAN.md`, `ISSUE_TEMPLATE.md`, `ISSUE_RESEARCH_TEMPLATE.md`, `ISSUE_RESOLUTION_COMMENT_TEMPLATE.md` | How to run tests, how to file issues, resolution format        |
 
+## Testing strategy (CLI-first)
+
+ShipIt uses three test layers; each can run independently:
+
+1. **Framework workflow tests** (this repo): Use `./scripts/init-project.sh` to create `tests/test-project/` (reads `tests/fixtures.json`, no prompts). Then run the steps in `TEST_PLAN.md` and `.cursor/commands/test_shipit.md` to validate the full ShipIt workflow (scoping, intents, /ship, /verify, etc.). These tests do **not** require the CLI to be installed.
+2. **CLI tests** (`tests/cli/`): Test the CLI itself (`shipit create`, `shipit init`, `shipit upgrade`, `shipit check`) in isolation. Run with `pnpm test:cli`. See "CLI testing" below.
+3. **Upgrade tests**: Covered by CLI tests (`test-upgrade.sh`) and the upgrade command’s own behavior (backup, merge, restore).
+
+Framework tests use the internal script only; user-facing project creation is via the CLI (`create-shipit-app` or `shipit init`).
+
 ## CLI testing
 
 The ShipIt CLI (`shipit create`, `shipit init`, `shipit upgrade`, `shipit check`) is tested by:
