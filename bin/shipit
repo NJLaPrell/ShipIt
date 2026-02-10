@@ -1,0 +1,150 @@
+#!/usr/bin/env node
+
+/**
+ * ShipIt CLI - Main entry point
+ * 
+ * Commands:
+ *   shipit init          - Attach ShipIt to existing project
+ *   shipit upgrade       - Upgrade ShipIt framework files
+ *   shipit check         - Validate ShipIt installation
+ *   shipit create <name> - Create new ShipIt project (alias for create-shipit-app)
+ */
+
+import { program } from 'commander';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { existsSync, readFileSync } from 'fs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Import CLI modules - use dynamic imports to handle ESM
+let initCommand, upgradeCommand, checkCommand, createCommand;
+
+async function loadCommands() {
+  const init = await import('../cli/src/commands/init.js');
+  const upgrade = await import('../cli/src/commands/upgrade.js');
+  const check = await import('../cli/src/commands/check.js');
+  const create = await import('../cli/src/commands/create.js');
+  
+  initCommand = init.initCommand;
+  upgradeCommand = upgrade.upgradeCommand;
+  checkCommand = check.checkCommand;
+  createCommand = create.createCommand;
+}
+
+// Get version from package.json
+const packageJsonPath = join(__dirname, '..', 'package.json');
+let version = '0.6.0';
+try {
+  const pkgContent = readFileSync(packageJsonPath, 'utf-8');
+  const pkg = JSON.parse(pkgContent);
+  version = pkg.version || version;
+} catch (e) {
+  // Fallback to default version
+}
+
+// Load commands
+await loadCommands();
+
+program
+  .name('shipit')
+  .description('ShipIt - AI-native Software Development Life Cycle framework')
+  .version(version);
+
+// Init command
+program
+  .command('init')
+  .description('Attach ShipIt to an existing project')
+  .option('--path <dir>', 'Target directory (default: current directory)')
+  .option('--tech-stack <stack>', 'Tech stack (typescript-nodejs | python | other)')
+  .option('--description <text>', 'Project description')
+  .option('--high-risk <domains>', 'Comma-separated high-risk domains')
+  .option('--non-interactive', 'Use defaults/CLI args only, no prompts')
+  .option('--force', 'Overwrite existing ShipIt files')
+  .action(async (options) => {
+    try {
+      await initCommand(options);
+    } catch (error) {
+      console.error(`ERROR: ${error.message}`);
+      if (error.suggestedFix) {
+        console.error(`  ${error.suggestedFix}`);
+      }
+      process.exit(error.exitCode || 2);
+    }
+  });
+
+// Upgrade command
+program
+  .command('upgrade')
+  .description('Upgrade ShipIt framework files to latest version')
+  .option('--path <dir>', 'Target directory (default: current directory)')
+  .option('--backup-dir <dir>', 'Backup directory (default: ._shipit_backup/)')
+  .option('--dry-run', 'Show what would be changed without making changes')
+  .option('--force', 'Skip prompts, overwrite all framework files')
+  .action(async (options) => {
+    try {
+      await upgradeCommand(options);
+    } catch (error) {
+      console.error(`ERROR: ${error.message}`);
+      if (error.suggestedFix) {
+        console.error(`  ${error.suggestedFix}`);
+      }
+      process.exit(error.exitCode || 2);
+    }
+  });
+
+// Check command
+program
+  .command('check')
+  .description('Validate ShipIt installation and show project status')
+  .option('--path <dir>', 'Target directory (default: current directory)')
+  .option('--json', 'Output JSON instead of human-readable')
+  .action(async (options) => {
+    try {
+      await checkCommand(options);
+    } catch (error) {
+      console.error(`ERROR: ${error.message}`);
+      if (error.suggestedFix) {
+        console.error(`  ${error.suggestedFix}`);
+      }
+      process.exit(error.exitCode || 2);
+    }
+  });
+
+// Create command
+program
+  .command('create <project-name>')
+  .description('Create a new ShipIt project')
+  .option('--tech-stack <stack>', 'Tech stack (typescript-nodejs | python | other)')
+  .option('--description <text>', 'Project description')
+  .option('--high-risk <domains>', 'Comma-separated high-risk domains')
+  .option('--non-interactive', 'Use defaults/CLI args only, no prompts')
+  .option('--skip-git', 'Don\'t initialize git repo')
+  .option('--skip-install', 'Don\'t run package manager install')
+  .action(async (projectName, options) => {
+    try {
+      await createCommand(projectName, options);
+    } catch (error) {
+      console.error(`ERROR: ${error.message}`);
+      if (error.suggestedFix) {
+        console.error(`  ${error.suggestedFix}`);
+      }
+      process.exit(error.exitCode || 2);
+    }
+  });
+
+// Global error handler
+process.on('unhandledRejection', (error) => {
+  console.error('ERROR: Unhandled error:', error);
+  process.exit(2);
+});
+
+// Parse arguments
+program.parse(process.argv);
+
+// Show help if no command provided
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
+  process.exit(0);
+}

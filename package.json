@@ -58,22 +58,40 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@stryker-mutator/core": "^8.0.0",
+    "@stryker-mutator/vitest-runner": "^8.0.0",
     "@types/node": "^20.10.0",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
-    "@stryker-mutator/core": "^8.0.0",
-    "@stryker-mutator/vitest-runner": "^8.0.0",
     "@vitest/coverage-v8": "^1.0.4",
     "eslint": "^8.56.0",
     "fast-check": "^3.15.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0",
     "prettier": "^3.1.1",
-    "yaml": "^2.3.4",
     "typescript": "^5.3.3",
-    "vitest": "^1.0.4"
+    "vitest": "^1.0.4",
+    "yaml": "^2.3.4"
   },
-  "dependencies": {},
+  "dependencies": {
+    "commander": "^14.0.3",
+    "fs-extra": "^11.3.3"
+  },
+  "bin": {
+    "shipit": "./bin/shipit",
+    "create-shipit-app": "./bin/create-shipit-app"
+  },
+  "files": [
+    "bin/",
+    "cli/",
+    "_system/",
+    ".cursor/",
+    "scripts/",
+    "work/intent/templates/",
+    "dashboard-app/",
+    "AGENTS.md",
+    "stryker.conf.json"
+  ],
   "pnpm": {
     "overrides": {
       "esbuild": "0.25.0",

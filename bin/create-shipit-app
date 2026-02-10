@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+
+/**
+ * create-shipit-app - Create a new ShipIt project
+ * 
+ * This is an alias for `shipit create <project-name>`
+ */
+
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { spawn } from 'child_process';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Get shipit CLI path
+const shipitPath = join(__dirname, 'shipit');
+
+// Forward all arguments to shipit create
+const args = ['create', ...process.argv.slice(2)];
+
+const child = spawn('node', [shipitPath, ...args], {
+  stdio: 'inherit',
+  cwd: process.cwd()
+});
+
+child.on('exit', (code) => {
+  process.exit(code || 0);
+});
