@@ -8,6 +8,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:cli": "bash tests/cli/run-tests.sh",
+    "test:shipit": "./scripts/test-shipit.sh",
     "test:mutate": "stryker run",
     "lint": "eslint . --ext .ts",
     "typecheck": "tsc --noEmit",

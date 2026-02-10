@@ -65,6 +65,8 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile
       - run: pnpm test:cli
+      - name: Framework E2E (test project)
+        run: pnpm test:shipit -- --clean
 
   security:
     name: Security Audit
