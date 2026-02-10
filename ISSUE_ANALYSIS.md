@@ -52,7 +52,7 @@ Based on dependencies and logical flow:
 **Key Concerns:**
 
 - Need to ensure framework repo detection is robust
-- Must update all references to projects/shipit-test
+- All references to projects/shipit-test have been updated to tests/test-project (completed in issue #79)
 - Test fixtures need to be complete
 
 ---
