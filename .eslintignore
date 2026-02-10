@@ -1,2 +1,5 @@
 # Dashboard app has its own ESLint config
 dashboard-app/
+
+# VS Code extension has its own build (tsc), not in root tsconfig
+vscode-extension/

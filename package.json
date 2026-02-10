@@ -34,6 +34,7 @@
     "generate-context": "./scripts/generate-project-context.sh",
     "generate-dashboard": "./scripts/generate-dashboard.sh",
     "validate-cursor": "./scripts/validate-cursor.sh",
+    "validate-vscode": "./scripts/validate-vscode.sh",
     "collect-metrics": "./scripts/collect-metrics.sh",
     "generate-system-state": "./scripts/generate-system-state.sh",
     "gh-create-issue": "./scripts/gh/create-issue-from-intent.sh",
