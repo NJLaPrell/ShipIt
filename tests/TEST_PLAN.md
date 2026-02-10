@@ -49,12 +49,11 @@ gh auth status
 3. The assistant runs the init script and creates the project.
 
 4. Verify:
-   - New project created at `./projects/shipit-test`
-   - `./projects/.gitkeep` exists
-   - `./projects/shipit-test/project.json` exists
-   - `./projects/shipit-test/scripts/dashboard-start.sh` and `./projects/shipit-test/scripts/execute-rollback.sh` exist
-   - `./projects/shipit-test/scripts/export-dashboard-json.js` exists
-   - `./projects/shipit-test/dashboard-app/` exists (Vite + React web dashboard)
+   - New project created at `./tests/test-project`
+   - `./tests/test-project/project.json` exists
+   - `./tests/test-project/scripts/dashboard-start.sh` and `./tests/test-project/scripts/execute-rollback.sh` exist
+   - `./tests/test-project/scripts/export-dashboard-json.js` exists
+   - `./tests/test-project/dashboard-app/` exists (Vite + React web dashboard)
    - `package.json` includes `dashboard`, `execute-rollback`, and `export-dashboard-json` scripts
 
 > **Note:** For rules on creating and managing issues during test execution, see `_system/behaviors/WORK_TEST_PLAN_ISSUES.md`.
@@ -66,7 +65,7 @@ gh auth status
 ## 2) Open the Test Project as Its Own Workspace
 
 1. In Cursor or VS Code, open the folder:
-   - `./projects/shipit-test`
+   - `./tests/test-project`
 
 2. Verify:
    - `project.json` exists

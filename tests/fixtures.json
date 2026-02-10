@@ -1,6 +1,6 @@
 {
   "projectName": "shipit-test",
-  "projectPath": "./projects/shipit-test",
+  "projectPath": "./tests/test-project",
 
   "inputs": {
     "step_1-2": {

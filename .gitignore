@@ -26,3 +26,6 @@ experimental/agent-status.json
 .gh-*.md
 .resolution-*.md
 .release-plan-*.md
+
+# Test project (internal testing only)
+tests/test-project/
