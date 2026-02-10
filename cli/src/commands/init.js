@@ -13,6 +13,7 @@ import { copyFrameworkFiles } from '../utils/file-copy.js';
 import { mergePackageJson, getShipitScripts, getShipitDevDependencies } from '../utils/package-json-merge.js';
 import { createReadlineInterface, promptUser } from '../utils/prompts.js';
 import { readConfig } from '../utils/config.js';
+import { createCIWorkflow } from '../utils/stack-files.js';
 
 /**
  * Check if ShipIt is already initialized
@@ -230,6 +231,13 @@ export async function initCommand(options) {
 
   // Create .override directory
   createOverrideDirectory(projectPath);
+
+  // Create stack-specific CI workflow (only if .github/workflows doesn't exist or ci.yml doesn't exist)
+  const workflowsDir = join(projectPath, '.github', 'workflows');
+  const ciPath = join(workflowsDir, 'ci.yml');
+  if (!existsSync(ciPath)) {
+    createCIWorkflow(projectPath, techStack);
+  }
 
   console.log('\n✓ ShipIt initialized successfully!');
   console.log('\nNext steps:');

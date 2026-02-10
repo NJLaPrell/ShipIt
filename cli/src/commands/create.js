@@ -13,7 +13,7 @@ import { copyFrameworkFiles } from '../utils/file-copy.js';
 import { createReadlineInterface, promptUser } from '../utils/prompts.js';
 import { execSync } from 'child_process';
 import { getShipitScripts, getShipitDevDependencies } from '../utils/package-json-merge.js';
-import { createTypeScriptNodeFiles, createPythonFiles, createOtherStackFiles } from '../utils/stack-files.js';
+import { createTypeScriptNodeFiles, createPythonFiles, createOtherStackFiles, createCIWorkflow } from '../utils/stack-files.js';
 
 /**
  * Create command implementation
@@ -122,6 +122,9 @@ export async function createCommand(projectName, options) {
   } else {
     createOtherStackFiles(projectPath);
   }
+
+  // Create stack-specific CI workflow
+  createCIWorkflow(projectPath, techStack);
 
   // Create project.json
   const projectJson = {
