@@ -6,7 +6,7 @@ Short examples for common scenarios. For full workflow see [PILOT_GUIDE.md](./PI
 
 ```bash
 # Install CLI
-npm install -g shipit
+npm install -g @njlaprell/shipit
 
 # Create project (prompts for tech stack, description, high-risk)
 create-shipit-app my-api

@@ -5,97 +5,111 @@
 # ShipIt 🚀
 
 [![Version](https://img.shields.io/badge/version-0.6.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v0.6.0)
-[![Test Status](https://img.shields.io/badge/tests-97.6%25%20passing-green.svg)](./tests/ISSUES.md)
+[![npm](https://img.shields.io/npm/v/@njlaprell/shipit.svg)](https://www.npmjs.com/package/@njlaprell/shipit)
+[![Test results](https://img.shields.io/badge/test%20results-see%20ISSUES-green.svg)](./tests/ISSUES.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 > **Stop optimizing for humans. Start optimizing for AI.**
 
-An AI-native Software Development Life Cycle that replaces meetings, docs, and handoffs with executable truth and state-anchored workflows.
+An SDLC built for AI-assisted development: state in files, tests as truth, gates instead of meetings. Replaces handoffs and docs with executable truth and state-anchored workflows. **Production ready** — CLI-first; see [tests/ISSUES.md](./tests/ISSUES.md) for validation.
 
-**Status:** ✅ **Production Ready** - Fully validated with 97.6% test pass rate (82/84 tests passing)
+**Repository:** [github.com/NJLaPrell/ShipIt](https://github.com/NJLaPrell/ShipIt)
 
 ## Table of Contents
 
-- [The Problem](#the-problem)
-- [The Solution](#the-solution)
-- [Quick Start](#quick-start-30-seconds)
-- [Workflow Diagram](#workflow-diagram)
-- [How It Works](#how-it-works)
-  - [The Workflow](#the-workflow)
-  - [The Agents](#the-agents)
-- [Commands](#commands)
-- [Example: Ship a Feature](#example-ship-a-feature)
-- [Project Structure](#project-structure)
-- [Key Concepts](#key-concepts)
-  - [Intent Ledger](#intent-ledger)
-  - [Truth Hierarchy](#truth-hierarchy)
-  - [Tests First](#tests-first-critical)
-  - [High-Risk Gates](#high-risk-gates)
-- [Installation](#installation)
-- [Prerequisites](#prerequisites)
-- [Documentation](#documentation)
-- [Validation & Testing](#validation--testing)
-- [FAQ](#faq)
-- [Version History](#version-history)
-- [License](#license)
+- [1. Quick Start](#1-quick-start)
+- [2. Prerequisites](#2-prerequisites)
+- [3. What You Get](#3-what-you-get)
+- [4. Core Workflow](#4-core-workflow)
+- [5. The Problem & The Solution](#5-the-problem--the-solution)
+- [6. Installation](#6-installation)
+- [7. Key Concepts](#7-key-concepts)
+- [8. Commands Reference](#8-commands-reference)
+- [9. Documentation & Help](#9-documentation--help)
+- [10. FAQ](#10-faq)
+- [11. License](#11-license)
 
-## The Problem
+---
 
-Traditional SDLC assumes humans are the bottleneck. But AI agents don't need:
+## 1. Quick Start
 
-- ❌ Status meetings → They need **state files**
-- ❌ Documentation → They need **executable tests**
-- ❌ Handoffs → They need **explicit gates**
-- ❌ Institutional memory → They need **do-not-repeat ledgers**
+Get from zero to a running project in under two minutes. Steps 3–4 run in **Cursor** or **VS Code** as slash commands.
 
-**The insight:** Most failures aren't coding errors—they're unstated assumptions, ambiguous truth sources, and forgotten constraints.
-
-## The Solution
-
-A framework that optimizes for _epistemology_, not coordination:
-
-- 🎯 **Executable Truth** - Tests and invariants replace documentation
-- 📁 **State-Anchored** - Workflow state in files, not meetings
-- 🔍 **Adversarial Verification** - Multiple agents try to break things
-- 📋 **Intent Ledger** - Planned work in `work/intent/{features,bugs,tech-debt}` (not tickets)
-- 🚪 **Automated Gates** - CI/CD enforces quality
-- 📊 **Drift Detection** - Entropy monitoring prevents decay
-- ✅ **Auto-Validation** - Proactive validation and auto-fix for common issues
-- 🔄 **Smart Chaining** - Scripts automatically run dependent generators
-- 📈 **Progress Tracking** - Clear indicators during long-running operations
-- 💡 **Context-Aware** - Intelligent next-step suggestions based on project state
-
-## Quick Start (30 seconds)
+### 1.1 Install
 
 ```bash
-# 1. Install ShipIt CLI
-npm install -g shipit
-# Or use npx: npx shipit init
-
-# 2. Create a new project
-create-shipit-app my-awesome-app
-# Or attach to existing project:
-# cd my-existing-app && shipit init
-
-# Prompts:
-# 1) Tech stack [1=TS/Node, 2=Python, 3=Other]
-# 2) Project description (short)
-# 3) High-risk domains (comma-separated or 'none')
-
-# 3. Scope it (optional but smart)
-/scope-project "Build a todo app with auth"
-# → Shows all questions at once with defaults (batched prompts)
-# → Review answers, confirm, and select features to generate as intents
-# → Auto-runs: /generate-release-plan and /generate-roadmap
-# → Shows verification summary and next-step suggestions
-
-# 4. Ship a feature
-/ship F-001
+npm install -g @njlaprell/shipit
+# Or: npx @njlaprell/shipit init
 ```
 
-That's it. The framework handles the rest through 5 automated phases with progress indicators.
+### 1.2 Create a new project (or attach to existing)
 
-## Workflow Diagram
+```bash
+# New project
+create-shipit-app my-awesome-app
+
+# Existing project
+cd my-existing-app && shipit init
+```
+
+You’ll be prompted for tech stack (TypeScript/Node, Python, Other), project description, and high-risk domains.
+
+### 1.3 Open in editor and run first commands
+
+1. Open the project in **Cursor** or **VS Code**.
+2. In the editor, run:
+   - `/scope-project "Build a todo app with auth"` — AI-assisted feature breakdown, generates intents and runs release plan + roadmap.
+   - `/ship F-001` — Runs the full 5-phase workflow (analysis → plan → tests → code → verify → release).
+
+That’s it. The framework drives the rest with progress indicators and gates.
+
+---
+
+## 2. Prerequisites
+
+- **Node.js 20+**
+- **Cursor** or **VS Code** (with ShipIt extension for VS Code). See [Using ShipIt in VS Code](docs/vscode-usage.md).
+- **Git**
+
+---
+
+## 3. What You Get
+
+After `create-shipit-app` or `shipit init`, your project has:
+
+- **`project.json`** — Project metadata and ShipIt version.
+- **`work/intent/`** — Features, bugs, tech-debt as markdown (F-001.md, etc.).
+- **`work/workflow-state/`** — Active phase and per-intent state (see [parallel workflow](docs/parallel-workflow.md)).
+- **`work/roadmap/`** — now / next / later triage.
+- **`work/release/`** — Release plan (what ships when).
+- **`scripts/`** — Framework scripts (verify, fix, status, workflow-orchestrator, etc.).
+- **`.cursor/`** — Slash commands and rules (or equivalent for VS Code).
+- **`_system/`** — Architecture (CANON, invariants), artifacts, behaviors, security, drift. **Do not edit.** Upgraded via `shipit upgrade` only.
+- **`.override/`** — Your customizations (rules, commands, scripts, config); never touched by upgrade.
+
+**Do not edit** `_system/` — framework internals. Use `.override/` for customizations.
+
+Optional: **`dashboard-app/`** — Web dashboard; run with `pnpm dashboard`.
+
+Full tree and planning outputs: [docs/DIRECTORY_STRUCTURE.md](./docs/DIRECTORY_STRUCTURE.md).
+
+---
+
+## 4. Core Workflow
+
+One path: **Install CLI → create or init project → open in editor → scope → ship.**
+
+| Phase           | Commands                                                                                      |
+| --------------- | --------------------------------------------------------------------------------------------- |
+| **Setup**       | CLI: `create-shipit-app` or `shipit init`. Editor: `/scope-project`, `/status`, `/dashboard`. |
+| **Planning**    | `/new_intent`, `/generate-release-plan`, `/generate-roadmap`, `/fix`.                         |
+| **Execution**   | `/ship <id>`, `/verify <id>`, `/status`.                                                      |
+| **Maintenance** | `shipit upgrade`, `/rollback <id>`, `/kill <id>`, `/drift_check`, `/deploy`.                  |
+
+Slash commands run in Cursor or VS Code. Full phase details: [AGENTS.md](./AGENTS.md#workflow).
+
+<details>
+<summary><strong>Detailed workflow diagram</strong></summary>
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
@@ -103,550 +117,148 @@ That's it. The framework handles the rest through 5 automated phases with progre
 └─────────────────────────────────────────────────────────────────────────┘
 
 SETUP PHASE
-    │
-    ├─ /init-project "Project Name"
-    │   └─ Creates project structure, copies framework files
-    │
-    ├─ /scope-project "Description"
-    │   └─ AI-assisted feature breakdown → generates intents
-    │   └─ Auto-runs: /generate-release-plan, /generate-roadmap
-    │   └─ Shows verification summary and next-step suggestions
-    │
-    └─ /status
-        └─ Unified dashboard: intents, workflow phase, test results
-    └─ /dashboard
-        └─ Web dashboard: intents, phases, calibration, doc links (exports first, then UI)
+    ├─ create-shipit-app <name>  or  shipit init   (CLI)
+    ├─ /scope-project "Description"  →  intents, release plan, roadmap
+    └─ /status, /dashboard
 
 PLANNING PHASE
-    │
-    ├─ /new_intent
-    │   └─ Creates intent file in subfolders (F-001.md, B-002.md, etc.)
-    │
-    ├─ /generate-release-plan
-    │   └─ Orders intents by dependencies, priorities, release targets
-    │   └─ Validates dependencies, shows warnings
-    │   └─ Suggests next steps
-    │
-    ├─ /generate-roadmap
-    │   └─ Categorizes intents: now/next/later
-    │   └─ Suggests next steps
-    │
-    └─ /fix
-        └─ Auto-fixes: dependency ordering, whitespace issues
-        └─ Shows preview before applying fixes
+    ├─ /new_intent  →  /generate-release-plan  →  /generate-roadmap
+    └─ /fix  (auto-fix intent issues)
 
 EXECUTION PHASE
-    │
-    ├─ /ship <intent-id>
-    │   │
-    │   ├─ [Phase 1/5] Analysis... ⏳
-    │   │   └─ PM agent: Requirements clarity, confidence scoring
-    │   │
-    │   ├─ [Phase 2/5] Planning... ⏳
-    │   │   └─ Architect: System design, CANON compliance
-    │   │   └─ ⚠️ Human approval gate for high-risk domains
-    │   │
-    │   ├─ [Phase 3/5] Implementation... ⏳
-    │   │   └─ QA: Writes tests first (they fail initially)
-    │   │   └─ Implementer: Writes code (tests pass)
-    │   │
-    │   ├─ [Phase 4/5] Verification... ⏳
-    │   │   └─ QA: Adversarial testing
-    │   │   └─ Security: Threat modeling, audit
-    │   │
-    │   └─ [Phase 5/5] Release... ⏳
-    │       └─ Docs: Updates README/CHANGELOG
-    │       └─ Steward: Final approval
-    │
-    ├─ /verify <intent-id>
-    │   └─ Re-run verification phase only
-    │
-    └─ /status
-        └─ Check current phase, test results, recent changes
+    ├─ /ship <id>  →  [1] Analysis  →  [2] Plan  →  [3] Tests  →  [4] Code  →  [5] Verify  →  Release
+    ├─ /verify <id>, /status
+    └─ /rollback <id>, /kill <id>
 
-MAINTENANCE PHASE
-    │
-    ├─ /drift_check
-    │   └─ Calculates: PR size, test-to-code ratio, dependency growth
-    │
-    ├─ /deploy [environment]
-    │   └─ Runs readiness checks (tests, lint, typecheck, audit, docs)
-    │   └─ Deploys to platform (Vercel, Netlify, Docker, AWS CDK, Manual)
-    │
-    ├─ /rollback <intent-id>
-    │   └─ Execute rollback in guided mode (reads plan from /revert-plan)
-    │
-    └─ /kill <intent-id>
-        └─ Permanently stops work with rationale
-
-UTILITY COMMANDS
-    │
-    ├─ /help
-    │   └─ Lists all commands with descriptions
-    │
-    ├─ /suggest
-    │   └─ Suggests next intent to work on
-    │
-    ├─ /dashboard
-    │   └─ Web dashboard: intents, phases, calibration, doc links
-    │
-    └─ /test_shipit
-        └─ Runs end-to-end test suite
+MAINTENANCE
+    ├─ shipit upgrade  (backup in ._shipit_backup/)
+    ├─ /drift_check, /deploy
+    └─ /test_shipit (framework E2E)
 ```
 
-## How It Works
-
-### The Workflow
-
-```
-Intent → Analysis → Planning → Tests → Code → Verify → Release
-```
-
-### Security Audit Allowlist
-
-Security checks use `scripts/audit-check.sh` with a default threshold of moderate.
-If you need to temporarily accept a known advisory, add it to `_system/security/audit-allowlist.json`
-with a reason and an expiry date.
-
-### Confidence Calibration
-
-The `_system/artifacts/confidence-calibration.json` file tracks confidence scores vs actual outcomes to improve calibration over time.
-
-**Schema:**
-
-```json
-{
-  "decisions": [
-    {
-      "id": "D-001",
-      "stated_confidence": 0.85,
-      "actual_outcome": "success",
-      "notes": "Shipped without issues"
-    }
-  ]
-}
-```
-
-**Fields:**
-
-- `id`: Unique decision identifier (e.g., "D-001")
-- `stated_confidence`: Confidence score (0.0-1.0) stated during analysis
-- `actual_outcome`: "success" or "failure"
-- `notes`: Optional notes about the outcome
-
-Entries are automatically appended during `/verify` when outcomes are determined. **View and tune:** Run `pnpm calibration-report` (or `/calibration-report`) for calibration error (MAE), Brier score, success rate by confidence bin, and over/under-confidence summary. Use `--json` for dashboard consumption; `--fail-on-threshold 0.2` in CI to fail when calibration drifts. See AGENTS.md for how to interpret metrics and improve calibration.
-
-1. **You define what** (intent file)
-2. **PM clarifies requirements** (executable acceptance criteria)
-3. **Architect designs approach** (plan with approval gate)
-4. **QA writes tests first** (they fail initially - that's good!)
-5. **Implementer writes code** (makes tests pass)
-6. **QA + Security verify** (adversarial validation)
-7. **Docs + Steward approve** (documentation + final check)
-
-**Progress Tracking:** Each phase shows `[Phase X/5] PhaseName... ⏳` while running and `✓` when complete, so you always know what's happening.
-
-### The Agents
-
-7 specialized AI agents, each with a clear role:
-
-| Role            | Job                                | Can't Do                         |
-| --------------- | ---------------------------------- | -------------------------------- |
-| **Steward**     | Executive brain, veto power        | Write code                       |
-| **PM**          | Intent clarity, confidence scoring | Change architecture              |
-| **Architect**   | System design, CANON compliance    | Write production code            |
-| **Implementer** | Code execution                     | Change architecture, write tests |
-| **QA**          | Break things (adversarial)         | Weaken acceptance criteria       |
-| **Security**    | Threat modeling, red team          | Waive findings                   |
-| **Docs**        | Keep docs current                  | Change code behavior             |
-
-## Commands
-
-### Setup & Planning
-
-| Command                           | What It Does                                                                                      | When to Use                        |
-| --------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------- |
-| `/init-project [name]`            | Create a new project with full structure                                                          | Start of new project               |
-| `/scope-project [desc]`           | AI-assisted feature breakdown with batched prompts                                                | After init, to break down features |
-| `/new_intent`                     | Create a feature/bug/tech-debt intent (optional template: API, frontend, infra, bugfix, refactor) | When planning new work             |
-| `/generate-release-plan`          | Build release plan from intents (auto-validates)                                                  | After creating/updating intents    |
-| `/generate-roadmap`               | Generate roadmap (now/next/later)                                                                 | After creating/updating intents    |
-| `/fix`                            | Auto-fix intent issues (dependency ordering, whitespace)                                          | When validation shows issues       |
-| `/status`                         | Unified dashboard: intents, workflow, tests, recent changes                                       | Anytime to check project state     |
-| `/pr <id>`                        | Generate PR summary/checklist                                                                     | Before opening a PR                |
-| `/create-pr <id>`                 | Generate pr.md (if needed) and create GitHub PR                                                   | When ready to open a PR            |
-| `/create-intent-from-issue <num>` | Create intent from GitHub issue (title, body → intent; links issue)                               | When tracking work from an issue   |
-| `/risk <id>`                      | Force security/threat skim                                                                        | Before release or high-risk change |
-| `/revert-plan <id>`               | Write rollback plan                                                                               | Before implementation or release   |
-
-### Execution
-
-| Command          | What It Does                                                                                 | When to Use                       |
-| ---------------- | -------------------------------------------------------------------------------------------- | --------------------------------- |
-| `/ship <id>`     | Run full SDLC workflow (5 phases with progress indicators)                                   | To implement an intent            |
-| `/verify <id>`   | Re-run verification phase only (state per intent when [parallel](docs/parallel-workflow.md)) | After code changes                |
-| `/rollback <id>` | Execute rollback in guided mode (reads plan from /revert-plan)                               | When reverting shipped work       |
-| `/kill <id>`     | Kill an intent (with rationale)                                                              | When work should stop permanently |
-
-**Headless / VS Code:** You can run the same workflow from the CLI or VS Code terminal. Set `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` and run `pnpm headless-run-phase <intent-id> <phase>` (phases 1–5). Human approval is required after phase 2 (plan) and phase 5 (release). See [Headless mode](docs/headless-mode.md) and [Using ShipIt in VS Code](docs/vscode-usage.md).
-
-### Maintenance
-
-| Command         | What It Does                                        | When to Use                    |
-| --------------- | --------------------------------------------------- | ------------------------------ |
-| `/drift_check`  | Check for entropy/decay (PR size, test ratio, deps) | Periodically to monitor health |
-| `/deploy [env]` | Deploy with readiness checks                        | When ready to release          |
-| `/test_shipit`  | Run end-to-end test suite                           | To validate framework itself   |
-
-### Utilities
-
-| Command               | What It Does                                                           | When to Use                       |
-| --------------------- | ---------------------------------------------------------------------- | --------------------------------- |
-| `/help`               | Lists all commands with descriptions                                   | When you need a reminder          |
-| `/suggest`            | Suggests next intent to work on                                        | When unsure what to do next       |
-| `/usage-record`       | Record token/cost for a phase (intent, phase, in, out, [cost])         | After a phase to log usage        |
-| `/usage-report`       | Show token/cost table (optionally `--last N`)                          | To view or export usage           |
-| `/calibration-report` | Confidence calibration (MAE, bins, over/under); `--json` for dashboard | After /verify to tune confidence  |
-| `/dashboard`          | Start web dashboard (exports data first, then launches UI)             | View intents, phases, calibration |
-
-**Note:** All commands show context-aware next-step suggestions after completion. For a markdown summary run `scripts/generate-dashboard.sh`; for the interactive web dashboard run `pnpm dashboard`. Scripts auto-verify outputs and run dependent generators (e.g., `/scope-project` automatically runs `/generate-release-plan` and `/generate-roadmap`).
-
-All commands are available as Cursor slash commands. See [`.cursor/commands/`](./.cursor/commands/) for full documentation. From the CLI, use `pnpm run <script>` where available (e.g. `pnpm fix`, `pnpm help`, `pnpm verify`); see [AGENTS.md](./AGENTS.md) for the commands–scripts mapping.
-
-## Example: Ship a Feature
-
-```bash
-# Create an intent
-/new_intent
-# → Creates work/intent/features/F-001.md with template
-
-# Fill it in (type, motivation, acceptance criteria, etc.)
-
-# Ship it!
-/ship F-001
-
-# Watch the magic happen:
-# [Phase 1/5] Analysis... ⏳
-# ✅ PM analyzes requirements
-# [Phase 2/5] Planning... ⏳
-# ✅ Architect proposes plan (needs your approval)
-# [Phase 3/5] Implementation... ⏳
-# ✅ QA writes tests (they fail - perfect!)
-# ✅ Implementer writes code (tests pass!)
-# [Phase 4/5] Verification... ⏳
-# ✅ QA + Security verify
-# [Phase 5/5] Release... ⏳
-# ✅ Docs update README/CHANGELOG
-# ✅ Steward approves
-# ✅ Done!
-#
-# 💡 Next steps: Review release notes, deploy, or start next intent
-```
-
-## Project Structure
-
-```
-.
-├── work/                # Current work
-│   ├── intent/         # What to build (features/bugs/tech-debt)
-│   ├── workflow-state/ # Active + phase files (flat for one intent; per-intent dirs for [parallel work](docs/parallel-workflow.md))
-│   ├── roadmap/        # now.md, next.md, later.md
-│   └── release/        # plan.md
-├── dashboard-app/       # Web dashboard (Vite + React); run with pnpm dashboard
-├── _system/             # Framework and generated (don’t touch)
-│   ├── architecture/   # CANON.md, invariants.yml
-│   ├── artifacts/      # SYSTEM_STATE.md, dependencies.md, confidence-calibration.json
-│   ├── drift/          # baselines.md, metrics.md
-│   ├── reports/        # mutation/, etc.
-│   ├── do-not-repeat/  # Failed approaches
-│   ├── behaviors/      # Procedures and policies
-│   ├── security/       # audit-allowlist.json
-│   └── golden-data/    # Replay validation data
-└── experimental/       # Experimental tooling (e.g. agent-coordinator); not part of main workflow
-```
-
-### Planning outputs
-
-Generated planning artifacts and how they relate:
-
-| Output               | Location                                    | Purpose                                             | Generated by               |
-| -------------------- | ------------------------------------------- | --------------------------------------------------- | -------------------------- |
-| **Release plan**     | `work/release/plan.md`                      | What ships when — intents ordered by release target | `generate-release-plan.sh` |
-| **Roadmap**          | `work/roadmap/` (now.md, next.md, later.md) | Triage view — now / next / later                    | `generate-roadmap.sh`      |
-| **Dependency graph** | `_system/artifacts/dependencies.md`         | Graph of intent dependencies                        | `generate-roadmap.sh`      |
-
-## Key Concepts
-
-### Intent Ledger
-
-All work lives in `work/intent/` as markdown files under `features/`, `bugs/`, or `tech-debt`. Each intent has:
-
-- Executable acceptance criteria (not "looks good")
-- Confidence scores (requirements + domain assumptions)
-- Invariants (hard constraints, dual form: human + executable)
-- Kill criteria (explicit stop conditions)
-- Rollback plan (required before implementation)
-
-**Validation & Auto-Fix:** The framework proactively validates intents for common issues (dependency ordering conflicts, whitespace formatting, missing dependencies, circular dependencies). Use `/fix` to auto-fix issues with a preview before applying changes.
-
-**Intent templates:** When creating an intent with `/new_intent` or `pnpm new-intent`, you can choose a template by kind. **Generic** (default) uses `work/intent/_TEMPLATE.md`. Kind-specific templates in `work/intent/templates/` add sections and prompts: **API endpoint** (path, method, schema, auth, rate limit; contract tests); **Frontend feature** (screens/flows, accessibility; E2E/a11y); **Infra change** (resources, rollout, rollback; runbooks); **Bugfix** (reproduction, root cause, fix scope; regression test); **Refactor** (current vs desired state; behavior preserved). **Adding a new template:** Copy an existing file in `work/intent/templates/` (e.g. `generic.md` or `api-endpoint.md`), add your sections and placeholders (keep required fields: Type, Status, Motivation, Acceptance, etc.), save as `work/intent/templates/<name>.md`, and add a menu option in `scripts/new-intent.sh` (case statement and template file path). Validation (fix-intents, generate-release-plan) runs on all intents regardless of template; templates must produce valid intents with the same required sections.
-
-### GitHub integration
-
-Intents can link to GitHub issues for tracking and collaboration. **Source of truth:** The intent file is the source of truth for the ShipIt workflow; the GitHub issue is the tracker/collaboration ref.
-
-- **Intent ↔ issue link:** Add optional `## GitHub issue` with `#123` (or `owner/repo#123`) in the intent file.
-- **Create issue from intent:** `pnpm gh-create-issue <intent-id>` — creates a GitHub issue from the intent and writes the issue number back into the intent file.
-- **Link existing issue:** `pnpm gh-link-issue <intent-id> <issue-number>` — writes the issue number into the intent file.
-- **Create PR:** Run `/pr <intent-id>` to generate `work/workflow-state/pr.md`, then `pnpm gh-create-pr <intent-id>` (or `/create-pr <intent-id>`) to open a GitHub PR from that content.
-- **On ship:** `pnpm on-ship-update-issue <intent-id>` adds a comment to the linked issue; use `--close` or `SHIP_CLOSE_ISSUE=1` to close it.
-- **Create intent from issue:** `/create-intent-from-issue <issue-number>` or `pnpm create-intent-from-issue <num>` — creates a new intent from the issue title/body and sets the GitHub issue link.
-
-**Workflows:** _Intent-first:_ create intent in ShipIt, then optionally create/link a GitHub issue. _Issue-first:_ create intent from an existing issue with `/create-intent-from-issue`; edits then happen in the intent file. When an intent ships, the linked issue can be commented or closed.
-
-### Cost and token visibility
-
-Token usage (and optional cost) per phase/intent can be recorded and viewed for tuning and budgeting. **Source of values:** Cursor does not expose per-request token usage; values are **estimates** (e.g. from prompt+response character count, or manual entry) unless obtained from a provider API (e.g. future headless/CLI with OpenAI/Anthropic usage in response headers). Record estimates with `pnpm usage-record <intent_id> <phase> <tokens_in> <tokens_out> [cost_usd]`; data is stored in `_system/artifacts/usage.json`. **Exposure:** `/status` shows the last recorded entry; `pnpm usage-report` (or `pnpm usage-report --last N`) prints a full table. **Privacy:** Only aggregate counts (intent_id, phase, tokens, cost) are stored—no prompt or response content. Retention is unbounded in v1; a future iteration may add retention (e.g. last 100 entries or 90 days).
-
-### Truth Hierarchy
-
-When facts conflict, this is the order of precedence:
-
-1. **Runtime behavior** (what actually happens)
-2. **Tests** (executable assertions)
-3. **Invariants** (hard constraints)
-4. **Specs** (requirements)
-5. **Architecture canon** (boundaries)
-6. **Comments** (annotations)
-7. **Human opinion** (last resort)
-
-> **Rule:** If tests contradict comments, tests win. If runtime contradicts tests, that's a bug—runtime is truth, tests are intent.
-
-### Tests First (Critical!)
-
-```
-Spec → Tests → Code
-```
-
-Tests MUST exist BEFORE production code. The workflow enforces this:
-
-1. QA writes tests (Phase 3)
-2. Tests fail initially (nothing to pass yet)
-3. Implementer writes code (Phase 4)
-4. Tests pass ✅
-
-### High-Risk Gates
-
-These domains require human approval:
-
-- 🔐 Authentication
-- 💰 Payments
-- 🔑 Permissions/RBAC
-- 🏗️ Infrastructure
-- 📋 PII handling
-
-## Installation
-
-### For App Developers
-
-**Install ShipIt CLI:**
-
-```bash
-npm install -g shipit
-# Or use npx: npx shipit init
-```
-
-**Create a new ShipIt project:**
-
-```bash
-create-shipit-app my-app
-# Prompts for tech stack, description, high-risk domains
-```
-
-**Or attach ShipIt to an existing project:**
-
-```bash
-cd my-existing-app
-shipit init
-# Auto-detects tech stack, merges package.json scripts
-```
-
-**Upgrade ShipIt in an existing project:**
-
-```bash
-shipit upgrade
-# Safely updates framework files, backs up modified files
-```
-
-**Check ShipIt installation:**
-
-```bash
-shipit check
-# Validates installation and shows project status
-```
-
-### For Framework Contributors
-
-If you're contributing to the ShipIt framework itself:
-
-```bash
-# Clone the framework repository
-git clone https://github.com/NJLaPrell/ShipIt.git
-cd ShipIt
-pnpm install
-
-# Run framework tests
-pnpm test
-./scripts/init-project.sh shipit-test  # Creates tests/test-project/
-```
-
-See [docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md) for contributor guidelines.
-
-### User Customizations (`.override/`)
-
-ShipIt creates a `.override/` directory in your project for customizations that persist across upgrades:
-
-- `.override/rules/` - Custom Cursor/VS Code rules
-- `.override/commands/` - Custom slash commands
-- `.override/scripts/` - Custom scripts
-- `.override/config/` - Custom configuration
-
-**Important:** Files in `.override/` are NEVER touched by `shipit upgrade`. Your customizations are safe!
-
-## Prerequisites
-
-```bash
-# Clone the repository
-git clone https://github.com/NJLaPrell/ShipIt.git
-cd ShipIt
-
-# Install dependencies
-pnpm install
-
-# Validate Cursor integration (when using Cursor)
-pnpm validate-cursor
-
-# Validate VS Code integration (when using VS Code + ShipIt extension)
-pnpm validate-vscode
-```
-
-## Prerequisites
-
-- **Cursor** or **VS Code** (with GitHub Copilot). ShipIt is designed for Cursor; the same workflow is available in VS Code via the ShipIt extension (see [Using ShipIt in VS Code](docs/vscode-usage.md)).
-- **Node.js 20+**
-- **pnpm** (or npm/yarn)
-- **Git**
-
-## Documentation
-
-- **[AGENTS.md](./AGENTS.md)** - Role definitions and conventions
-- **[docs/DIRECTORY_STRUCTURE.md](./docs/DIRECTORY_STRUCTURE.md)** - Quick reference for project layout
-- **[docs/PILOT_GUIDE.md](./docs/PILOT_GUIDE.md)** - Step-by-step guide for your first feature
-- **[docs/CLI_REFERENCE.md](./docs/CLI_REFERENCE.md)** - CLI commands and options
-- **[docs/LIMITATIONS.md](./docs/LIMITATIONS.md)** - What ShipIt doesn't do, limitations, when not to use
-- **[docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Common issues, exit codes, rollback
-- **[docs/EXAMPLES.md](./docs/EXAMPLES.md)** - Examples (new project, existing project, upgrade, CI)
-- **[docs/STABILITY.md](./docs/STABILITY.md)** - Stable vs experimental APIs
-- **[docs/vscode-usage.md](./docs/vscode-usage.md)** - Using ShipIt in VS Code (extension in `vscode-extension/`)
-- **[CHANGELOG.md](./CHANGELOG.md)** - Version history and changes
-- **[\_system/architecture/CANON.md](./_system/architecture/CANON.md)** - Architecture boundaries
-- **[\_system/architecture/invariants.yml](./_system/architecture/invariants.yml)** - Machine-verifiable constraints
-- **[tests/ISSUES.md](./tests/ISSUES.md)** - Test results and validation status
-- **[tests/README.md](./tests/README.md)** - Test structure (code, fixtures, logs, process docs)
-- **[docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md)** - Contributor guidelines and testing strategy
-- **[projects/README.md](./projects/README.md)** - ⚠️ Deprecated - Use CLI (`create-shipit-app` or `shipit init`) instead
-
-## Validation & Testing
-
-The framework has been fully validated end-to-end:
-
-- ✅ **97.6% test pass rate** (82/84 tests passing)
-- ✅ **9/9 features validated** (100%)
-- ✅ **5/5 workflow phases** validated (100%)
-- ✅ **Comprehensive test suite** covering all core functionality
-- ✅ **End-to-end validation** complete
-
-See [tests/ISSUES.md](./tests/ISSUES.md) for detailed test results and [tests/TEST_PLAN.md](./tests/TEST_PLAN.md) for the full test plan.
-
-## FAQ
-
-**Q: How do I install ShipIt?**  
-A: `npm install -g shipit`. Then use `create-shipit-app <name>` or `shipit init` in an existing project. See [docs/CLI_REFERENCE.md](./docs/CLI_REFERENCE.md).
-
-**Q: Can I use ShipIt with an existing project?**  
-A: Yes. Run `shipit init` in the project root. It will copy framework files and merge with your existing layout (e.g. package.json). See [docs/EXAMPLES.md](./docs/EXAMPLES.md).
-
-**Q: How do I upgrade ShipIt?**  
-A: Run `shipit upgrade` in the project. It backs up modified files to `._shipit_backup/` and updates framework files. Use `shipit upgrade --dry-run` first. See [docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md#after-a-failed-or-unwanted-shipit-upgrade).
-
-**Q: Will upgrade overwrite my changes?**  
-A: Framework-owned files are updated (with backup). Your app code and config in non-framework paths are not touched. Put customizations in `.override/` so they are never overwritten.
-
-**Q: How do I customize Cursor/VS Code rules?**  
-A: Add files under `.override/rules/` (and similar under `.override/`). See [docs/USER_OVERRIDES_DESIGN.md](./docs/USER_OVERRIDES_DESIGN.md). Overrides persist across upgrades.
-
-**Q: Do I need to understand all 7 agents?**  
-A: Nope. Just use the commands. The agents handle their roles automatically during `/ship`.
-
-**Q: What if I want to skip a phase?**  
-A: Don't. The gates exist for a reason. If something feels wrong, use `/kill` instead.
-
-**Q: What about deployment?**  
-A: Use `/deploy` when ready. It runs readiness checks first; actual deployment is your pipeline or process.
-
-**Q: How do I contribute to the framework itself?**  
-A: Create an intent and `/ship` it! The framework eats its own dog food.
-
-**Q: Is this production-ready?**  
-A: Yes! Version 0.6.0 is released and fully validated. See [tests/ISSUES.md](./tests/ISSUES.md) for validation results.
-
-**Q: How do I test the framework?**  
-A: Run `pnpm test`, `pnpm test:cli`, and `pnpm test:shipit` from the framework repo. In-editor: `/test_shipit` for the full E2E test suite.
-
-## Version History
-
-- **v0.6.0** (2026-02-10) - Multi-intent workflow, headless/CLI runner, VS Code extension, mutation report, test docs refresh
-- **v0.5.0** (2026-02-09) - Web dashboard (`/dashboard`), rollback execution (`/rollback`), init-project includes dashboard-app and execute-rollback
-- **v0.4.0** (2026-02-09) - Scripts libs, command manifest, phase templates; init-project ships lib + workflow-templates
-- **v0.3.0** (2026-02-04) - Reorganization release (Plan C + Plan B: `work/`, `_system/`, `docs/` layout)
-- **v0.2.1** (2026-02-04) - Patch release (version consistency)
-- **v0.2.0** (2026-01-27) - UX Enhancements Release
-  - **New Features:**
-    - Intent validation and auto-fix (`/fix` command)
-    - Output verification system with automatic generator chaining
-    - Unified status dashboard (`/status` command)
-    - Progress indicators for long-running operations
-    - Batched interactive prompts (faster scoping workflow)
-    - Context-aware next-step suggestions
-  - **Improvements:**
-    - Enhanced `/scope-project` with batched prompts
-    - Enhanced `/generate-release-plan` with validation warnings
-    - Enhanced `/generate-roadmap` with verification summaries
-    - Enhanced `/ship` workflow with progress indicators
-    - Improved error handling and edge case coverage
-  - **Fixes:**
-    - Fixed numeric validation in dependency ordering checks
-    - Fixed temp file cleanup in fix-intents.sh
-    - Fixed false positive grep matches in suggest-next.sh
-    - Fixed fragile test parsing in status.sh
-    - Removed extraneous documentation files
-    - Updated outdated references
-
-- **v0.1.0** (2026-01-23) - Initial release
-  - Complete AI-native SDLC framework
-  - Project initialization and scoping
-  - Intent management and workflow orchestration
-  - Release planning and roadmap generation
-  - Comprehensive test suite with 97.6% pass rate
-
-See [CHANGELOG.md](./CHANGELOG.md) for detailed version history.
-
-## License
-
-MIT
+</details>
 
 ---
 
-**Ready?** Start with `/init-project "My Project"` and see what happens. 🎉
+## 5. The Problem & The Solution
 
-**New to ShipIt?** Check out [docs/PILOT_GUIDE.md](./docs/PILOT_GUIDE.md) for a step-by-step walkthrough.
+**The problem:** Traditional SDLC assumes humans are the bottleneck. AI agents need state files, executable tests, explicit gates, and do-not-repeat ledgers — not meetings and handoffs. Most failures are unstated assumptions and ambiguous truth, not coding errors.
+
+**The solution:** ShipIt optimizes for **what counts as truth**: tests and invariants over docs, state in files over meetings, explicit gates over tribal knowledge. Add adversarial verification, intent ledger in `work/intent/`, drift detection, and context-aware suggestions. How the 7 agents (Steward, PM, Architect, Implementer, QA, Security, Docs) work together: [AGENTS.md](./AGENTS.md).
+
+---
+
+## 6. Installation
+
+### 6.1 For app developers
+
+See [Quick Start](#1-quick-start) for the full flow. Quick reference:
+
+| Action             | Command                                           |
+| ------------------ | ------------------------------------------------- |
+| Install CLI        | `npm install -g @njlaprell/shipit`                |
+| New project        | `create-shipit-app my-app`                        |
+| Attach to existing | `cd my-app && shipit init`                        |
+| Upgrade framework  | `shipit upgrade` (backs up to `._shipit_backup/`) |
+| Check installation | `shipit check`                                    |
+
+No global install: `npx @njlaprell/shipit init` from your project root. Full options: [docs/CLI_REFERENCE.md](./docs/CLI_REFERENCE.md).
+
+### 6.2 From source (contributors)
+
+**pnpm** is used when developing the framework itself:
+
+```bash
+git clone https://github.com/NJLaPrell/ShipIt.git
+cd ShipIt
+pnpm install
+pnpm test && pnpm test:cli && pnpm test:shipit -- --clean
+# Optional: pnpm validate-cursor  or  pnpm validate-vscode
+```
+
+See [docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md).
+
+### 6.3 User customizations (`.override/`)
+
+Put customizations in `.override/rules/`, `.override/commands/`, `.override/scripts/`, `.override/config/`. They are **never** touched by `shipit upgrade`. [docs/USER_OVERRIDES_DESIGN.md](./docs/USER_OVERRIDES_DESIGN.md).
+
+---
+
+## 7. Key Concepts
+
+- **Intent ledger** — All work lives in `work/intent/` as markdown with executable acceptance criteria, confidence scores, invariants, kill criteria, and rollback plan. Use `/fix` to auto-fix common issues. Templates: [AGENTS.md](./AGENTS.md) and `work/intent/templates/`.
+- **Tests first** — The workflow enforces Spec → Tests → Code. QA writes tests (they fail); Implementer writes code (tests pass). No production code before tests.
+- **Truth hierarchy** — When facts conflict: runtime behavior > tests > invariants > specs > architecture > comments > opinion. [AGENTS.md](./AGENTS.md).
+- **High-risk gates** — Auth, payments, permissions, infrastructure, PII require human approval before implementation.
+
+**More:** GitHub integration, usage/cost, security allowlist, confidence calibration → [AGENTS.md](./AGENTS.md).
+
+---
+
+## 8. Commands Reference
+
+**CLI:** `shipit init | upgrade | check | create | list-backups | restore` — see [docs/CLI_REFERENCE.md](./docs/CLI_REFERENCE.md).
+
+**Editor (slash commands):**
+
+| Category        | Commands                                                                                                                                        |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Setup**       | `create-shipit-app` / `shipit init`, `/scope-project`, `/status`, `/dashboard`                                                                  |
+| **Planning**    | `/new_intent`, `/generate-release-plan`, `/generate-roadmap`, `/fix`, `/pr`, `/create-pr`, `/create-intent-from-issue`, `/risk`, `/revert-plan` |
+| **Execution**   | `/ship <id>`, `/verify <id>`, `/rollback <id>`, `/kill <id>`                                                                                    |
+| **Maintenance** | `/drift_check`, `/deploy`, `/test_shipit`                                                                                                       |
+| **Utility**     | `/help`, `/suggest`, `/dashboard`, `/usage-record`, `/usage-report`, `/calibration-report`                                                      |
+
+All slash commands are in [.cursor/commands/](./.cursor/commands/). Scripts: `pnpm run <script>` (e.g. `pnpm fix`, `pnpm verify`). Headless/VS Code: [docs/headless-mode.md](./docs/headless-mode.md), [docs/vscode-usage.md](./docs/vscode-usage.md).
+
+---
+
+## 9. Documentation & Help
+
+- [docs/CLI_REFERENCE.md](./docs/CLI_REFERENCE.md) — All CLI commands and options
+- [docs/LIMITATIONS.md](./docs/LIMITATIONS.md) — What ShipIt doesn’t do, when not to use
+- [docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md) — Exit codes, common issues, rollback
+- [docs/EXAMPLES.md](./docs/EXAMPLES.md) — New project, existing project, upgrade, CI
+- [docs/PILOT_GUIDE.md](./docs/PILOT_GUIDE.md) — Step-by-step first feature
+- [docs/DIRECTORY_STRUCTURE.md](./docs/DIRECTORY_STRUCTURE.md) — Project layout
+- [docs/STABILITY.md](./docs/STABILITY.md) — Stable vs experimental APIs
+- [AGENTS.md](./AGENTS.md) — Roles, workflow, conventions
+- [CHANGELOG.md](./CHANGELOG.md) — Version history
+
+---
+
+## 10. FAQ
+
+**Q: How do I install ShipIt?**  
+A: `npm install -g @njlaprell/shipit`. Then `create-shipit-app <name>` or `shipit init`. [CLI_REFERENCE](./docs/CLI_REFERENCE.md).
+
+**Q: Can I use ShipIt with an existing project?**  
+A: Yes. Run `shipit init` in the project root. It merges framework files and package.json. [EXAMPLES](./docs/EXAMPLES.md).
+
+**Q: How do I upgrade?**  
+A: `shipit upgrade`. Backups go to `._shipit_backup/`. Use `--dry-run` first. [TROUBLESHOOTING](./docs/TROUBLESHOOTING.md#after-a-failed-or-unwanted-shipit-upgrade).
+
+**Q: Will upgrade overwrite my changes?**  
+A: Framework-owned files are updated (with backup). App code and non-framework paths are not. Use `.override/` for customizations so they’re never touched.
+
+**Q: How do I customize Cursor/VS Code rules?**  
+A: Add files under `.override/rules/`. [USER_OVERRIDES_DESIGN](./docs/USER_OVERRIDES_DESIGN.md).
+
+**Q: Do I need to understand all 7 agents?**  
+A: No. Use the commands; agents run during `/ship`. [AGENTS.md](./AGENTS.md) for depth.
+
+**Q: What about deployment?**  
+A: `/deploy` runs readiness checks; actual deployment is your pipeline. See [LIMITATIONS](./docs/LIMITATIONS.md).
+
+**Q: Where do I get help?**  
+A: [TROUBLESHOOTING](./docs/TROUBLESHOOTING.md), [GitHub Issues](https://github.com/NJLaPrell/ShipIt/issues).
+
+---
+
+## 11. License
+
+MIT. See [CHANGELOG.md](./CHANGELOG.md) for version history.
+
+---
+
+**Next:** Once you’ve created a project, open it in Cursor or VS Code, run `/scope-project "your goal"`, then `/ship F-001`. Full walkthrough: [docs/PILOT_GUIDE.md](./docs/PILOT_GUIDE.md).

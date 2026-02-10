@@ -18,7 +18,12 @@ Exit codes are consistent across `shipit init`, `shipit upgrade`, `shipit check`
 ### CLI command not found
 
 - **Cause:** ShipIt CLI not on PATH (e.g. `shipit` or `create-shipit-app` not found).
-- **Fix:** Install globally with `npm install -g shipit` or use `npx shipit <command>`. Ensure your npm global bin directory is on PATH.
+- **Fix:** Install globally with `npm install -g @njlaprell/shipit` or use `npx @njlaprell/shipit <command>`. Ensure your npm global bin directory is on PATH.
+
+### npm 404 when installing @njlaprell/shipit
+
+- **Cause:** The package has not been published to npm yet (e.g. before the first release).
+- **Fix:** Clone the repository, run `pnpm install`, and use the CLI from the repo root (`node bin/shipit ...`), or wait for the first publish. See [PUBLISHING.md](./PUBLISHING.md).
 
 ### Permission denied
 

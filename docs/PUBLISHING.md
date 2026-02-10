@@ -1,6 +1,22 @@
 # Publishing ShipIt to npm
 
-This document describes how to publish the ShipIt CLI package to npm. The package name is `shipit` (check availability: `npm view shipit`). If the name is taken, use a scoped name such as `@shipit-framework/cli` and update this doc.
+This document describes how to publish the ShipIt CLI package to npm.
+
+## npm package name (required before first publish)
+
+**The unscoped name `shipit` is taken** on npm (by a shipping/tracking package: https://www.npmjs.com/package/shipit). You cannot claim it without the current maintainer transferring it.
+
+**Use a scoped name.** Two options:
+
+1. **Your username (simplest):** `@njlaprell/shipit`
+   - Install: `npm install -g @njlaprell/shipit`
+   - No org to create; publish with `npm publish --access public`.
+
+2. **Org (for a brand):** Create npm org `shipit-framework`, then use `@shipit-framework/cli`.
+   - Install: `npm install -g @shipit-framework/cli`
+   - Publish: `npm publish --access public`.
+
+**To switch from `shipit` to a scoped name:** In `package.json` set `"name": "@njlaprell/shipit"` (or your chosen scope). Update README and docs so install instructions use the scoped name (e.g. `npm install -g @njlaprell/shipit`). The **bin** names stay `shipit` and `create-shipit-app` — users still run `shipit` and `create-shipit-app` after installing.
 
 ## Prerequisites
 
@@ -41,10 +57,11 @@ create-shipit-app --help
 
 ## Publish (manual)
 
-1. Bump version in `package.json` to match the release (e.g. `0.7.0`).
-2. Run `npm publish --dry-run` to preview.
-3. Run `npm publish` (requires npm login and 2FA).
-4. Verify on npm: https://www.npmjs.com/package/shipit
+1. Set `package.json` **name** to your scoped name (e.g. `@njlaprell/shipit`) — see above.
+2. Bump **version** in `package.json` to match the release (e.g. `0.7.0`).
+3. Run `npm publish --dry-run` to preview.
+4. Run `npm publish --access public` (required for scoped packages; requires npm login and 2FA).
+5. Verify on npm (e.g. https://www.npmjs.com/package/@njlaprell/shipit).
 
 ## CI publish (optional)
 
@@ -54,3 +71,10 @@ To publish automatically on GitHub release creation, add a workflow that runs on
 
 - Keep `package.json` version in sync with GitHub release tags (e.g. tag `v0.6.0` → version `0.6.0`).
 - Use semantic versioning: major for breaking changes, minor for features, patch for fixes.
+
+## Before your first release
+
+- [ ] Choose scoped npm name and set `"name"` in `package.json` (see above).
+- [ ] Update README and any docs that say `npm install -g shipit` to use the scoped install command.
+- [ ] (Optional) Add **NPM_TOKEN** (or **NODE_AUTH_TOKEN**) in GitHub repo secrets if you want the publish workflow to run on release.
+- [ ] Run through [RELEASE_CHECKLIST.md](./RELEASE_CHECKLIST.md) and [\_system/behaviors/DO_RELEASE.md](../_system/behaviors/DO_RELEASE.md).

@@ -230,7 +230,7 @@ function isFileModified(filePath, frameworkVersion) {
 
 **Migration Path:**
 
-- Install CLI: `npm install -g shipit`
+- Install CLI: `npm install -g @njlaprell/shipit`
 - For existing projects: `shipit init` (attaches ShipIt)
 - For new projects: `create-shipit-app <name>`
 

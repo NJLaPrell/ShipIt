@@ -14,7 +14,7 @@ export function getInstalledShipItVersion() {
   const root = getFrameworkRoot();
   const pkgPath = join(root, 'package.json');
   if (!existsSync(pkgPath)) {
-    throw new Error('ShipIt not found. Install: npm install -g shipit');
+    throw new Error('ShipIt not found. Install: npm install -g @njlaprell/shipit');
   }
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
   return pkg.version || '0.0.0';

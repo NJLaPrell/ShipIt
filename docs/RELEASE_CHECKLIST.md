@@ -4,6 +4,7 @@ Use this checklist before cutting a release. Integrates with [\_system/behaviors
 
 ## Pre-release
 
+- [ ] **First-time only:** npm name — `shipit` is taken; use a scoped name (e.g. `@njlaprell/shipit`). Set in `package.json` and update README install instructions. See [PUBLISHING.md](./PUBLISHING.md).
 - [ ] All tests pass: `pnpm test`
 - [ ] CLI tests pass: `pnpm test:cli`
 - [ ] Framework E2E pass: `pnpm test:shipit -- --clean`
@@ -26,7 +27,7 @@ Follow [\_system/behaviors/DO_RELEASE.md](../_system/behaviors/DO_RELEASE.md):
 ## Post-release
 
 - [ ] Verify GitHub release is published and marked latest (if applicable)
-- [ ] If published to npm: verify `npm install -g shipit` and run `shipit --help`, `shipit check`
+- [ ] If published to npm: verify `npm install -g @njlaprell/shipit` and run `shipit --help`, `shipit check`
 - [ ] Update any external references or badges if needed
 - [ ] Move CHANGELOG [Unreleased] items into the new version section and add new [Unreleased] for next release
 

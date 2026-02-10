@@ -223,7 +223,7 @@ Copy the version section from CHANGELOG.md, for example:
 
 ## Step 5: Publish to npm (optional)
 
-**Objective:** Publish the ShipIt CLI package to npm so users can install with `npm install -g shipit`. Skip if not publishing to npm for this release.
+**Objective:** Publish the ShipIt CLI package to npm so users can install with `npm install -g @njlaprell/shipit`. Skip if not publishing to npm for this release.
 
 **Actions:**
 
@@ -238,7 +238,7 @@ Copy the version section from CHANGELOG.md, for example:
 **Validation:**
 
 - Package version on npm matches GitHub release tag.
-- `npm install -g shipit` works and `shipit --help` runs.
+- `npm install -g @njlaprell/shipit` works and `shipit --help` runs.
 
 ---
 
