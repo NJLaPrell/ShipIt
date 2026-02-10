@@ -42,6 +42,8 @@
     "usage-record": "./scripts/usage.sh",
     "usage-report": "./scripts/usage-report.sh",
     "calibration-report": "./scripts/calibration-report.sh",
+    "export-dashboard": "node scripts/export-dashboard-json.js",
+    "dashboard": "./scripts/dashboard-start.sh",
     "prepare": "husky install"
   },
   "keywords": [

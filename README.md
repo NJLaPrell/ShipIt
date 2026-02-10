@@ -109,6 +109,8 @@ SETUP PHASE
     │
     └─ /status
         └─ Unified dashboard: intents, workflow phase, test results
+    └─ /dashboard
+        └─ Web dashboard: intents, phases, calibration, doc links (exports first, then UI)
 
 PLANNING PHASE
     │
@@ -176,6 +178,9 @@ UTILITY COMMANDS
     │
     ├─ /suggest
     │   └─ Suggests next intent to work on
+    │
+    ├─ /dashboard
+    │   └─ Web dashboard: intents, phases, calibration, doc links
     │
     └─ /test_shipit
         └─ Runs end-to-end test suite
@@ -284,15 +289,16 @@ Entries are automatically appended during `/verify` when outcomes are determined
 
 ### Utilities
 
-| Command               | What It Does                                                           | When to Use                      |
-| --------------------- | ---------------------------------------------------------------------- | -------------------------------- |
-| `/help`               | Lists all commands with descriptions                                   | When you need a reminder         |
-| `/suggest`            | Suggests next intent to work on                                        | When unsure what to do next      |
-| `/usage-record`       | Record token/cost for a phase (intent, phase, in, out, [cost])         | After a phase to log usage       |
-| `/usage-report`       | Show token/cost table (optionally `--last N`)                          | To view or export usage          |
-| `/calibration-report` | Confidence calibration (MAE, bins, over/under); `--json` for dashboard | After /verify to tune confidence |
+| Command               | What It Does                                                           | When to Use                       |
+| --------------------- | ---------------------------------------------------------------------- | --------------------------------- |
+| `/help`               | Lists all commands with descriptions                                   | When you need a reminder          |
+| `/suggest`            | Suggests next intent to work on                                        | When unsure what to do next       |
+| `/usage-record`       | Record token/cost for a phase (intent, phase, in, out, [cost])         | After a phase to log usage        |
+| `/usage-report`       | Show token/cost table (optionally `--last N`)                          | To view or export usage           |
+| `/calibration-report` | Confidence calibration (MAE, bins, over/under); `--json` for dashboard | After /verify to tune confidence  |
+| `/dashboard`          | Start web dashboard (exports data first, then launches UI)             | View intents, phases, calibration |
 
-**Note:** All commands show context-aware next-step suggestions after completion. Scripts auto-verify outputs and run dependent generators (e.g., `/scope-project` automatically runs `/generate-release-plan` and `/generate-roadmap`).
+**Note:** All commands show context-aware next-step suggestions after completion. For a markdown summary run `scripts/generate-dashboard.sh`; for the interactive web dashboard run `pnpm dashboard`. Scripts auto-verify outputs and run dependent generators (e.g., `/scope-project` automatically runs `/generate-release-plan` and `/generate-roadmap`).
 
 All commands are available as Cursor slash commands. See [`.cursor/commands/`](./.cursor/commands/) for full documentation. From the CLI, use `pnpm run <script>` where available (e.g. `pnpm fix`, `pnpm help`, `pnpm verify`); see [AGENTS.md](./AGENTS.md) for the commands–scripts mapping.
 
