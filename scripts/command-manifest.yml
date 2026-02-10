@@ -119,3 +119,8 @@ commands:
     pnpm: null
     description: Write rollback plan
     category: Help & Status
+  - id: dashboard
+    slash: /dashboard
+    pnpm: dashboard
+    description: Start web dashboard (exports data first, then launches UI)
+    category: Help & Status

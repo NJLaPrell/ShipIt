@@ -15,6 +15,9 @@ projects/*
 !projects/README.md
 .stryker-tmp
 
+# Dashboard export (generated on pnpm dashboard)
+dashboard-app/public/dashboard.json
+
 # Experimental coordinator state (generated in experimental/)
 experimental/agent-queue.json
 experimental/agent-status.json
