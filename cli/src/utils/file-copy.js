@@ -75,12 +75,21 @@ export function copyFrameworkFiles(frameworkRoot, targetDir, stack, manifest, op
   }
 
   // Copy framework-owned files
+  // Note: Some files like project.json are created, not copied
+  const createdFiles = new Set(['project.json']); // Files that are created, not copied from framework
+  
   for (const file of manifest.frameworkOwned.files || []) {
     const sourcePath = join(frameworkRoot, file);
     const targetPath = join(targetDir, file);
 
     // Skip if never copied
     if (neverCopied.has(file)) {
+      skipped.push(file);
+      continue;
+    }
+
+    // Skip files that are created (not copied)
+    if (createdFiles.has(file)) {
       skipped.push(file);
       continue;
     }
@@ -92,6 +101,11 @@ export function copyFrameworkFiles(frameworkRoot, targetDir, stack, manifest, op
     }
 
     if (!existsSync(sourcePath)) {
+      // Some files may not exist in framework (like project.json which is created)
+      if (createdFiles.has(file)) {
+        skipped.push(file);
+        continue;
+      }
       errors.push(`Source file not found: ${file}`);
       continue;
     }

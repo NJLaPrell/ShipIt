@@ -12,6 +12,8 @@ import { isValidStack } from '../utils/stack-detection.js';
 import { copyFrameworkFiles } from '../utils/file-copy.js';
 import { createReadlineInterface, promptUser } from '../utils/prompts.js';
 import { execSync } from 'child_process';
+import { getShipitScripts, getShipitDevDependencies } from '../utils/package-json-merge.js';
+import { createTypeScriptNodeFiles, createPythonFiles, createOtherStackFiles } from '../utils/stack-files.js';
 
 /**
  * Create command implementation
