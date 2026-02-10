@@ -168,6 +168,9 @@ MAINTENANCE PHASE
     │   └─ Runs readiness checks (tests, lint, typecheck, audit, docs)
     │   └─ Deploys to platform (Vercel, Netlify, Docker, AWS CDK, Manual)
     │
+    ├─ /rollback <intent-id>
+    │   └─ Execute rollback in guided mode (reads plan from /revert-plan)
+    │
     └─ /kill <intent-id>
         └─ Permanently stops work with rationale
 
@@ -273,11 +276,12 @@ Entries are automatically appended during `/verify` when outcomes are determined
 
 ### Execution
 
-| Command        | What It Does                                               | When to Use                       |
-| -------------- | ---------------------------------------------------------- | --------------------------------- |
-| `/ship <id>`   | Run full SDLC workflow (5 phases with progress indicators) | To implement an intent            |
-| `/verify <id>` | Re-run verification phase only                             | After code changes                |
-| `/kill <id>`   | Kill an intent (with rationale)                            | When work should stop permanently |
+| Command          | What It Does                                                   | When to Use                       |
+| ---------------- | -------------------------------------------------------------- | --------------------------------- |
+| `/ship <id>`     | Run full SDLC workflow (5 phases with progress indicators)     | To implement an intent            |
+| `/verify <id>`   | Re-run verification phase only                                 | After code changes                |
+| `/rollback <id>` | Execute rollback in guided mode (reads plan from /revert-plan) | When reverting shipped work       |
+| `/kill <id>`     | Kill an intent (with rationale)                                | When work should stop permanently |
 
 ### Maintenance
 
