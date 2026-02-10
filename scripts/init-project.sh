@@ -22,8 +22,11 @@ NC='\033[0m' # No Color
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 # Framework repo detection
-# Check if running from ShipIt framework repo root
-if [ ! -f "$ROOT_DIR/package.json" ] || ! grep -q '"name":\s*"shipit"' "$ROOT_DIR/package.json" 2>/dev/null; then
+# Check if running from ShipIt framework repo root (package name is shipit or @scope/shipit)
+if [ ! -f "$ROOT_DIR/package.json" ]; then
+    error_exit "This script is for internal ShipIt testing only. Use 'shipit init' or 'create-shipit-app' for user projects." 1
+fi
+if ! grep -qE '"name":\s*"(shipit|@[^"]+/shipit)"' "$ROOT_DIR/package.json" 2>/dev/null; then
     error_exit "This script is for internal ShipIt testing only. Use 'shipit init' or 'create-shipit-app' for user projects." 1
 fi
 

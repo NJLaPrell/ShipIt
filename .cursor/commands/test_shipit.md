@@ -1,18 +1,22 @@
 # /test_shipit
 
-Run the ShipIt end-to-end test plan. (Slash command: use the same name as this file, e.g. `/test_shipit`.)
+Run the ShipIt **framework** end-to-end test plan. (Slash command: use the same name as this file, e.g. `/test_shipit`.)
+
+**Where to run this:** Only from the **ShipIt framework repository** (the repo with root `package.json` name `@nlaprell/shipit` and `_system/`, `scripts/init-project.sh`, etc.). Do **not** run this from a project you created with `create-shipit-app` or `shipit init` — that is a **user project**. For user projects, use `/verify` or `shipit check` to validate.
 
 ## Mode Detection
 
-**Check for `project.json` in current directory:**
+**Check for `project.json` in current directory (or `tests/test-project/project.json` for root mode):**
 
-- **If `project.json` exists AND contains `"name": "shipit-test"`:** You are in the TEST PROJECT. Start at step 2-2.
-- **If `project.json` exists BUT name is NOT `shipit-test`:** STOP and report a blocking failure (wrong workspace).
-- **Otherwise:** You are in the ROOT PROJECT. Run steps 1-1 through 1-4, then STOP.
+- **If `project.json` exists AND contains `"name": "shipit-test"`** (and you are inside `tests/test-project` or the path indicates the test project): You are in the TEST PROJECT. Start at step 2-2.
+- **If `project.json` exists BUT name is NOT `shipit-test`:** You are in a **user ShipIt project** (e.g. created with create-shipit-app). STOP and report: _"This command is for the ShipIt framework repo only. You are in a user project. Run /test_shipit from the cloned ShipIt repository, or use /verify / shipit check to validate this project."_
+- **Otherwise (no qualifying project.json, or you are at framework repo root):** You are in the ROOT PROJECT (framework repo). Run steps 1-1 through 1-4, then STOP.
 
-**Note:** The test project is now created at `./tests/test-project` (not `./projects/shipit-test`). Mode detection checks for `tests/test-project/project.json` with name "shipit-test".
+**Note:** The test project is created at `./tests/test-project`. Mode detection checks for `tests/test-project/project.json` with name "shipit-test".
 
 ## Root Project Mode (Steps 1-1 → 1-4)
+
+**Preflight:** Confirm this workspace is the ShipIt **framework repo**: root must have `package.json` with `"name": "shipit"` or `"name": "@nlaprell/shipit"`, and `_system/architecture/CANON.md` must exist. If not, STOP and report: _"You are not in the ShipIt framework repository. Open the cloned ShipIt repo (the one that contains scripts/init-project.sh and \_system/) and run /test_shipit there. To validate a user project, use /verify or shipit check."_
 
 ### Before Starting
 
