@@ -4,6 +4,7 @@ dist/
 .DS_Store
 .env
 .env.local
+.npm-token
 coverage/
 .nyc_output/
 *.lcov

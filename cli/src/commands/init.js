@@ -77,7 +77,7 @@ function createProjectJson(projectPath, metadata) {
       confidenceThreshold: 0.7,
       testCoverageMinimum: 80
     },
-    shipitVersion: metadata.shipitVersion || '0.6.0'
+    shipitVersion: metadata.shipitVersion || '1.0.0'
   };
 
   writeFileSync(projectJsonPath, JSON.stringify(projectJson, null, 2) + '\n', 'utf-8');
@@ -226,7 +226,7 @@ export async function initCommand(options) {
     description,
     techStack,
     highRiskDomains: highRiskArray,
-    shipitVersion: '0.6.0' // TODO: Get from package.json
+    shipitVersion: '1.0.0' // TODO: Get from package.json
   });
 
   // Create .override directory

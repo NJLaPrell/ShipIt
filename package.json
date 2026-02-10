@@ -1,6 +1,6 @@
 {
-  "name": "@njlaprell/shipit",
-  "version": "0.6.0",
+  "name": "@nlaprell/shipit",
+  "version": "1.0.0",
   "description": "ShipIt - AI-native Software Development Life Cycle framework",
   "type": "module",
   "scripts": {
@@ -29,6 +29,7 @@
     "headless-run-phase": "./scripts/headless/run-phase.sh",
     "kill-intent": "./scripts/kill-intent.sh",
     "verify": "./scripts/verify.sh",
+    "publish:npm": "./scripts/publish-npm.sh",
     "execute-rollback": "./scripts/execute-rollback.sh",
     "help": "./scripts/help.sh",
     "status": "./scripts/status.sh",
@@ -80,8 +81,8 @@
     "fs-extra": "^11.3.3"
   },
   "bin": {
-    "shipit": "./bin/shipit",
-    "create-shipit-app": "./bin/create-shipit-app"
+    "shipit": "bin/shipit",
+    "create-shipit-app": "bin/create-shipit-app"
   },
   "files": [
     "bin/",
@@ -96,7 +97,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/NJLaPrell/ShipIt.git"
+    "url": "git+https://github.com/NJLaPrell/ShipIt.git"
   },
   "homepage": "https://github.com/NJLaPrell/ShipIt#readme",
   "bugs": {

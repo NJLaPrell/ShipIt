@@ -8,13 +8,13 @@ import { getFrameworkRoot } from './manifest.js';
 
 /**
  * Get installed ShipIt version from package
- * @returns {string} Version string (e.g. "0.6.0")
+ * @returns {string} Version string (e.g. "1.0.0")
  */
 export function getInstalledShipItVersion() {
   const root = getFrameworkRoot();
   const pkgPath = join(root, 'package.json');
   if (!existsSync(pkgPath)) {
-    throw new Error('ShipIt not found. Install: npm install -g @njlaprell/shipit');
+    throw new Error('ShipIt not found. Install: npm install -g @nlaprell/shipit');
   }
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
   return pkg.version || '0.0.0';

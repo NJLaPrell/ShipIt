@@ -6,7 +6,7 @@ This guide helps you run a real-world feature through the complete ShipIt workfl
 
 1. **ShipIt CLI Installed:**
    \`\`\`bash
-   npm install -g @njlaprell/shipit
+   npm install -g @nlaprell/shipit
    \`\`\`
 
 2. **Project Initialized:**

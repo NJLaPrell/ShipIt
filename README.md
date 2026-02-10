@@ -4,8 +4,8 @@
 
 # ShipIt 🚀
 
-[![Version](https://img.shields.io/badge/version-0.6.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v0.6.0)
-[![npm](https://img.shields.io/npm/v/@njlaprell/shipit.svg)](https://www.npmjs.com/package/@njlaprell/shipit)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v1.0.0)
+[![npm](https://img.shields.io/npm/v/@nlaprell/shipit.svg)](https://www.npmjs.com/package/@nlaprell/shipit)
 [![Test results](https://img.shields.io/badge/test%20results-see%20ISSUES-green.svg)](./tests/ISSUES.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -38,8 +38,8 @@ Get from zero to a running project in under two minutes. Steps 3–4 run in **Cu
 ### 1.1 Install
 
 ```bash
-npm install -g @njlaprell/shipit
-# Or: npx @njlaprell/shipit init
+npm install -g @nlaprell/shipit
+# Or: npx @nlaprell/shipit init
 ```
 
 ### 1.2 Create a new project (or attach to existing)
@@ -156,13 +156,13 @@ See [Quick Start](#1-quick-start) for the full flow. Quick reference:
 
 | Action             | Command                                           |
 | ------------------ | ------------------------------------------------- |
-| Install CLI        | `npm install -g @njlaprell/shipit`                |
+| Install CLI        | `npm install -g @nlaprell/shipit`                 |
 | New project        | `create-shipit-app my-app`                        |
 | Attach to existing | `cd my-app && shipit init`                        |
 | Upgrade framework  | `shipit upgrade` (backs up to `._shipit_backup/`) |
 | Check installation | `shipit check`                                    |
 
-No global install: `npx @njlaprell/shipit init` from your project root. Full options: [docs/CLI_REFERENCE.md](./docs/CLI_REFERENCE.md).
+No global install: `npx @nlaprell/shipit init` from your project root. Full options: [docs/CLI_REFERENCE.md](./docs/CLI_REFERENCE.md).
 
 ### 6.2 From source (contributors)
 
@@ -230,7 +230,7 @@ All slash commands are in [.cursor/commands/](./.cursor/commands/). Scripts: `pn
 ## 10. FAQ
 
 **Q: How do I install ShipIt?**  
-A: `npm install -g @njlaprell/shipit`. Then `create-shipit-app <name>` or `shipit init`. [CLI_REFERENCE](./docs/CLI_REFERENCE.md).
+A: `npm install -g @nlaprell/shipit`. Then `create-shipit-app <name>` or `shipit init`. [CLI_REFERENCE](./docs/CLI_REFERENCE.md).
 
 **Q: Can I use ShipIt with an existing project?**  
 A: Yes. Run `shipit init` in the project root. It merges framework files and package.json. [EXAMPLES](./docs/EXAMPLES.md).

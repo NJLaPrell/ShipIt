@@ -1,5 +1,7 @@
 # Publish ShipIt CLI to npm when a GitHub release is created.
-# Requires NPM_TOKEN (or NODE_AUTH_TOKEN) secret set to an npm automation token.
+# Auth: (1) Set NPM_TOKEN secret to a granular token with Bypass 2FA, or
+#       (2) Use Trusted Publishing: npm package Settings → Trusted Publisher → GitHub Actions
+#       (this workflow: publish-npm.yml). Then no secret needed; OIDC is used.
 name: Publish to npm
 on:
   release:
@@ -7,6 +9,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # for npm Trusted Publishing (OIDC)
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
@@ -14,7 +19,7 @@ jobs:
           version: 10.11.0
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22' # 22.14+ required for npm Trusted Publishing
           registry-url: 'https://registry.npmjs.org'
           cache: 'pnpm'
       - run: pnpm install --frozen-lockfile

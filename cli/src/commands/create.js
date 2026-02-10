@@ -139,7 +139,7 @@ export async function createCommand(projectName, options) {
       confidenceThreshold: 0.7,
       testCoverageMinimum: 80
     },
-    shipitVersion: '0.6.0'
+    shipitVersion: '1.0.0'
   };
   writeFileSync(
     join(projectPath, 'project.json'),

@@ -53,7 +53,7 @@ function getCliPackageRoot() {
 export function locateManifest() {
   const packageRoot = getCliPackageRoot();
   if (!packageRoot) {
-    throw new Error('ShipIt framework files not found. Reinstall: npm install -g @njlaprell/shipit');
+    throw new Error('ShipIt framework files not found. Reinstall: npm install -g @nlaprell/shipit');
   }
 
   const manifestPath = join(packageRoot, '_system', 'artifacts', 'framework-files-manifest.json');
@@ -61,7 +61,7 @@ export function locateManifest() {
     return manifestPath;
   }
 
-  throw new Error('ShipIt framework files not found. Reinstall: npm install -g @njlaprell/shipit');
+  throw new Error('ShipIt framework files not found. Reinstall: npm install -g @nlaprell/shipit');
 }
 
 /**
@@ -83,7 +83,7 @@ export function readManifest() {
     return manifest;
   } catch (error) {
     if (error.code === 'ENOENT') {
-      throw new Error('ShipIt framework files not found. Reinstall: npm install -g @njlaprell/shipit');
+      throw new Error('ShipIt framework files not found. Reinstall: npm install -g @nlaprell/shipit');
     }
     if (error instanceof SyntaxError) {
       throw new Error(`Invalid manifest JSON: ${error.message}`);
@@ -99,7 +99,7 @@ export function readManifest() {
 export function getFrameworkRoot() {
   const packageRoot = getCliPackageRoot();
   if (!packageRoot) {
-    throw new Error('ShipIt framework files not found. Reinstall: npm install -g @njlaprell/shipit');
+    throw new Error('ShipIt framework files not found. Reinstall: npm install -g @nlaprell/shipit');
   }
   return packageRoot;
 }
