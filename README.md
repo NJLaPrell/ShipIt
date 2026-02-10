@@ -44,12 +44,17 @@ npm install -g @nlaprell/shipit
 
 ### 1.2 Create a new project (or attach to existing)
 
-```bash
-# New project
-create-shipit-app my-awesome-app
+**New project** — creates a ShipIt-ready app (no need to run `shipit init` after):
 
-# Existing project
-cd my-existing-app && shipit init
+```bash
+create-shipit-app my-awesome-app
+```
+
+**Existing codebase** — attach ShipIt to a project you already have:
+
+```bash
+cd my-existing-app
+shipit init
 ```
 
 You’ll be prompted for tech stack (TypeScript/Node, Python, Other), project description, and high-risk domains.
