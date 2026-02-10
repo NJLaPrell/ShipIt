@@ -19,6 +19,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - None
 
+## [0.5.0] - 2026-02-09
+
+### Added
+
+- **Web dashboard** (`/dashboard`) — Run with `pnpm dashboard`; exports data first, then launches UI for intents, phases, calibration, doc links.
+- **Rollback execution** (`/rollback`) — Execute rollback in guided mode (reads plan from `/revert-plan`).
+- **init-project** — Now includes dashboard-app and execute-rollback so `/dashboard` and `/rollback` work out of the box.
+
+### Changed
+
+- None
+
+### Fixed
+
+- None
+
 ## [0.4.0] - 2026-02-09
 
 ### Added
