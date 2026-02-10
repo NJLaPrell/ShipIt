@@ -1,0 +1,179 @@
+{
+  "version": "1.1.1",
+  "description": "Manifest of framework-owned files and directories that get copied during init/upgrade",
+  "userOverrides": {
+    "directory": ".override/",
+    "description": "User customizations that persist across upgrades. NEVER touched by framework.",
+    "neverTouched": true,
+    "subdirectories": [
+      ".override/rules/",
+      ".override/commands/",
+      ".override/scripts/",
+      ".override/config/"
+    ]
+  },
+  "backupStrategy": {
+    "directory": "._shipit_backup/",
+    "format": "<relative-path>/<filename>.<timestamp>",
+    "description": "Backups of modified framework files before upgrade replacement"
+  },
+  "frameworkOwned": {
+    "directories": [
+      ".cursor/commands",
+      ".cursor/rules",
+      "scripts",
+      "scripts/lib",
+      "scripts/workflow-templates",
+      "scripts/gh",
+      "_system/architecture",
+      "_system/do-not-repeat",
+      "_system/drift",
+      "_system/behaviors",
+      "_system/security",
+      "_system/artifacts",
+      "_system/golden-data",
+      "_system/reports",
+      "dashboard-app",
+      "work/intent/templates"
+    ],
+    "files": [
+      "project.json",
+      "AGENTS.md",
+      "stryker.conf.json",
+      "scripts/command-manifest.yml",
+      "scripts/export-dashboard-json.js",
+      "scripts/create-test-plan-issue.sh",
+      "_system/behaviors/WORK_TEST_PLAN_ISSUES.md",
+      ".github/workflows/ci.yml"
+    ],
+    "createdOnInit": {
+      "directories": [
+        "work/intent/features",
+        "work/intent/bugs",
+        "work/intent/tech-debt",
+        "work/workflow-state",
+        "work/roadmap",
+        "work/release",
+        "docs"
+      ],
+      "files": [
+        "work/intent/_TEMPLATE.md",
+        "work/workflow-state/active.md",
+        "work/workflow-state/blocked.md",
+        "work/workflow-state/validating.md",
+        "work/workflow-state/shipped.md",
+        "work/workflow-state/disagreements.md",
+        "work/workflow-state/assumptions.md",
+        "work/workflow-state/01_analysis.md",
+        "work/workflow-state/02_plan.md",
+        "work/workflow-state/03_implementation.md",
+        "work/workflow-state/04_verification.md",
+        "work/workflow-state/05_release_notes.md",
+        "work/roadmap/now.md",
+        "work/roadmap/next.md",
+        "work/roadmap/later.md",
+        "_system/architecture/CANON.md",
+        "_system/architecture/invariants.yml",
+        "_system/do-not-repeat/abandoned-designs.md",
+        "_system/do-not-repeat/failed-experiments.md",
+        "_system/do-not-repeat/bad-patterns.md",
+        "_system/do-not-repeat/rejected-libraries.md",
+        "_system/drift/baselines.md",
+        "_system/golden-data/.gitkeep",
+        "_system/golden-data/README.md",
+        "_system/artifacts/confidence-calibration.json",
+        "_system/artifacts/usage.json"
+      ]
+    }
+  },
+  "userOwned": {
+    "description": "Files/directories that should NEVER be overwritten by framework",
+    "directories": [
+      ".override",
+      "src",
+      "tests",
+      "work/intent/features",
+      "work/intent/bugs",
+      "work/intent/tech-debt",
+      "work/roadmap",
+      "work/release",
+      "work/workflow-state"
+    ],
+    "files": [
+      "README.md",
+      ".gitignore",
+      "tsconfig.json",
+      "tsconfig.eslint.json",
+      "vitest.config.ts",
+      ".eslintrc.json",
+      ".prettierrc",
+      ".npmrc",
+      ".shipitrc"
+    ],
+    "note": "package.json is user-owned but framework merges scripts/devDependencies. project.json is framework-owned but preserves user edits to name/description/version."
+  },
+  "stackSpecific": {
+    "typescript-nodejs": {
+      "files": [
+        "package.json",
+        "tsconfig.json",
+        "tsconfig.eslint.json",
+        ".eslintrc.json",
+        "vitest.config.ts",
+        "stryker.conf.json",
+        ".npmrc"
+      ],
+      "directories": [],
+      "description": "Only created for TypeScript/Node.js projects"
+    },
+    "python": {
+      "files": ["pyproject.toml", "requirements.txt"],
+      "directories": [],
+      "description": "Only created for Python projects (if not already exist)"
+    },
+    "other": {
+      "files": [],
+      "directories": [],
+      "description": "No stack-specific files created"
+    }
+  },
+  "neverCopied": {
+    "description": "Framework-only files that are NEVER copied to user projects",
+    "directories": ["tests"],
+    "files": [
+      "README.md",
+      "CHANGELOG.md",
+      "package.json",
+      "tsconfig.json",
+      ".eslintrc.json",
+      "vitest.config.ts",
+      "tests/TEST_PLAN.md",
+      "tests/ISSUES.md",
+      "tests/fixtures.json"
+    ],
+    "note": "tests/ directory contains framework test fixtures/templates, not user test structure. User projects have their own tests/ directory."
+  },
+  "mergeStrategy": {
+    "package.json": {
+      "action": "merge",
+      "description": "Merge ShipIt scripts into existing package.json scripts section, add devDependencies if missing",
+      "preserve": ["name", "version", "description", "dependencies", "existing scripts"]
+    },
+    "project.json": {
+      "action": "skipIfExists",
+      "description": "If project.json exists, skip creation (user may have customized it)"
+    },
+    ".gitignore": {
+      "action": "merge",
+      "description": "Append ShipIt patterns if not already present"
+    }
+  },
+  "detection": {
+    "shipitAlreadyInstalled": [
+      "project.json",
+      "_system/architecture/CANON.md",
+      "scripts/workflow-orchestrator.sh"
+    ],
+    "description": "If any of these exist, consider ShipIt already initialized"
+  }
+}
