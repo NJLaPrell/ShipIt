@@ -1,15 +1,18 @@
 # projects/
 
-Stores initialized ShipIt projects created via `/init-project`.
+> **⚠️ DEPRECATED:** This directory is deprecated. Test projects are now created in `tests/test-project` for internal framework testing only.
+>
+> **For user projects:** Use the ShipIt CLI:
+>
+> - `create-shipit-app <project-name>` - Create a new ShipIt project
+> - `shipit init` - Attach ShipIt to an existing project
+>
+> **For framework testing:** Test projects are created at `tests/test-project` using `scripts/init-project.sh` (internal use only).
 
-## Structure
+## Legacy
 
-Each subdirectory is a separate project (e.g. `projects/my-app/`). The framework's `init-project` command creates projects here.
+This directory previously stored initialized ShipIt projects created via `/init-project`. That functionality has been moved to the CLI (`shipit init` or `create-shipit-app`).
 
 ## Gitignore
 
-Contents are ignored (except `.gitkeep`) so project files are not committed to the framework repo. Only `.gitkeep` and this README are versioned.
-
-## Usage
-
-Run `/init-project` (or `pnpm init-project` via the init-project script) to create a new project. Open the created directory as its own Cursor workspace to work on it.
+Contents are ignored (except `.gitkeep`) so any legacy project files are not committed to the framework repo.
