@@ -542,6 +542,11 @@ pnpm validate-vscode
 - **[AGENTS.md](./AGENTS.md)** - Role definitions and conventions
 - **[docs/DIRECTORY_STRUCTURE.md](./docs/DIRECTORY_STRUCTURE.md)** - Quick reference for project layout
 - **[docs/PILOT_GUIDE.md](./docs/PILOT_GUIDE.md)** - Step-by-step guide for your first feature
+- **[docs/CLI_REFERENCE.md](./docs/CLI_REFERENCE.md)** - CLI commands and options
+- **[docs/LIMITATIONS.md](./docs/LIMITATIONS.md)** - What ShipIt doesn't do, limitations, when not to use
+- **[docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md)** - Common issues, exit codes, rollback
+- **[docs/EXAMPLES.md](./docs/EXAMPLES.md)** - Examples (new project, existing project, upgrade, CI)
+- **[docs/STABILITY.md](./docs/STABILITY.md)** - Stable vs experimental APIs
 - **[docs/vscode-usage.md](./docs/vscode-usage.md)** - Using ShipIt in VS Code (extension in `vscode-extension/`)
 - **[CHANGELOG.md](./CHANGELOG.md)** - Version history and changes
 - **[\_system/architecture/CANON.md](./_system/architecture/CANON.md)** - Architecture boundaries
@@ -565,17 +570,29 @@ See [tests/ISSUES.md](./tests/ISSUES.md) for detailed test results and [tests/TE
 
 ## FAQ
 
+**Q: How do I install ShipIt?**  
+A: `npm install -g shipit`. Then use `create-shipit-app <name>` or `shipit init` in an existing project. See [docs/CLI_REFERENCE.md](./docs/CLI_REFERENCE.md).
+
+**Q: Can I use ShipIt with an existing project?**  
+A: Yes. Run `shipit init` in the project root. It will copy framework files and merge with your existing layout (e.g. package.json). See [docs/EXAMPLES.md](./docs/EXAMPLES.md).
+
+**Q: How do I upgrade ShipIt?**  
+A: Run `shipit upgrade` in the project. It backs up modified files to `._shipit_backup/` and updates framework files. Use `shipit upgrade --dry-run` first. See [docs/TROUBLESHOOTING.md](./docs/TROUBLESHOOTING.md#after-a-failed-or-unwanted-shipit-upgrade).
+
+**Q: Will upgrade overwrite my changes?**  
+A: Framework-owned files are updated (with backup). Your app code and config in non-framework paths are not touched. Put customizations in `.override/` so they are never overwritten.
+
+**Q: How do I customize Cursor/VS Code rules?**  
+A: Add files under `.override/rules/` (and similar under `.override/`). See [docs/USER_OVERRIDES_DESIGN.md](./docs/USER_OVERRIDES_DESIGN.md). Overrides persist across upgrades.
+
 **Q: Do I need to understand all 7 agents?**  
 A: Nope. Just use the commands. The agents handle their roles automatically during `/ship`.
 
 **Q: What if I want to skip a phase?**  
 A: Don't. The gates exist for a reason. If something feels wrong, use `/kill` instead.
 
-**Q: Can I use this for existing projects?**  
-A: Yes! Run `/init-project` in a subdirectory or adapt the structure.
-
 **Q: What about deployment?**  
-A: Use `/deploy` when ready. It runs readiness checks first.
+A: Use `/deploy` when ready. It runs readiness checks first; actual deployment is your pipeline or process.
 
 **Q: How do I contribute to the framework itself?**  
 A: Create an intent and `/ship` it! The framework eats its own dog food.
@@ -584,7 +601,7 @@ A: Create an intent and `/ship` it! The framework eats its own dog food.
 A: Yes! Version 0.6.0 is released and fully validated. See [tests/ISSUES.md](./tests/ISSUES.md) for validation results.
 
 **Q: How do I test the framework?**  
-A: Run `/test_shipit` to execute the full end-to-end test suite.
+A: Run `pnpm test`, `pnpm test:cli`, and `pnpm test:shipit` from the framework repo. In-editor: `/test_shipit` for the full E2E test suite.
 
 ## Version History
 
