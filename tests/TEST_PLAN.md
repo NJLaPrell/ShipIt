@@ -10,9 +10,9 @@ This plan validates the complete ShipIt workflow from project initialization thr
 | -------------- | ----- | --------------------------------------------------------------------- |
 | **Setup**      | 1-6   | Project init, scoping, intent creation, roadmap/release               |
 | **Planning**   | 7-10  | Template fields, dependencies, ordering                               |
-| **Commands**   | 11-15 | /ship, /verify, /drift_check, /deploy, /kill                          |
-| **Full Cycle** | 16-21 | Complete /ship workflow (approve → tests → implement → verify → ship) |
-| **Validation** | 22-24 | Deployment readiness, final state, test report                        |
+| **Commands**   | 11-17 | /ship, /verify, /drift_check, /deploy, /kill, /dashboard, /rollback   |
+| **Full Cycle** | 18-23 | Complete /ship workflow (approve → tests → implement → verify → ship) |
+| **Validation** | 24-26 | Deployment readiness, final state, test report                        |
 
 ## Prerequisites
 
@@ -50,6 +50,10 @@ gh auth status
    - New project created at `./projects/shipit-test`
    - `./projects/.gitkeep` exists
    - `./projects/shipit-test/project.json` exists
+   - `./projects/shipit-test/scripts/dashboard-start.sh` and `./projects/shipit-test/scripts/execute-rollback.sh` exist
+   - `./projects/shipit-test/scripts/export-dashboard-json.js` exists
+   - `./projects/shipit-test/dashboard-app/` exists (Vite + React web dashboard)
+   - `package.json` includes `dashboard`, `execute-rollback`, and `export-dashboard-json` scripts
 
 > **Note:** For rules on creating and managing issues during test execution, see `_system/behaviors/WORK_TEST_PLAN_ISSUES.md`.
 >
@@ -265,7 +269,7 @@ gh auth status
 
 ## 15) Validate /kill
 
-1. Create a disposable intent with `/new_intent`:
+1. Create a disposable intent with `/new_intent` (or use an existing killed intent for /rollback tests):
    - **Select type [1-3]:** `1`
    - **Title:** `Temporary kill intent`
    - **Motivation (each line, then 'done'):** `done`
@@ -283,7 +287,34 @@ gh auth status
 
 ---
 
-## 16) Complete /ship Workflow - Approve Plan
+## 16) Validate /dashboard
+
+1. Run:
+   - `/dashboard`
+
+2. Verify:
+   - `scripts/export-dashboard-json.js` runs and writes `dashboard-app/public/dashboard.json` (or equivalent)
+   - Web dashboard starts (Vite dev server) and shows intents, phases, calibration, doc links
+   - If `scripts/dashboard-start.sh` or `dashboard-app/` is missing, create a GitHub issue (see `_system/behaviors/WORK_TEST_PLAN_ISSUES.md`)
+
+---
+
+## 17) Validate /rollback
+
+1. Ensure an intent has a Rollback Plan section (e.g. `## Rollback Plan` with `git revert <sha>` steps) in `work/workflow-state/02_plan.md` or a dedicated `rollback.md`.
+
+2. Run:
+   - `/rollback F-XXX` (use an intent ID that has a rollback plan)
+
+3. Verify:
+   - Assistant reads rollback content from the plan or rollback file
+   - For safe `git revert` steps: guided execution is offered (or display-only for high-risk)
+   - For high-risk steps: display-only, no execution offered
+   - If `scripts/execute-rollback.sh` is missing, create a GitHub issue (see `_system/behaviors/WORK_TEST_PLAN_ISSUES.md`)
+
+---
+
+## 18) Complete /ship Workflow - Approve Plan
 
 Continue the /ship workflow for a foundation intent.
 
@@ -299,7 +330,7 @@ Continue the /ship workflow for a foundation intent.
 
 ---
 
-## 17) Complete /ship Workflow - Write Tests (TDD)
+## 19) Complete /ship Workflow - Write Tests (TDD)
 
 1. **Switch to QA role:**
    - Read acceptance criteria from `work/workflow-state/01_analysis.md`
@@ -315,7 +346,7 @@ Continue the /ship workflow for a foundation intent.
 
 ---
 
-## 18) Complete /ship Workflow - Implement
+## 20) Complete /ship Workflow - Implement
 
 1. **Switch to Implementer role:**
    - Read approved plan from `work/workflow-state/02_plan.md`
@@ -334,7 +365,7 @@ Continue the /ship workflow for a foundation intent.
 
 ---
 
-## 19) Complete /ship Workflow - Verify
+## 21) Complete /ship Workflow - Verify
 
 1. **Switch to QA role:**
    - Run full test suite: `pnpm test`
@@ -351,7 +382,7 @@ Continue the /ship workflow for a foundation intent.
 
 ---
 
-## 20) Complete /ship Workflow - Documentation
+## 22) Complete /ship Workflow - Documentation
 
 1. **Switch to Docs role:**
    - Update `README.md` if APIs changed
@@ -363,7 +394,7 @@ Continue the /ship workflow for a foundation intent.
 
 ---
 
-## 21) Complete /ship Workflow - Ship
+## 23) Complete /ship Workflow - Ship
 
 1. **Switch to Steward role:**
    - Review all acceptance criteria are met
@@ -385,7 +416,7 @@ Continue the /ship workflow for a foundation intent.
 
 ---
 
-## 22) Validate Deployment Readiness
+## 24) Validate Deployment Readiness
 
 1. Run:
    - `/deploy staging`
@@ -397,7 +428,7 @@ Continue the /ship workflow for a foundation intent.
 
 ---
 
-## 23) Validate Final Project State
+## 25) Validate Final Project State
 
 1. **Verify intent lifecycle:**
    - At least one intent: `shipped`
@@ -424,7 +455,7 @@ Continue the /ship workflow for a foundation intent.
 
 ---
 
-## 24) Generate Final Test Report
+## 26) Generate Final Test Report
 
 1. **Summarize test run:**
    - Total steps executed

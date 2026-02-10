@@ -71,7 +71,7 @@ A framework that optimizes for _epistemology_, not coordination:
 # 1. Initialize a project
 /init-project "My Awesome App"
 # → Creates ./projects/my-awesome-app
-# → Includes framework commands/rules and core scripts
+# → Includes framework commands/rules, core scripts, dashboard-app, and rollback tooling
 # Prompts:
 # 1) Tech stack [1=TS/Node, 2=Python, 3=Other]
 # 2) Project description (short)
@@ -345,6 +345,7 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 │   ├── workflow-state/ # Active + phase files
 │   ├── roadmap/        # now.md, next.md, later.md
 │   └── release/        # plan.md
+├── dashboard-app/       # Web dashboard (Vite + React); run with pnpm dashboard
 ├── _system/             # Framework and generated (don’t touch)
 │   ├── architecture/   # CANON.md, invariants.yml
 │   ├── artifacts/      # SYSTEM_STATE.md, dependencies.md, confidence-calibration.json
@@ -500,13 +501,14 @@ A: Use `/deploy` when ready. It runs readiness checks first.
 A: Create an intent and `/ship` it! The framework eats its own dog food.
 
 **Q: Is this production-ready?**  
-A: Yes! Version 0.1.0 is released and fully validated. See [tests/ISSUES.md](./tests/ISSUES.md) for validation results.
+A: Yes! Version 0.4.0 is released and fully validated. See [tests/ISSUES.md](./tests/ISSUES.md) for validation results.
 
 **Q: How do I test the framework?**  
 A: Run `/test_shipit` to execute the full end-to-end test suite.
 
 ## Version History
 
+- **v0.5.0** (upcoming) - Web dashboard (`/dashboard`), rollback execution (`/rollback`), init-project includes dashboard-app and execute-rollback
 - **v0.4.0** (2026-02-09) - Scripts libs, command manifest, phase templates; init-project ships lib + workflow-templates
 - **v0.3.0** (2026-02-04) - Reorganization release (Plan C + Plan B: `work/`, `_system/`, `docs/` layout)
 - **v0.2.1** (2026-02-04) - Patch release (version consistency)
