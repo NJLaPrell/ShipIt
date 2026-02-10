@@ -19,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Import CLI modules - use dynamic imports to handle ESM
-let initCommand, upgradeCommand, checkCommand, createCommand;
+let initCommand, upgradeCommand, checkCommand, createCommand, listBackupsCommand, restoreCommand;
 
 async function loadCommands() {
   const init = await import('../cli/src/commands/init.js');
@@ -31,6 +31,8 @@ async function loadCommands() {
   upgradeCommand = upgrade.upgradeCommand;
   checkCommand = check.checkCommand;
   createCommand = create.createCommand;
+  listBackupsCommand = upgrade.listBackupsCommand;
+  restoreCommand = upgrade.restoreCommand;
 }
 
 // Get version from package.json
@@ -90,6 +92,37 @@ program
       if (error.suggestedFix) {
         console.error(`  ${error.suggestedFix}`);
       }
+      process.exit(error.exitCode || 2);
+    }
+  });
+
+// List backups
+program
+  .command('list-backups')
+  .description('List ShipIt backup files from last upgrade')
+  .option('--path <dir>', 'Target directory (default: current directory)')
+  .option('--backup-dir <dir>', 'Backup directory (default: ._shipit_backup/)')
+  .action(async (options) => {
+    try {
+      await listBackupsCommand(options);
+    } catch (error) {
+      console.error(`ERROR: ${error.message}`);
+      process.exit(error.exitCode || 2);
+    }
+  });
+
+// Restore from backup
+program
+  .command('restore <backup-path>')
+  .description('Restore a file from backup (path relative to project or ._shipit_backup/)')
+  .option('--path <dir>', 'Target directory (default: current directory)')
+  .option('--backup-dir <dir>', 'Backup directory (default: ._shipit_backup/)')
+  .option('--remove-backup', 'Remove backup file after restore')
+  .action(async (backupPath, options) => {
+    try {
+      await restoreCommand(backupPath, options);
+    } catch (error) {
+      console.error(`ERROR: ${error.message}`);
       process.exit(error.exitCode || 2);
     }
   });
