@@ -51,6 +51,21 @@ jobs:
             cat coverage/coverage-summary.json | jq -r '.total | "Lines: \(.lines.pct)% | Functions: \(.functions.pct)% | Branches: \(.branches.pct)% | Statements: \(.statements.pct)%"' >> $GITHUB_STEP_SUMMARY
           fi
 
+  cli:
+    name: CLI E2E tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10.11.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test:cli
+
   security:
     name: Security Audit
     runs-on: ubuntu-latest

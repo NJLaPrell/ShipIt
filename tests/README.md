@@ -6,10 +6,20 @@ Test code, fixtures, run logs, and process docs. **Concerns are mixed in one dir
 
 | Concern                  | Files                                                                                                     | Purpose                                                        |
 | ------------------------ | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| **Executable test code** | `routes/*.test.ts`, `release-plan/*.test.ts`                                                              | Unit/integration tests run by Vitest                           |
-| **Fixtures**             | `fixtures.json`                                                                                           | Hardcoded inputs for test runs (used by `test_shipit` command) |
+| **Executable test code** | `routes/*.test.ts`, `release-plan/*.test.ts`, `cli/*.test.ts`                                             | Unit/integration tests run by Vitest                           |
+| **CLI E2E tests**        | `cli/test-*.sh`, `cli/run-tests.sh`, `cli/test-helpers.sh`                                                | Shell-based E2E tests for shipit create/init/upgrade/check     |
+| **Fixtures**             | `fixtures.json`, `cli/fixtures/`                                                                          | Hardcoded inputs for test runs (used by `test_shipit` command) |
 | **Run logs**             | `ISSUES.md`, `ISSUES_HISTORIC.md`                                                                         | Test run summaries; latest run vs archived                     |
 | **Process docs**         | `TEST_PLAN.md`, `ISSUE_TEMPLATE.md`, `ISSUE_RESEARCH_TEMPLATE.md`, `ISSUE_RESOLUTION_COMMENT_TEMPLATE.md` | How to run tests, how to file issues, resolution format        |
+
+## CLI testing
+
+The ShipIt CLI (`shipit create`, `shipit init`, `shipit upgrade`, `shipit check`) is tested by:
+
+- **E2E (shell):** `pnpm test:cli` or `bash tests/cli/run-tests.sh`. Each test runs in an isolated temp directory, invokes the real CLI, and asserts on created files and output. Tests: `test-create.sh`, `test-check.sh`, `test-upgrade.sh`.
+- **Unit (Vitest):** `tests/cli/version.test.ts` tests version comparison logic.
+
+CI runs `pnpm test:cli` in the Test Suite job after Vitest.
 
 ## References
 
