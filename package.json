@@ -26,6 +26,7 @@
     "workflow-orchestrator": "./scripts/workflow-orchestrator.sh",
     "kill-intent": "./scripts/kill-intent.sh",
     "verify": "./scripts/verify.sh",
+    "execute-rollback": "./scripts/execute-rollback.sh",
     "help": "./scripts/help.sh",
     "status": "./scripts/status.sh",
     "suggest": "./scripts/suggest.sh",

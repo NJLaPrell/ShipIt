@@ -70,7 +70,9 @@ Humans intervene **ONLY** at these gates:
 | **Plan Approval**     | Before implementation starts                |
 | **High-Risk Changes** | Auth, payments, permissions, infra, PII     |
 | **Kill/Rollback**     | Kill criteria triggered or major regression |
-| **Product Judgment**  | Subjective UX/taste/value tradeoffs         |
+
+**Rollback safety:** Use `/rollback <intent-id>` for guided rollback. High-risk steps (force, drop, delete, migration down, production, auth, secret) are **display only** — run manually. No automatic force-push or data deletion. Run rollback for one intent at a time.
+| **Product Judgment** | Subjective UX/taste/value tradeoffs |
 
 **Response time expectation:** Minutes (real-time collaboration)
 

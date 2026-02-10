@@ -119,6 +119,11 @@ commands:
     pnpm: null
     description: Write rollback plan
     category: Help & Status
+  - id: rollback
+    slash: /rollback
+    pnpm: execute-rollback
+    description: Execute rollback in guided mode (reads plan from /revert-plan)
+    category: Workflow
   - id: dashboard
     slash: /dashboard
     pnpm: dashboard
