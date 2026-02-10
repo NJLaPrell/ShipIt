@@ -1,66 +1,26 @@
 # /init-project
 
-Initialize a new project with ShipIt framework.
+> **⚠️ DEPRECATED for user projects:** This command is deprecated for creating user projects. Use the ShipIt CLI instead:
+>
+> - `create-shipit-app <project-name>` - Create a new ShipIt project
+> - `shipit init` - Attach ShipIt to an existing project
+>
+> **Internal use only:** This command is now only used internally by the framework to create `tests/test-project/` for end-to-end testing.
 
-## Usage
+## Internal Use (Framework Testing)
 
-```
-/init-project [project-name]
-```
+This command is used internally to create the test project at `tests/test-project/` for ShipIt framework validation.
 
-Example: `/init-project "my-app"`
-
-## What To Do (AI Instructions)
-
-**Step 1: Ask these questions in chat (all at once):**
-
-```
-To initialize your project, I need:
-
-1. **Tech stack** — Enter 1, 2, or 3:
-   - 1 = TypeScript/Node.js (recommended)
-   - 2 = Python
-   - 3 = Other (manual setup)
-
-2. **Project description** — A short description of your project
-
-3. **High-risk domains** — Comma-separated list, or "none"
-   - Examples: auth, payments, permissions, infrastructure, pii
-```
-
-**Step 2: Wait for user response.**
-
-Do NOT proceed until the user provides all 3 answers.
-
-**Step 3: Run the script with the answers:**
+**Usage (internal only):**
 
 ```bash
-printf "<tech-stack>\n<description>\n<high-risk>\n" | ./scripts/init-project.sh <project-name>
+./scripts/init-project.sh shipit-test
 ```
 
-Replace:
+This creates `tests/test-project/` with test fixtures from `tests/fixtures.json`. The script:
 
-- `<tech-stack>` with 1, 2, or 3
-- `<description>` with the user's description
-- `<high-risk>` with the user's high-risk domains (or "none")
-- `<project-name>` with the project name from the command
+- Only works when run from ShipIt framework repo root
+- Reads test values from `tests/fixtures.json` (no prompts)
+- Creates test project at `tests/test-project/` (fixed location)
 
-## Output
-
-Creates project at `./projects/<project-name>` with:
-
-- `project.json` — Project metadata
-- `work/intent/` — Intent directory with template
-- `work/roadmap/` — Roadmap files
-- `_system/architecture/` — CANON.md and invariants.yml
-- `.cursor/` — Commands and rules (copied from framework)
-- `scripts/` — Core scripts (copied from framework)
-- Git repository initialized
-
-## Next Steps
-
-After initialization:
-
-1. Open `./projects/<project-name>` as its own Cursor workspace
-2. Run `/scope-project` to break down features
-3. Start shipping with `/ship`
+**For user projects:** Use `create-shipit-app` or `shipit init` instead.

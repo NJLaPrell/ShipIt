@@ -4,17 +4,30 @@ This guide helps you run a real-world feature through the complete ShipIt workfl
 
 ## Prerequisites
 
-1. **Project Initialized:**
+1. **ShipIt CLI Installed:**
    \`\`\`bash
-   /init-project "My Test Project"
+   npm install -g shipit
    \`\`\`
 
-2. **Cursor Integration Validated:**
+2. **Project Initialized:**
+   \`\`\`bash
+
+   # Create new project
+
+   create-shipit-app my-test-project
+
+   # Or attach to existing project
+
+   cd my-existing-project
+   shipit init
+   \`\`\`
+
+3. **Cursor Integration Validated:**
    \`\`\`bash
    pnpm validate-cursor
    \`\`\`
 
-3. **Basic Project Structure:**
+4. **Basic Project Structure:**
    - `project.json` exists
    - `intent/` directory exists
    - `workflow-state/` directory exists

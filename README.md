@@ -68,23 +68,28 @@ A framework that optimizes for _epistemology_, not coordination:
 ## Quick Start (30 seconds)
 
 ```bash
-# 1. Initialize a project
-/init-project "My Awesome App"
-# → Creates ./projects/my-awesome-app
-# → Includes framework commands/rules, core scripts, dashboard-app, and rollback tooling
+# 1. Install ShipIt CLI
+npm install -g shipit
+# Or use npx: npx shipit init
+
+# 2. Create a new project
+create-shipit-app my-awesome-app
+# Or attach to existing project:
+# cd my-existing-app && shipit init
+
 # Prompts:
 # 1) Tech stack [1=TS/Node, 2=Python, 3=Other]
 # 2) Project description (short)
 # 3) High-risk domains (comma-separated or 'none')
 
-# 2. Scope it (optional but smart)
+# 3. Scope it (optional but smart)
 /scope-project "Build a todo app with auth"
 # → Shows all questions at once with defaults (batched prompts)
 # → Review answers, confirm, and select features to generate as intents
 # → Auto-runs: /generate-release-plan and /generate-roadmap
 # → Shows verification summary and next-step suggestions
 
-# 3. Ship a feature
+# 4. Ship a feature
 /ship F-001
 ```
 
@@ -442,6 +447,74 @@ These domains require human approval:
 
 ## Installation
 
+### For App Developers
+
+**Install ShipIt CLI:**
+
+```bash
+npm install -g shipit
+# Or use npx: npx shipit init
+```
+
+**Create a new ShipIt project:**
+
+```bash
+create-shipit-app my-app
+# Prompts for tech stack, description, high-risk domains
+```
+
+**Or attach ShipIt to an existing project:**
+
+```bash
+cd my-existing-app
+shipit init
+# Auto-detects tech stack, merges package.json scripts
+```
+
+**Upgrade ShipIt in an existing project:**
+
+```bash
+shipit upgrade
+# Safely updates framework files, backs up modified files
+```
+
+**Check ShipIt installation:**
+
+```bash
+shipit check
+# Validates installation and shows project status
+```
+
+### For Framework Contributors
+
+If you're contributing to the ShipIt framework itself:
+
+```bash
+# Clone the framework repository
+git clone https://github.com/NJLaPrell/ShipIt.git
+cd ShipIt
+pnpm install
+
+# Run framework tests
+pnpm test
+./scripts/init-project.sh shipit-test  # Creates tests/test-project/
+```
+
+See [docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md) for contributor guidelines.
+
+### User Customizations (`.override/`)
+
+ShipIt creates a `.override/` directory in your project for customizations that persist across upgrades:
+
+- `.override/rules/` - Custom Cursor/VS Code rules
+- `.override/commands/` - Custom slash commands
+- `.override/scripts/` - Custom scripts
+- `.override/config/` - Custom configuration
+
+**Important:** Files in `.override/` are NEVER touched by `shipit upgrade`. Your customizations are safe!
+
+## Prerequisites
+
 ```bash
 # Clone the repository
 git clone https://github.com/NJLaPrell/ShipIt.git
@@ -475,7 +548,8 @@ pnpm validate-vscode
 - **[\_system/architecture/invariants.yml](./_system/architecture/invariants.yml)** - Machine-verifiable constraints
 - **[tests/ISSUES.md](./tests/ISSUES.md)** - Test results and validation status
 - **[tests/README.md](./tests/README.md)** - Test structure (code, fixtures, logs, process docs)
-- **[projects/README.md](./projects/README.md)** - Purpose of `projects/` (initialized projects)
+- **[docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md)** - Contributor guidelines and testing strategy
+- **[projects/README.md](./projects/README.md)** - ⚠️ Deprecated - Use CLI (`create-shipit-app` or `shipit init`) instead
 
 ## Validation & Testing
 
