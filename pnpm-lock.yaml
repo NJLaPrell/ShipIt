@@ -10,6 +10,13 @@ overrides:
 
 importers:
   .:
+    dependencies:
+      commander:
+        specifier: ^14.0.3
+        version: 14.0.3
+      fs-extra:
+        specifier: ^11.3.3
+        version: 11.3.3
     devDependencies:
       '@stryker-mutator/core':
         specifier: ^8.0.0
@@ -1471,6 +1478,13 @@ packages:
       }
     engines: { node: '>=18' }
 
+  commander@14.0.3:
+    resolution:
+      {
+        integrity: sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw==,
+      }
+    engines: { node: '>=20' }
+
   concat-map@0.0.1:
     resolution:
       {
@@ -1818,6 +1832,13 @@ packages:
         integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==,
       }
 
+  fs-extra@11.3.3:
+    resolution:
+      {
+        integrity: sha512-VWSRii4t0AFm6ixFFmLLx1t7wS1gh+ckoa84aOeapGum0h+EZd1EhEumSB+ZdDLnEPuucsVB9oB7cxJHap6Afg==,
+      }
+    engines: { node: '>=14.14' }
+
   fs.realpath@1.0.0:
     resolution:
       {
@@ -1927,6 +1948,12 @@ packages:
         integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==,
       }
     engines: { node: '>= 0.4' }
+
+  graceful-fs@4.2.11:
+    resolution:
+      {
+        integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==,
+      }
 
   graphemer@1.4.0:
     resolution:
@@ -2199,6 +2226,12 @@ packages:
       }
     engines: { node: '>=6' }
     hasBin: true
+
+  jsonfile@6.2.0:
+    resolution:
+      {
+        integrity: sha512-FGuPw30AdOIUTRMC2OMRtQV+jkVj2cfPqSeWXv1NEAJ1qZ5zb1X6z1mFhbfOB/iy3ssJCD+3KuZ8r8C3uVFlAg==,
+      }
 
   keyv@4.5.4:
     resolution:
@@ -3073,6 +3106,13 @@ packages:
         integrity: sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==,
       }
     engines: { node: '>=18' }
+
+  universalify@2.0.1:
+    resolution:
+      {
+        integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==,
+      }
+    engines: { node: '>= 10.0.0' }
 
   update-browserslist-db@1.2.3:
     resolution:
@@ -4166,6 +4206,8 @@ snapshots:
 
   commander@13.1.0: {}
 
+  commander@14.0.3: {}
+
   concat-map@0.0.1: {}
 
   confbox@0.1.8: {}
@@ -4419,6 +4461,12 @@ snapshots:
 
   flatted@3.3.3: {}
 
+  fs-extra@11.3.3:
+    dependencies:
+      graceful-fs: 4.2.11
+      jsonfile: 6.2.0
+      universalify: 2.0.1
+
   fs.realpath@1.0.0: {}
 
   fsevents@2.3.3:
@@ -4488,6 +4536,8 @@ snapshots:
       slash: 3.0.0
 
   gopd@1.2.0: {}
+
+  graceful-fs@4.2.11: {}
 
   graphemer@1.4.0: {}
 
@@ -4597,6 +4647,12 @@ snapshots:
   json-stable-stringify-without-jsonify@1.0.1: {}
 
   json5@2.2.3: {}
+
+  jsonfile@6.2.0:
+    dependencies:
+      universalify: 2.0.1
+    optionalDependencies:
+      graceful-fs: 4.2.11
 
   keyv@4.5.4:
     dependencies:
@@ -5059,6 +5115,8 @@ snapshots:
   undici-types@6.21.0: {}
 
   unicorn-magic@0.3.0: {}
+
+  universalify@2.0.1: {}
 
   update-browserslist-db@1.2.3(browserslist@4.28.1):
     dependencies:
