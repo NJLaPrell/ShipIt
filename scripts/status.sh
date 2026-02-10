@@ -1,9 +1,13 @@
 #!/bin/bash
 
 # Show current ShipIt project status
-# Displays active intent, workflow phase, intent counts, and recent activity
+# Displays active intent(s), workflow phase(s), intent counts. Supports flat and per-intent layout.
 
 set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/workflow_state.sh
+[ -f "$SCRIPT_DIR/lib/workflow_state.sh" ] && source "$SCRIPT_DIR/lib/workflow_state.sh"
 
 # Colors
 GREEN='\033[0;32m'
@@ -14,7 +18,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 INTENT_DIR="work/intent"
-WORKFLOW_DIR="work/workflow-state"
+WS_BASE="work/workflow-state"
 
 echo -e "${BLUE}════════════════════════════════════════${NC}"
 echo -e "${BLUE}ShipIt Project Status${NC}"
@@ -32,19 +36,32 @@ PROJECT_NAME=$(jq -r '.name' project.json 2>/dev/null || echo "unknown")
 echo -e "${CYAN}Project:${NC} $PROJECT_NAME"
 echo ""
 
-# Active intent
-if [ -f "$WORKFLOW_DIR/active.md" ]; then
-    ACTIVE_ID=$(grep -E "^\\*\\*Intent ID:\\*\\*" "$WORKFLOW_DIR/active.md" 2>/dev/null | sed 's/.*\*\*Intent ID:\*\* //' | tr -d ' ' || echo "")
-    ACTIVE_STATUS=$(grep -E "^\\*\\*Status:\\*\\*" "$WORKFLOW_DIR/active.md" 2>/dev/null | sed 's/.*\*\*Status:\*\* //' | tr -d ' ' || echo "")
-    ACTIVE_PHASE=$(grep -E "^\\*\\*Current Phase:\\*\\*" "$WORKFLOW_DIR/active.md" 2>/dev/null | sed 's/.*\*\*Current Phase:\*\* //' | tr -d ' ' || echo "")
-    
-    if [ -n "$ACTIVE_ID" ] && [ "$ACTIVE_STATUS" != "idle" ]; then
-        echo -e "${CYAN}Active Intent:${NC}"
-        echo "  ID: $ACTIVE_ID"
-        echo "  Status: $ACTIVE_STATUS"
-        if [ -n "$ACTIVE_PHASE" ]; then
-            echo "  Phase: $ACTIVE_PHASE"
+# Active intent(s) — from flat active.md or per-intent dirs
+ACTIVE_IDS=($(list_active_intent_ids))
+if [ "${#ACTIVE_IDS[@]}" -gt 0 ]; then
+    echo -e "${CYAN}Active Intent(s):${NC}"
+    for aid in "${ACTIVE_IDS[@]}"; do
+        dir="$(get_workflow_state_dir "$aid")"
+        phase=""
+        if [ -n "$dir" ] && [ -f "$dir/02_plan.md" ]; then
+            phase="Planning"
+        elif [ -n "$dir" ] && [ -f "$dir/03_implementation.md" ]; then
+            phase="Implementation"
+        elif [ -n "$dir" ] && [ -f "$dir/04_verification.md" ]; then
+            phase="Verification"
+        elif [ -n "$dir" ] && [ -f "$dir/01_analysis.md" ]; then
+            phase="Analysis"
+        else
+            phase="(see workflow state)"
         fi
+        echo "  $aid — $phase"
+    done
+    echo ""
+fi
+if [ -f "$WS_BASE/active.md" ]; then
+    ACTIVE_STATUS=$(grep -E "^\\*\\*Status:\\*\\*" "$WS_BASE/active.md" 2>/dev/null | sed 's/.*\*\*Status:\*\* //' | tr -d ' ' || echo "")
+    if [ "$ACTIVE_STATUS" = "idle" ] && [ "${#ACTIVE_IDS[@]}" -eq 0 ]; then
+        echo -e "${CYAN}Active Intent:${NC} none (idle)"
         echo ""
     fi
 fi
@@ -98,47 +115,58 @@ if [ "$TOTAL" -gt 0 ]; then
     echo ""
 fi
 
-# Workflow state files
-if [ -d "$WORKFLOW_DIR" ]; then
+# Workflow state files (flat or per-intent)
+if [ -d "$WS_BASE" ]; then
     echo -e "${CYAN}Workflow State:${NC}"
-    for phase in 01_analysis 02_plan 03_implementation 04_verification 05_release_notes 06_shipped; do
-        if [ -f "$WORKFLOW_DIR/${phase}.md" ]; then
-            echo -e "  ${GREEN}✓${NC} $phase"
-        else
-            echo -e "  ${YELLOW}○${NC} $phase (not started)"
-        fi
-    done
+    if [ "${#ACTIVE_IDS[@]}" -eq 0 ]; then
+        WORKFLOW_DIR="$WS_BASE"
+        for phase in 01_analysis 02_plan 03_implementation 04_verification 05_release_notes 06_shipped; do
+            if [ -f "$WORKFLOW_DIR/${phase}.md" ]; then
+                echo -e "  ${GREEN}✓${NC} $phase"
+            else
+                echo -e "  ${YELLOW}○${NC} $phase (not started)"
+            fi
+        done
+    else
+        for aid in "${ACTIVE_IDS[@]}"; do
+            dir="$(get_workflow_state_dir "$aid")"
+            [ -z "$dir" ] && continue
+            echo "  [$aid]"
+            for phase in 01_analysis 02_plan 03_implementation 04_verification 05_release_notes 06_shipped; do
+                if [ -f "$dir/${phase}.md" ]; then
+                    echo -e "    ${GREEN}✓${NC} $phase"
+                else
+                    echo -e "    ${YELLOW}○${NC} $phase (not started)"
+                fi
+            done
+        done
+    fi
     echo ""
 fi
 
-# Workflow state sanity check
-required_state_files=(
-    "active.md"
-    "blocked.md"
-    "validating.md"
-    "shipped.md"
-    "disagreements.md"
-    "01_analysis.md"
-    "02_plan.md"
-    "03_implementation.md"
-    "04_verification.md"
-    "05_release_notes.md"
-)
-
-if [ -d "$WORKFLOW_DIR" ]; then
-    missing_state_files=()
-    for file in "${required_state_files[@]}"; do
-        if [ ! -f "$WORKFLOW_DIR/$file" ]; then
-            missing_state_files+=("$file")
-        fi
+# Workflow state sanity check (top-level required files)
+required_top_files=( "active.md" "blocked.md" "validating.md" "shipped.md" "disagreements.md" )
+required_phase_files=( "01_analysis.md" "02_plan.md" "03_implementation.md" "04_verification.md" "05_release_notes.md" )
+if [ -d "$WS_BASE" ]; then
+    missing_top=()
+    for file in "${required_top_files[@]}"; do
+        [ ! -f "$WS_BASE/$file" ] && missing_top+=("$file")
     done
-
-    if [ "${#missing_state_files[@]}" -gt 0 ]; then
-        echo -e "${YELLOW}⚠ Workflow State Check:${NC}"
-        echo "  Missing files:"
-        for file in "${missing_state_files[@]}"; do
-            echo "  - $WORKFLOW_DIR/$file"
+    for aid in "${ACTIVE_IDS[@]}"; do
+        dir="$(get_workflow_state_dir "$aid")"
+        [ -z "$dir" ] && continue
+        for file in "${required_phase_files[@]}"; do
+            [ ! -f "$dir/$file" ] && missing_top+=("$aid/$file")
         done
+    done
+    if [ "${#ACTIVE_IDS[@]}" -eq 0 ]; then
+        for file in "${required_phase_files[@]}"; do
+            [ ! -f "$WS_BASE/$file" ] && missing_top+=("$file")
+        done
+    fi
+    if [ "${#missing_top[@]}" -gt 0 ]; then
+        echo -e "${YELLOW}⚠ Workflow State Check:${NC}"
+        echo "  Missing: ${missing_top[*]}"
         echo "  💡 Run /ship <id> or re-run /init-project to seed files"
         echo ""
     fi
@@ -162,13 +190,25 @@ if [ -d "$INTENT_DIR" ] && [ "${TOTAL:-0}" -gt 0 ]; then
     echo ""
 fi
 
-# Pending approvals
-if [ -f "$WORKFLOW_DIR/02_plan.md" ]; then
-    if grep -q "\[ \].*approval\|\[ \].*Approval" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null && ! grep -q "\[x\].*approval\|\[x\].*Approval\|Approved\|APPROVE" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null; then
+# Pending approvals (check flat or each active's plan)
+check_pending_approval() {
+    local f="$1"
+    [ ! -f "$f" ] && return 0
+    if grep -q "\[ \].*approval\|\[ \].*Approval" "$f" 2>/dev/null && ! grep -q "\[x\].*approval\|\[x\].*Approval\|Approved\|APPROVE" "$f" 2>/dev/null; then
         echo -e "${YELLOW}⚠ Pending Approval:${NC}"
-        echo "  Plan approval required in work/workflow-state/02_plan.md"
+        echo "  Plan approval required in $f"
         echo ""
+        return 1
     fi
+    return 0
+}
+if [ "${#ACTIVE_IDS[@]}" -eq 0 ] && [ -f "$WS_BASE/02_plan.md" ]; then
+    check_pending_approval "$WS_BASE/02_plan.md" || true
+else
+    for aid in "${ACTIVE_IDS[@]}"; do
+        dir="$(get_workflow_state_dir "$aid")"
+        [ -n "$dir" ] && [ -f "$dir/02_plan.md" ] && check_pending_approval "$dir/02_plan.md" || true
+    done
 fi
 
 # Test results summary

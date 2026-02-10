@@ -1,9 +1,13 @@
 #!/bin/bash
 
 # Suggest next actions based on current project state
-# Analyzes project state and provides actionable suggestions
+# Supports flat and per-intent workflow state; considers all active intents.
 
 set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/workflow_state.sh
+[ -f "$SCRIPT_DIR/lib/workflow_state.sh" ] && source "$SCRIPT_DIR/lib/workflow_state.sh"
 
 # Colors
 GREEN='\033[0;32m'
@@ -14,7 +18,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 INTENT_DIR="work/intent"
-WORKFLOW_DIR="workflow-state"
+WS_BASE="work/workflow-state"
 
 echo -e "${BLUE}ShipIt Suggestions${NC}"
 echo ""
@@ -58,12 +62,21 @@ fi
 
 TOTAL=$((PLANNED + ACTIVE + SHIPPED + KILLED))
 
-# Check for active intent
+# Active intent(s) — use first for phase-based suggestions; show all if multiple
+ACTIVE_IDS=($(list_active_intent_ids))
 ACTIVE_ID=""
 ACTIVE_PHASE=""
-if [ -f "$WORKFLOW_DIR/active.md" ]; then
-    ACTIVE_ID=$(grep -E "^\\*\\*Intent ID:\\*\\*" "$WORKFLOW_DIR/active.md" 2>/dev/null | sed 's/.*\*\*Intent ID:\*\* //' | tr -d ' ' || echo "")
-    ACTIVE_PHASE=$(grep -E "^\\*\\*Current Phase:\\*\\*" "$WORKFLOW_DIR/active.md" 2>/dev/null | sed 's/.*\*\*Current Phase:\*\* //' | tr -d ' ' || echo "")
+WORKFLOW_DIR=""
+if [ "${#ACTIVE_IDS[@]}" -gt 0 ]; then
+    ACTIVE_ID="${ACTIVE_IDS[0]}"
+    WORKFLOW_DIR="$(get_workflow_state_dir "$ACTIVE_ID")"
+    [ -z "$WORKFLOW_DIR" ] && WORKFLOW_DIR="$WS_BASE"
+    if [ -n "$WORKFLOW_DIR" ]; then
+        if [ -f "$WORKFLOW_DIR/02_plan.md" ]; then ACTIVE_PHASE="Plan"; fi
+        if [ -f "$WORKFLOW_DIR/03_implementation.md" ]; then ACTIVE_PHASE="Implementation"; fi
+        if [ -f "$WORKFLOW_DIR/04_verification.md" ]; then ACTIVE_PHASE="Verification"; fi
+        if [ -f "$WORKFLOW_DIR/01_analysis.md" ] && [ -z "$ACTIVE_PHASE" ]; then ACTIVE_PHASE="Analysis"; fi
+    fi
 fi
 
 # Generate suggestions
@@ -96,26 +109,29 @@ if [ "$PLANNED" -gt 0 ] && [ -z "$ACTIVE_ID" ]; then
     fi
 fi
 
-# Has active intent
+# Has active intent(s)
 if [ -n "$ACTIVE_ID" ]; then
+    if [ "${#ACTIVE_IDS[@]}" -gt 1 ]; then
+        SUGGESTIONS+=("${CYAN}Multiple active intents:${NC} ${ACTIVE_IDS[*]} — use /ship <id> or /verify <id>")
+    fi
     case "$ACTIVE_PHASE" in
         *analysis*|*Analysis*)
-            SUGGESTIONS+=("${CYAN}1. Continue analysis:${NC} Fill in work/workflow-state/01_analysis.md")
+            SUGGESTIONS+=("${CYAN}1. Continue analysis:${NC} Fill in $WORKFLOW_DIR/01_analysis.md")
             SUGGESTIONS+=("${CYAN}2. Move to planning:${NC} Run /ship $ACTIVE_ID (will proceed to Phase 2)")
             ;;
         *plan*|*Plan*)
-            if [ -f "$WORKFLOW_DIR/02_plan.md" ] && grep -q "\[ \].*approval\|\[ \].*Approval" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null && ! grep -q "\[x\].*approval\|\[x\].*Approval\|Approved\|APPROVE" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null; then
-                SUGGESTIONS+=("${YELLOW}1. ⚠ Approval required:${NC} Review and approve work/workflow-state/02_plan.md")
+            if [ -n "$WORKFLOW_DIR" ] && [ -f "$WORKFLOW_DIR/02_plan.md" ] && grep -q "\[ \].*approval\|\[ \].*Approval" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null && ! grep -q "\[x\].*approval\|\[x\].*Approval\|Approved\|APPROVE" "$WORKFLOW_DIR/02_plan.md" 2>/dev/null; then
+                SUGGESTIONS+=("${YELLOW}1. ⚠ Approval required:${NC} Review and approve $WORKFLOW_DIR/02_plan.md")
             else
                 SUGGESTIONS+=("${CYAN}1. Continue to implementation:${NC} Run /ship $ACTIVE_ID")
             fi
             ;;
         *implementation*|*Implementation*)
-            SUGGESTIONS+=("${CYAN}1. Continue implementation:${NC} Fill in work/workflow-state/03_implementation.md")
+            SUGGESTIONS+=("${CYAN}1. Continue implementation:${NC} Fill in $WORKFLOW_DIR/03_implementation.md")
             SUGGESTIONS+=("${CYAN}2. Move to verification:${NC} Run /verify $ACTIVE_ID")
             ;;
         *verification*|*Verification*)
-            SUGGESTIONS+=("${CYAN}1. Complete verification:${NC} Fill in work/workflow-state/04_verification.md")
+            SUGGESTIONS+=("${CYAN}1. Complete verification:${NC} Fill in $WORKFLOW_DIR/04_verification.md")
             SUGGESTIONS+=("${CYAN}2. Move to release:${NC} Run /ship $ACTIVE_ID")
             ;;
         *)

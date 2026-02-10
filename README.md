@@ -276,12 +276,12 @@ Entries are automatically appended during `/verify` when outcomes are determined
 
 ### Execution
 
-| Command          | What It Does                                                   | When to Use                       |
-| ---------------- | -------------------------------------------------------------- | --------------------------------- |
-| `/ship <id>`     | Run full SDLC workflow (5 phases with progress indicators)     | To implement an intent            |
-| `/verify <id>`   | Re-run verification phase only                                 | After code changes                |
-| `/rollback <id>` | Execute rollback in guided mode (reads plan from /revert-plan) | When reverting shipped work       |
-| `/kill <id>`     | Kill an intent (with rationale)                                | When work should stop permanently |
+| Command          | What It Does                                                                                 | When to Use                       |
+| ---------------- | -------------------------------------------------------------------------------------------- | --------------------------------- |
+| `/ship <id>`     | Run full SDLC workflow (5 phases with progress indicators)                                   | To implement an intent            |
+| `/verify <id>`   | Re-run verification phase only (state per intent when [parallel](docs/parallel-workflow.md)) | After code changes                |
+| `/rollback <id>` | Execute rollback in guided mode (reads plan from /revert-plan)                               | When reverting shipped work       |
+| `/kill <id>`     | Kill an intent (with rationale)                                                              | When work should stop permanently |
 
 ### Maintenance
 
@@ -342,7 +342,7 @@ All commands are available as Cursor slash commands. See [`.cursor/commands/`](.
 .
 ├── work/                # Current work
 │   ├── intent/         # What to build (features/bugs/tech-debt)
-│   ├── workflow-state/ # Active + phase files
+│   ├── workflow-state/ # Active + phase files (flat for one intent; per-intent dirs for [parallel work](docs/parallel-workflow.md))
 │   ├── roadmap/        # now.md, next.md, later.md
 │   └── release/        # plan.md
 ├── dashboard-app/       # Web dashboard (Vite + React); run with pnpm dashboard

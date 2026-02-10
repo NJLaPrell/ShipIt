@@ -27,7 +27,21 @@ When multiple intents are active (see Planning issue for parallel execution), ea
 - `work/workflow-state/<intent-id>/` — e.g. `work/workflow-state/F-001/`, `work/workflow-state/F-002/`
 - Inside: `01_analysis.md`, `02_plan.md`, `03_implementation.md`, `04_verification.md`, `05_release_notes.md`, `rollback.md`, `pr.md` as needed.
 
-`work/workflow-state/active.md` (flat) lists active intent ids and optionally current phase per intent. It remains at the top level.
+`work/workflow-state/active.md` (flat only) lists active intent id(s) and optionally current phase per intent. It remains at the top level.
+
+### active.md format
+
+- **Single active (legacy):** `**Intent ID:** F-001`, `**Status:** active`, `**Current Phase:** Planning`.
+- **Multiple actives:** Same header block (first intent or "none"); plus a section:
+
+  ```markdown
+  ## Active intents
+
+  F-001 | Planning | active
+  F-002 | Implementation | active
+  ```
+
+  Scripts parse both the legacy **Intent ID:** line and the `## Active intents` block to list active ids. When multiple intents are active, pass `intent-id` explicitly to `/ship`, `/verify`, and scripts.
 
 ## Contract: consumers MUST support both layouts
 

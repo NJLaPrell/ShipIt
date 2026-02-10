@@ -7,9 +7,12 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ORCHESTRATOR_DIR="$SCRIPT_DIR"
 TEMPLATES_DIR="$SCRIPT_DIR/workflow-templates"
 # shellcheck source=lib/intent.sh
 [ -f "$SCRIPT_DIR/lib/intent.sh" ] && source "$SCRIPT_DIR/lib/intent.sh"
+# shellcheck source=lib/workflow_state.sh (use ORCHESTRATOR_DIR so intent.sh doesn't overwrite SCRIPT_DIR)
+[ -f "$ORCHESTRATOR_DIR/lib/workflow_state.sh" ] && source "$ORCHESTRATOR_DIR/lib/workflow_state.sh"
 
 INTENT_ID="${1:-}"
 if [ -z "$INTENT_ID" ]; then
@@ -18,7 +21,9 @@ fi
 
 INTENT_FILE="$(require_intent_file "$INTENT_ID")"
 
-WORKFLOW_DIR="work/workflow-state"
+# Resolve workflow dir: flat for single intent, per-intent for multiple (see workflow-state-layout.md).
+WORKFLOW_DIR="$(ensure_workflow_state_dir "$INTENT_ID")"
+[ -n "$WORKFLOW_DIR" ] || error_exit "Failed to resolve workflow state dir for $INTENT_ID" 1
 mkdir -p "$WORKFLOW_DIR"
 
 # Source progress library
@@ -53,13 +58,23 @@ while IFS='|' read -r output_file template_file phase_name; do
         error_exit "Template not found: $template_path" 1
     fi
 
-    sed -e "s/{{INTENT_ID}}/$INTENT_ID/g" -e "s/{{DATE_UTC}}/$DATE_UTC/g" "$template_path" > "$WORKFLOW_DIR/$output_file" \
-        || error_exit "Failed to create $WORKFLOW_DIR/$output_file" 1
-
-    if command -v show_phase_progress >/dev/null 2>&1; then
-        show_phase_progress "$phase_num" "$PHASE_COUNT" "$phase_name" "complete"
+    # active.md lives at top level only; update it for this intent (multi-intent list).
+    if [ "$output_file" = "active.md" ]; then
+        append_or_set_active_intent "$INTENT_ID" "$phase_name" || true
+        if command -v show_phase_progress >/dev/null 2>&1; then
+            show_phase_progress "$phase_num" "$PHASE_COUNT" "$phase_name" "complete"
+        else
+            echo -e "${GREEN}✓ Updated $WS_BASE/active.md${NC}"
+        fi
     else
-        echo -e "${GREEN}✓ Created $WORKFLOW_DIR/$output_file${NC}"
+        sed -e "s/{{INTENT_ID}}/$INTENT_ID/g" -e "s/{{DATE_UTC}}/$DATE_UTC/g" "$template_path" > "$WORKFLOW_DIR/$output_file" \
+            || error_exit "Failed to create $WORKFLOW_DIR/$output_file" 1
+
+        if command -v show_phase_progress >/dev/null 2>&1; then
+            show_phase_progress "$phase_num" "$PHASE_COUNT" "$phase_name" "complete"
+        else
+            echo -e "${GREEN}✓ Created $WORKFLOW_DIR/$output_file${NC}"
+        fi
     fi
 done < <(node -e "
 const yaml = require('yaml');

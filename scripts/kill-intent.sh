@@ -91,15 +91,35 @@ awk -v reason="$REASON" -v date="$DATE_UTC" '
 
 mv "$TEMP_FILE2" "$INTENT_FILE"
 
+# Remove intent from active list (flat active.md); support multi-intent layout
 ACTIVE_FILE="work/workflow-state/active.md"
 if [ -f "$ACTIVE_FILE" ]; then
     ACTIVE_TEMP="$(mktemp)"
-    awk -v intent="$INTENT_ID" '
-        /^\*\*Intent ID:\*\*/ { print "**Intent ID:** " intent; next }
-        /^\*\*Status:\*\*/ { print "**Status:** killed"; next }
-        /^\*\*Current Phase:\*\*/ { print "**Current Phase:** killed"; next }
+    # 1) Drop lines in "## Active intents" that start with this intent_id
+    # 2) If **Intent ID:** is this intent, set to none and set Status/Phase to idle/none
+    awk -v id="$INTENT_ID" '
+        /^## Active intents/ { in_section=1; print; next }
+        in_section && /^[FBT]-[0-9]+[[:space:]]*\|/ {
+            if ($0 !~ "^" id "[[:space:]]*\\|") print
+            next
+        }
+        in_section { in_section=0 }
+        /^\*\*Intent ID:\*\* / {
+            if ($0 == "**Intent ID:** " id) { killed_single=1; print "**Intent ID:** none"; next }
+            print; next
+        }
+        killed_single && /^\*\*Status:\*\* / { print "**Status:** idle"; killed_single=0; next }
+        killed_single && /^\*\*Current Phase:\*\* / { print "**Current Phase:** none"; killed_single=0; next }
         { print }
-    ' "$ACTIVE_FILE" > "$ACTIVE_TEMP" && mv "$ACTIVE_TEMP" "$ACTIVE_FILE"
+    ' "$ACTIVE_FILE" > "$ACTIVE_TEMP"
+    # Legacy: if file had **Intent ID:** intent (no newline exact match), sed fallback
+    if grep -q "^\*\*Intent ID:\*\* $INTENT_ID" "$ACTIVE_FILE"; then
+        sed -e "s/^\*\*Intent ID:\*\* $INTENT_ID/**Intent ID:** none/" \
+            -e "s/^\*\*Status:\*\* .*/**Status:** idle/" \
+            -e "s/^\*\*Current Phase:\*\* .*/**Current Phase:** none/" \
+            "$ACTIVE_TEMP" > "${ACTIVE_TEMP}.2" && mv "${ACTIVE_TEMP}.2" "$ACTIVE_TEMP"
+    fi
+    mv "$ACTIVE_TEMP" "$ACTIVE_FILE"
 fi
 
 echo "✓ Marked $INTENT_ID as killed"

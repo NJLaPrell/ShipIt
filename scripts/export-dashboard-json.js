@@ -85,22 +85,38 @@ function getWorkflowState() {
   const content = readText(flatActive);
   let currentPhase = "none";
   let activeIntent = "none";
+  const activeIntents = [];
   let waitingForApproval = false;
 
   const workflowDir = join(REPO_ROOT, "work", "workflow-state");
   if (!existsSync(workflowDir)) {
-    return { currentPhase, activeIntent, waitingForApproval };
+    return { currentPhase, activeIntent, activeIntents, waitingForApproval };
   }
 
   if (content) {
     const phaseM = content.match(/Current Phase:\s*(\S+)/i);
     const idM = content.match(/Intent ID:\s*(\S+)/i);
     if (phaseM) currentPhase = phaseM[1];
-    if (idM && idM[1] !== "none") activeIntent = idM[1];
+    if (idM && idM[1] !== "none") {
+      activeIntent = idM[1];
+      activeIntents.push(idM[1]);
+    }
+    // Multi-intent: parse "## Active intents" block (lines like "F-001 | Phase | active")
+    const activeSection = content.match(/##\s+Active intents\s*\n([\s\S]*?)(?=\n##|$)/i);
+    if (activeSection && activeSection[1]) {
+      const lines = activeSection[1].split("\n");
+      for (const line of lines) {
+        const m = line.match(/^(F-\d+|B-\d+|T-\d+)\s*\|/);
+        if (m && !activeIntents.includes(m[1])) activeIntents.push(m[1]);
+      }
+      if (activeIntents.length > 0 && activeIntent === "none")
+        activeIntent = activeIntents[0];
+      if (activeIntents.length > 1) currentPhase = "multiple";
+    }
     waitingForApproval = /waiting|approval|gate/i.test(content);
   }
 
-  return { currentPhase, activeIntent, waitingForApproval };
+  return { currentPhase, activeIntent, activeIntents, waitingForApproval };
 }
 
 function getCalibration() {
