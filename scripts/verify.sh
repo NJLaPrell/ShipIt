@@ -1,21 +1,25 @@
 #!/bin/bash
 
 # Verification Script
-# Runs verification checks and writes work/workflow-state/04_verification.md
+# Runs verification checks and writes 04_verification.md (flat or per-intent per workflow-state-layout.md).
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 error_exit() {
     echo "ERROR: $1" >&2
     exit "${2:-1}"
 }
+# shellcheck source=lib/workflow_state.sh
+[ -f "$SCRIPT_DIR/lib/workflow_state.sh" ] && source "$SCRIPT_DIR/lib/workflow_state.sh"
 
 INTENT_ID="${1:-}"
 if [ -z "$INTENT_ID" ]; then
     error_exit "Usage: ./scripts/verify.sh <intent-id>" 1
 fi
 
-WORKFLOW_DIR="work/workflow-state"
+WORKFLOW_DIR="$(get_workflow_state_dir "$INTENT_ID")"
+[ -n "$WORKFLOW_DIR" ] || error_exit "No workflow state dir for intent $INTENT_ID. Run /ship $INTENT_ID first." 1
 mkdir -p "$WORKFLOW_DIR"
 
 FAILED=0
