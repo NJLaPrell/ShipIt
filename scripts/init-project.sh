@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Project Initialization Script
-# Creates a new project with ShipIt framework
+# Test Project Initialization Script
+# INTERNAL USE ONLY: Creates test project for ShipIt end-to-end validation
+# For user projects, use 'shipit init' or 'create-shipit-app' instead
 
 set -euo pipefail
 
@@ -20,13 +21,34 @@ NC='\033[0m' # No Color
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
-# Get project name
-PROJECT_NAME="${1:-}"
-if [ -z "$PROJECT_NAME" ]; then
-    read -p "Project name: " PROJECT_NAME
-    if [ -z "$PROJECT_NAME" ]; then
-        error_exit "Project name is required" 1
-    fi
+# Framework repo detection
+# Check if running from ShipIt framework repo root
+if [ ! -f "$ROOT_DIR/package.json" ] || ! grep -q '"name":\s*"shipit"' "$ROOT_DIR/package.json" 2>/dev/null; then
+    error_exit "This script is for internal ShipIt testing only. Use 'shipit init' or 'create-shipit-app' for user projects." 1
+fi
+
+if [ ! -f "$ROOT_DIR/_system/architecture/CANON.md" ]; then
+    error_exit "This script is for internal ShipIt testing only. Use 'shipit init' or 'create-shipit-app' for user projects." 1
+fi
+
+# Read test fixtures
+FIXTURES_FILE="$ROOT_DIR/tests/fixtures.json"
+if [ ! -f "$FIXTURES_FILE" ]; then
+    error_exit "Test fixtures file not found: $FIXTURES_FILE" 1
+fi
+
+# Extract values from fixtures.json using jq (or fallback to defaults)
+if command -v jq >/dev/null 2>&1; then
+    PROJECT_NAME=$(jq -r '.projectName // "shipit-test"' "$FIXTURES_FILE")
+    TECH_STACK_INPUT=$(jq -r '.inputs["step_1-2"].techStack // "1"' "$FIXTURES_FILE")
+    PROJECT_DESC=$(jq -r '.inputs["step_1-2"].description // "Test project for ShipIt end-to-end validation"' "$FIXTURES_FILE")
+    HIGH_RISK=$(jq -r '.inputs["step_1-2"].highRiskDomains // "none"' "$FIXTURES_FILE")
+else
+    # Fallback if jq not available (use defaults)
+    PROJECT_NAME="shipit-test"
+    TECH_STACK_INPUT="1"
+    PROJECT_DESC="Test project for ShipIt end-to-end validation"
+    HIGH_RISK="none"
 fi
 
 # Validate project name (alphanumeric, hyphens, underscores)
@@ -34,53 +56,39 @@ if ! [[ "$PROJECT_NAME" =~ ^[a-zA-Z0-9_-]+$ ]]; then
     error_exit "Project name must be alphanumeric with hyphens/underscores only" 1
 fi
 
-PROJECTS_DIR="projects"
-TARGET_DIR="$PROJECTS_DIR/$PROJECT_NAME"
+# Always create in tests/test-project regardless of project name argument
+TARGET_DIR="$ROOT_DIR/tests/test-project"
 
-echo -e "${BLUE}Initializing project: $PROJECT_NAME${NC}"
+echo -e "${BLUE}Initializing test project: $PROJECT_NAME${NC}"
+echo -e "${YELLOW}Note: This script is for internal ShipIt testing only.${NC}"
 echo ""
 
-# Ensure projects directory exists
-mkdir -p "$PROJECTS_DIR" || error_exit "Failed to create projects directory"
+# Ensure tests directory exists
+mkdir -p "$ROOT_DIR/tests" || error_exit "Failed to create tests directory"
 
-# Check if directory exists
+# Remove existing test project if it exists
 if [ -d "$TARGET_DIR" ]; then
-    read -p "Directory $TARGET_DIR already exists. Continue? (y/N): " confirm
-    if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-        error_exit "Aborted" 1
-    fi
-else
-    mkdir -p "$TARGET_DIR" || error_exit "Failed to create project directory"
+    echo -e "${YELLOW}Removing existing test project...${NC}"
+    rm -rf "$TARGET_DIR"
 fi
 
-cd "$TARGET_DIR" || error_exit "Failed to enter project directory"
+mkdir -p "$TARGET_DIR" || error_exit "Failed to create test project directory"
 
-# Tech stack selection
-echo -e "${YELLOW}Tech Stack Selection:${NC}"
-echo "1) TypeScript/Node.js (recommended)"
-echo "2) Python"
-echo "3) Other (manual setup)"
-read -p "Select tech stack [1=TS/Node, 2=Python, 3=Other]: " stack_choice
+cd "$TARGET_DIR" || error_exit "Failed to enter test project directory"
 
-case $stack_choice in
+# Tech stack selection from fixtures
+case "$TECH_STACK_INPUT" in
     1) TECH_STACK="typescript-nodejs"; STACK_NAME="TypeScript/Node.js" ;;
     2) TECH_STACK="python"; STACK_NAME="Python" ;;
     3) TECH_STACK="other"; STACK_NAME="Other" ;;
     *) TECH_STACK="typescript-nodejs"; STACK_NAME="TypeScript/Node.js" ;;
 esac
 
-echo -e "${GREEN}Selected: $STACK_NAME${NC}"
+echo -e "${GREEN}Using test fixtures:${NC}"
+echo -e "  Tech stack: $STACK_NAME"
+echo -e "  Description: $PROJECT_DESC"
+echo -e "  High-risk domains: $HIGH_RISK"
 echo ""
-
-# Get project description
-read -p "Project description (short): " PROJECT_DESC
-PROJECT_DESC="${PROJECT_DESC:-$PROJECT_NAME}"
-
-# High-risk domains
-echo -e "${YELLOW}High-Risk Domains (comma-separated, or 'none'):${NC}"
-echo "Examples: auth, payments, permissions, infrastructure, pii"
-read -p "High-risk domains: " HIGH_RISK
-HIGH_RISK="${HIGH_RISK:-none}"
 
 # Create project structure
 echo -e "${BLUE}Creating project structure...${NC}"
@@ -98,8 +106,16 @@ if [ -d "$ROOT_DIR/.cursor/rules" ]; then
 fi
 
 # Copy ShipIt test fixtures and documentation into the new project
+# Exclude test-project directory to avoid recursion
 if [ -d "$ROOT_DIR/tests" ]; then
-    cp -R "$ROOT_DIR/tests/." "tests/"
+    mkdir -p tests
+    # Copy all files/directories except test-project
+    for item in "$ROOT_DIR/tests"/*; do
+        item_name=$(basename "$item")
+        if [ "$item_name" != "test-project" ]; then
+            cp -R "$item" "tests/"
+        fi
+    done
 fi
 
 # Copy mutation testing config if present
@@ -952,13 +968,9 @@ echo -e "${GREEN}✓ Created _system/artifacts/usage.json${NC}"
 
 echo ""
 echo -e "${GREEN}════════════════════════════════════════${NC}"
-echo -e "${GREEN}✓ Project '$PROJECT_NAME' initialized!${NC}"
+echo -e "${GREEN}✓ Test project '$PROJECT_NAME' initialized!${NC}"
 echo -e "${GREEN}════════════════════════════════════════${NC}"
 echo ""
-echo -e "${YELLOW}Next steps:${NC}"
-echo "1. cd $PROJECT_NAME"
-echo "2. Install dependencies: pnpm install (or npm install)"
-echo "3. Run /scope-project to break down into features"
-echo "4. Review project.json and customize as needed"
-echo "5. Start creating intents with /new_intent"
+echo -e "${YELLOW}Test project location: $TARGET_DIR${NC}"
+echo -e "${YELLOW}Note: This is for internal ShipIt testing only.${NC}"
 echo ""

@@ -10,14 +10,16 @@ Run the ShipIt end-to-end test plan. (Slash command: use the same name as this f
 - **If `project.json` exists BUT name is NOT `shipit-test`:** STOP and report a blocking failure (wrong workspace).
 - **Otherwise:** You are in the ROOT PROJECT. Run steps 1-1 through 1-4, then STOP.
 
+**Note:** The test project is now created at `./tests/test-project` (not `./projects/shipit-test`). Mode detection checks for `tests/test-project/project.json` with name "shipit-test".
+
 ## Root Project Mode (Steps 1-1 → 1-4)
 
 ### Before Starting
 
-If `./projects/shipit-test` already exists, DELETE IT:
+If `./tests/test-project` already exists, DELETE IT:
 
 ```bash
-rm -rf ./projects/shipit-test
+rm -rf ./tests/test-project
 ```
 
 ### GitHub Issue Tracking Preflight (Required)
@@ -51,22 +53,18 @@ If missing, STOP and log a **blocking** failure.
 
 **Step 1-1:** Initialize the test project (non-interactive using fixtures)
 
-Use these exact inputs (from `tests/fixtures.json`):
-
-- Tech stack: `1`
-- Description: `Test project for ShipIt end-to-end validation`
-- High-risk domains: `none`
+The script now automatically reads from `tests/fixtures.json` and creates the test project at `./tests/test-project`.
 
 Run:
 
 ```bash
-rm -rf ./projects/shipit-test
-printf "1\nTest project for ShipIt end-to-end validation\nnone\n" | ./scripts/init-project.sh shipit-test
+rm -rf ./tests/test-project
+./scripts/init-project.sh shipit-test
 ```
 
-**Step 1-2:** (Covered by Step 1-1) Verify the init used the exact fixture inputs.
+**Step 1-2:** (Covered by Step 1-1) Verify the init used the exact fixture inputs from `tests/fixtures.json`.
 
-**Step 1-3:** Verify `./projects/shipit-test` was created
+**Step 1-3:** Verify `./tests/test-project` was created
 
 **Step 1-4:** Verify these files exist in the new project:
 
@@ -84,7 +82,7 @@ After step 1-4 passes, output this message:
 ```
 ✅ Root project steps complete (1-1 through 1-4).
 
-NEXT: Open ./projects/shipit-test in a NEW Cursor window, then run /test_shipit from there to continue testing.
+NEXT: Open ./tests/test-project in a NEW Cursor window, then run /test_shipit from there to continue testing.
 ```
 
 **DO NOT continue to step 2. The user must open the test project in a separate workspace.**

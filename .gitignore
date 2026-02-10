@@ -25,4 +25,4 @@ experimental/agent-status.json
 # Scratch files from agent workflows (issue creation, resolution notes, release planning)
 .gh-*.md
 .resolution-*.md
-.release-plan-*.md
+.release-plan-*.mdtests/test-project/
