@@ -450,13 +450,16 @@ cd ShipIt
 # Install dependencies
 pnpm install
 
-# Validate Cursor integration
+# Validate Cursor integration (when using Cursor)
 pnpm validate-cursor
+
+# Validate VS Code integration (when using VS Code + ShipIt extension)
+pnpm validate-vscode
 ```
 
 ## Prerequisites
 
-- **Cursor IDE** (designed for Cursor's AI features)
+- **Cursor** or **VS Code** (with GitHub Copilot). ShipIt is designed for Cursor; the same workflow is available in VS Code via the ShipIt extension (see [Using ShipIt in VS Code](docs/vscode-usage.md)).
 - **Node.js 20+**
 - **pnpm** (or npm/yarn)
 - **Git**
@@ -466,6 +469,7 @@ pnpm validate-cursor
 - **[AGENTS.md](./AGENTS.md)** - Role definitions and conventions
 - **[docs/DIRECTORY_STRUCTURE.md](./docs/DIRECTORY_STRUCTURE.md)** - Quick reference for project layout
 - **[docs/PILOT_GUIDE.md](./docs/PILOT_GUIDE.md)** - Step-by-step guide for your first feature
+- **[docs/vscode-usage.md](./docs/vscode-usage.md)** - Using ShipIt in VS Code (extension in `vscode-extension/`)
 - **[CHANGELOG.md](./CHANGELOG.md)** - Version history and changes
 - **[\_system/architecture/CANON.md](./_system/architecture/CANON.md)** - Architecture boundaries
 - **[\_system/architecture/invariants.yml](./_system/architecture/invariants.yml)** - Machine-verifiable constraints

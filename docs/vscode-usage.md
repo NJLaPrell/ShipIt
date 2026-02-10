@@ -1,30 +1,47 @@
 # Using ShipIt in VS Code
 
-You can use ShipIt from **VS Code** (with GitHub Copilot or another AI assistant) without Cursor. The same artifacts, workflow state, and scripts apply; only how you **invoke** the workflow differs.
+ShipIt runs the **same workflow** in Cursor and in VS Code (with GitHub Copilot). Same steps: ship an intent, verify, open PR, etc. Only **how you invoke** differs.
 
-## Same layout and scripts
+## One workflow
 
-- **Artifacts:** `work/intent/`, `work/workflow-state/`, `_system/`, `.cursor/commands/`, `.cursor/rules/` — all the same. Open the repo in VS Code and run scripts from the integrated terminal.
-- **Scripts:** From repo root, run `pnpm workflow-orchestrator <intent-id>`, `pnpm verify <intent-id>`, `pnpm status`, etc. Same as in Cursor.
-- **Headless mode:** If you want the LLM to run phases without Cursor, use [Headless mode](headless-mode.md) and set `OPENAI_API_KEY` or `ANTHROPIC_API_KEY`; run `./scripts/headless/run-phase.sh <intent-id> <phase>` from the terminal.
+- **Ship an intent:** Run the full 6-phase SDLC for an intent id (e.g. F-001).
+- **Verify:** Re-run verification only (`pnpm verify <intent-id>`).
+- **PR / Create PR:** Generate PR summary or create the GitHub PR for an intent.
+- **Status, help, suggest, drift-check, deploy, rollback, etc.** — same commands and scripts in both editors.
 
-## Doc-based workflow in VS Code (until the extension exists)
+Artifacts and layout are identical: `work/intent/`, `work/workflow-state/`, `_system/`, `.cursor/commands/`, `.cursor/rules/`. Scripts: `pnpm workflow-orchestrator <intent-id>`, `pnpm verify <intent-id>`, `pnpm status`, etc.
 
-Cursor uses slash commands (e.g. `/ship F-001`) that inject the full command and rule content into chat. In VS Code you don’t have those slash commands by default, but you can get the same instructions into Copilot Chat:
+## How to invoke (editor-specific)
 
-1. **Open the command file** — e.g. `.cursor/commands/ship.md` (or the relevant command).
-2. **Open the role rule** — e.g. `.cursor/rules/pm.mdc` for Phase 1 (Analysis).
-3. **In Copilot Chat**, reference or paste the content: e.g. “Follow the instructions in ship.md for Phase 1 (Analysis). I am the PM. Intent: F-001. Use the PM rule in .cursor/rules/pm.mdc.”
-4. **Run scripts in the terminal** — `pnpm workflow-orchestrator F-001`, then `pnpm verify F-001`, etc.
+### Cursor
 
-**Prompt pattern:** Tell the model which phase you’re in, which role (PM, Architect, Implementer, QA, Docs), the intent id, and point it at the command and rule files. Same content as Cursor; you’re just loading it manually or via a snippet.
+- Slash commands: `/ship F-001`, `/verify F-001`, `/pr F-001`, etc.
+- Commands inject the full command and rule content into chat.
 
-## Full parity: VS Code extension (#68)
+### VS Code (with ShipIt extension + Copilot Chat)
 
-Issue **#68** tracks a **VS Code extension** that will:
+1. **Install the ShipIt extension** from the repo: open `vscode-extension/` in VS Code and run “Run Extension” from the debug sidebar, or build a VSIX with `vsce package` and install from VSIX.
+2. **Command Palette** (Ctrl+Shift+P / Cmd+Shift+P) → e.g. **ShipIt: Ship**, **ShipIt: Verify**, **ShipIt: PR**.
+3. For commands that need an intent id (Ship, Verify, PR, Rollback, etc.), enter the intent id when prompted or use “Use intent from open file” if an intent file is active.
+4. Copilot Chat opens with the **same context** Cursor would inject (command content + intent id). Press Enter to send.
 
-- Register ShipIt commands in the Command Palette (e.g. “ShipIt: Ship”, “ShipIt: Verify”).
-- Open Copilot Chat with the **exact same context** Cursor injects for slash commands (command + rule content, intent id).
-- One action in VS Code → same UX as `/ship` in Cursor.
+One action in VS Code (Command Palette → ShipIt: Ship → intent id) gives the same UX as `/ship <intent-id>` in Cursor.
 
-Until that extension exists, use the doc-based flow above or headless mode from the terminal.
+## Validation
+
+- **Cursor:** From repo root, run `pnpm validate-cursor`.
+- **VS Code:** From repo root, run `pnpm validate-vscode`. Then in VS Code, confirm Command Palette shows ShipIt commands and that running one opens Copilot Chat with the prompt.
+
+## Headless / terminal-only
+
+Scripts and headless mode work the same in any editor. From the terminal: `pnpm workflow-orchestrator <intent-id>`, `pnpm verify <intent-id>`, `./scripts/headless/run-phase.sh <intent-id> <phase>`. See [Headless mode](headless-mode.md).
+
+## Fallback: doc-based workflow in VS Code (no extension)
+
+If you don’t use the extension, you can still run the same workflow by loading context manually:
+
+1. Open the command file (e.g. `.cursor/commands/ship.md`) and, if needed, the role rule (e.g. `.cursor/rules/pm.mdc`).
+2. In Copilot Chat, reference or paste the content and state intent id and phase/role.
+3. Run scripts in the terminal as usual.
+
+Same content as Cursor; you’re just loading it manually.
