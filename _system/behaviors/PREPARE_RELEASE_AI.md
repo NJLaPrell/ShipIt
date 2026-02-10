@@ -210,6 +210,19 @@ The release is ready to execute. Do you want me to proceed with the release step
 
 ---
 
+## npm Publish (automatic when release is created)
+
+**Objective:** Clarify that npm publish is part of the release flow, not prep.
+
+When the release is **executed** (DO_RELEASE): after the GitHub release is created (Step 4), the workflow `.github/workflows/publish-npm.yml` runs and publishes `@nlaprell/shipit` to npm. No separate npm step is required during prep or execution **if** either:
+
+- **NPM_TOKEN** is set in the repo’s GitHub secrets (granular token with Bypass 2FA for scope `@nlaprell`), or
+- **Trusted Publishing (OIDC)** is configured on npm for this package (package Settings → Trusted Publisher → this repo and workflow).
+
+See `docs/PUBLISHING.md` for setup. If neither is configured, publish manually after the release (DO_RELEASE Step 5).
+
+---
+
 ## Agent Output Guidance (recommended)
 
 **Objective:** Make the agent's logs easy to scan for humans.

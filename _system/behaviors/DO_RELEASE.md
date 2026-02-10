@@ -221,19 +221,23 @@ Copy the version section from CHANGELOG.md, for example:
 
 ---
 
-## Step 5: Publish to npm (optional)
+## Step 5: Publish to npm (automatic or manual)
 
-**Objective:** Publish the ShipIt CLI package to npm so users can install with `npm install -g @nlaprell/shipit`. Skip if not publishing to npm for this release.
+**Objective:** The ShipIt CLI package is published to npm so users can install with `npm install -g @nlaprell/shipit`.
 
-**Actions:**
+**Automatic (recommended):** When the GitHub release is **created** in Step 4, the workflow `.github/workflows/publish-npm.yml` runs and publishes to npm. No extra action needed if either:
+
+- **NPM_TOKEN** is set in the repo’s GitHub secrets (granular token, Bypass 2FA, scope `@nlaprell`), or
+- **Trusted Publishing (OIDC)** is configured on npm for this package (see `docs/PUBLISHING.md`).
+
+After creating the release, check the “Publish to npm” workflow run; when it succeeds, the package is on npm.
+
+**Manual (fallback):** If the workflow is not configured or failed:
 
 1. Ensure `package.json` version matches the release (e.g. `X.Y.Z` for tag `vX.Y.Z`).
 2. Run tests: `pnpm test && pnpm test:cli && pnpm test:shipit`.
-3. Preview: `npm pack` then inspect tarball if desired.
-4. Publish: `npm publish` (requires `npm login` and 2FA).
-5. Verify at https://www.npmjs.com/package/shipit.
-
-**If using CI:** A workflow may publish on release creation when `NODE_AUTH_TOKEN` (or `NPM_TOKEN`) is set. See `docs/PUBLISHING.md`.
+3. Publish: `pnpm publish:npm` (uses `.npm-token` or `NODE_AUTH_TOKEN`) or `npm publish --access public` after `npm login`.
+4. Verify at https://www.npmjs.com/package/@nlaprell/shipit.
 
 **Validation:**
 
