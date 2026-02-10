@@ -14,8 +14,9 @@ Test code, fixtures, run logs, and process docs. **Concerns are mixed in one dir
 ## References
 
 - **Test discovery:** `vitest.config.ts` includes `tests/**/*.test.ts`
-- **Issue workflow:** `behaviors/WORK_TEST_PLAN_ISSUES.md` (templates, recording rules)
+- **Issue workflow:** `_system/behaviors/WORK_TEST_PLAN_ISSUES.md` (templates, recording rules)
 - **Test execution:** `.cursor/commands/test_shipit.md`, `.cursor/rules/test-runner.mdc`
+- **Editor validation:** Run `pnpm validate-cursor` in Cursor or `pnpm validate-vscode` in VS Code before or during test runs. The test plan (TEST_PLAN.md) supports both editors; in VS Code the ShipIt extension provides Command Palette commands that mirror Cursor slash commands. See [docs/vscode-usage.md](../docs/vscode-usage.md).
 
 ## Target Structure (future release)
 
@@ -31,4 +32,8 @@ docs/
   test-results/      # or reports/test-results/ for ISSUES.md, ISSUES_HISTORIC.md
 ```
 
-**Required updates when restructuring:** `vitest.config.ts`, `package.json` (if paths change), `behaviors/WORK_TEST_PLAN_ISSUES.md`, `.cursor/commands/test_shipit.md`, `.cursor/rules/test-runner.mdc`, `scripts/init-project.sh`, and any docs that reference these paths.
+**Required updates when restructuring:** `vitest.config.ts`, `package.json` (if paths change), `_system/behaviors/WORK_TEST_PLAN_ISSUES.md`, `.cursor/commands/test_shipit.md`, `.cursor/rules/test-runner.mdc`, `scripts/init-project.sh`, and any docs that reference these paths.
+
+## Changes since 0.5.0
+
+- **VS Code parity:** The test plan can be run in Cursor or VS Code. Use `pnpm validate-vscode` when testing in VS Code; step 27 covers VS Code extension validation (Command Palette → ShipIt commands → Copilot Chat with same context as slash commands). Extension source: `vscode-extension/`.

@@ -12,13 +12,13 @@ This plan validates the complete ShipIt workflow from project initialization thr
 | **Planning**   | 7-10  | Template fields, dependencies, ordering                               |
 | **Commands**   | 11-17 | /ship, /verify, /drift_check, /deploy, /kill, /dashboard, /rollback   |
 | **Full Cycle** | 18-23 | Complete /ship workflow (approve → tests → implement → verify → ship) |
-| **Validation** | 24-26 | Deployment readiness, final state, test report                        |
+| **Validation** | 24-27 | Deployment readiness, final state, test report, VS Code (optional)    |
 
 ## Prerequisites
 
-- Cursor IDE installed
+- **Cursor** or **VS Code** (with ShipIt extension and GitHub Copilot for parity). The same workflow applies; in Cursor you use slash commands (e.g. `/ship F-001`); in VS Code you use Command Palette → ShipIt: Ship → intent id. See [docs/vscode-usage.md](../docs/vscode-usage.md).
 - Node.js 20+ and `pnpm` available
-- This repository open in Cursor
+- This repository (or the test project) open in the chosen editor
 - GitHub CLI (`gh`) installed and authenticated (required for test-plan issue creation)
 - A POSIX shell environment capable of running the scripts (macOS supported)
 
@@ -27,14 +27,16 @@ Preflight (run once before executing steps):
 ```bash
 gh --version
 gh auth status
+# Editor validation: in Cursor run pnpm validate-cursor; in VS Code run pnpm validate-vscode
 ```
 
 ---
 
 ## 1) Initialize a New Test Project
 
-1. In Cursor, enter the following into the chat window:
-   - `/init-project "shipit-test"`
+1. In your editor, start the workflow:
+   - **Cursor:** In chat, enter `/init-project "shipit-test"`
+   - **VS Code:** Command Palette → **ShipIt: Init Project** → in Copilot Chat send the project name and follow the same inputs as step 2; or run `pnpm init-project "shipit-test"` in the terminal and follow prompts
 
 2. The assistant will ask for 3 inputs. Reply with:
 
@@ -63,7 +65,7 @@ gh auth status
 
 ## 2) Open the Test Project as Its Own Workspace
 
-1. In Cursor, open the folder:
+1. In Cursor or VS Code, open the folder:
    - `./projects/shipit-test`
 
 2. Verify:
@@ -470,3 +472,23 @@ Continue the /ship workflow for a foundation intent.
    - Follow issue creation and archiving rules defined in `_system/behaviors/WORK_TEST_PLAN_ISSUES.md` (all issues are created on GitHub)
 
 3. **In-chat output:** When running via `/test_shipit`, the agent should emit progress at phase boundaries (see `.cursor/rules/test-runner.mdc`) and a final block that points to **tests/ISSUES.md** for the per-step table.
+
+---
+
+## 27) Validate VS Code Integration (optional; when using VS Code)
+
+If you are running the test plan in **VS Code** (with the ShipIt extension and GitHub Copilot), perform this step to confirm parity with Cursor.
+
+1. From the repo (or test project) root, run:
+   - `pnpm validate-vscode`
+
+2. Verify:
+   - All six checks pass (`.cursor/` rules and commands, scripts, project structure).
+   - Manual validation instructions are printed.
+
+3. In VS Code:
+   - Open Command Palette (Ctrl+Shift+P / Cmd+Shift+P) and run **ShipIt: Ship** (or **ShipIt: Verify**).
+   - When prompted for intent id, enter an existing intent (e.g. `F-001`) or choose "Use intent from open file" if an intent file is active.
+   - Verify Copilot Chat opens with the full command content and intent id in the input (same context as Cursor’s `/ship` or `/verify`).
+
+4. If any check fails or the extension does not open chat with the expected prompt, create a GitHub issue per `_system/behaviors/WORK_TEST_PLAN_ISSUES.md`.

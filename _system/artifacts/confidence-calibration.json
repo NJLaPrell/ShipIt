@@ -1,3 +1,16 @@
 {
-  "decisions": []
+  "decisions": [
+    {
+      "id": "D-001",
+      "stated_confidence": null,
+      "actual_outcome": "success",
+      "notes": "Intent: F-DUMMY. Tests: pass, Mutation: pass, Audit: pass"
+    },
+    {
+      "id": "D-002",
+      "stated_confidence": null,
+      "actual_outcome": "success",
+      "notes": "Intent: F-DUMMY. Tests: pass, Mutation: pass, Audit: pass"
+    }
+  ]
 }
