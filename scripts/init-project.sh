@@ -826,6 +826,7 @@ EOF
     "src/**/*.ts",
     "tests/**/*.ts",
     "scripts/**/*.ts",
+    "dashboard-app/**/*.ts",
     "*.config.ts"
   ],
   "exclude": ["node_modules", "dist"]
