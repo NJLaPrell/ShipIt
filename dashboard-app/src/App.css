@@ -1,3 +1,4 @@
+/* High-contrast colors for readability (WCAG AA+) */
 .dashboard {
   font-family: system-ui, -apple-system, sans-serif;
   max-width: 900px;
@@ -12,7 +13,7 @@ header {
   gap: 1rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #444;
 }
 
 header h1 {
@@ -21,12 +22,12 @@ header h1 {
 }
 
 .project {
-  color: #666;
+  color: #b0b8c0;
   font-size: 0.9rem;
 }
 
 .generated {
-  color: #999;
+  color: #9aa4ae;
   font-size: 0.85rem;
 }
 
@@ -35,18 +36,20 @@ header h1 {
   padding: 0.35rem 0.75rem;
   font-size: 0.9rem;
   cursor: pointer;
-  background: #f0f0f0;
-  border: 1px solid #ccc;
+  background: #3a3a3a;
+  color: #e8e8e8;
+  border: 1px solid #555;
   border-radius: 4px;
 }
 
 .refresh:hover {
-  background: #e5e5e5;
+  background: #4a4a4a;
 }
 
 .gate-banner {
-  background: #fff3cd;
-  border: 1px solid #ffc107;
+  background: #4a3a10;
+  color: #f5e6b3;
+  border: 1px solid #8b7a2e;
   border-radius: 4px;
   padding: 0.75rem 1rem;
   margin-bottom: 1.5rem;
@@ -59,7 +62,7 @@ section {
 section h2 {
   font-size: 1.1rem;
   margin: 0 0 0.5rem;
-  color: #333;
+  color: #e8e8e8;
 }
 
 .intent-counts {
@@ -73,17 +76,19 @@ section h2 {
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a1a1a;
 }
 
-.count.planned { background: #e3f2fd; }
-.count.active { background: #fff3e0; }
-.count.shipped { background: #e8f5e9; }
-.count.killed { background: #ffebee; }
+.count.planned { background: #5b9bd5; }
+.count.active { background: #e8a54b; }
+.count.shipped { background: #5cb85c; }
+.count.killed { background: #d9534f; }
 
 .current-phase {
   margin: 0.5rem 0 0;
   font-size: 0.95rem;
-  color: #555;
+  color: #c0c8d0;
 }
 
 .doc-links {
@@ -97,16 +102,18 @@ section h2 {
 }
 
 .doc-links code {
-  background: #f5f5f5;
+  background: #2d2d2d;
+  color: #e0e0e0;
   padding: 0.1rem 0.3rem;
   border-radius: 2px;
   font-size: 0.9rem;
+  border: 1px solid #444;
 }
 
 .hint {
   margin-top: 0.5rem;
   font-size: 0.85rem;
-  color: #888;
+  color: #9aa4ae;
 }
 
 .calibration p {
@@ -115,7 +122,8 @@ section h2 {
 }
 
 .drift-preview {
-  background: #f5f5f5;
+  background: #1e1e1e;
+  color: #e0e0e0;
   padding: 1rem;
   border-radius: 4px;
   font-size: 0.8rem;
@@ -123,6 +131,7 @@ section h2 {
   white-space: pre-wrap;
   max-height: 200px;
   overflow-y: auto;
+  border: 1px solid #444;
 }
 
 .loading, .error {
@@ -131,11 +140,53 @@ section h2 {
 }
 
 .error {
-  color: #c62828;
+  color: #ff6b6b;
 }
 
 .error code {
-  background: #ffebee;
+  background: #3d2020;
+  color: #ffcccc;
   padding: 0.1rem 0.3rem;
   border-radius: 2px;
+}
+
+/* Light mode overrides (when user prefers light) */
+@media (prefers-color-scheme: light) {
+  header { border-bottom-color: #bbb; }
+  .project { color: #444; }
+  .generated { color: #555; }
+  .refresh {
+    background: #f0f0f0;
+    color: #1a1a1a;
+    border-color: #bbb;
+  }
+  .refresh:hover { background: #e0e0e0; }
+  .gate-banner {
+    background: #fff8e1;
+    color: #5d4e00;
+    border-color: #e6c200;
+  }
+  section h2 { color: #1a1a1a; }
+  .count { color: #1a1a1a; }
+  .count.planned { background: #90caf9; }
+  .count.active { background: #ffcc80; }
+  .count.shipped { background: #81c784; }
+  .count.killed { background: #e57373; }
+  .current-phase { color: #333; }
+  .doc-links code {
+    background: #f5f5f5;
+    color: #1a1a1a;
+    border-color: #ccc;
+  }
+  .hint { color: #555; }
+  .drift-preview {
+    background: #f5f5f5;
+    color: #1a1a1a;
+    border-color: #ccc;
+  }
+  .error { color: #b71c1c; }
+  .error code {
+    background: #ffebee;
+    color: #1a1a1a;
+  }
 }
