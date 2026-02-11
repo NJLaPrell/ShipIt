@@ -9,7 +9,7 @@
 - **Issue body:** Use `tests/ISSUE_TEMPLATE.md` (GitHub issue body)
 - **Research Notes:** Use `tests/ISSUE_RESEARCH_TEMPLATE.md` (GitHub issue body)
 - **Resolution Comments:** Use `tests/ISSUE_RESOLUTION_COMMENT_TEMPLATE.md` (GitHub issue comment)
-- **Issue Title:** Brief descriptive title (e.g., "Missing golden-data directory")
+- **Issue Title:** Brief descriptive title (e.g., "Missing tests/golden-data directory")
 
 Always create issues on GitHub using the templates. Issues are tracked on GitHub, not in local files.
 
@@ -93,7 +93,7 @@ Create a GitHub issue when:
 
 2. **Create the issue on GitHub:**
    - Use the GitHub CLI (`gh`) to create the issue
-   - **Title:** Brief descriptive title (e.g., "Missing golden-data directory")
+   - **Title:** Brief descriptive title (e.g., "Missing tests/golden-data directory")
    - **Body:** Use the filled-out template content
    - **Labels:** Add appropriate labels (labels must exist before use):
      - Severity: `severity:low`, `severity:medium`, `severity:high`
@@ -314,7 +314,7 @@ The following examples show filled-out templates. Always start from the template
 
 ### Example: Active Issue (GitHub Issue #123)
 
-**Title:** Missing golden-data directory
+**Title:** Missing tests/golden-data directory
 
 **Body (from ISSUE_TEMPLATE.md):**
 
@@ -325,7 +325,7 @@ The following examples show filled-out templates. Always start from the template
 
 ## Expected
 
-`golden-data/` directory exists per plan
+`tests/golden-data/` directory exists per plan
 
 ## Actual
 
@@ -337,9 +337,9 @@ Replay validation test data cannot be stored
 
 ## Implementation
 
-- Add `golden-data/.gitkeep` to track directory
-- Create `golden-data/README.md` with format documentation
-- Update `scripts/init-project.sh` to create directory
+- Add `tests/golden-data/.gitkeep` to track directory
+- Create `tests/golden-data/README.md` with format documentation
+- Ensure `scripts/init-project.sh` and CLI copy `tests/golden-data/` when scaffolding
 ```
 
 **Labels:** `severity:low`, `test-plan-issue`, `step:UX`

@@ -92,6 +92,7 @@
     "scripts/",
     "work/intent/templates/",
     "dashboard-app/",
+    "tests/golden-data/",
     "AGENTS.md",
     "stryker.conf.json"
   ],
