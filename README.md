@@ -4,7 +4,7 @@
 
 # ShipIt 🚀
 
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/version-1.0.1-blue.svg)](https://github.com/NJLaPrell/ShipIt/releases/tag/v1.0.1)
 [![npm](https://img.shields.io/npm/v/@nlaprell/shipit.svg)](https://www.npmjs.com/package/@nlaprell/shipit)
 [![Test results](https://img.shields.io/badge/test%20results-see%20ISSUES-green.svg)](./tests/ISSUES.md)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)

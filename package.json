@@ -1,6 +1,6 @@
 {
   "name": "@nlaprell/shipit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ShipIt - AI-native Software Development Life Cycle framework",
   "type": "module",
   "scripts": {
