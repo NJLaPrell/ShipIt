@@ -97,7 +97,7 @@ export function createTypeScriptNodeFiles(projectPath, projectName, description,
   // Create tsconfig.eslint.json
   const tsconfigEslint = {
     extends: './tsconfig.json',
-    include: ['src/**/*.ts', 'tests/**/*.ts', 'scripts/**/*.ts', '*.config.ts'],
+    include: ['src/**/*.ts', 'tests/**/*.ts', 'scripts/**/*.ts', 'dashboard-app/**/*.ts', '*.config.ts'],
     exclude: ['node_modules', 'dist']
   };
 
