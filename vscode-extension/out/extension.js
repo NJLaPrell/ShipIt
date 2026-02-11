@@ -7,21 +7,21 @@ const fs = require("fs");
 const path = require("path");
 // Commands that require an intent id (prompt user or infer from open file)
 const NEEDS_INTENT = new Set([
-    "ship",
-    "verify",
-    "pr",
-    "rollback",
-    "kill",
-    "create-pr",
-    "revert-plan",
-    "risk",
+    'ship',
+    'verify',
+    'pr',
+    'rollback',
+    'kill',
+    'create-pr',
+    'revert-plan',
+    'risk',
 ]);
 // Map manifest id -> .cursor/commands filename (most: hyphen -> underscore; revert-plan stays)
 function commandFileName(id) {
-    if (id === "revert-plan") {
-        return "revert-plan.md";
+    if (id === 'revert-plan') {
+        return 'revert-plan.md';
     }
-    return id.replace(/-/g, "_") + ".md";
+    return id.replace(/-/g, '_') + '.md';
 }
 function getWorkspaceRoot() {
     const folder = vscode.workspace.workspaceFolders?.[0];
@@ -43,34 +43,34 @@ async function resolveIntentId(commandId) {
     if (inferred) {
         choices.push(`Use intent from open file (${inferred})`);
     }
-    choices.push("Enter intent id manually...");
+    choices.push('Enter intent id manually...');
     const pick = await vscode.window.showQuickPick(choices, {
         title: `ShipIt: ${commandId}`,
-        placeHolder: "Select or enter intent id",
+        placeHolder: 'Select or enter intent id',
     });
     if (!pick) {
         return undefined;
     }
-    if (inferred && pick.startsWith("Use intent")) {
+    if (inferred && pick.startsWith('Use intent')) {
         return inferred;
     }
     return vscode.window.showInputBox({
-        prompt: "Intent id (e.g. F-001)",
-        placeHolder: "F-001",
-        validateInput: (value) => value.trim().length > 0 ? null : "Intent id is required",
+        prompt: 'Intent id (e.g. F-001)',
+        placeHolder: 'F-001',
+        validateInput: (value) => (value.trim().length > 0 ? null : 'Intent id is required'),
     });
 }
 function buildPrompt(commandContent, commandId, intentId) {
-    const intentLine = intentId !== undefined ? `Intent: ${intentId}. ` : "";
+    const intentLine = intentId !== undefined ? `Intent: ${intentId}. ` : '';
     return `You are running the ShipIt "${commandId}" workflow. ${intentLine}Follow the instructions below exactly.\n\n${commandContent}`;
 }
 async function runShipitCommand(commandId) {
     const root = getWorkspaceRoot();
     if (!root) {
-        vscode.window.showErrorMessage("ShipIt: No workspace folder open.");
+        vscode.window.showErrorMessage('ShipIt: No workspace folder open.');
         return;
     }
-    const commandsDir = path.join(root, ".cursor", "commands");
+    const commandsDir = path.join(root, '.cursor', 'commands');
     const fileName = commandFileName(commandId);
     const filePath = path.join(commandsDir, fileName);
     if (!fs.existsSync(filePath)) {
@@ -84,10 +84,10 @@ async function runShipitCommand(commandId) {
             return; // user cancelled
         }
     }
-    const content = fs.readFileSync(filePath, "utf-8");
+    const content = fs.readFileSync(filePath, 'utf-8');
     const prompt = buildPrompt(content, commandId, intentId);
     try {
-        await vscode.commands.executeCommand("workbench.action.chat.open", {
+        await vscode.commands.executeCommand('workbench.action.chat.open', {
             query: prompt,
             isPartialQuery: false,
         });
@@ -98,26 +98,26 @@ async function runShipitCommand(commandId) {
 }
 function activate(context) {
     const commandIds = [
-        "init-project",
-        "scope-project",
-        "new-intent",
-        "kill",
-        "ship",
-        "verify",
-        "generate-release-plan",
-        "generate-roadmap",
-        "deploy",
-        "drift-check",
-        "risk",
-        "help",
-        "status",
-        "suggest",
-        "pr",
-        "create-pr",
-        "create-intent-from-issue",
-        "revert-plan",
-        "rollback",
-        "dashboard",
+        'init-project',
+        'scope-project',
+        'new-intent',
+        'kill',
+        'ship',
+        'verify',
+        'generate-release-plan',
+        'generate-roadmap',
+        'deploy',
+        'drift-check',
+        'risk',
+        'help',
+        'status',
+        'suggest',
+        'pr',
+        'create-pr',
+        'create-intent-from-issue',
+        'revert-plan',
+        'rollback',
+        'dashboard',
     ];
     for (const id of commandIds) {
         context.subscriptions.push(vscode.commands.registerCommand(`shipit.${id}`, () => runShipitCommand(id)));

@@ -62,9 +62,12 @@ You’ll be prompted for tech stack (TypeScript/Node, Python, Other), project de
 ### 1.3 Open in editor and run first commands
 
 1. Open the project in **Cursor** or **VS Code**.
+   - **VS Code users:** Install the ShipIt extension first (see [Installation → VS Code extension](#63-vs-code-extension-optional))
 2. In the editor, run:
-   - `/scope-project "Build a todo app with auth"` — AI-assisted feature breakdown, generates intents and runs release plan + roadmap.
-   - `/ship F-001` — Runs the full 5-phase workflow (analysis → plan → tests → code → verify → release).
+   - **Cursor:** `/scope-project "Build a todo app with auth"` — AI-assisted feature breakdown, generates intents and runs release plan + roadmap.
+   - **VS Code:** Command Palette (`Cmd+Shift+P`) → "ShipIt: Scope Project" → paste the description in Copilot Chat.
+   - **Cursor:** `/ship F-001` — Runs the full 5-phase workflow (analysis → plan → tests → code → verify → release).
+   - **VS Code:** Command Palette → "ShipIt: Ship" → enter intent id (e.g., `F-001`) when prompted.
 
 That’s it. The framework drives the rest with progress indicators and gates.
 
@@ -183,7 +186,29 @@ pnpm test && pnpm test:cli && pnpm test:shipit -- --clean
 
 See [docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md).
 
-### 6.3 User customizations (`.override/`)
+### 6.3 VS Code extension (optional)
+
+If using **VS Code** instead of Cursor, install the ShipIt extension to access commands via Command Palette:
+
+**Option 1: Development mode** (for testing/development)
+
+1. Open `vscode-extension/` folder in VS Code
+2. Press `F5` or go to Run → "Run Extension"
+3. A new VS Code window opens with the extension loaded
+
+**Option 2: Install from VSIX** (for regular use)
+
+```bash
+cd vscode-extension
+npm install -g vsce  # if needed
+vsce package
+```
+
+Then in VS Code: Extensions → "..." → "Install from VSIX..." → select the generated `.vsix` file.
+
+**Usage:** After installation, use Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`) → type "ShipIt:" → select a command (e.g., "ShipIt: Ship"). See [docs/vscode-usage.md](./docs/vscode-usage.md) for details.
+
+### 6.4 User customizations (`.override/`)
 
 Put customizations in `.override/rules/`, `.override/commands/`, `.override/scripts/`, `.override/config/`. They are **never** touched by `shipit upgrade`. [docs/USER_OVERRIDES_DESIGN.md](./docs/USER_OVERRIDES_DESIGN.md).
 
