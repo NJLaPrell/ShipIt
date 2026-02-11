@@ -22,8 +22,9 @@ import { createCIWorkflow } from '../utils/stack-files.js';
  */
 function isShipItInitialized(projectPath) {
   const projectJsonPath = join(projectPath, 'project.json');
-  const canonPath = join(projectPath, '_system', 'architecture', 'CANON.md');
-  return existsSync(projectJsonPath) || existsSync(canonPath);
+  // project.json is the source of truth - if it exists, project is initialized
+  // CANON.md alone doesn't mean fully initialized (could be from partial init)
+  return existsSync(projectJsonPath);
 }
 
 /**
@@ -219,15 +220,46 @@ export async function initCommand(options) {
     });
   }
 
-  // Create project.json
+  // Create project.json (or update if it exists but is incomplete)
+  // This handles the case where init was interrupted previously
+  const projectJsonPath = join(projectPath, 'project.json');
   const projectName = readProjectName(projectPath, techStack);
-  createProjectJson(projectPath, {
-    name: projectName,
-    description,
-    techStack,
-    highRiskDomains: highRiskArray,
-    shipitVersion: '1.0.0' // TODO: Get from package.json
-  });
+  
+  // If project.json exists, merge/update it; otherwise create new
+  if (existsSync(projectJsonPath)) {
+    try {
+      const existing = JSON.parse(readFileSync(projectJsonPath, 'utf-8'));
+      // Update with current values, preserving any user customizations
+      const updated = {
+        ...existing,
+        name: projectName,
+        description: description || existing.description,
+        techStack: techStack || existing.techStack,
+        highRiskDomains: highRiskArray.length > 0 ? highRiskArray : existing.highRiskDomains,
+        shipitVersion: '1.0.0' // TODO: Get from package.json
+      };
+      writeFileSync(projectJsonPath, JSON.stringify(updated, null, 2) + '\n', 'utf-8');
+      console.log('  Updated project.json');
+    } catch (e) {
+      // If project.json is invalid, recreate it
+      console.log('  Recreating project.json (existing file was invalid)');
+      createProjectJson(projectPath, {
+        name: projectName,
+        description,
+        techStack,
+        highRiskDomains: highRiskArray,
+        shipitVersion: '1.0.0' // TODO: Get from package.json
+      });
+    }
+  } else {
+    createProjectJson(projectPath, {
+      name: projectName,
+      description,
+      techStack,
+      highRiskDomains: highRiskArray,
+      shipitVersion: '1.0.0' // TODO: Get from package.json
+    });
+  }
 
   // Create .override directory
   createOverrideDirectory(projectPath);
