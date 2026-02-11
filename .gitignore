@@ -15,6 +15,7 @@ projects/*
 !projects/.gitkeep
 !projects/README.md
 .stryker-tmp
+*.tgz
 
 # Dashboard export (generated on pnpm dashboard)
 dashboard-app/public/dashboard.json
